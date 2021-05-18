@@ -184,7 +184,7 @@ class WC_Advanced_Shipment_Tracking_Actions {
 				
 				if( $formatted['ast_tracking_link'] ) {
 					printf(
-						'<li id="tracking-item-%s" class="tracking-item-%s"><div><b>%s</b></div><a href="%s" target="_blank" class=ft11>%s</a><a class="inline_tracking_delete" rel="%s" data-order="%s"><span class="dashicons dashicons-trash"></span></a></li>',
+						'<li id="tracking-item-%s" class="tracking-item-%s"><div><b>%s</b></div><a href="%s" target="_blank" class=ft11>%s</a><a class="inline_tracking_delete" rel="%s" data-order="%s" wp_nonce="'.wp_create_nonce( 'delete-tracking-item' ).'"><span class="dashicons dashicons-trash"></span></a></li>',
 						esc_attr( $tracking_item['tracking_id'] ),
 						esc_attr( $tracking_item['tracking_id'] ),
 						esc_html( $provider_name ),
@@ -695,6 +695,8 @@ class WC_Advanced_Shipment_Tracking_Actions {
 	 */
 	public function meta_box_delete_tracking() {
 		
+		check_ajax_referer( 'delete-tracking-item', 'security' );
+		
 		$order_id    = wc_clean( $_POST['order_id'] );
 		$tracking_id = wc_clean( $_POST['tracking_id'] );
 		$tracking_items = $this->get_tracking_items( $order_id, true );
@@ -833,14 +835,18 @@ class WC_Advanced_Shipment_Tracking_Actions {
 		
 		if ( $preview && 1 == $order_id ) {
 			
+			$upload_dir   = wp_upload_dir();	
+			$ast_directory = $upload_dir['baseurl'] . '/ast-shipping-providers/';
+
 			$tracking_items[]  = array(
 				'tracking_provider'       		=> 'usps',
-				'custom_tracking_provider'		=> '',
+				'custom_tracking_provider'		=> '',				
 				'formatted_tracking_provider'	=> 'USPS',
+				'tracking_provider_image' 		=> $ast_directory.'usps.png',
 				'formatted_tracking_link'		=> 'https://tools.usps.com/go/TrackConfirmAction_input?qtc_tLabels1=112123113',
 				'ast_tracking_link'				=> 'https://tools.usps.com/go/TrackConfirmAction_input?qtc_tLabels1=112123113',
 				'tracking_number'          		=> '112123113',				
-				'date_shipped'             		=> '2020-10-13',
+				'date_shipped'             		=> strtotime( date("Y-m-d") ),
 			);
 						
 			if ( file_exists( $local_template ) && is_writable( $local_template ) ) {	
@@ -1051,7 +1057,7 @@ class WC_Advanced_Shipment_Tracking_Actions {
 		$trackship_supported = 0;
 		
 		foreach ( $this->get_providers() as $provider => $format ) {									
-			if (  $provider  === $tracking_item['tracking_provider'] ) {	
+			if (  $provider  === $tracking_item['tracking_provider'] || $format['provider_name']  == $tracking_item['tracking_provider'] ) {	
 				$trackship_supported = isset( $format['trackship_supported'] ) ? $format['trackship_supported'] : 0; 		
 				break;
 			}

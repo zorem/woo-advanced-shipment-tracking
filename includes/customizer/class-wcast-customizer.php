@@ -350,7 +350,7 @@ class WC_Advanced_Shipment_Tracking_Customizer {
 	 */
 	public function get_order_ids() {		
 		$order_array = array();
-		$order_array['mockup'] = __( 'Mockup order', 'woo-advanced-shipment-tracking' );
+		$order_array['mockup'] = __( 'Mockup Order', 'woo-advanced-shipment-tracking' );
 		
 		$orders = wc_get_orders( array(
 			'limit'        => 20,

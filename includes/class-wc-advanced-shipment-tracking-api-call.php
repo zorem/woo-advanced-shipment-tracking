@@ -157,7 +157,19 @@ class WC_Advanced_Shipment_Tracking_Api_Call {
 	public function get_trackship_data( $order, $tracking_number, $tracking_provider ) {
 		
 		$user_key = get_option( 'wc_ast_api_key' );
+		
 		$domain = get_home_url();
+		if ( class_exists( 'SitePress' ) ) {
+			global $sitepress;
+			$language_negotiation_type	= $sitepress->get_setting( 'language_negotiation_type' );
+			$urlSettings				= $sitepress->get_setting( 'urls' );
+			$dir_for_default_language	= isset( $urlSettings['directory_for_default_language'] ) && $urlSettings['directory_for_default_language'];
+			
+			if( $language_negotiation_type != 1 || !$dir_for_default_language ){
+				$domain = get_site_url();
+			}
+		}
+		$domain = apply_filters( 'ts_api_domain', $domain );
 		
 		$order_id = $order->get_id();
 		$order_number = $order->get_order_number();

@@ -421,7 +421,8 @@ jQuery(document).on("submit", "#add_tracking_number_form", function(){
 jQuery(document).on("click", ".inline_tracking_delete", function(){
 	var r = confirm( 'Do you really want to delete tracking number?' );
 	if (r === true) {
-		var tracking_id = jQuery( this ).attr( 'rel' );	
+		var tracking_id = jQuery( this ).attr( 'rel' );
+		var nonce = jQuery( this ).attr( 'wp_nonce' );		
 		var order_id = jQuery( this ).data( 'order' );	
 		jQuery( '#tracking-item-' + tracking_id ).block({
 			message: null,
@@ -432,6 +433,7 @@ jQuery(document).on("click", ".inline_tracking_delete", function(){
 		});
 		var ajax_data = {
 			action: 'wc_shipment_tracking_delete_item',		
+			security: nonce,
 			tracking_id: tracking_id,
 			order_id: order_id,
 		};

@@ -65,6 +65,9 @@ class WC_Advanced_Shipment_Tracking_Trackship {
 		
 		$wc_ast_api_key = get_option( 'wc_ast_api_key' ); 
 		if ( $wc_ast_api_key ) {
+			
+			add_action( 'admin_notices', array( $this, 'notice_install_ts4wc' ) );
+			add_action( 'admin_init', array( $this, 'ts4wc_integration_notice_ignore' ) );
 		
 			add_action( 'plugins_loaded', array( $this, 'on_plugins_loaded' ) );											
 			
@@ -140,6 +143,57 @@ class WC_Advanced_Shipment_Tracking_Trackship {
 			add_filter( 'is_order_shipped', array( $this, 'check_order_status' ), 5, 2 );					
 			
 			add_action( 'wp_ajax_wc_ast_trackship_automation_form_update', array( $this, 'wc_ast_trackship_automation_form_update' ) );
+		}
+	}
+	
+	/**
+	 * Display TS4WC active notice	 
+	 * @since  3.2.4
+	*/
+	public function notice_install_ts4wc() {
+		$dismissable_url = esc_url(  add_query_arg( 'ts4wc-integration-notice', 'true' ) );				
+		
+		if ( isset( $_GET['page'] ) ) {
+			if ( 'woocommerce-advanced-shipment-tracking' == $_GET['page'] || 'trackship-for-woocommerce' == $_GET['page'] ) {
+				$ast_ts4wc = true;
+			} else {
+				$ast_ts4wc = false;
+			}
+		} else {
+			$ast_ts4wc = false;
+		}
+		
+		if ( get_option('ts4wc_integration_notice_ignore') && !$ast_ts4wc ) {
+			return;
+		}
+		if ( $ast_ts4wc ) { ?>
+			<style>		
+			.wp-core-ui .notice.ts4wc-dismissable-notice a.notice-dismiss{
+				display: none;
+			}
+			</style>
+		<?php } ?>
+		<style>		
+		.wp-core-ui .notice.ts4wc-dismissable-notice a.notice-dismiss{
+			padding: 9px;
+			text-decoration: none;
+		}
+		</style>
+		<div class="notice notice-error is-dismissible ts4wc-dismissable-notice">
+			<a href="<?php esc_html_e( $dismissable_url ); ?>" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></a>			
+			<p><?php 
+			/* translators: %s: search TS4WC plugin link */
+			printf( esc_html__( 'Hi there, We noticed that your store is connected to TrackShip and there is a new and better TrackShip integration plugin for WooCommerce that will work with AST. Please install and activate the new %1$sTrackShip For WooCommerce%2$s plugin.', 'woo-advanced-shipment-tracking' ), '<a href="' . esc_url( admin_url( 'plugin-install.php?tab=search&s=TrackShip+For+WooCommerce&plugin-search-input=Search+Plugins' ) ) . '">', '</a>' ); ?></p>
+		</div>
+		<?php
+	}
+	
+	/*
+	* Dismiss admin notice for trackship
+	*/
+	public function ts4wc_integration_notice_ignore() {
+		if ( isset( $_GET['ts4wc-integration-notice'] ) ) {
+			update_option( 'ts4wc_integration_notice_ignore', 'true' );
 		}
 	}
 	
@@ -900,6 +954,9 @@ class WC_Advanced_Shipment_Tracking_Trackship {
 			case "pending_trackship":
 				$status = __( 'Pending TrackShip', 'woo-advanced-shipment-tracking' );
 				break;
+			case "pending":
+				$status = __( 'Pending', 'woo-advanced-shipment-tracking' );
+				break;	
 			case "INVALID_TRACKING_NUM":
 				$status = __( 'Invalid Tracking Number', 'woo-advanced-shipment-tracking' );
 				break;

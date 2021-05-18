@@ -37,7 +37,7 @@ class WC_AST_Admin_Notices_Under_WC_Admin {
 	* init from parent mail class
 	*/
 	public function init(){										
-		add_action('init', array( $this, 'admin_notices_for_ast_pro' ) );		
+		//add_action('init', array( $this, 'admin_notices_for_ast_pro' ) );		
 	}
 
 	public function admin_notices_for_ast_pro() {
@@ -59,7 +59,7 @@ class WC_AST_Admin_Notices_Under_WC_Admin {
 		set_transient( 'ast_pro_wc_admin', 'yes' );				
 		
 		$note_name = 'ast_pro_wc_admin_notice';
-		$data_store = WC_Data_Store::load( 'admin-note' );		
+		//$data_store = WC_Data_Store::load( 'admin-note' );		
 		
 		// Otherwise, add the note
 		$activated_time = current_time( 'timestamp', 0 );

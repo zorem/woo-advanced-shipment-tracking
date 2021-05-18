@@ -12,7 +12,7 @@ wp_enqueue_script( 'trackship_script' );
 			<h3>Start for Free. 50 Free trackers for new accounts!</h3>	
 		</div>
 	</div>
-	<a href="https://trackship.info/?utm_source=wpadmin&utm_campaign=tspage" target="_blank" class="button-primary btn_green2 btn_large"><span><?php _e('Connect your store', 'woo-advanced-shipment-tracking'); ?></span><span class="dashicons dashicons-arrow-right-alt2"></span></a>
+	<a href="<?php echo esc_url( admin_url( 'plugin-install.php?tab=search&s=TrackShip+For+WooCommerce&plugin-search-input=Search+Plugins' ) ); ?>" target="_blank" class="button-primary btn_green2 btn_large"><span><?php _e('Install TrackShip for WooCommerce', 'woo-advanced-shipment-tracking'); ?></span><span class="dashicons dashicons-arrow-right-alt2"></span></a>
 	<div class="">
 		<div class="ts_col_inner ts_landing_banner">
 			<img src="<?php echo wc_advanced_shipment_tracking()->plugin_dir_url()?>assets/images/ts-header-banner.png">
