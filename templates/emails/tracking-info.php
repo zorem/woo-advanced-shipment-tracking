@@ -190,7 +190,7 @@ if ( $tracking_items ) :
 		<tbody style="line-height:<?php echo $table_content_line_height; ?>px;"><?php
 		foreach ( $tracking_items as $key => $tracking_item ) {
 				
-				$date_shipped = ( isset( $tracking_item['date_shipped'] ) ) ? $tracking_item['date_shipped'] : date("Y-m-d"); 
+				$date_shipped = ( isset( $tracking_item['date_shipped'] ) ) ? $tracking_item['date_shipped'] : date("Y-m-d"); 				
 				?>
 				<tr class="tracking" style="background-color:<?php echo $email_table_backgroud_color; ?>">
 					

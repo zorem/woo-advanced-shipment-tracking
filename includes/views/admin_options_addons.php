@@ -137,6 +137,8 @@ $wc_ast_api_key = get_option('wc_ast_api_key');
 						if ( $wc_ast_api_key ) { 
 						?>
 							<a href="https://trackship.info/my-account/" class="button button-primary btn_green2" target="blank"><?php _e('Connected', 'woo-advanced-shipment-tracking'); ?></a>
+						<?php } elseif ( ! function_exists( 'trackship_for_woocommerce' ) ) { ?>
+                            <a href="<?php echo esc_url( admin_url( 'plugin-install.php?tab=search&s=TrackShip+For+WooCommerce&plugin-search-input=Search+Plugins' ) ); ?>" class="button button-primary btn_ast2" target="blank"><?php _e('Install TrackShip for WooCommerce', 'woo-advanced-shipment-tracking'); ?></a>
 						<?php } else { ?>
 							<a href="https://trackship.info/?utm_source=wpadmin&utm_campaign=tspage" class="button button-primary btn_ast2" target="blank"><?php _e('Connect your store', 'woo-advanced-shipment-tracking'); ?></a>
 						<?php } ?>
