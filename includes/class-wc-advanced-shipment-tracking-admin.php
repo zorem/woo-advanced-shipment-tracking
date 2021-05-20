@@ -362,6 +362,7 @@ class WC_Advanced_Shipment_Tracking_Admin {
 						require_once( 'views/admin_options_bulk_upload.php' );								
 						do_action( 'ast_paypal_settings_panel' );
 						require_once( 'views/admin_options_addons.php' ); 
+						include 'views/admin_options_trackship_integration.php'; 	
 						?>															
 					</div>                   					
 				</div>				
@@ -378,6 +379,11 @@ class WC_Advanced_Shipment_Tracking_Admin {
 		
 		$ast_customizer_settings = new wcast_initialise_customizer_settings();	
 		$go_pro_label = class_exists( 'ast_pro' ) ? __( 'License', 'woo-advanced-shipment-tracking' ) : __( 'Go Pro', 'woo-advanced-shipment-tracking' ) ;
+		
+		$wc_ast_api_key = get_option('wc_ast_api_key');
+		$ts4wc_installed = ( function_exists( 'trackship_for_woocommerce' ) ) ? true : false;
+		$trackship_display = ( !$wc_ast_api_key && !$ts4wc_installed ) ? true : false ;
+		
 		$setting_data = array(
 			'tab2' => array(					
 				'title'		=> __( 'Settings', 'woo-advanced-shipment-tracking' ),
@@ -414,6 +420,15 @@ class WC_Advanced_Shipment_Tracking_Admin {
 				'class'     => 'tab_label',
 				'data-tab'  => 'bulk-upload',
 				'data-label' => __( 'CSV Import', 'woo-advanced-shipment-tracking' ),
+				'name'  => 'tabs',
+				'position'  => 4,
+			),
+			'trackship' => array(					
+				'title'		=> 'TrackShip',
+				'show'      => $trackship_display,
+				'class'     => 'tab_label',
+				'data-tab'  => 'trackship',
+				'data-label' => 'TrackShip',
 				'name'  => 'tabs',
 				'position'  => 4,
 			),
@@ -466,17 +481,19 @@ class WC_Advanced_Shipment_Tracking_Admin {
 		$settings = isset( $_GET['settings'] ) ? sanitize_text_field( $_GET['settings'] ) : 'general-settings';		
 		
 		foreach ( (array) $arrays as $id => $array ) {
-			$checked = ( $tab == $array['data-tab'] || $settings == $array['data-tab'] ) ? 'checked' : '';
-			if( isset( $array['type'] ) && 'link' == $array['type'] ) {	
-			?>				
-				<a class="menu_trackship_link" href="<?php esc_html_e( esc_url( $array['link'] ) ); ?>"><?php esc_html_e( $array['title'] ); ?></a>
-			<?php 
-			} else { 
-			?>
-				<input class="<?php esc_html_e( $tab_class ); ?>" id="<?php esc_html_e( $id ); ?>" name="<?php esc_html_e( $array['name'] ); ?>" type="radio"  data-tab="<?php esc_html_e( $array['data-tab'] ); ?>" data-label="<?php esc_html_e( $array['data-label'] ); ?>"  <?php esc_html_e( $checked ); ?>/>
-				<label class="<?php esc_html_e( $array['class'] ); ?>" for="<?php esc_html_e( $id ); ?>"><?php esc_html_e( $array['title'] ); ?></label>
-			<?php 
-			} 
+			$checked = ( $tab == $array['data-tab'] || $settings == $array['data-tab'] ) ? 'checked' : '';		
+			if( $array['show'] ) {	
+				if( isset( $array['type'] ) && 'link' == $array['type'] ) {	
+					?>				
+					<a class="menu_trackship_link" href="<?php esc_html_e( esc_url( $array['link'] ) ); ?>"><?php esc_html_e( $array['title'] ); ?></a>
+				<?php 
+				} else { 
+				?>
+					<input class="<?php esc_html_e( $tab_class ); ?>" id="<?php esc_html_e( $id ); ?>" name="<?php esc_html_e( $array['name'] ); ?>" type="radio"  data-tab="<?php esc_html_e( $array['data-tab'] ); ?>" data-label="<?php esc_html_e( $array['data-label'] ); ?>"  <?php esc_html_e( $checked ); ?>/>
+					<label class="<?php esc_html_e( $array['class'] ); ?>" for="<?php esc_html_e( $id ); ?>"><?php esc_html_e( $array['title'] ); ?></label>
+				<?php 
+				} 
+			}
 		}
 	}			
 

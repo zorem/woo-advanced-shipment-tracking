@@ -386,7 +386,7 @@ input.tab_input_1:checked + label{
 .tab_inner_container h4 {
 	margin-top: 0;
 }
-#tab1:checked ~ #content1, #tab2:checked ~ #content2, #tab3:checked ~ #content3, #tab4:checked ~ #content4, #tab5:checked ~ #content5, #tab6:checked ~ #content6, #tab7:checked ~ #content7, #tab8:checked ~ #content8, #tab9:checked ~ #content9, #tab10:checked ~ #content10,#tab_trackship_dashboard:checked ~ #content_trackship_dashboard,#tab_trackship_settings:checked ~ #content_trackship_settings,#tab_tracking_page:checked ~ #content_tracking_page,#tab_status_notifications:checked ~ #content_status_notifications,#tab_tools:checked ~ #content_tools, #tab_license:checked ~ #content_tab_license, #tab_addons:checked ~ #content_tab_addons, #tab_osm:checked ~ #content_osm, #trackship_tab:checked ~ #content_trackship_dashboard {
+#tab1:checked ~ #content1, #tab2:checked ~ #content2, #tab3:checked ~ #content3, #tab4:checked ~ #content4, #tab5:checked ~ #content5, #tab6:checked ~ #content6, #tab7:checked ~ #content7, #tab8:checked ~ #content8, #tab9:checked ~ #content9, #tab10:checked ~ #content10,#tab_trackship_dashboard:checked ~ #content_trackship_dashboard,#tab_trackship_settings:checked ~ #content_trackship_settings,#tab_tracking_page:checked ~ #content_tracking_page,#tab_status_notifications:checked ~ #content_status_notifications,#tab_tools:checked ~ #content_tools, #tab_license:checked ~ #content_tab_license, #tab_addons:checked ~ #content_tab_addons, #tab_osm:checked ~ #content_osm, #trackship_tab:checked ~ #content_trackship_dashboard, #trackship:checked ~ #trackship_landing {
 	display: block !important;
 }
 #tab_email_notifications:checked ~ .shipment-status-email-section,#tab_sms_notifications:checked ~ .shipment-status-sms-section{

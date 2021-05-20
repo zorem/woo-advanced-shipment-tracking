@@ -135,6 +135,9 @@ Yes, if you use external shipping services that work with the WooCommerce REST A
 
 == Changelog ==
 
+= 3.2.4.1 =
+* Enhancement - Added TrackShip menu inside Shipment Tracking if TrackShip not connected
+
 = 3.2.4 =
 * Dev - Tested with WordPress 5.7.2 and WooCommerce 5.3
 * Dev - Added admin notice for the TrackShip For WooCommerce plugin
