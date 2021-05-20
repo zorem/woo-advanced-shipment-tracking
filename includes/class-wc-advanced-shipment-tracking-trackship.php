@@ -60,11 +60,12 @@ class WC_Advanced_Shipment_Tracking_Trackship {
 	*/
 	public function init() {	
 			
-		add_action( 'admin_enqueue_scripts', array( $this, 'trackship_styles' ), 4 );
-		add_action('admin_menu', array( $this, 'register_woocommerce_trackship_menu' ), 99 );		
+		add_action( 'admin_enqueue_scripts', array( $this, 'trackship_styles' ), 4 );		
 		
 		$wc_ast_api_key = get_option( 'wc_ast_api_key' ); 
 		if ( $wc_ast_api_key ) {
+			
+			add_action('admin_menu', array( $this, 'register_woocommerce_trackship_menu' ), 99 );
 			
 			add_action( 'admin_notices', array( $this, 'notice_install_ts4wc' ) );
 			add_action( 'admin_init', array( $this, 'ts4wc_integration_notice_ignore' ) );
