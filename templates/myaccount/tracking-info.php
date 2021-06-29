@@ -119,7 +119,7 @@ if ( $tracking_items ) :
 							$simple_layout_content_updated = str_replace('{shipping_provider}',$formatted_tracking_provider,$simple_layout_content_updated);
 							
 							if($ts_tracking_page){ 
-								$tracking_number_link = '<a href="javascript:void(0)" class="open_tracking_lightbox" data-order="'.$order_id.'" data-tracking="'.$tracking_item['tracking_number'].'">'.$tracking_item['tracking_number'].'</a>';
+								$tracking_number_link = '<a href="javascript:void(0)" class="open_tracking_lightbox" data-order="'.$order_id.'" data-tracking="'.$tracking_item['tracking_number'].'" wp_nonce="' . wp_create_nonce( 'open_tracking_lightbox' ) . '">'.$tracking_item['tracking_number'].'</a>';
 							} else{
 								$tracking_number_link = '<a target="_blank" href="'.esc_url( $tracking_item['ast_tracking_link'] ).'">'.$tracking_item['tracking_number'].'</a>';	
 							} 
@@ -199,7 +199,7 @@ if ( $tracking_items ) :
 						<td class="tracking-number" style="<?php echo $td_column_style; ?>" data-title="<?php _e( 'Tracking Number', 'woo-advanced-shipment-tracking' ); ?>">
 							<?php if( '' !== $tracking_item['ast_tracking_link'] && $tracking_number_link ){
 								if( $ts_tracking_page ){ ?>
-									<a href="javascript:void(0)" class="open_tracking_lightbox" data-order="<?php echo $order_id; ?>" data-tracking="<?php echo esc_html( $tracking_item['tracking_number'] ); ?>" style="<?php echo $tracking_link_style; ?>"><?php echo esc_html( $tracking_item['tracking_number'] ); ?></a>
+									<a href="javascript:void(0)" class="open_tracking_lightbox" data-order="<?php echo $order_id; ?>" data-tracking="<?php echo esc_html( $tracking_item['tracking_number'] ); ?>" wp_nonce="<?php esc_html_e( wp_create_nonce( 'open_tracking_lightbox' ) ); ?>" style="<?php echo $tracking_link_style; ?>"><?php echo esc_html( $tracking_item['tracking_number'] ); ?></a>
 								<?php } else{ ?>
 									<a href="<?php echo esc_url( $tracking_item['ast_tracking_link'] ); ?>" target="_blank" style="<?php echo $tracking_link_style; ?>"><?php echo esc_html( $tracking_item['tracking_number'] ); ?></a>
 								<?php }
@@ -219,7 +219,7 @@ if ( $tracking_items ) :
 									<?php if ( '' !== $tracking_item['ast_tracking_link'] ) { 
 									
 									if($ts_tracking_page){ ?>
-										<a href="javascript:void(0)" class="button open_tracking_lightbox" data-order="<?php echo $order_id; ?>" data-tracking="<?php echo esc_html( $tracking_item['tracking_number'] ); ?>" style="<?php echo $tracking_link_style; ?>"><?php _e( 'Track', 'woo-advanced-shipment-tracking' ); ?></a>
+										<a href="javascript:void(0)" class="button open_tracking_lightbox" data-order="<?php echo $order_id; ?>" data-tracking="<?php echo esc_html( $tracking_item['tracking_number'] ); ?>" wp_nonce="<?php esc_html_e( wp_create_nonce( 'open_tracking_lightbox' ) ); ?>" style="<?php echo $tracking_link_style; ?>"><?php _e( 'Track', 'woo-advanced-shipment-tracking' ); ?></a>
 									<?php } else{ ?>
 										<a href="<?php echo esc_url( $tracking_item['ast_tracking_link'] ); ?>" target="_blank" class="button" style="<?php echo $tracking_link_style; ?>"><?php _e( 'Track', 'woo-advanced-shipment-tracking' ); ?></a>
 									<?php } } ?>

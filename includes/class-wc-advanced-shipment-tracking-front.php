@@ -152,6 +152,8 @@ class WC_Advanced_Shipment_Tracking_Front {
 	*/
 	public function get_tracking_info_fun() {				
 		
+		check_ajax_referer( 'tracking_form', 'tracking_form_nonce' );
+		
 		$wc_ast_api_key = get_option( 'wc_ast_api_key' );
 		
 		if ( !$wc_ast_api_key ) {
@@ -208,6 +210,8 @@ class WC_Advanced_Shipment_Tracking_Front {
 	 * Ajax function for get tracking details lightbox
 	*/
 	public function ts_open_tracking_lightbox() {
+		
+		check_ajax_referer( 'open_tracking_lightbox', 'security' );
 		
 		$wc_ast_api_key = get_option('wc_ast_api_key');	
 		

@@ -44,7 +44,7 @@
 								</tr>
 								<tr valign="top" class="">
 									<th scope="row" class="">
-										<label for=""><?php _e('Replace tracking information?', 'woo-advanced-shipment-tracking'); ?><span class="woocommerce-help-tip tipTip" title="<?php _e('Keep unchecked for the tracking info to be added to any existing tracking info added to the orders.', 'woo-advanced-shipment-tracking'); ?>"></span></label>													
+										<label for=""><?php _e('Replace tracking information?', 'woo-advanced-shipment-tracking'); ?><span class="woocommerce-help-tip tipTip" data-tip="<?php _e('Keep unchecked for the tracking info to be added to any existing tracking info added to the orders.', 'woo-advanced-shipment-tracking'); ?>"></span></label>													
 									</th>
 									<td scope="row" class="">
 										<input type="checkbox" id="replace_tracking_info" name="replace_tracking_info" class="" value="1"/>
@@ -112,7 +112,7 @@
 						</table>
 					</div>					
 				</div>				
-				
+				<input type="hidden" id="nonce_csv_import" value="<?php esc_html_e( wp_create_nonce( 'nonce_csv_import' ) );?>">
 			</form>	
 			<ul class="bulk_upload_documentation_ul">
 				<li><span class="dashicons dashicons-download"></span><a class="" href="<?php echo wc_advanced_shipment_tracking()->plugin_dir_url()?>/assets/tracking.csv"><?php _e('Download sample csv', 'woo-advanced-shipment-tracking'); ?></a></li>

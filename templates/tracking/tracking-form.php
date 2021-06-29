@@ -15,5 +15,6 @@
 		<input type="hidden" name="action" value="get_tracking_info">
 		<p class="form-row"><button type="submit" class="button" name="track" value="Track"><?php echo apply_filters( 'ast_tracking_page_front_track_label', __( 'Track', 'woo-advanced-shipment-tracking' ) ); ?></button></p>
 		<div class="track_fail_msg" style="display:none;color: red;"></div>	
+		<?php wp_nonce_field( 'tracking_form', 'tracking_form_nonce' );?>
 	</form>
 </div>

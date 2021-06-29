@@ -290,6 +290,7 @@ jQuery(document).on("click", ".add_inline_tracking", function(){
 	var ajax_data = {
 		action: 'ast_open_inline_tracking_form',
 		order_id: order_id,	
+		security: ast_orders_params.order_nonce,	
 	};
 	
 	jQuery.ajax({

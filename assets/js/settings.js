@@ -17,10 +17,11 @@ jQuery(document).on("click", "#wc_ast_status_shipped_active", function(){
 jQuery(document).on("click", "#wc_ast_status_partial_shipped", function(){
 	if(jQuery(this).prop("checked") == true){
         jQuery(this).closest('tr').removeClass('disable_row');
-		
+		var nonce = jQuery( '#wc_ast_settings_form_nonce' ).val();
 		var ajax_data = {
 			action: 'update_custom_order_status_email_display',		
-			status: 'partial-shipped',		
+			status: 'partial-shipped',
+			security: nonce,	
 		};
 		jQuery.ajax({
 			url: ajaxurl,		
@@ -67,7 +68,10 @@ jQuery(document).on("click", "#wc_ast_status_updated_tracking", function(){
 });
 
 jQuery( document ).ready(function() {	
-	jQuery(".woocommerce-help-tip").tipTip();
+	
+	jQuery( '.tipTip' ).tipTip( {
+		'attribute': 'data-tip'		
+	} );
 	
 	if(jQuery('#wc_ast_status_delivered').prop("checked") == true){
 		jQuery('.status_label_color_th').show();		
