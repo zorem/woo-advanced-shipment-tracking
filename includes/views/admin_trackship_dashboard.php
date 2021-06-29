@@ -1,11 +1,11 @@
 <section id="content_trackship_dashboard" class="tab_section">
 	<div class="tab_inner_container">	
-		<?php 
+		<?php 		
 		if($completed_order_with_tracking > 0 || $completed_order_with_zero_balance > 0 || $completed_order_with_do_connection > 0){
 		$total_orders = $completed_order_with_tracking + $completed_order_with_zero_balance + $completed_order_with_do_connection; ?>
 			<div class="trackship-notice">
 				<p><?php echo sprintf(__('We detected %s Shipped orders from the last 30 days that were not sent to TrackShip, you can bulk send them to TrackShip', 'woo-advanced-shipment-tracking'),$total_orders ); ?></p>
-				<button class="button-primary btn_green2 bulk_shipment_status_button"><?php _e( 'Get Shipment Status', 'woo-advanced-shipment-tracking' ); ?></button>
+				<button class="button-primary btn_green2 bulk_shipment_status_button" wp_nonce="<?php esc_html_e( wp_create_nonce( 'bulk_shipment_status' ) ); ?>" ><?php _e( 'Get Shipment Status', 'woo-advanced-shipment-tracking' ); ?></button>
 			</div>
 			<div class="trackship-notice bulk_shipment_status_success" style="display:none;">
 				<p><?php echo __('Tracking info sent to Trackship for all Orders.', 'woo-advanced-shipment-tracking'); ?></p>

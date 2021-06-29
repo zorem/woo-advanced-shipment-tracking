@@ -334,7 +334,7 @@ class WC_Advanced_Shipment_Tracking_Trackship {
 		?>
 		<div class="zorem-layout">
 			<div class="zorem-layout__header">
-				<h1 class="zorem-layout__header-breadcrumbs">TrackShip</h1>		
+				<img class="zorem-layout__header-logo" src="<?php echo wc_advanced_shipment_tracking()->plugin_dir_url()?>assets/images/trackship-logo.png">				
 
 				<div class="woocommerce-layout__activity-panel">
 					<div class="woocommerce-layout__activity-panel-tabs">
@@ -419,7 +419,7 @@ class WC_Advanced_Shipment_Tracking_Trackship {
 					</div>                   					
                 </div>				
             </div>            			
-			<div id="trackship_settings_snackbar" class="ast_snackbar"><?php esc_html_e( 'Data saved successfully.', 'woo-advanced-shipment-tracking' ); ?></div>	
+			<!--div id="trackship_settings_snackbar" class="ast_snackbar"><?php esc_html_e( 'Data saved successfully.', 'woo-advanced-shipment-tracking' ); ?></div-->
 		</div>		
 	<?php 
 		} else {
@@ -647,7 +647,8 @@ class WC_Advanced_Shipment_Tracking_Trackship {
 	/*
 	* Trackship Automation form save
 	*/	
-	public function wc_ast_trackship_automation_form_update() {		
+	public function wc_ast_trackship_automation_form_update() {	
+		check_ajax_referer( 'wc_ast_trackship_automation_form', 'wc_ast_trackship_automation_form_nonce' );
 		$data = $this->get_delivered_data();						
 		foreach ( $data as $key => $val ) {																							
 			if ( isset( $_POST[ $key ] ) ) {						
@@ -767,6 +768,8 @@ class WC_Advanced_Shipment_Tracking_Trackship {
 	* bulk shipment status action for completed order with tracking details and without shipment status
 	*/
 	public static function bulk_shipment_status_from_settings_fun() {
+		
+		check_ajax_referer( 'bulk_shipment_status', 'security' );
 		
 		$args = array(
 			'status' => 'wc-completed',
@@ -1051,18 +1054,20 @@ class WC_Advanced_Shipment_Tracking_Trackship {
 	* update all shipment status email status
 	*/
 	public function update_shipment_status_email_status_fun() {	
+		check_ajax_referer( 'ts_late_shipments_email_form', 'security' );
 		$status_settings = get_option( $_POST['settings_data'] ); 
 		$status_settings[ $_POST['id'] ] = wc_clean( $_POST[ 'wcast_enable_status_email' ] );
-		update_option( $_POST['settings_data'], $status_settings );		
+		update_option( wc_clean( $_POST['settings_data'] ), $status_settings );		
 		exit;
 	}
 	
 	/*
 	* update late shipment email status
 	*/
-	public function update_enable_late_shipments_email_fun() {		
+	public function update_enable_late_shipments_email_fun() {	
+		check_ajax_referer( 'ts_late_shipments_email_form', 'security' );	
 		$status_settings[ $_POST['id'] ] = wc_clean( $_POST[ 'wcast_enable_late_shipments_email' ] );
-		update_option( $_POST['settings_data'], $status_settings );			
+		update_option( wc_clean( $_POST['settings_data'] ), $status_settings );			
 		exit;
 	}
 

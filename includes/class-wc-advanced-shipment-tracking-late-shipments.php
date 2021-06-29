@@ -57,8 +57,8 @@ class WC_Advanced_Shipment_Tracking_Late_Shipments {
 		
 		//cron schedule added
 		add_filter( 'cron_schedules', array( $this, 'late_shipments_cron_schedule') );				
-		add_action( 'wp_ajax_send_late_shipments_email', array( $this, 'send_late_shipments_email') );
-		add_action( 'wp_ajax_nopriv_send_late_shipments_email', array( $this, 'send_late_shipments_email') );
+		//add_action( 'wp_ajax_send_late_shipments_email', array( $this, 'send_late_shipments_email') );
+		//add_action( 'wp_ajax_nopriv_send_late_shipments_email', array( $this, 'send_late_shipments_email') );
 		
 		//Send Late Shipments Email
 		add_action( self::CRON_HOOK, array( $this, 'send_late_shipments_email' ) );				

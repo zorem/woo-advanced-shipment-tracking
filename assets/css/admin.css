@@ -15,23 +15,10 @@
 	align-items: center;
 	position: relative;
 }
-.zorem-layout__header .zorem-layout__header-breadcrumbs {
-    font-size: 14px;
-    font-weight: 600;
-    padding: 0 0 0 30px;
+.zorem-layout__header .zorem-layout__header-logo{
+	padding: 0 0 0 30px;
     margin: 0;
-    flex: 1 auto;
-    line-height: 60px;
-    height: 60px;   
-}
-.zorem-layout__header .zorem-layout__header-breadcrumbs a{
-	color: #005b9a;
-	text-decoration: none;
-}
-.zorem-layout__header .zorem-layout__header-breadcrumbs span+span:before {
-    content: " > ";
-    color: #555d66;
-    margin: 0 2px;
+    width: 120px;
 }
 .zorem-layout__header * {
     box-sizing: border-box;
@@ -46,6 +33,10 @@
 	width: 24px;
     height: 24px;
     font-size: 24px;
+	color: #74c1e0;
+}
+.woocommerce-layout__activity-panel-tabs label {
+    color: #005b9a;
 }
 .woocommerce-layout__activity-panel-tabs .woocommerce-layout__activity-panel-tab {
     display: flex;
@@ -285,11 +276,14 @@
 	border-color: #efefef transparent
 }
 section.tab_section {
-	display: none;
-	padding: 0;
-	margin-bottom: 20px;
-	border-top: 1px solid #ddd;	
-	min-height: 100vh;
+    display: none;
+    padding: 25px 30px;
+    margin-bottom: 20px;
+    margin-top: -1px;
+    background: #fff;
+    border-radius: 5px;
+    border-top-left-radius: 0;
+    border: 1px solid #e0e0e0;
 }
 section.inner_tab_section {
 	display: none;
@@ -301,17 +295,18 @@ input.tab_input,input.inner_tab_input {
 }
 label.tab_label {
     text-decoration: none;
-    padding: 13px 10px 13px;    
+    padding: 15px 20px;
     font-size: 14px;
     color: #005b9a;
     display: inline-block;
     margin-left: 0;
     line-height: 1;
     outline: none;
-	font-weight: 500;
-}
-label.tab_label.first_label {
-    margin-left: 20px;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    background: #fafafa;
+    border: 1px solid #e0e0e0;
+    border-bottom: 0;
 }
 label.inner_tab_label {
     text-decoration: none;
@@ -339,6 +334,7 @@ label.tab_label:hover {
 }
 input.tab_input:checked + label {	
 	color: #212121;	
+	background: #fff;
 }
 input.inner_tab_input:checked + label{
 	color: #000;
@@ -360,9 +356,8 @@ input.tab_input_1:checked + label{
 }
 .tab_inner_container {
 	padding: 0;
-    vertical-align: top;	
-	max-width: 930px;
     margin: 0 auto;
+    max-width: 1000px;
 }
 .provider_settings_icon {
     text-decoration: none;
@@ -393,8 +388,9 @@ input.tab_input_1:checked + label{
 	display: block !important;
 }
 .ast_admin_content {
-	width: 100%;	
-	vertical-align: top;	
+	vertical-align: top;
+    margin: 30px auto 0;
+    padding: 0 30px;
 }
 .zorem_admin_layout .settings_ul_submit .spinner{
 	display: none;
@@ -449,7 +445,29 @@ input.tab_input_1:checked + label{
 #wc_ast_status_label_color,#wc_ast_status_partial_shipped_label_color,#wc_ast_status_updated_tracking_label_color,#wc_ast_select_primary_color,#wc_ast_select_border_color,#wc_ast_shipped_status_label_color {
 	width: 80px;
 }
-
+.tab_page_heading {
+    font-size: 22px;
+    font-weight: 600;
+    color: #212121;
+    margin: 0 0 15px;
+    padding-bottom: 10px;
+    text-align: left;
+}
+.tab_section_heading {
+    font-size: 18px;
+    font-weight: 600;
+    color: #212121;
+    margin: 0 0 10px;
+    padding-bottom: 10px;
+    text-align: left;
+}
+.tab_section_heading.clear_spacing, .tab_page_heading.clear_spacing {
+    margin: 0;
+    padding: 0;
+}
+.botton_border {
+    border-bottom: 1px solid #e0e0e0;
+}
 .wp-core-ui .btn_green2 {
 	background: #59c889;
 	text-shadow: none;
@@ -751,6 +769,7 @@ ul.wcast-tracking-number-list, ul.wcast-shipment-status-list {
 }
 .woocommerce_page_woocommerce-advanced-shipment-tracking #wpcontent{
 	padding-left: 0;
+	background: #f5f7fb;
 }
 .woocommerce_page_woocommerce-advanced-shipment-tracking #wpbody-content{
 	padding-bottom: 40px;
@@ -824,10 +843,6 @@ span.provider_name {
 	content:'';
 	clear:both;
 	display:block;
-}
-.provider_top {
-   border-bottom: 1px solid #e0e0e0;
-    padding: 20px 0;
 }
 .search_section{
 	float: left;
@@ -1164,9 +1179,6 @@ a.reset_default_provider {
     margin-top: 0;
 	margin-bottom: 0px;
 }
-.custom_order_status_section {
-    margin: 0 20px;
-}
 .woocommerce.zorem_admin_layout table.form-table.order-status-table{	
     table-layout: auto;
 }
@@ -1259,10 +1271,10 @@ a.reset_default_provider {
 	padding: 10px 15px 15px;
 }
 .woocommerce.zorem_admin_layout table.form-table.order-status-table td{
-	padding: 15px 0 15px 15px;
+	padding: 10px 0 10px 15px;
 }
 .woocommerce.zorem_admin_layout table.form-table.order-status-table td:first-child{
-	padding:20px 15px 20px 0;
+	padding:10px 0 10px;
 	width: 37px;    
 }
 .woocommerce.zorem_admin_layout table.form-table th label{
@@ -1296,18 +1308,17 @@ span.multiple_checkbox {
     vertical-align: -webkit-baseline-middle;
 }
 .settings_ul>li{
-	padding: 15px 0;
-    border-bottom: 1px solid #e0e0e0;
-    margin: 0 20px;
-	min-height: 30px;
-	line-height: 25px;
-	position: relative;
+    padding: 5px 0;
+    margin: 0;
+    min-height: 30px;
+    line-height: 25px;
+    position: relative;
 }
 .settings_ul li:last-child {
     border-bottom: 0;
 }
 .settings_ul .settings_radio_li>label,.settings_ul .multiple_select_li>label {
-    width: 40%;
+    width: 20%;
     display: inline-block;
 }
 .settings_ul .settings_radio_li .radio_section{
@@ -1522,14 +1533,6 @@ section.widget_tab_section {
 #woocommerce-advanced-shipment-tracking.postbox{
 	background: #f9f9f9;
 }
-
-.order-status-table tr{
-	background: #fff;
-	border-bottom: 1px solid #e0e0e0;  
-}
-.order-status-table tr:last-child {
-    border-bottom: 0;
-}
 .order-status-table tr.disable_row{
 	background: transparent;
 	opacity: 0.7;
@@ -1539,9 +1542,6 @@ section.widget_tab_section {
 }
 .order-status-table tr.disable_row td:first-child{
 	pointer-events: auto;
-}
-.order-status-table td:last-child{
-	text-align:right;	
 }
 .woocommerce.zorem_admin_layout table.form-table.order-status-table td.status_shipped_label{
 	text-align:left;
@@ -1602,9 +1602,7 @@ section.widget_tab_section {
 	position: relative;
 }
 .tabs_inner_section {
-    margin: 12px -15px 0;
-    border-top: 1px solid #e0e0e0;
-	display:none;
+    margin: 20px 0 0;
 }
 #tab_general_settings:checked ~ #content_general_settings,#tab_order_status:checked ~ #content_osm_settings{
 	display: block !important;
@@ -1881,11 +1879,12 @@ p.zorem_description {
 .plugins_section.free_plugin_section .paid_plugin_image{
     text-align: center;
     margin: 0 -15px;
-    border-bottom: 1px solid #e0e0e0;   
-	padding: 0 0 15px;
-	height: 80px;    
+    background: #fafafa;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 15px 0;
+    height: 80px;
     display: flex;
-    justify-content: center;    
+    justify-content: center;
     align-items: center;
 }
 .plugins_section.free_plugin_section .paid_plugin_image img{
@@ -1933,7 +1932,7 @@ p.zorem_description {
 	border: 1px solid #e0e0e0;
 	border-radius: 3px;
 	background: #fff;
-	padding: 15px;
+	padding: 0 15px 15px;
 }
 .zorem_plugin_section {
     border: 1px solid #e0e0e0;	
@@ -2083,49 +2082,59 @@ input[type=checkbox].ast-tgl {
 }
 
 /** Snackbar CSS **/
-
-/* Animations to fade the snackbar in and out */
 @-webkit-keyframes fadein {
-    from {bottom: 0; opacity: 0;}
-    to {bottom: 30px; opacity: 1;}
+	from {
+		right: 0;
+		opacity: 0;
+	}
+	to {
+		right: 20px;
+		opacity: 1;
+	}
 }
-
 @keyframes fadein {
-    from {bottom: 0; opacity: 0;}
-    to {bottom: 30px; opacity: 1;}
+	from {
+		right: 0;
+		opacity: 0;
+	}
+	to {
+		right: 20px;
+		opacity: 1;
+	}
 }
-
-@-webkit-keyframes fadeout {
-    from {bottom: 30px; opacity: 1;}
-    to {bottom: 0; opacity: 0;}
+.snackbar-logs {
+    position: fixed;
+    z-index: 5000;
+    top: 95px;
+    right: 10px;
+    width: 300px;
 }
-
-@keyframes fadeout {
-    from {bottom: 30px; opacity: 1;}
-    to {bottom: 0; opacity: 0;}
+.snackbar-log {
+	-webkit-animation: fadein 0.5s;
+	animation: fadein 0.5s;
 }
-
-/* The snackbar - position it at the bottom and in the middle of the screen */
-.ast_snackbar {
-    visibility: hidden; /* Hidden by default. Visible on click */
-    min-width: 250px; /* Set a default minimum width */
-    margin-left: -125px; /* Divide value of min-width by 2 */
-    background-color: #3c4758; /* Black background color */
-    color: #fff; /* White text color */
-    text-align: center; /* Centered text */
-    border-radius: 2px; /* Rounded borders */
-    padding: 16px; /* Padding */
-    position: fixed; /* Sit on top of the screen */
-    z-index: 1; /* Add a z-index if needed */
-    left: 50%; /* Center the snackbar */
-    bottom: 30px; /* 30px from the bottom */
+.snackbar-log {
+    display: block;
+    margin-top: 10px;
+    position: relative;
+    right: -300px;
+    opacity: 0;
 }
-
-/* Show the snackbar when clicking on a button (class added with JavaScript) */
-.show_snackbar {
-    visibility: visible !important; /* Show the snackbar */
-	-webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+.snackbar-log-show {
+    right: 0;
+    opacity: 1;
+}
+.snackbar-log {
+    background: #3c4758;
+    padding: 15px;
+    border-radius: 4px;
+    color: #FFF;
+}
+.snackbar-log-success {
+    background: #3c4758;
+}
+.snackbar-log-error {
+    background: #FE1A00;
 }
 
 /** Progress Bar CSS **/

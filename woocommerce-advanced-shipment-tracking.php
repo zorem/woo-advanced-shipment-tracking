@@ -4,13 +4,13 @@
  * Plugin Name: Advanced Shipment Tracking for WooCommerce 
  * Plugin URI: https://www.zorem.com/products/woocommerce-advanced-shipment-tracking/ 
  * Description: Add shipment tracking information to your WooCommerce orders and provide customers with an easy way to track their orders. Shipment tracking Info will appear in customers accounts (in the order panel) and in WooCommerce order complete email. 
- * Version: 3.2.4.1
+ * Version: 3.2.5
  * Author: zorem
  * Author URI: https://www.zorem.com 
  * License: GPL-2.0+
  * License URI: 
  * Text Domain: woo-advanced-shipment-tracking 
- * WC tested up to: 5.3.0
+ * WC tested up to: 5.4.1
 */
 
 class zorem_woocommerce_advanced_shipment_tracking {
@@ -20,7 +20,7 @@ class zorem_woocommerce_advanced_shipment_tracking {
 	 *
 	 * @var string
 	 */
-	public $version = '3.2.4.1';
+	public $version = '3.2.5';
 	
 	/**
 	 * Initialize the main plugin function
@@ -30,7 +30,9 @@ class zorem_woocommerce_advanced_shipment_tracking {
 		$this->plugin_file = __FILE__;
 		
 		// Add your templates to this array.
-		if (!defined('SHIPMENT_TRACKING_PATH')) define( 'SHIPMENT_TRACKING_PATH', $this->get_plugin_path());		
+		if (!defined('SHIPMENT_TRACKING_PATH')) define( 'SHIPMENT_TRACKING_PATH', $this->get_plugin_path());	
+
+		register_activation_hook( __FILE__, array( $this,'on_activation' ) );		
 		
 		global $wpdb;
 		
@@ -53,40 +55,106 @@ class zorem_woocommerce_advanced_shipment_tracking {
 			$this->table = $wpdb->prefix . 'woo_shippment_provider';	
 		}				
 		
-		if ( $this->is_wc_active() ) {			
-			
-			// Include required files.
-			$this->includes();
-					
-			// Init REST API.
-			$this->init_rest_api();
-			
-			//start adding hooks
-			$this->init();
-			
-			//admin class init
-			$this->admin->init();
-			
-			//admin class init
-			$this->settings->init();
-			
-			//plugin install class init
-			$this->install->init();
-			
-			//plugin admin_notice class init
-			$this->admin_notice->init();													
-			
-			add_action( 'plugins_loaded', array( $this, 'on_plugins_loaded' ) );	
-			
-			if( !function_exists( 'trackship_for_woocommerce' ) ) {				
-				$this->late_shipments->init();
-				$this->trackship->init();				
-			}
-			
-			add_action( 'admin_footer', array( $this, 'uninstall_notice') );	
-			add_action( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'ast_plugin_action_links' ) );	
-		}		
+		if( ! $this->is_ast_pro_active() || ! $this->ast_pro_version_check() ) {
+			if ( $this->is_wc_active() ) {			
+				
+				// Include required files.
+				$this->includes();
+						
+				// Init REST API.
+				$this->init_rest_api();
+				
+				//start adding hooks
+				$this->init();
+				
+				//admin class init
+				$this->admin->init();
+				
+				//admin class init
+				$this->settings->init();
+				
+				//plugin install class init
+				$this->install->init();
+				
+				//plugin admin_notice class init
+				$this->admin_notice->init();													
+				
+				add_action( 'plugins_loaded', array( $this, 'on_plugins_loaded' ) );	
+				
+				if( !function_exists( 'trackship_for_woocommerce' ) ) {				
+					$this->late_shipments->init();
+					$this->trackship->init();				
+				}
+				
+				add_action( 'admin_footer', array( $this, 'uninstall_notice') );	
+				add_action( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'ast_plugin_action_links' ) );	
+			}	
+		}	
     }	
+	
+	/**
+	 * callback on activation and allow to activate if pro deactivated
+	 *
+	 * @access public
+	 * @since  1.0.0
+	*/
+	public function on_activation(){
+
+		// Require parent plugin
+		if ( is_plugin_active( 'ast-pro/ast-pro.php' ) and current_user_can( 'activate_plugins' ) ) {
+			
+			//admin notice for not allow activate plugin
+			wp_redirect( admin_url().'plugins.php?ast-not-allow=true' );
+			exit;
+		}
+	}
+	
+	/**
+	 * Check if AST PRO is active
+	 *
+	 * @access private
+	 * @since  1.0.0
+	 * @return bool
+	*/
+	private function is_ast_pro_active() {
+		
+		if ( ! function_exists( 'is_plugin_active' ) ) {
+			require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+		}
+		if ( is_plugin_active( 'ast-pro/ast-pro.php' ) ) {
+			$is_active = true;
+		} else {
+			$is_active = false;
+		}
+
+			
+		return $is_active;
+	}
+	
+		/**
+	 * Check if Advanced Shipment Tracking for WooCommerce is active
+	 *
+	 * @access private
+	 * @since  1.0.0
+	 * @return bool
+	*/
+	private function ast_pro_version_check() {
+		
+		if ( ! function_exists( 'is_plugin_active' ) ) {
+			require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+		}
+		
+		$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/ast-pro/ast-pro.php' );
+		$ast_pro_version = $plugin_data['Version'];
+		
+		if ( $ast_pro_version < '1.1') {
+			$is_version = false;
+		} else {
+			$is_version = true;
+		}
+			
+		return $is_version;
+	}
 	
 	/**
 	 * Check if WooCommerce is active	 	

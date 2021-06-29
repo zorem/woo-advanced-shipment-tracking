@@ -195,7 +195,7 @@ class WC_Advanced_Shipment_Tracking_Actions {
 					);
 				} else {
 					printf(
-						'<li id="tracking-item-%s" class="tracking-item-%s"><div><b>%s</b></div>%s<a class="inline_tracking_delete" rel="%s" data-order="%s"><span class="dashicons dashicons-trash"></span></a></li>',
+						'<li id="tracking-item-%s" class="tracking-item-%s"><div><b>%s</b></div>%s<a class="inline_tracking_delete" rel="%s" data-order="%s" wp_nonce="'.wp_create_nonce( 'delete-tracking-item' ).'"><span class="dashicons dashicons-trash"></span></a></li>',
 						esc_attr( $tracking_item['tracking_id'] ),
 						esc_attr( $tracking_item['tracking_id'] ),
 						esc_html( $provider_name ),
@@ -613,6 +613,7 @@ class WC_Advanced_Shipment_Tracking_Actions {
 	 * Function for saving tracking items via AJAX
 	 */
 	public function save_meta_box_ajax() {
+		
 		check_ajax_referer( 'create-tracking-item', 'security', true );
 		
 		$tracking_number = str_replace(' ', '', $_POST['tracking_number']);				
@@ -658,7 +659,9 @@ class WC_Advanced_Shipment_Tracking_Actions {
 	 *
 	 * Function for saving tracking items via AJAX
 	 */
-	public function save_inline_tracking_number() {				
+	public function save_inline_tracking_number() {		
+
+		check_ajax_referer( 'wc_ast_inline_tracking_form', 'wc_ast_inline_tracking_form_nonce' );
 		
 		if ( isset( $_POST['tracking_number'] ) &&  $_POST['tracking_provider'] != '' && isset( $_POST['tracking_provider'] ) && strlen( $_POST['tracking_number'] ) > 0 ) {	
 			

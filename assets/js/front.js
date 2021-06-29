@@ -108,8 +108,7 @@ jQuery(document).on("click", ".open_tracking_lightbox", function(){
 			background: "#fff",
 			opacity: .6
 		}	
-    });
-	
+    });	
 	
 	var order_id = jQuery(this).data('order');
 	var tracking_number = jQuery(this).data('tracking');	
@@ -117,7 +116,8 @@ jQuery(document).on("click", ".open_tracking_lightbox", function(){
 	var ajax_data = {
 		action: 'ts_open_tracking_lightbox',
 		order_id: order_id,
-		tracking_number: tracking_number,		
+		tracking_number: tracking_number,	
+		security : jQuery(this).attr('wp_nonce'),		
 	};
 	
 	jQuery.ajax({

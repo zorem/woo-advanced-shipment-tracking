@@ -8,7 +8,7 @@
 			$("#wc_ast_trackship_form").on( 'click', '.woocommerce-save-button', this.save_wc_ast_trackship_form );			
 			$("#trackship_tracking_page_form").on( 'click', '.woocommerce-save-button', this.save_trackship_tracking_page_form );
 			$("#trackship_late_shipments_form").on( 'click', '.woocommerce-save-button', this.save_trackship_late_shipments_form );
-			$(".tipTip").tipTip();
+			//$(".tipTip").tipTip();
 
 		},				
 		
@@ -22,9 +22,7 @@
 			$.post( ajaxurl, ajax_data, function(response) {
 				$("#wc_ast_trackship_form").find(".spinner").removeClass("active");
 				
-				jQuery("#ast_settings_snackbar").addClass('show_snackbar');	
-				jQuery("#ast_settings_snackbar").text(trackship_script.i18n.data_saved);			
-				setTimeout(function(){ jQuery("#ast_settings_snackbar").removeClass('show_snackbar'); }, 3000);										
+				jQuery(document).ast_snackbar( trackship_script.i18n.data_saved );				
 			});
 			
 		},
@@ -37,9 +35,7 @@
 			$.post( ajaxurl, ajax_data, function(response) {
 				$("#trackship_tracking_page_form").find(".spinner").removeClass("active");
 				
-				jQuery("#ast_settings_snackbar").addClass('show_snackbar');	
-				jQuery("#ast_settings_snackbar").text(trackship_script.i18n.data_saved);			
-				setTimeout(function(){ jQuery("#ast_settings_snackbar").removeClass('show_snackbar'); }, 3000);					
+				jQuery(document).ast_snackbar( trackship_script.i18n.data_saved );						
 			});			
 		},
 		save_trackship_late_shipments_form: function( event ) {			
@@ -51,9 +47,7 @@
 			$.post( ajaxurl, ajax_data, function(response) {
 				$("#trackship_late_shipments_form").find(".spinner").removeClass("active");
 				
-				jQuery("#ast_settings_snackbar").addClass('show_snackbar');	
-				jQuery("#ast_settings_snackbar").text(trackship_script.i18n.data_saved);			
-				setTimeout(function(){ jQuery("#ast_settings_snackbar").removeClass('show_snackbar'); }, 3000);								
+				jQuery(document).ast_snackbar( trackship_script.i18n.data_saved );							
 			});			
 		},	
 	};
@@ -79,7 +73,8 @@ jQuery(document).on("click", ".bulk_shipment_status_button", function(){
 		}	
     });	
 	var ajax_data = {
-		action: 'bulk_shipment_status_from_settings',		
+		action: 'bulk_shipment_status_from_settings',	
+		security : jQuery(this).attr('wp_nonce'),		
 	};
 	jQuery.ajax({
 		url: ajaxurl,		
@@ -131,12 +126,13 @@ jQuery(document).on("change", ".shipment_status_toggle input", function(){
 	}
 	
 	var id = jQuery(this).attr('id');
-	
+	var nonce = jQuery( '#ts_late_shipments_email_form_nonce' ).val();	
 	var ajax_data = {
 		action: 'update_shipment_status_email_status',
 		id: id,
 		wcast_enable_status_email: wcast_enable_status_email,
-		settings_data: settings_data,		
+		settings_data: settings_data,
+		security: nonce,
 	};
 	
 	jQuery.ajax({
@@ -195,7 +191,8 @@ function save_automation_form(){
 		data: form.serialize(),		
 		type: 'POST',		
 		success: function(response) {
-			jQuery(".order-status-table").unblock();			
+			jQuery(".order-status-table").unblock();
+			jQuery(document).ast_snackbar( trackship_script.i18n.data_saved );				
 		},
 		error: function(response) {
 			console.log(response);			
@@ -252,9 +249,7 @@ function save_trackship_form(){
 		type: 'POST',		
 		success: function(response) {
 			jQuery("#wc_ast_trackship_form").unblock();			
-			jQuery("#trackship_settings_snackbar").addClass('show_snackbar');	
-			jQuery("#trackship_settings_snackbar").text(trackship_script.i18n.data_saved);			
-			setTimeout(function(){ jQuery("#trackship_settings_snackbar").removeClass('show_snackbar'); }, 3000);
+			jQuery(document).ast_snackbar( trackship_script.i18n.data_saved );	
 		},
 		error: function(response) {
 			console.log(response);			
@@ -278,9 +273,7 @@ function save_tracking_page_form(){
 		type: 'POST',		
 		success: function(response) {
 			jQuery("#trackship_tracking_page_form").unblock();			
-			jQuery("#trackship_settings_snackbar").addClass('show_snackbar');	
-			jQuery("#trackship_settings_snackbar").text(trackship_script.i18n.data_saved);			
-			setTimeout(function(){ jQuery("#trackship_settings_snackbar").removeClass('show_snackbar'); }, 3000);
+			jQuery(document).ast_snackbar( trackship_script.i18n.data_saved );	
 		},
 		error: function(response) {
 			console.log(response);			
@@ -288,3 +281,57 @@ function save_tracking_page_form(){
 	});
 	return false;
 }
+
+jQuery(document).on("change", "#wcast_enable_late_shipments_admin_email", function(){	
+	if(jQuery(this).prop("checked") == true){
+		var wcast_enable_late_shipments_email = 1;
+	}
+	var id = jQuery(this).attr('id');
+	var settings_data = jQuery(this).data("settings");
+	var nonce = jQuery( '#ts_late_shipments_email_form_nonce' ).val();
+	var ajax_data = {
+		action: 'update_enable_late_shipments_email',
+		id: id,
+		wcast_enable_late_shipments_email: wcast_enable_late_shipments_email,		
+		settings_data: settings_data,
+		security: nonce,
+	};
+	jQuery.ajax({
+		url: ajaxurl,		
+		data: ajax_data,
+		type: 'POST',
+		success: function(response) {				
+			jQuery("#ast_settings_snackbar").addClass('show_snackbar');	
+			jQuery("#ast_settings_snackbar").text(shipment_tracking_table_rows.i18n.data_saved);			
+			setTimeout(function(){ jQuery("#ast_settings_snackbar").removeClass('show_snackbar'); }, 3000);						
+		},
+		error: function(response) {					
+		}
+	});
+});
+
+/* zorem_snackbar jquery */
+(function( $ ){
+	$.fn.ast_snackbar = function(msg) {
+		if ( jQuery('.snackbar-logs').length === 0 ){
+			$("body").append("<section class=snackbar-logs></section>");
+		}
+		var ast_snackbar = $("<article></article>").addClass('snackbar-log snackbar-log-success snackbar-log-show').text( msg );
+		$(".snackbar-logs").append(ast_snackbar);
+		setTimeout(function(){ ast_snackbar.remove(); }, 3000);
+		return this;
+	}; 
+})( jQuery );
+
+/* zorem_snackbar_warning jquery */
+(function( $ ){
+	$.fn.ast_snackbar_warning = function(msg) {
+		if ( jQuery('.snackbar-logs').length === 0 ){
+			$("body").append("<section class=snackbar-logs></section>");
+		}
+		var ast_snackbar_warning = $("<article></article>").addClass( 'snackbar-log snackbar-log-error snackbar-log-show' ).html( msg );
+		$(".snackbar-logs").append(ast_snackbar_warning);
+		setTimeout(function(){ ast_snackbar_warning.remove(); }, 3000);
+		return this;
+	}; 
+})( jQuery );

@@ -396,6 +396,8 @@ class WC_Advanced_Shipment_Tracking_Settings {
 	
 	public function ast_open_inline_tracking_form_fun() {
 		
+		check_ajax_referer( 'ast-order-list', 'security' );
+		
 		$order_id =  wc_clean( $_POST['order_id'] );
 		$order = wc_get_order( $order_id );
 		$order_number = $order->get_order_number();
@@ -457,6 +459,7 @@ class WC_Advanced_Shipment_Tracking_Settings {
 						<?php wc_advanced_shipment_tracking()->actions->mark_order_as_fields_html(); ?>
 						<hr>
 						<p>		
+							<?php wp_nonce_field( 'wc_ast_inline_tracking_form', 'wc_ast_inline_tracking_form_nonce' );?>
 							<input type="hidden" name="action" value="add_inline_tracking_number">
 							<input type="hidden" name="order_id" id="order_id" value="<?php esc_html_e( $order_id ); ?>">
 							<input type="submit" name="Submit" value="<?php esc_html_e( 'Fulfill Order', 'woo-advanced-shipment-tracking' ); ?>" class="button-primary btn_green">        
@@ -483,6 +486,9 @@ class WC_Advanced_Shipment_Tracking_Settings {
 	* Synch provider function 
 	*/
 	public function sync_providers_fun() {
+		
+		check_ajax_referer( 'nonce_shipping_provider', 'security' );
+		
 		$reset_checked = sanitize_text_field( $_POST[ 'reset_checked' ] );		
 		global $wpdb;		
 		
@@ -554,7 +560,7 @@ class WC_Advanced_Shipment_Tracking_Settings {
 				exit;
 			} else {
 			
-				$default_shippment_providers = $wpdb->get_results( "SELECT * FROM $this->table ORDER BY shipping_default ASC, display_in_order DESC, trackship_supported DESC, id ASC" );
+				$default_shippment_providers = $wpdb->get_results( "SELECT * FROM $this->table WHERE shipping_default = 1" );
 				
 				foreach ( $default_shippment_providers as $key => $val ) {
 					$shippment_providers[ $val->provider_name ] = $val;						

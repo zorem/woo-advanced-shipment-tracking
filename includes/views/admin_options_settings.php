@@ -4,28 +4,29 @@
  */
 ?>
 <section id="content2" class="tab_section">
-	<div class="tab_inner_container center">
+	<form method="post" id="wc_ast_settings_form" action="" enctype="multipart/form-data">
+	
+		<h1 class="tab_page_heading"><?php _e( 'Settings', 'woo-advanced-shipment-tracking'); ?></h1>
 		
-		<div class="tabs_outer_form_table">
-			
-			<?php $this->get_html_menu_tab( $this->get_ast_tab_general_settings_data(), 'inner_tab_input'); ?>
-			
-			<div class="tabs_inner_section" id="content_general_settings">
-				<form method="post" id="wc_ast_settings_form" action="" enctype="multipart/form-data">
-					<?php $this->get_html_ul( $this->get_settings_data() );?>
-					<div class="tabs_submit">					
-						<div class="spinner"></div>
-						<button name="save" class="button-primary woocommerce-save-button btn_ast2" type="submit" value="Save changes"><?php _e( 'Save Changes', 'woo-advanced-shipment-tracking' ); ?></button>															
-						<?php wp_nonce_field( 'wc_ast_settings_form', 'wc_ast_settings_form_nonce' );?>
-						<input type="hidden" name="action" value="wc_ast_settings_form_update">
-					</div>								
-				</form>	
-			</div>
-			<?php require_once( 'admin_options_osm.php' );
-			do_action('ast_general_settings_panel');
-			?>		
-		</div>	
+		<h2 class="tab_section_heading botton_border"><?php _e( 'Add Tracking Options', 'woo-advanced-shipment-tracking'); ?></h2>
+		<?php $this->get_html_ul( $this->get_add_tracking_options() );?>
 		
-		<?php do_action('ast_generat_settings_end'); ?>						
-	</div>		
+		<div class="tabs_inner_section">
+			<h1 class="tab_section_heading botton_border"><?php _e( 'Customer View', 'woo-advanced-shipment-tracking'); ?></h1>
+			<?php $this->get_html_ul( $this->get_customer_view_options() );?>
+		</div>
+		
+		<div class="tabs_inner_section">
+			<h2 class="tab_section_heading botton_border"><?php _e( 'Shipment Tracking API', 'woo-advanced-shipment-tracking'); ?></h2>
+			<?php $this->get_html_ul( $this->get_shipment_tracking_api_options() );?>
+		</div>
+		
+		<div class="tabs_inner_section">
+			<h2 class="tab_section_heading botton_border"><?php _e( 'Custom Order Statuses', 'woo-advanced-shipment-tracking'); ?></h2>
+			<?php require_once( 'admin_options_osm.php' ); ?>
+		</div>						
+		
+		<?php wp_nonce_field( 'wc_ast_settings_form', 'wc_ast_settings_form_nonce' );?>
+		<input type="hidden" name="action" value="wc_ast_settings_form_update">							
+	</form>	
 </section>
