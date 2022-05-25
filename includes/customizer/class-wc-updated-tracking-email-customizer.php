@@ -7,7 +7,7 @@
 /**
  * Adds the individual sections, settings, and controls to the theme customizer
  */
-class wcast_updated_tracking_customizer_email {
+class Wcast_Updated_Tracking_Customizer_Email {
 	// Get our default values	
 	public function __construct() {
 		// Get our Customizer defaults
@@ -17,7 +17,9 @@ class wcast_updated_tracking_customizer_email {
 		add_action( 'customize_register', array( $this, 'wcast_register_sample_default_controls' ) );
 		
 		// Only proceed if this is own request.		
-		if ( ! $this->is_own_customizer_request() && ! $this->is_own_preview_request() )return;
+		if ( ! $this->is_own_customizer_request() && ! $this->is_own_preview_request() ) {
+			return;
+		}	
 		
 		// Register our sections
 		add_action( 'customize_register', array( wcast_customizer(), 'wcast_add_customizer_sections' ) );	
@@ -63,8 +65,7 @@ class wcast_updated_tracking_customizer_email {
 	
 	/**
 	 * Checks to see if we are opening our custom customizer preview
-	 *
-	 * @access public
+	 *	 
 	 * @return bool
 	 */
 	public function is_own_preview_request() {
@@ -73,12 +74,11 @@ class wcast_updated_tracking_customizer_email {
 	
 	/**
 	 * Checks to see if we are opening our custom customizer controls
-	 *
-	 * @access public
+	 *	 
 	 * @return bool
 	 */
 	public function is_own_customizer_request() {
-		return isset( $_REQUEST['email'] ) && $_REQUEST['email'] === 'custom_order_status_email';
+		return isset( $_REQUEST['email'] ) && 'custom_order_status_email' === $_REQUEST['email'];
 	}
 
 	/**
@@ -99,7 +99,6 @@ class wcast_updated_tracking_customizer_email {
 	/**
 	 * Get WooCommerce email settings page URL
 	 *
-	 * @access public
 	 * @return string
 	 */
 	public function get_email_settings_page_url() {
@@ -107,7 +106,7 @@ class wcast_updated_tracking_customizer_email {
 	}
 	
 	/**
-	 * code for initialize default value for customizer
+	 * Code for initialize default value for customizer
 	*/
 	public function wcast_generate_defaults() {
 		$customizer_defaults = array(			
@@ -141,7 +140,7 @@ class wcast_updated_tracking_customizer_email {
 		$wp_customize->add_control( 'customizer_updated_tracking_order_settings_enabled',
 			array(
 				'label' => __( 'Enable Updated Tracking order status email', 'woo-advanced-shipment-tracking' ),
-				'description' => esc_html__( '', 'woo-advanced-shipment-tracking' ),
+				'description' => '',
 				'section' => 'custom_order_status_email',
 				'type' => 'checkbox',
 				'active_callback' => array( $this, 'active_callback' ),	
@@ -160,7 +159,7 @@ class wcast_updated_tracking_customizer_email {
 		$wp_customize->add_control( 'woocommerce_customer_updated_tracking_order_settings[subject]',
 			array(
 				'label' => __( 'Subject', 'woocommerce' ),
-				'description' => esc_html__( 'Available variables:', 'woo-advanced-shipment-tracking' ).' {site_title}, {order_number}',
+				'description' => esc_html__( 'Available variables:', 'woo-advanced-shipment-tracking' ) . ' {site_title}, {order_number}',
 				'section' => 'custom_order_status_email',
 				'type' => 'text',
 				'input_attrs' => array(
@@ -184,7 +183,7 @@ class wcast_updated_tracking_customizer_email {
 		$wp_customize->add_control( 'woocommerce_customer_updated_tracking_order_settings[heading]',
 			array(
 				'label' => __( 'Email heading', 'woocommerce' ),
-				'description' => esc_html__( 'Available variables:', 'woo-advanced-shipment-tracking' ).' {site_title}, {order_number}',
+				'description' => esc_html__( 'Available variables:', 'woo-advanced-shipment-tracking' ) . ' {site_title}, {order_number}',
 				'section' => 'custom_order_status_email',
 				'type' => 'text',
 				'input_attrs' => array(
@@ -209,7 +208,7 @@ class wcast_updated_tracking_customizer_email {
 		$wp_customize->add_control( new AST_TinyMCE_Custom_control( $wp_customize, 'woocommerce_customer_updated_tracking_order_settings[wcast_updated_tracking_email_content]',
 			array(
 				'label' => __( 'Email content', 'woo-advanced-shipment-tracking' ),
-				'description' => __( 'Available variables:', 'woo-advanced-shipment-tracking' ).' {site_title}, {customer_email}, {customer_first_name}, {customer_last_name}, {customer_username}, {order_number}',
+				'description' => __( 'Available variables:', 'woo-advanced-shipment-tracking' ) . ' {site_title}, {customer_email}, {customer_first_name}, {customer_last_name}, {customer_username}, {order_number}',
 				'section' => 'custom_order_status_email',
 				'input_attrs' => array(
 					'toolbar1' => 'bold italic bullist numlist alignleft aligncenter alignright link',
@@ -237,42 +236,44 @@ class wcast_updated_tracking_customizer_email {
 		) );	
 	}
 	
-	public function active_callback(){
+	public function active_callback() {
 		return ( $this->is_own_preview_request() ) ? true : false ;	
 	}
 		
 	/**
 	 * Set up preview
-	 *
-	 * @access public
+	 *	 
 	 * @return void
 	 */
 	public function set_up_preview() {		
 		// Make sure this is own preview request.
-		if ( ! $this->is_own_preview_request() )return;
-		include wc_advanced_shipment_tracking()->get_plugin_path() . '/includes/customizer/preview/updated_tracking_preview.php';exit;			
+		if ( ! $this->is_own_preview_request() ) {
+			return;
+		}	
+		include wc_advanced_shipment_tracking()->get_plugin_path() . '/includes/customizer/preview/updated_tracking_preview.php';
+		exit;			
 	}
 	
 	/**
-	 * code for preview of delivered order status email
+	 * Code for preview of delivered order status email
 	*/
-	public function preview_updated_tracking_email(){
+	public function preview_updated_tracking_email() {
 		// Load WooCommerce emails.
 		$wc_emails      = WC_Emails::instance();
 		$emails         = $wc_emails->get_emails();		
 		$preview_id     = get_theme_mod('wcast_email_preview_order_id');
 		
-		if($preview_id == '' || $preview_id == 'mockup') {
+		if ( '' == $preview_id || 'mockup' == $preview_id ) {
 			$content = '<div style="padding: 35px 40px; background-color: white;">' . __( 'Please select order to preview.', 'woo-advanced-shipment-tracking' ) . '</div>';							
-			echo $content;
+			echo wp_kses_post( $content );
 			return;
 		}	
 
 		$order = wc_get_order( $preview_id );
 		
-		if(!$order){
+		if ( !$order ) {
 			$content = '<div style="padding: 35px 40px; background-color: white;">' . __( 'Please select order to preview.', 'woo-advanced-shipment-tracking' ) . '</div>';							
-			echo $content;
+			echo wp_kses_post( $content );
 			return;
 		}		
 		
@@ -313,13 +314,12 @@ class wcast_updated_tracking_customizer_email {
 		$content = $email->style_inline( $content );
 		$content = apply_filters( 'woocommerce_mail_content', $content );
 		
-		echo $content;		
+		echo wp_kses_post( $content );
 	}
 	
 	/**
 	 * Get WooCommerce order for preview
 	 *
-	 * @access public
 	 * @param string $order_status
 	 * @return object
 	 */
@@ -345,7 +345,7 @@ class wcast_updated_tracking_customizer_email {
 				'billing_country'    => 'GB',
 				'billing_email'      => 'sherlock@holmes.co.uk',
 				'billing_phone'      => '02079304832',
-				'date_created'       => date( 'Y-m-d H:i:s' ),
+				'date_created'       => gmdate( 'Y-m-d H:i:s' ),
 				'total'              => 24.90,
 			) );
 
@@ -386,7 +386,7 @@ function ut_customizer() {
 	static $instance;
 
 	if ( ! isset( $instance ) ) {		
-		$instance = new wcast_updated_tracking_customizer_email();
+		$instance = new Wcast_Updated_Tracking_Customizer_Email();
 	}
 
 	return $instance;
@@ -405,14 +405,16 @@ add_action( 'customize_save_customizer_updated_tracking_order_settings_enabled',
  * Update Delivered order email enable/disable
  *
  */
-function woocommerce_customer_updated_tracking_order_settings_fun($data){
-	$post_values = json_decode( wp_unslash( $_POST['customized'] ), true );
+function woocommerce_customer_updated_tracking_order_settings_fun( $data ) {
+	
+	$customized = isset( $_POST['customized'] ) ? wc_clean( $_POST['customized'] ) : '';
+	$post_values = json_decode( wp_unslash( $customized ), true );
 	$updated_tracking_order_settings = get_option( 'woocommerce_customer_updated_tracking_order_settings');
 	
-	if(isset($post_values['customizer_updated_tracking_order_settings_enabled']) && ($post_values['customizer_updated_tracking_order_settings_enabled'] == 1)){
+	if ( isset( $post_values[ 'customizer_updated_tracking_order_settings_enabled' ] ) && ( 1 == $post_values[ 'customizer_updated_tracking_order_settings_enabled' ] ) ) {
 		$updated_tracking_order_settings['enabled'] = 'yes';
-	} else{
+	} else {
 		$updated_tracking_order_settings['enabled'] = 'no';
 	}		
-	update_option( 'woocommerce_customer_updated_tracking_order_settings',$updated_tracking_order_settings);	
+	update_option( 'woocommerce_customer_updated_tracking_order_settings', $updated_tracking_order_settings );	
 }

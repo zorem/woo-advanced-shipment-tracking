@@ -123,3 +123,6 @@ li#accordion-panel-widgets {
 	border-top: 1px solid #ddd;
 	padding-top: 10px;
 }
+.wp-picker-container .wp-color-result.button {
+    border-color: #e0e0e0;
+}

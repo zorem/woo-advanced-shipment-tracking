@@ -19,9 +19,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 $ps_settings = new wcast_partial_shipped_customizer_email();
-$ast = new WC_Advanced_Shipment_Tracking_Actions;
+$ast = new WC_Advanced_Shipment_Tracking_Actions();
 
-$email_content = $ast->get_option_value_from_array('woocommerce_customer_partial_shipped_order_settings','wcast_partial_shipped_email_content',$ps_settings->defaults['wcast_partial_shipped_email_content']);	
+$email_content = $ast->get_option_value_from_array( 'woocommerce_customer_partial_shipped_order_settings', 'wcast_partial_shipped_email_content', $ps_settings->defaults['wcast_partial_shipped_email_content'] );	
 $email_content = wc_advanced_shipment_tracking_email_class()->email_content( $email_content, $order->get_id(), $order );
 
 /*
@@ -30,7 +30,7 @@ $email_content = wc_advanced_shipment_tracking_email_class()->email_content( $em
 do_action( 'woocommerce_email_header', $email_heading, $email ); ?>
 
 <?php /* translators: %s: Site title */ ?>
-<p class="partial_email_content"><?php echo $email_content; ?></p>
+<p class="partial_email_content"><?php echo wp_kses_post( $email_content ); ?></p>
 <?php
 
 /*

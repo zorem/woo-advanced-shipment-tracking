@@ -423,7 +423,7 @@ jQuery(document).on("click", ".inline_tracking_delete", function(){
 	var r = confirm( 'Do you really want to delete tracking number?' );
 	if (r === true) {
 		var tracking_id = jQuery( this ).attr( 'rel' );
-		var nonce = jQuery( this ).attr( 'wp_nonce' );		
+		var nonce = jQuery( this ).data( 'nonce' );		
 		var order_id = jQuery( this ).data( 'order' );	
 		jQuery( '#tracking-item-' + tracking_id ).block({
 			message: null,
@@ -467,6 +467,9 @@ jQuery(document).on("change", "#tracking_provider", function(){
 });
 
 jQuery(document).ready(function() {
+	
+	jQuery('.column-woocommerce-advanced-shipment-tracking').addClass('no-link');
+	
 	var selected_provider = jQuery("#tracking_provider").val();
 	if(selected_provider == 'nz-couriers' || selected_provider == 'post-haste' || selected_provider == 'castle-parcels' || selected_provider == 'dx-mail' || selected_provider == 'now-couriers'){
 		jQuery('.tracking_product_code_field').show();

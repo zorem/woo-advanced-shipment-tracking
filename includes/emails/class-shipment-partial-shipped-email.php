@@ -100,7 +100,7 @@ if ( ! class_exists( 'WC_Email_Customer_Partial_Shipped_Order', false ) ) :
 		public function get_content_html() {
 			$template = $this->get_template( 'template_html' );			
 			$local_file    = $this->get_theme_template_file( $template );
-			if ( file_exists( $local_file ) && is_writable( $local_file )){							
+			if ( file_exists( $local_file ) && is_writable( $local_file )) {							
 				return wc_get_template_html(
 					$this->template_html,
 					array(
@@ -112,7 +112,7 @@ if ( ! class_exists( 'WC_Email_Customer_Partial_Shipped_Order', false ) ) :
 						'email'         => $this,
 					)
 				);
-			} else if( class_exists('ast_pro') ){
+			} else if ( class_exists('ast_pro') ) {
 				return wc_get_template_html(
 					'emails/customer-partial-shipped-order.php',
 					array(
@@ -126,7 +126,7 @@ if ( ! class_exists( 'WC_Email_Customer_Partial_Shipped_Order', false ) ) :
 					'woocommerce-advanced-shipment-tracking/', 
 					ast_pro()->get_plugin_path() . '/templates/'
 				);
-			} else{	
+			} else {	
 				return wc_get_template_html(
 					'emails/customer-partial-shipped-order.php',
 					array(
@@ -151,7 +151,7 @@ if ( ! class_exists( 'WC_Email_Customer_Partial_Shipped_Order', false ) ) :
 		public function get_content_plain() {
 			$template = $this->get_template( 'template_html' );			
 			$local_file    = $this->get_theme_template_file( $template );
-			if ( file_exists( $local_file ) && is_writable( $local_file )){	
+			if ( file_exists( $local_file ) && is_writable( $local_file )) {	
 				//echo $local_file;exit;			
 				return wc_get_template_html(
 					$this->template_html,
@@ -164,7 +164,7 @@ if ( ! class_exists( 'WC_Email_Customer_Partial_Shipped_Order', false ) ) :
 						'email'         => $this,
 					)
 				);
-			} else{	
+			} else {	
 				return wc_get_template_html(
 					'emails/customer-partial-shipped-order.php',
 					array(

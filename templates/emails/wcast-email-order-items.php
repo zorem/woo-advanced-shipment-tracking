@@ -87,11 +87,11 @@ foreach ( $items as $item_id => $item ) :
 			echo wp_kses_post( apply_filters( 'woocommerce_email_order_item_quantity', $qty_display, $item ) );
 			?>
 		</td>
-		<?php if(!$hide_shipping_item_price){ ?>
+		<?php if ( !$hide_shipping_item_price ) { ?>
 			<td class="td" style="text-align:<?php echo esc_attr( $text_align ); ?>; vertical-align:middle; font-family: 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;">
 				<?php echo wp_kses_post( $order->get_formatted_line_subtotal( $item ) ); ?>
 			</td>
-		<?php }?>
+		<?php } ?>
 	</tr>
 	<?php
 

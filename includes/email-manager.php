@@ -14,25 +14,25 @@ class WC_Advanced_Shipment_Tracking_Email_Manager {
 		if (!defined( 'AST_TEMPLATE_PATH' ) ) {
 			define( 'AST_TEMPLATE_PATH', SHIPMENT_TRACKING_PATH . '/templates/' );
 		}	
-	    // hook for when order status is changed	
+		// hook for when order status is changed	
 		add_filter( 'woocommerce_email_classes', array( $this, 'custom_init_emails' ) );		
 	}		    
 	
 	/**
-	 * code for include delivered email class
+	 * Code for include delivered email class
 	 */
 	public function custom_init_emails( $emails ) {
 				
 		// Include the email class file if it's not included already		
 		$partial_shipped_status = get_option( 'wc_ast_status_partial_shipped', 0 );
-		if( true == $partial_shipped_status ) {
+		if ( true == $partial_shipped_status ) {
 			if ( ! isset( $emails[ 'WC_Email_Customer_Partial_Shipped_Order' ] ) ) {
 				$emails[ 'WC_Email_Customer_Partial_Shipped_Order' ] = include_once( 'emails/class-shipment-partial-shipped-email.php' );
 			}
 		}
 		
 		$updated_tracking_status = get_option( 'wc_ast_status_updated_tracking', 0 );
-		if( true == $updated_tracking_status ) {
+		if ( true == $updated_tracking_status ) {
 			if ( ! isset( $emails[ 'WC_Email_Customer_Updated_Tracking_Order' ] ) ) {
 				$emails[ 'WC_Email_Customer_Updated_Tracking_Order' ] = include_once( 'emails/class-shipment-updated-tracking-email.php' );
 			}				
@@ -41,7 +41,7 @@ class WC_Advanced_Shipment_Tracking_Email_Manager {
 	}
 	
 	/**
-	 * code for format email content 
+	 * Code for format email content
 	 */
 	public function email_content( $email_content, $order_id, $order ) {	
 	
@@ -65,7 +65,7 @@ class WC_Advanced_Shipment_Tracking_Email_Manager {
 		if ( isset( $company_name ) ) {
 			$email_content = str_replace( '{customer_company_name}', $company_name, $email_content );	
 		} else {
-			$email_content = str_replace( '{customer_company_name}','', $email_content );	
+			$email_content = str_replace( '{customer_company_name}', '', $email_content );	
 		}	 
 		
 		if ( isset( $username ) ) {

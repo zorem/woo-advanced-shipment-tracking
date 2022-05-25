@@ -15,8 +15,17 @@ class WC_Advanced_Shipment_Tracking_Customizer {
 	/**
 	 * Initialize the main plugin function
 	*/
-    public function __construct() {		
-    }
+	public function __construct() {	
+		add_filter( 'woocommerce_order_needs_shipping_address', array( $this, 'preview_order_needs_shipping_address' ), 10, 3 );
+	}
+	
+	public function preview_order_needs_shipping_address( $needs_address, $hide, $order ) {
+		
+		if ( $order->get_id() == 1 ) {
+			return true;
+		}
+		return $needs_address;
+	}
 	
 	/**
 	 * Register the Customizer sections
@@ -33,13 +42,13 @@ class WC_Advanced_Shipment_Tracking_Customizer {
 		$wp_customize->add_section( 'custom_order_status_email',
 			array(
 				'title' => __( 'Custom order status email', 'woo-advanced-shipment-tracking' ),
-				'description' => esc_html__( '', 'woo-advanced-shipment-tracking'  ),				
+				'description' => '',				
 			)
 		);				
 	}
 	
 	/**
-	 * add css and js for preview
+	 * Add css and js for preview
 	*/
 	public function enqueue_preview_scripts() {		 
 		
@@ -61,20 +70,22 @@ class WC_Advanced_Shipment_Tracking_Customizer {
 	}
 	
 	/**
-	 * add css and js for customizer
+	 * Add css and js for customizer
 	*/
-	public function enqueue_customizer_scripts(){
+	public function enqueue_customizer_scripts() {
 		
-		if(isset( $_REQUEST['wcast-customizer'] ) && '1' === $_REQUEST['wcast-customizer']){
+		if ( isset( $_REQUEST['wcast-customizer'] ) && '1' === $_REQUEST['wcast-customizer'] ) {
 			wp_enqueue_style( 'wp-color-picker' );
 			wp_enqueue_style('wcast-customizer-styles', wc_advanced_shipment_tracking()->plugin_dir_url() . 'assets/css/customizer-styles.css', array(), wc_advanced_shipment_tracking()->version  );			
 			wp_enqueue_script('wcast-customizer-scripts', wc_advanced_shipment_tracking()->plugin_dir_url() . 'assets/js/customizer-scripts.js', array('jquery', 'customize-controls','wp-color-picker'), wc_advanced_shipment_tracking()->version, true);
 			
-			$email_type = ( isset($_REQUEST['order_status']) )  ? $_REQUEST['order_status'] : 'partially_shipped';
-			$shipment_status = ( isset($_REQUEST['shipment_status']) )  ? $_REQUEST['shipment_status'] : 'in_transit';
-		
+			$email_type = ( isset($_REQUEST['order_status']) )  ? wc_clean( $_REQUEST['order_status'] ) : 'partially_shipped';
+			$shipment_status = ( isset($_REQUEST['shipment_status']) )  ? wc_clean( $_REQUEST['shipment_status'] ) : 'in_transit';
+			$email = ( isset($_REQUEST['email']) )  ? wc_clean( $_REQUEST['email'] ) : '';	
+			
 			// Send variables to Javascript
 			wp_localize_script('wcast-customizer-scripts', 'wcast_customizer', array(
+				'customizer_nonce' 						  => wp_create_nonce( 'ast_customizer' ),
 				'ajax_url'                                => admin_url('admin-ajax.php'),
 				'email_preview_url'        				  => $this->get_email_preview_url(),
 				'partial_shipped_email_preview_url'       => $this->get_partial_shipped_email_preview_url(),
@@ -92,7 +103,7 @@ class WC_Advanced_Shipment_Tracking_Customizer {
 				'customer_delivered_preview_url' 		  => $this->get_customer_delivered_preview_url(),
 				'customer_returntosender_preview_url' 	  => $this->get_customer_returntosender_preview_url(),
 				'customer_availableforpickup_preview_url' => $this->get_customer_availableforpickup_preview_url(),				
-				'trigger_click'        					  => '#accordion-section-'.$_REQUEST['email'].' h3',	
+				'trigger_click'        					  => '#accordion-section-' . $email . ' h3',	
 				'customizer_title'        				  => 'Shipment Tracking',	
 			));	
 
@@ -131,7 +142,7 @@ class WC_Advanced_Shipment_Tracking_Customizer {
 	 * Get Customizer URL
 	 *
 	 */
-	public function get_shipped_email_preview_url(){
+	public function get_shipped_email_preview_url() {
 		return add_query_arg( array(
 			'wcast-shipped-email-customizer-preview' => '1',
 		), home_url( '' ) );
@@ -191,7 +202,7 @@ class WC_Advanced_Shipment_Tracking_Customizer {
 	 * Get Exception Shipment status preview URL
 	 *
 	 */
-	public function get_customer_exception_preview_url(){
+	public function get_customer_exception_preview_url() {
 		return add_query_arg( array(
 			'wcast-exception-email-customizer-preview' => '1',
 		), home_url( '' ) );
@@ -258,48 +269,45 @@ class WC_Advanced_Shipment_Tracking_Customizer {
 	}		
 	
 	/**
-     * Remove unrelated components
-     *
-     * @access public
-     * @param array $components
-     * @param object $wp_customize
-     * @return array
-     */
-    public function remove_unrelated_components($components, $wp_customize)	{		
-        // Iterate over components
-        foreach ($components as $component_key => $component) {			
-            // Check if current component is own component
-            if ( ! $this->is_own_component( $component ) ) {
-                unset($components[$component_key]);
-            }
-        }
+	* Remove unrelated components
+	*	
+	* @param array $components
+	* @param object $wp_customize
+	* @return array
+	*/
+	public function remove_unrelated_components( $components, $wp_customize ) {	
+		// Iterate over components
+		foreach ( $components as $component_key => $component ) {			
+			// Check if current component is own component
+			if ( ! $this->is_own_component( $component ) ) {
+				unset($components[$component_key]);
+			}
+		}
 				
-        // Return remaining components
-        return $components;
-    }
+		// Return remaining components
+		return $components;
+	}
 
-    /**
-     * Remove unrelated sections
-     *
-     * @access public
-     * @param bool $active
-     * @param object $section
-     * @return bool
-     */
-    public function remove_unrelated_sections( $active, $section ) {
-        // Check if current section is own section
-        if ( ! $this->is_own_section( $section->id ) ) {
-            return false;
-        }
-
-        // We can override $active completely since this runs only on own Customizer requests
-        return true;
-    }
+	/**
+	* Remove unrelated sections
+	*	
+	* @param bool $active
+	* @param object $section
+	* @return bool
+	*/
+	public function remove_unrelated_sections( $active, $section ) {
+		// Check if current section is own section
+		if ( ! $this->is_own_section( $section->id ) ) {
+			return false;
+		}
+	
+		// We can override $active completely since this runs only on own Customizer requests
+		return true;
+	}
 
 	/**
 	* Check if current component is own component
-	*
-	* @access public
+	*	
 	* @param string $component
 	* @return bool
 	*/
@@ -309,14 +317,13 @@ class WC_Advanced_Shipment_Tracking_Customizer {
 
 	/**
 	* Check if current section is own section
-	*
-	* @access public
+	*	
 	* @param string $key
 	* @return bool
 	*/
 	public function is_own_section( $key ) {
 				
-		if ( $key === 'ast_tracking_general_section' || $key === 'custom_order_status_email' ) {
+		if ( 'ast_tracking_general_section' === $key || 'custom_order_status_email' === $key ) {
 			return true;
 		}
 
@@ -344,8 +351,7 @@ class WC_Advanced_Shipment_Tracking_Customizer {
 	
 	/**
 	 * Get Order Ids
-	 *
-	 * @access public
+	 *	 
 	 * @return array
 	 */
 	public function get_order_ids() {		
@@ -361,14 +367,77 @@ class WC_Advanced_Shipment_Tracking_Customizer {
 		));	
 			
 		foreach ( $orders as $order ) {				
-				$ast = new WC_Advanced_Shipment_Tracking_Actions;
-				$tracking_items = $ast->get_tracking_items( $order->get_id(), true );
-				if($tracking_items){
-					$order_array[ $order->get_id() ] = $order->get_id() . ' - ' . $order->get_billing_first_name() . ' ' . $order->get_billing_last_name();					
-				}				
-			}
+			
+			$ast = new WC_Advanced_Shipment_Tracking_Actions();
+			$tracking_items = ast_get_tracking_items( $order->get_id() );
+			
+			if ( $tracking_items ) {
+				$order_array[ $order->get_id() ] = $order->get_id() . ' - ' . $order->get_billing_first_name() . ' ' . $order->get_billing_last_name();					
+			}				
+		}
 		return $order_array;
-	}	
+	}
+	
+	/**
+	 * Get WooCommerce order for preview
+	 *
+	 * @param string $order_status
+	 * @return object
+	 */
+	public function get_wc_order_for_preview( $order_status = null, $order_id = null ) {
+		if ( ! empty( $order_id ) && 'mockup' != $order_id ) {
+			return wc_get_order( $order_id );
+		} else {			
+
+			// Instantiate order object
+			$order = new WC_Order();			
+			
+			// Other order properties
+			$order->set_props( array(
+				'id'                 => 1,
+				'status'             => ( null === $order_status ? 'processing' : $order_status ),
+				'shipping_first_name' => 'Sherlock',
+				'shipping_last_name'  => 'Holmes',
+				'shipping_company'    => 'Detectives Ltd.',
+				'shipping_address_1'  => '221B Baker Street',
+				'shipping_city'       => 'London',
+				'shipping_postcode'   => 'NW1 6XE',
+				'shipping_country'    => 'GB',
+				'billing_first_name' => 'Sherlock',
+				'billing_last_name'  => 'Holmes',
+				'billing_company'    => 'Detectives Ltd.',
+				'billing_address_1'  => '221B Baker Street',
+				'billing_city'       => 'London',
+				'billing_postcode'   => 'NW1 6XE',
+				'billing_country'    => 'GB',
+				'billing_email'      => 'sherlock@holmes.co.uk',
+				'billing_phone'      => '02079304832',
+				'date_created'       => gmdate( 'Y-m-d H:i:s' ),
+				'total'              => 24.90,				
+			) );
+
+			// Item #1
+			$order_item = new WC_Order_Item_Product();
+			$order_item->set_props( array(
+				'name'     => 'A Study in Scarlet',
+				'subtotal' => '9.95',
+				'sku'      => 'kwd_ex_1',
+			) );
+			$order->add_item( $order_item );
+
+			// Item #2
+			$order_item = new WC_Order_Item_Product();
+			$order_item->set_props( array(
+				'name'     => 'The Hound of the Baskervilles',
+				'subtotal' => '14.95',
+				'sku'      => 'kwd_ex_2',
+			) );
+			$order->add_item( $order_item );						
+
+			// Return mockup order
+			return $order;
+		}
+	}
 }
 /**
  * Returns an instance of zorem_woocommerce_advanced_shipment_tracking.

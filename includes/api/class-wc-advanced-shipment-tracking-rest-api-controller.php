@@ -35,9 +35,9 @@ class WC_Advanced_Shipment_Tracking_REST_API_Controller extends WC_REST_Controll
 	protected $post_type = 'shop_order';
 
 	/**
-	 * @param $namespace
+	 * Set namespace
 	 *
-	 * @return WC_Shipment_Tracking_Order_REST_API_Controller
+	 * @return WC_Advanced_Shipment_Tracking_REST_API_Controller
 	 */
 	public function set_namespace( $namespace ) {
 		$this->namespace = $namespace;
@@ -61,6 +61,9 @@ class WC_Advanced_Shipment_Tracking_REST_API_Controller extends WC_REST_Controll
 				'permission_callback' => array( $this, 'create_item_permissions_check' ),
 				'args'                => array_merge( $this->get_endpoint_args_for_item_schema( WP_REST_Server::CREATABLE ), array(
 					'tracking_number' => array(
+						'required' => true,
+					),
+					'tracking_provider' => array(
 						'required' => true,
 					),
 				) ),
@@ -91,160 +94,8 @@ class WC_Advanced_Shipment_Tracking_REST_API_Controller extends WC_REST_Controll
 				'permission_callback' => array( $this, 'delete_item_permissions_check' ),
 			),
 			'schema' => array( $this, 'get_public_item_schema' ),
-		) );
-		
-		if(!function_exists('trackship_for_woocommerce')){			
-			
-			//disconnect_from_trackship
-			register_rest_route( $this->namespace, '/disconnect_from_trackship', array(
-				array(
-					'methods'             => WP_REST_Server::CREATABLE,
-					'callback'            => array( $this, 'disconnect_from_trackship_fun' ),
-					'permission_callback' => array( $this, 'get_item_permissions_check' ),
-					'args'                => array_merge( $this->get_endpoint_args_for_item_schema( WP_REST_Server::CREATABLE ), array(
-						'user_key' => array(
-							'required' => true,
-						),
-					) ),
-				),
-				'schema' => array( $this, 'get_public_item_schema' ),
-			) );
-			
-			//tracking webhook
-			register_rest_route( $this->namespace, '/tracking-webhook', array(
-				array(
-					'methods'             => 'POST',
-					'callback'            => array( $this, 'tracking_webhook' ),
-					'permission_callback' => array( $this, 'create_item_permissions_check' ),
-				),
-				'schema' => array( $this, 'get_public_item_schema' ),
-			) );
-			
-			//check_wcast_installed
-			register_rest_route( $this->namespace, '/check_wcast_installed', array(			
-				array(
-					'methods'             => 'POST',
-					'callback'            => array( $this, 'check_wcast_installed' ),
-					'permission_callback' => array( $this, 'get_item_permissions_check' ),
-				),
-				'schema' => array( $this, 'get_public_item_schema' ),
-			) );
-			
-			// this is use for sendle
-			register_rest_route( $this->namespace, '/check_wcast_installed_from_third_party_tool', array(			
-				array(
-					'methods'             => 'GET',
-					'callback'            => array( $this, 'check_wcast_installed_from_third_party_tool' ),
-					'permission_callback' => array( $this, 'get_item_permissions_check' ),
-				),
-				'schema' => array( $this, 'get_public_item_schema' ),
-			) );
-		}	
+		) );	
 	}		
-	
-	/*
-	* check_wcast_installed_from_third_party_tool
-	*/
-	public function check_wcast_installed_from_third_party_tool( $request ){		
-		
-		$data = array(
-			'status' => 'installed'
-		);
-		return rest_ensure_response( $data );
-	}
-	
-	/*
-	* check_wcast_installed
-	*/
-	public function check_wcast_installed( $request ){
-		$wc_ast_api_key = get_option('wc_ast_api_key');
-		$wc_ast_api_enabled = get_option('wc_ast_api_enabled');		
-		if(empty($wc_ast_api_key)){
-			update_option('wc_ast_api_key',$request['user_key']);
-		}
-		
-		if($wc_ast_api_enabled == ''){
-			update_option('wc_ast_api_enabled',1);
-		}
-		
-		if($request['trackers_balance']){
-			update_option( 'trackers_balance', $request['trackers_balance'] );
-		}			
-		
-		$trackship = new WC_Advanced_Shipment_Tracking_Trackship;
-		$trackship->create_tracking_page();
-		
-		$data = array(
-			'status' => 'installed'
-		);
-		return rest_ensure_response( $data );
-	}
-	
-	public function tracking_webhook( $request ){
-		$content = print_r($request, true);
-		$logger = wc_get_logger();
-		$context = array( 'source' => 'trackship_log' );
-		$logger->error( "New tracking_webhook \n\n".$content."\n\n", $context );
-		//error_log("New tracking_webhook \n\n".$content."\n\n", 3, ABSPATH . "trackship.log");
-		
-		//validation
-		
-		$user_key = $request['user_key'];
-		$order_id = $request['order_id'];
-		$tracking_number = $request['tracking_number'];
-		$tracking_provider = $request['tracking_provider'];
-		$tracking_event_status = $request['tracking_event_status'];
-		$tracking_event_date = $request['tracking_event_date'];
-		$tracking_est_delivery_date = $request['tracking_est_delivery_date'];
-		$tracking_events = $request['tracking_events'];
-		$tracking_destination_events = $request['tracking_destination_events'];
-		$previous_status = '';
-		
-		$st = WC_Advanced_Shipment_Tracking_Actions::get_instance();
-		$trackship = WC_Advanced_Shipment_Tracking_Trackship::get_instance();
-		
-		$tracking_items = $st->get_tracking_items( $order_id, true );
-		
-		foreach( ( array )$tracking_items as $key => $tracking_item ){
-			if( trim($tracking_item['tracking_number']) != trim($tracking_number) )continue;
-			
-			$shipment_status = get_post_meta( $order_id, "shipment_status", true);	
-			$ts_shipment_status = get_post_meta( $order_id, "ts_shipment_status", true);			
-			
-			if( is_string($shipment_status) )$shipment_status = array();
-			if( is_string($ts_shipment_status) )$ts_shipment_status = array();			
-			
-			if(isset($shipment_status[$key]['status'])){
-				$previous_status = $shipment_status[$key]['status'];	
-			}			
-			
-			unset($shipment_status[$key]['pending_status']);
-			
-			$shipment_status[$key]['status'] = $tracking_event_status;
-			$shipment_status[$key]['tracking_events'] = json_decode($tracking_events);
-			$shipment_status[$key]['tracking_destination_events'] = json_decode($tracking_destination_events);
-			
-			$shipment_status[$key]['status_date'] = $tracking_event_date;
-			if($tracking_est_delivery_date){
-				$shipment_status[$key]['est_delivery_date'] = date("Y-m-d", strtotime($tracking_est_delivery_date));
-			}
-						
-			$ts_shipment_status[$key]['status'] = $tracking_event_status;			
-			
-			update_post_meta( $order_id, "ts_shipment_status", $ts_shipment_status);
-			update_post_meta( $order_id, "shipment_status", $shipment_status);
-			
-			$trackship->trigger_tracking_email( $order_id, $previous_status, $tracking_event_status, $tracking_item, $shipment_status[$key] );
-		}
-		
-		$trackship->check_tracking_delivered( $order_id );
-		
-		$data = array(
-			'status' => 'success'
-		);
-		
-		return rest_ensure_response( $data );
-	}
 
 	/**
 	 * Check whether a given request has permission to read order shipment-trackings.
@@ -321,26 +172,7 @@ class WC_Advanced_Shipment_Tracking_REST_API_Controller extends WC_REST_Controll
 			}
 		}
 		return true;
-	}
-	
-	/*
-	* 
-	*/
-	public function update_user_key($request){
-		$add_key = update_option( 'wc_ast_api_key', $request['user_key'] );
-		$wc_ast_api_enabled = update_option( 'wc_ast_api_enabled', 1 );
-		$trackers_balance = update_option( 'trackers_balance', $request['trackers_balance'] );				
-	}
-
-	/*
-	* disconnect store from TS
-	*/
-	public function disconnect_from_trackship_fun($request){
-		$add_key = update_option( 'wc_ast_api_key', '' );
-		$wc_ast_api_enabled = update_option( 'wc_ast_api_enabled', 0 );
-		delete_option( 'wc_ast_api_enabled' );
-		delete_option( 'trackers_balance' );
-	}
+	}		
 	
 	/**
 	 * Get shipment-trackings from an order.
@@ -356,7 +188,7 @@ class WC_Advanced_Shipment_Tracking_REST_API_Controller extends WC_REST_Controll
 		}
 
 		$st             = WC_Advanced_Shipment_Tracking_Actions::get_instance();
-		$tracking_items = $st->get_tracking_items( $order_id, true );
+		$tracking_items = ast_get_tracking_items( $order_id );
 
 		$data = array();
 		foreach ( $tracking_items as $tracking_item ) {
@@ -402,21 +234,21 @@ class WC_Advanced_Shipment_Tracking_REST_API_Controller extends WC_REST_Controll
 			return new WP_Error( 'woocommerce_rest_order_invalid_id', __( 'Invalid order ID.', 'woo-advanced-shipment-tracking' ), array( 'status' => 404 ) );
 		}
 		
-		if(preg_match('/[^a-z0-9- \b]+/i', $request['tracking_number'])){
+		if ( preg_match( '/[^a-z0-9- \b]+/i', $request['tracking_number'] ) ) {
 			return new WP_Error( 'woocommerce_rest_order_invalid_id', __( 'Special character not allowd in tracking number', 'woo-advanced-shipment-tracking' ), array( 'status' => 404 ) );			
 		}
 				
 		$ast_admin = WC_Advanced_Shipment_Tracking_Admin::get_instance();		
 
-		$tracking_provider_name = (isset($request['custom_tracking_provider']) && !empty($request['custom_tracking_provider']))  ? $request['custom_tracking_provider'] : $request['tracking_provider'];	
+		$tracking_provider_name = ( isset( $request['custom_tracking_provider'] ) && !empty( $request['custom_tracking_provider'] ) )  ? $request['custom_tracking_provider'] : $request['tracking_provider'];	
 		
 		$replace_tracking = isset($request['replace_tracking']) ? $request['replace_tracking'] : 0;	
 		
-		if($replace_tracking == 1){
+		if ( 1 == $replace_tracking ) {
 			$order = wc_get_order($order_id);
 			
-			if($order){	
-				$tracking_items = $ast->get_tracking_items( $order_id );			
+			if ( $order ) {	
+				$tracking_items = ast_get_tracking_items( $order_id );				
 				
 				if ( count( $tracking_items ) > 0 ) {
 					foreach ( $tracking_items as $key => $item ) {
@@ -527,9 +359,9 @@ class WC_Advanced_Shipment_Tracking_REST_API_Controller extends WC_REST_Controll
 	 * @return WP_REST_Response $response Response data
 	 */
 	public function prepare_item_for_response( $tracking_item, $request ) {
-		$date_shipped = date("Y-m-d");
-		if(isset($tracking_item['date_shipped'])){
-			$date_shipped = date( 'Y-m-d', $tracking_item['date_shipped'] );
+		$date_shipped = gmdate('Y-m-d');
+		if ( isset( $tracking_item['date_shipped'] ) ) {
+			$date_shipped = gmdate( 'Y-m-d', $tracking_item['date_shipped'] );
 		}
 		$data = array(
 			'tracking_id'       => $tracking_item['tracking_id'],
