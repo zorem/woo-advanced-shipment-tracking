@@ -15,10 +15,10 @@ class WC_Advanced_Shipment_Tracking_Install {
 	/**
 	 * Initialize the main plugin function
 	*/
-    public function __construct() {
+	public function __construct() {
 		
 		global $wpdb;
-		$this->table = $wpdb->prefix . "woo_shippment_provider";
+		$this->table = $wpdb->prefix . 'woo_shippment_provider';
 		
 		if ( is_multisite() ) {
 			
@@ -37,7 +37,7 @@ class WC_Advanced_Shipment_Tracking_Install {
 		}
 		
 		$this->init();	
-    }
+	}
 	
 	/**
 	 * Get the class instance
@@ -105,7 +105,7 @@ class WC_Advanced_Shipment_Tracking_Install {
 		
 		global $wpdb;
 		
-		if ( !$wpdb->query( $wpdb->prepare( "show tables like %s", $this->table ) ) ) {
+		if ( !$wpdb->query( $wpdb->prepare( 'show tables like %s', $this->table ) ) ) {
 			$charset_collate = $wpdb->get_charset_collate();			
 			$sql = "CREATE TABLE $this->table (
 				id mediumint(9) NOT NULL AUTO_INCREMENT,
@@ -134,65 +134,74 @@ class WC_Advanced_Shipment_Tracking_Install {
 	*/
 	public function check_all_column_exist() {
 		
-		global $wpdb;
-		$results = $wpdb->get_row( "SELECT * FROM $this->table LIMIT 1", ARRAY_A );				
 		$db_update_need = false;
-		
-		if ( !array_key_exists( 'provider_name', $results ) ) {			
+		global $wpdb;
+		$row = $wpdb->get_row( "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{$this->table}' AND COLUMN_NAME = 'provider_name' ", ARRAY_A );
+		if ( ! $row ) {
 			$wpdb->query( "ALTER TABLE $this->table ADD provider_name varchar(500) DEFAULT '' NOT NULL AFTER id" );
 			$db_update_need = true;
 		}
-		
-		if ( !array_key_exists( 'api_provider_name', $results ) ) {		
+
+		$row = $wpdb->get_row( "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{$this->table}' AND COLUMN_NAME = 'api_provider_name' ", ARRAY_A );
+		if ( ! $row ) {
 			$wpdb->query( "ALTER TABLE $this->table ADD api_provider_name text NULL DEFAULT NULL AFTER provider_name" );
-			$db_update_need = true;	
+			$db_update_need = true;
 		}
-		
-		if ( !array_key_exists( 'custom_provider_name', $results ) ) {		
+
+		$row = $wpdb->get_row( "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{$this->table}' AND COLUMN_NAME = 'custom_provider_name' ", ARRAY_A );
+		if ( ! $row ) {
 			$wpdb->query( "ALTER TABLE $this->table ADD custom_provider_name text NULL DEFAULT NULL AFTER api_provider_name" );
-			$db_update_need = true;	
+			$db_update_need = true;
 		}
-		
-		if ( !array_key_exists( 'ts_slug', $results ) ) {	
+
+		$row = $wpdb->get_row( "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{$this->table}' AND COLUMN_NAME = 'ts_slug' ", ARRAY_A );
+		if ( ! $row ) {
 			$wpdb->query( "ALTER TABLE $this->table ADD ts_slug text NULL DEFAULT NULL AFTER custom_provider_name" );
-			$db_update_need = true;	
+			$db_update_need = true;
 		}
 
-		if ( !array_key_exists( 'provider_url', $results ) ) {	
+		$row = $wpdb->get_row( "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{$this->table}' AND COLUMN_NAME = 'provider_url' ", ARRAY_A );
+		if ( ! $row ) {
 			$wpdb->query( "ALTER TABLE $this->table ADD provider_url varchar(500) DEFAULT '' NULL AFTER ts_slug" );
-			$db_update_need = true;	
+			$db_update_need = true;
 		}
-		
-		if ( !array_key_exists( 'shipping_country', $results ) ) {			
+
+		$row = $wpdb->get_row( "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{$this->table}' AND COLUMN_NAME = 'shipping_country' ", ARRAY_A );
+		if ( ! $row ) {
 			$wpdb->query( "ALTER TABLE $this->table ADD shipping_country varchar(45) DEFAULT '' NULL AFTER provider_url" );
-			$db_update_need = true;	
+			$db_update_need = true;
 		}
 
-		if ( !array_key_exists( 'shipping_default', $results ) ) {		
+		$row = $wpdb->get_row( "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{$this->table}' AND COLUMN_NAME = 'shipping_default' ", ARRAY_A );
+		if ( ! $row ) {
 			$wpdb->query( "ALTER TABLE $this->table ADD shipping_default tinyint(4) NULL DEFAULT '0' AFTER shipping_country" );
-			$db_update_need = true;	
+			$db_update_need = true;
 		}
 
-		if ( !array_key_exists( 'custom_thumb_id', $results ) ) {		
+		$row = $wpdb->get_row( "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{$this->table}' AND COLUMN_NAME = 'custom_thumb_id' ", ARRAY_A );
+		if ( ! $row ) {
 			$wpdb->query( "ALTER TABLE $this->table ADD custom_thumb_id int(11) NOT NULL DEFAULT '0' AFTER shipping_default" );
-			$db_update_need = true;	
+			$db_update_need = true;
 		}
 
-		if ( !array_key_exists( 'display_in_order', $results ) ) {
+		$row = $wpdb->get_row( "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{$this->table}' AND COLUMN_NAME = 'display_in_order' ", ARRAY_A );
+		if ( ! $row ) {
 			$wpdb->query( "ALTER TABLE $this->table ADD display_in_order tinyint(4) NOT NULL DEFAULT '1' AFTER custom_thumb_id" );
-			$db_update_need = true;	
-		}	
+			$db_update_need = true;
+		}
 
-		if ( !array_key_exists( 'trackship_supported', $results ) ) {	
+		$row = $wpdb->get_row( "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{$this->table}' AND COLUMN_NAME = 'trackship_supported' ", ARRAY_A );
+		if ( ! $row ) {
 			$wpdb->query( "ALTER TABLE $this->table ADD trackship_supported int(11) NOT NULL DEFAULT '0' AFTER display_in_order" );
-			$db_update_need = true;	
+			$db_update_need = true;
 		}
 
-		if ( !array_key_exists( 'sort_order', $results ) ) {	
+		$row = $wpdb->get_row( "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{$this->table}' AND COLUMN_NAME = 'sort_order' ", ARRAY_A );
+		if ( ! $row ) {
 			$wpdb->query( "ALTER TABLE $this->table ADD sort_order int(11) NOT NULL DEFAULT '0' AFTER trackship_supported" );
-			$db_update_need = true;	
+			$db_update_need = true;
 		}
-		
+
 		if ( $db_update_need ) {
 			$this->update_shipping_providers();
 		}	
@@ -227,6 +236,34 @@ class WC_Advanced_Shipment_Tracking_Install {
 				$this->check_all_column_exist();
 				update_option( 'wc_advanced_shipment_tracking', '3.21');				
 			}
+			if ( version_compare( get_option( 'wc_advanced_shipment_tracking' ), '3.22', '<' ) ) {
+				
+				$upload_dir   = wp_upload_dir();	
+				$ast_directory = $upload_dir['baseurl'] . '/ast-shipping-providers/';
+			
+				$tracking_items[]  = array(
+					'tracking_provider'       		=> 'usps',
+					'custom_tracking_provider'		=> '',				
+					'formatted_tracking_provider'	=> 'USPS',
+					'tracking_provider_image' 		=> $ast_directory . 'usps.png',
+					'formatted_tracking_link'		=> 'https://tools.usps.com/go/TrackConfirmAction_input?qtc_tLabels1=112123113',
+					'ast_tracking_link'				=> 'https://tools.usps.com/go/TrackConfirmAction_input?qtc_tLabels1=112123113',
+					'tracking_number'          		=> '112123113',				
+					'date_shipped'             		=> strtotime( gmdate( 'Y-m-d' ) ),
+				);
+				
+				update_post_meta( 1, '_wc_shipment_tracking_items', $tracking_items );
+				update_option( 'wc_advanced_shipment_tracking', '3.22');		
+			}
+			if ( version_compare( get_option( 'wc_advanced_shipment_tracking', '1.0' ), '3.23', '<' ) ) {
+				$multi_checkbox_data = get_option( 'wc_ast_unclude_tracking_info' );
+				$data_array = array( 'partial-shipped' => 1, 'completed' => 1 );
+				if ( $multi_checkbox_data ) {	
+					$data_array = array_merge( $multi_checkbox_data,$data_array );
+				}		
+				update_option( 'wc_ast_unclude_tracking_info', $data_array );
+				update_option( 'wc_advanced_shipment_tracking', '3.23' );
+			}
 		}
 	}
 	
@@ -236,7 +273,7 @@ class WC_Advanced_Shipment_Tracking_Install {
 	public function update_ts_shipment_status_order_mete( $page ) {
 		
 		$wc_ast_api_key = get_option( 'wc_ast_api_key' ); 
-		if( !$wc_ast_api_key ) {
+		if ( !$wc_ast_api_key ) {
 			return;
 		}	
 		
@@ -260,7 +297,7 @@ class WC_Advanced_Shipment_Tracking_Install {
 	}
 	
 	/**
-	 * function for add provider image in uploads directory under wp-content/uploads/ast-shipping-providers
+	 * Function for add provider image in uploads directory under wp-content/uploads/ast-shipping-providers
 	*/
 	public function add_provider_image_in_upload_directory() {		
 		$upload_dir   = wp_upload_dir();	
@@ -274,12 +311,12 @@ class WC_Advanced_Shipment_Tracking_Install {
 		$resp = wp_remote_get( $url );							
 		
 		if ( is_array( $resp ) && ! is_wp_error( $resp ) ) {
-			$providers = json_decode($resp['body'],true);
+			$providers = json_decode( $resp['body'], true );
 			foreach ( $providers as $provider ) {
 				$provider_name = $provider['shipping_provider'];
 				$img_url = $provider['img_url'];
 				$img_slug = sanitize_title($provider_name);
-				$img = $ast_directory.'/'.$img_slug.'.png';
+				$img = $ast_directory . '/' . $img_slug . '.png';
 				$ch = curl_init(); 
 		
 				curl_setopt($ch, CURLOPT_HEADER, 0); 
@@ -294,107 +331,119 @@ class WC_Advanced_Shipment_Tracking_Install {
 	}
 	
 	/**
-	 * get providers list from trackship and update providers in database
+	 * Get providers list from trackship and update providers in database
 	*/
 	public function update_shipping_providers() {
-		global $wpdb;		
-		$url = 'https://trackship.info/wp-json/WCAST/v1/Provider';		
-		$resp = wp_remote_get( $url );
-		
-		$upload_dir   = wp_upload_dir();	
+		global $wpdb;
+
+		//create log
+		$logger = wc_get_logger();
+		$time = time();
+		$logger->info( $time . ': shipping provider update started', array( 'source' => 'ast' ) );
+
+		// shipping provider image path
+		$upload_dir   = wp_upload_dir();
 		$ast_directory = $upload_dir['basedir'] . '/ast-shipping-providers';
-		
-		if( !is_dir( $ast_directory ) ) {
-			wp_mkdir_p( $ast_directory );	
+		if ( !is_dir( $ast_directory ) ) {
+			wp_mkdir_p( $ast_directory );
 		}
-				
-		if ( is_array( $resp ) && ! is_wp_error( $resp ) ) {
+
+		//get shipping provider json and convert to array
+		$body = file_get_contents( wc_advanced_shipment_tracking()->get_plugin_path() . '/assets/providers.json');
+		$providers = json_decode( $body, true );
 		
-			$providers = json_decode($resp['body'],true);
+		$default_shippment_providers = $wpdb->get_results( "SELECT * FROM $this->table WHERE shipping_default = 1" );
+		foreach ( $default_shippment_providers as $key => $val ) {
+			$shippment_providers[ $val->ts_slug ] = $val;
+		}
+
+		$providers_name = array();
+		foreach ( $providers as $key => $val ) {
+			$providers_name[ $val['shipping_provider_slug'] ] = $val;
+		}
+		
+		$n = 0;
+		foreach ( $providers as $provider ) {
 			
-			$providers_name = array();
+			$provider_name = $provider['shipping_provider'];
+			$provider_url = $provider['provider_url'];
+			$shipping_country = $provider['shipping_country'];
+			$ts_slug = $provider['shipping_provider_slug'];
+			$trackship_supported = $provider['trackship_supported'];
 			
-			$default_shippment_providers = $wpdb->get_results( "SELECT * FROM $this->table WHERE shipping_default = 1" );			
-			foreach ( $default_shippment_providers as $key => $val ) {
-				$shippment_providers[ $val->provider_name ] = $val;						
-			}
-	
-			foreach ( $providers as $key => $val ) {
-				$providers_name[ $val['provider_name'] ] = $val;						
-			}					
-			
-			$n = 0;
-			foreach ( $providers as $provider ) {
+			if ( isset( $shippment_providers[ $ts_slug ] ) ) {
 				
-				$provider_name = $provider['shipping_provider'];
-				$provider_url = $provider['provider_url'];
-				$shipping_country = $provider['shipping_country'];
-				$ts_slug = $provider['shipping_provider_slug'];
-				$trackship_supported = $provider['trackship_supported'];
+				$db_provider_name = $shippment_providers[ $ts_slug ]->provider_name;
+				$db_provider_url = $shippment_providers[$ts_slug]->provider_url;
+				$db_shipping_country = $shippment_providers[$ts_slug]->shipping_country;
+				$db_ts_slug = $shippment_providers[$ts_slug]->ts_slug;
+				$db_trackship_supported = $shippment_providers[$ts_slug]->trackship_supported;
 				
-				if ( isset( $shippment_providers[ $provider_name ] ) ) {				
-					$db_provider_url = $shippment_providers[$provider_name]->provider_url;
-					$db_shipping_country = $shippment_providers[$provider_name]->shipping_country;
-					$db_ts_slug = $shippment_providers[$provider_name]->ts_slug;
-					$db_trackship_supported = $shippment_providers[$provider_name]->trackship_supported;
-					
-					if ( ( $db_provider_url != $provider_url ) || ( $db_shipping_country != $shipping_country ) || ( $db_ts_slug != $ts_slug ) || ( $db_trackship_supported != $trackship_supported ) ) {
-						$data_array = array(
-							'ts_slug' => $ts_slug,
-							'provider_url' => $provider_url,
-							'shipping_country' => $shipping_country,
-							'trackship_supported' => $trackship_supported,							
-						);
-						$where_array = array(
-							'provider_name' => $provider_name,			
-						);					
-						$wpdb->update( $this->table, $data_array, $where_array);					
-					}
-				} else {
-					$img_url = $provider['img_url'];
-					$img_slug = sanitize_title($provider_name);
-					$img = $ast_directory.'/'.$img_slug.'.png';
-					
-					$ch = curl_init(); 
-	
-					curl_setopt($ch, CURLOPT_HEADER, 0); 
-					curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
-					curl_setopt($ch, CURLOPT_URL, $img_url); 
-				
-					$data = curl_exec($ch); 
-					curl_close($ch); 
-					
-					file_put_contents($img, $data); 			
-					
-					$display_in_order = 1; 	
-					if( $n > 14 ) {
-						$display_in_order = 0; 	
-					}	
-					
+				if ( ( $db_provider_name != $provider_name ) || ( $db_provider_url != $provider_url ) || ( $db_shipping_country != $shipping_country ) || ( $db_ts_slug != $ts_slug ) || ( $db_trackship_supported != $trackship_supported ) ) {
 					$data_array = array(
-						'shipping_country' => sanitize_text_field($shipping_country),
-						'provider_name' => sanitize_text_field($provider_name),
+						'provider_name' => $provider_name,
 						'ts_slug' => $ts_slug,
-						'provider_url' => sanitize_text_field($provider_url),			
-						'display_in_order' => $display_in_order,
-						'shipping_default' => 1,
-						'trackship_supported' => $provider['trackship_supported'],
+						'provider_url' => $provider_url,
+						'shipping_country' => $shipping_country,
+						'trackship_supported' => $trackship_supported,
 					);
-					$result = $wpdb->insert( $this->table, $data_array );
-					$n++;	
-				}		
-			}
-			
-			foreach ( $default_shippment_providers as $db_provider ) {
-	
-				if ( !isset( $providers_name[ $db_provider->provider_name ] ) ) {				
-					$where = array(
-						'provider_name' => $db_provider->provider_name,
-						'shipping_default' => 1
+					$where_array = array(
+						'ts_slug' => $ts_slug,
 					);
-					$wpdb->delete( $this->table, $where );					
+					$wpdb->update( $this->table, $data_array, $where_array);
 				}
+			} else {
+				$display_in_order = 1; 	
+				if ( $n > 14 ) {
+					$display_in_order = 0; 	
+				}	
+				
+				$data_array = array(
+					'shipping_country' => sanitize_text_field($shipping_country),
+					'provider_name' => sanitize_text_field($provider_name),
+					'ts_slug' => $ts_slug,
+					'provider_url' => sanitize_text_field($provider_url),			
+					'display_in_order' => $display_in_order,
+					'shipping_default' => 1,
+					'trackship_supported' => $provider['trackship_supported'],
+				);
+				$wpdb->insert( $this->table, $data_array );
+				$n++;
 			}
-		}	
-	}			
+		}
+		
+		foreach ( $default_shippment_providers as $db_provider ) {
+
+			if ( !isset( $providers_name[ $db_provider->ts_slug ] ) ) {
+				$where = array(
+					'ts_slug' => $db_provider->ts_slug,
+					'shipping_default' => 1
+				);
+				$wpdb->delete( $this->table, $where );
+			}
+		}
+
+		$this->extract_zip_file();
+
+		$logger->info( $time . ': shipping provider update finished', array( 'source' => 'ast' ) );
+	}	
+	
+	public function extract_zip_file() {
+		if ( class_exists( 'ZipArchive' ) ) {
+			$upload_dir   = wp_upload_dir();	
+			$ast_directory = $upload_dir['basedir'] . '/ast-shipping-providers';
+			
+			if ( !is_dir( $ast_directory ) ) {
+				wp_mkdir_p( $ast_directory );	
+			}
+
+			$zip = new ZipArchive;
+			wc_advanced_shipment_tracking()->get_plugin_path() . '/assets/providers.zip';
+			$res = $zip->open( wc_advanced_shipment_tracking()->get_plugin_path() . '/assets/providers.zip' );
+			if ($res === TRUE) {
+				$zip->extractTo($ast_directory);
+				$zip->close();
+			}
+		}
+	}
 }

@@ -15,6 +15,7 @@
 	outline: none;
 	-webkit-box-shadow: none;
 	box-shadow: none;
+	border: 1px solid #eee;
 }
 
 .wp-customizer .select2-container--default .selection .select2-selection--multiple {
@@ -65,7 +66,15 @@ input[type="date"] {
 	-webkit-box-shadow: none;
 	box-shadow: none;
 }
-
+textarea{
+	background: #fcfcff;
+	position: relative;
+	border-radius: 0;
+	border: 1px solid #eee;
+	outline: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
 input[type="text"]:active,
 input[type="text"]:focus,
 input[type="number"]:active,
@@ -588,7 +597,6 @@ input[type="number"]:focus {
 
 .customize-control-color .wp-color-result .wp-color-result-text,
 .customize-control-alpha-color .wp-color-result .wp-color-result-text {
-	line-height: 24px;
 	border-left: none;
 }
 

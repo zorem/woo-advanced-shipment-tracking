@@ -100,7 +100,7 @@ if ( ! class_exists( 'WC_Email_Customer_Updated_Tracking_Order', false ) ) :
 		public function get_content_html() {
 			$template = $this->get_template( 'template_html' );			
 			$local_file    = $this->get_theme_template_file( $template );
-			if ( file_exists( $local_file ) && is_writable( $local_file )){	
+			if ( file_exists( $local_file ) && is_writable( $local_file )) {
 				//echo $local_file;exit;			
 				return wc_get_template_html(
 					$this->template_html,
@@ -113,7 +113,7 @@ if ( ! class_exists( 'WC_Email_Customer_Updated_Tracking_Order', false ) ) :
 						'email'         => $this,
 					)
 				);
-			} else{	
+			} else {
 				return wc_get_template_html(
 					'emails/customer-updated-tracking-order.php',
 					array(
@@ -138,7 +138,7 @@ if ( ! class_exists( 'WC_Email_Customer_Updated_Tracking_Order', false ) ) :
 		public function get_content_plain() {
 			$template = $this->get_template( 'template_html' );			
 			$local_file    = $this->get_theme_template_file( $template );
-			if ( file_exists( $local_file ) && is_writable( $local_file )){	
+			if ( file_exists( $local_file ) && is_writable( $local_file )) {
 				//echo $local_file;exit;			
 				return wc_get_template_html(
 					$this->template_html,
@@ -151,7 +151,7 @@ if ( ! class_exists( 'WC_Email_Customer_Updated_Tracking_Order', false ) ) :
 						'email'         => $this,
 					)
 				);
-			} else{	
+			} else {
 				return wc_get_template_html(
 					'emails/customer-updated-tracking-order.php',
 					array(

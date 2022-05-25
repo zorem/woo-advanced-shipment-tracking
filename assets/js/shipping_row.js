@@ -1,64 +1,3 @@
-jQuery(document).on("change", ".wc_ast_default_provider", function(){
-	jQuery(".d_s_select_section ").block({
-    message: null,
-    overlayCSS: {
-        background: "#fff",
-        opacity: .6
-	}	
-    });
-	var default_provider = jQuery('.wc_ast_default_provider').val();
-	var ajax_data = {
-		action: 'update_default_provider',
-		default_provider: default_provider,		
-	};
-	jQuery.ajax({
-		url: ajaxurl,		
-		data: ajax_data,
-		type: 'POST',
-		success: function(response) {	
-			jQuery(".d_s_select_section ").unblock();
-			jQuery("#ast_settings_snackbar").addClass('show_snackbar');	
-			jQuery("#ast_settings_snackbar").text(shipment_tracking_table_rows.i18n.data_saved);			
-			setTimeout(function(){ jQuery("#ast_settings_snackbar").removeClass('show_snackbar'); }, 3000);			
-		},
-		error: function(response) {					
-		}
-	});
-});
-
-var file_frame;
-jQuery('.upload_image_button').on('click', function(product) {
-	product.preventDefault();
-	var image_id = jQuery(this).siblings(".image_id");
-	var image_path = jQuery(this).siblings(".image_path");
-	
-	// If the media frame already exists, reopen it.
-	if (file_frame) {
-		file_frame.open();
-		return;
-	}
-
-	// Create the media frame.
-	file_frame = wp.media.frames.file_frame = wp.media({
-		title: 'Upload Media',
-		button: {
-			text: 'Add',
-		},
-		multiple: false // Set to true to allow multiple files to be selected
-	});
-
-	// When a file is selected, run a callback.
-	file_frame.on('select', function(){     
-		attachment = file_frame.state().get('selection').first().toJSON();       
-		var id = attachment.id;        
-		var url = attachment.url;     
-		image_path.val(url);
-		image_id.val(id);
-	});
-	// Finally, open the modal
-	file_frame.open();
-});
-
 jQuery(document).on("submit", "#wc_ast_upload_csv_form", function(){
 	
 	jQuery('.csv_upload_status li').remove();	
@@ -313,32 +252,6 @@ jQuery(document).on("click", ".csv_upload_again", function(){
 	jQuery('.upload_csv_div').show();
 	jQuery('.bulk_upload_status_detail_error_tr').hide();
 	jQuery('.csv_error_details_ul li').remove();
-}); 
-
-jQuery(document).on("change", "#wcast_enable_late_shipments_admin_email", function(){	
-	if(jQuery(this).prop("checked") == true){
-		var wcast_enable_late_shipments_email = 1;
-	}
-	var id = jQuery(this).attr('id');
-	var settings_data = jQuery(this).data("settings");
-	var ajax_data = {
-		action: 'update_enable_late_shipments_email',
-		id: id,
-		wcast_enable_late_shipments_email: wcast_enable_late_shipments_email,		
-		settings_data: settings_data,
-	};
-	jQuery.ajax({
-		url: ajaxurl,		
-		data: ajax_data,
-		type: 'POST',
-		success: function(response) {				
-			jQuery("#ast_settings_snackbar").addClass('show_snackbar');	
-			jQuery("#ast_settings_snackbar").text(shipment_tracking_table_rows.i18n.data_saved);			
-			setTimeout(function(){ jQuery("#ast_settings_snackbar").removeClass('show_snackbar'); }, 3000);						
-		},
-		error: function(response) {					
-		}
-	});
 });
 
 jQuery(document).on("click", ".status_slide", function(){
@@ -369,13 +282,25 @@ jQuery(document).on("click", ".status_slide", function(){
 		url: ajaxurl,		
 		data: ajax_data,		
 		type: 'POST',
-		success: function(response) {						
+		success: function(response) {	
+			jQuery(document).ast_snackbar( shipment_tracking_table_rows.i18n.data_saved );					
 		},
 		error: function(response) {
 			console.log(response);			
 		}
 	});
 });
+
+provider_grid_row();
+function provider_grid_row() {
+	jQuery(".provider-grid-row").hip({
+		itemsPerPage:50,
+		itemsPerRow:5,
+		itemGaps:10,
+		filter:false,		
+		paginationPos:'right'
+	});	
+}
 
 jQuery(document).on("change", ".make_provider_default", function(){	
 	jQuery("#content1 ").block({
@@ -434,7 +359,7 @@ jQuery(document).on( "input", "#search_provider", function(){
 			var provider_found = false;	
 			var searchvalue = jQuery("#search_provider").val().toLowerCase().replace(/\s+/g, '');
 			
-			jQuery('.provider_list .provder_table tbody tr').each(function() {
+			jQuery('.provider_list .provider-grid-row .grid-item').each(function() {
 				var provider = jQuery(this).find('.provider_name').text().toLowerCase().replace(/\s+/g, '');		
 				var country = jQuery(this).find('.provider_country').text().toLowerCase().replace(/\s+/g, '');
 				
@@ -445,7 +370,7 @@ jQuery(document).on( "input", "#search_provider", function(){
 					jQuery(this).show();					
 					provider_found = true;	
 				} else {					
-					jQuery(this).remove();
+					jQuery(this).remove();									
 				}
 			});	
 			
@@ -454,53 +379,27 @@ jQuery(document).on( "input", "#search_provider", function(){
 			} else{
 				jQuery(".not_found_label").remove();
 			}
-			
-			jQuery('#shipping-provider-table').datatable({
-				pageSize: 25,	
-				pagingDivClass: 'text-left',
-				firstPage:'',
-				prevPage:'',
-				nextPage:'',
-				lastPage:'',
-				sort: [false, false, false, false, false, false],    
-				onChange: function(old_page, new_page){      
-					jQuery( '.tipTip' ).tipTip( {
-						'attribute': 'data-tip'		
-					} );
-				},
-				counterText: function (currentPage, totalPage, firstRow, lastRow, totalRow) {		
-					return 'Showing ' + firstRow +  ' to ' + lastRow + ' of ' + totalRow + ' entries' ;
-				}	
-			});
-			jQuery( '.tipTip' ).tipTip( {
-				'attribute': 'data-tip'		
-			} );					
+			provider_grid_row();					
 		},
 		error: function(response) {					
 		}
 	});	
 });
 
-jQuery(document).on("click", ".popupclose", function(){
-	jQuery('.add_provider_popup').hide();
+jQuery(document).on("click", ".popupclose", function(){	
 	jQuery('.edit_provider_popup').hide();
-	jQuery('.sync_provider_popup').hide();
-	jQuery('.how_to_video_popup').hide();
-	jQuery('.ts_video_popup').hide();
-	jQuery('.import_tracking_video_popup').hide();
+	jQuery('.sync_provider_popup').hide();	
+	jQuery('.ts_video_popup').hide();	
+	jQuery('.upgrade_to_pro_popup').hide();	
 });
-jQuery(document).on("click", ".popup_close_icon", function(){
-	jQuery('.add_provider_popup').hide();
+jQuery(document).on("click", ".popup_close_icon", function(){	
 	jQuery('.edit_provider_popup').hide();
 	jQuery('.sync_provider_popup').hide();	
 });
-jQuery(document).on("click", ".popupclose_btn", function(){
-	jQuery('.add_provider_popup').hide();
+jQuery(document).on("click", ".popupclose_btn", function(){	
 	jQuery('.edit_provider_popup').hide();
-	jQuery('.sync_provider_popup').hide();
-	jQuery('.how_to_video_popup').hide();
-	jQuery('.ts_video_popup').hide();
-	jQuery('.import_tracking_video_popup').hide();
+	jQuery('.sync_provider_popup').hide();	
+	jQuery('.ts_video_popup').hide();	
 });
 jQuery(document).on("click", ".close_synch_popup", function(){		
 	jQuery('.sync_provider_popup').hide();
@@ -513,58 +412,6 @@ jQuery(document).on("click", ".close_synch_popup", function(){
 	
 	jQuery(".sync_providers_btn").show();
 	jQuery(".close_synch_popup").hide();
-});
- jQuery(document).on("submit", "#add_provider_form", function(){
-	
-	var form = jQuery('#add_provider_form');
-	var error;
-	var shipping_provider = jQuery(".add_provider_popup .shipping_provider");
-	var shipping_country = jQuery(".add_provider_popup .shipping_country");
-	var thumb_url = jQuery(".add_provider_popup .thumb_url");
-	var tracking_url = jQuery(".add_provider_popup .tracking_url");	
-	
-	if( shipping_provider.val() === '' ){				
-		
-		showerror(shipping_provider);
-		error = true;
-	} else{		
-		hideerror(shipping_provider);
-	}	
-	
-	if( shipping_country.val() === '' ){				
-		showerror(shipping_country);
-		error = true;
-	} else{		
-		hideerror(shipping_country);
-	}	
-	
-	
-	if(error == true){
-		return false;
-	}	
-	
-	jQuery(".add_provider_popup").block({
-		message: null,
-		overlayCSS: {
-			background: "#fff",
-			opacity: .6
-		}	
-    });
-	
-	jQuery('#search_provider').removeAttr('value');
-	
-	jQuery.ajax({
-		url: ajaxurl,		
-		data: form.serialize(),
-		type: 'POST',		
-		success: function(response) {			
-			location.reload();
-		},
-		error: function(response) {
-			console.log(response);			
-		}
-	});
-	return false;
 });
 
 jQuery(document).on("click", ".remove", function(){	
@@ -600,26 +447,7 @@ jQuery(document).on("click", ".remove", function(){
 		success: function(response) {
 			jQuery(".provider_list").replaceWith(response);						
 			jQuery("#content1").unblock();				
-			jQuery('#shipping-provider-table').datatable({
-				pageSize: 25,	
-				pagingDivClass: 'text-left',
-				firstPage:'',
-				prevPage:'',
-				nextPage:'',
-				lastPage:'',
-				sort: [false, false, false, false, false, false],    
-				onChange: function(old_page, new_page){      
-					jQuery( '.tipTip' ).tipTip( {
-						'attribute': 'data-tip'		
-					} );
-				},
-				counterText: function (currentPage, totalPage, firstRow, lastRow, totalRow) {		
-					return 'Showing ' + firstRow +  ' to ' + lastRow + ' of ' + totalRow + ' entries' ;
-				}	
-			});			
-			jQuery( '.tipTip' ).tipTip( {
-				'attribute': 'data-tip'		
-			} );			
+			provider_grid_row();			
 		},
 		error: function(response) {
 			console.log(response);			
@@ -755,26 +583,7 @@ jQuery(document).on("click", ".reset_default_provider", function(){
 			form[0].reset();												
 			jQuery('.edit_provider_popup').hide();			
 			jQuery(".edit_provider_popup").unblock();	
-			jQuery('#shipping-provider-table').datatable({
-				pageSize: 25,	
-				pagingDivClass: 'text-left',
-				firstPage:'',
-				prevPage:'',
-				nextPage:'',
-				lastPage:'',
-				sort: [false, false, false, false, false, false],    
-				onChange: function(old_page, new_page){      
-					jQuery( '.tipTip' ).tipTip( {
-						'attribute': 'data-tip'		
-					} );
-				},
-				counterText: function (currentPage, totalPage, firstRow, lastRow, totalRow) {		
-					return 'Showing ' + firstRow +  ' to ' + lastRow + ' of ' + totalRow + ' entries' ;
-				}	
-			});			
-			jQuery( '.tipTip' ).tipTip( {
-				'attribute': 'data-tip'		
-			} );		
+			provider_grid_row();		
 		},
 		error: function(response) {
 			console.log(response);			
@@ -843,26 +652,7 @@ jQuery(document).on("submit", "#edit_provider_form", function(){
 			form[0].reset();												
 			jQuery('.edit_provider_popup').hide();			
 			jQuery(".edit_provider_popup").unblock();	
-			jQuery('#shipping-provider-table').datatable({
-				pageSize: 25,	
-				pagingDivClass: 'text-left',
-				firstPage:'',
-				prevPage:'',
-				nextPage:'',
-				lastPage:'',
-				sort: [false, false, false, false, false, false],    
-				onChange: function(old_page, new_page){      
-					jQuery( '.tipTip' ).tipTip( {
-						'attribute': 'data-tip'		
-					} );
-				},
-				counterText: function (currentPage, totalPage, firstRow, lastRow, totalRow) {		
-					return 'Showing ' + firstRow +  ' to ' + lastRow + ' of ' + totalRow + ' entries' ;
-				}	
-			});			
-			jQuery( '.tipTip' ).tipTip( {
-				'attribute': 'data-tip'		
-			} );		
+			provider_grid_row();		
 		},
 		error: function(response) {
 			console.log(response);			
@@ -871,7 +661,7 @@ jQuery(document).on("submit", "#edit_provider_form", function(){
 	return false;
 });
 
-jQuery( ".thumb_url" ).keyup(function() {
+jQuery( ".thumb_url" ).blur(function() {
   var url = jQuery(this).val();
   if(url == ''){
 	  jQuery('.thumb_id').val('');
@@ -914,31 +704,16 @@ jQuery(document).on("click", "#reset_providers", function(){
 		success: function(response) {
 			jQuery(".provider_list").replaceWith(response);					
 			jQuery("#content1").unblock();
-			jQuery('#shipping-provider-table').datatable({
-				pageSize: 25,	
-				pagingDivClass: 'text-left',
-				firstPage:'',
-				prevPage:'',
-				nextPage:'',
-				lastPage:'',
-				sort: [false, false, false, false, false, false],    
-				onChange: function(old_page, new_page){      
-					jQuery( '.tipTip' ).tipTip( {
-						'attribute': 'data-tip'		
-					} );
-				},
-				counterText: function (currentPage, totalPage, firstRow, lastRow, totalRow) {		
-					return 'Showing ' + firstRow +  ' to ' + lastRow + ' of ' + totalRow + ' entries' ;
-				}	
-			});						
-			jQuery( '.tipTip' ).tipTip( {
-				'attribute': 'data-tip'		
-			} );			
+			provider_grid_row();			
 		},
 		error: function(response) {
 			console.log(response);			
 		}
 	});
+});
+
+jQuery(document).on("click", ".upgrade_to_ast_pro", function(){		
+	jQuery('.upgrade_to_pro_popup').show();	
 });
 
 jQuery(document).on("click", ".sync_providers", function(){		
@@ -1007,23 +782,7 @@ jQuery(document).on("click", ".sync_providers_btn", function(){
 			jQuery( '.tipTip' ).tipTip( {
 				'attribute': 'data-tip'		
 			} );
-			jQuery('#shipping-provider-table').datatable({
-				pageSize: 25,	
-				pagingDivClass: 'text-left',
-				firstPage:'',
-				prevPage:'',
-				nextPage:'',
-				lastPage:'',
-				sort: [false, false, false, false, false, false],    
-				onChange: function(old_page, new_page){      
-					jQuery( '.tipTip' ).tipTip( {
-						'attribute': 'data-tip'		
-					} );
-				},
-				counterText: function (currentPage, totalPage, firstRow, lastRow, totalRow) {		
-					return 'Showing ' + firstRow +  ' to ' + lastRow + ' of ' + totalRow + ' entries' ;
-				}	
-			});	
+			provider_grid_row();	
 		},
 		error: function(response) {
 			console.log(response);			
@@ -1088,64 +847,70 @@ jQuery(document).on("change", "#wc_ast_status_shipped", function(){
 
 jQuery(document).on("click", ".tab_input", function(){
 	var tab = jQuery(this).data('tab');
-	var label = jQuery(this).data('label');
-	//jQuery('.zorem-layout__header-breadcrumbs .header-breadcrumbs-last').text(label);
+	var label = jQuery(this).data('label');	
 	var url = window.location.protocol + "//" + window.location.host + window.location.pathname+"?page=woocommerce-advanced-shipment-tracking&tab="+tab;
 	window.history.pushState({path:url},'',url);	
 });
-jQuery(document).on("click", ".inner_tab_input", function(){
-	var tab = jQuery('input[name="tabs"]:checked').data('tab');
-	var subtab = jQuery(this).data('subtab');
-	if( subtab !== undefined){
-		var url = window.location.protocol + "//" + window.location.host + window.location.pathname+"?page=woocommerce-advanced-shipment-tracking&tab="+tab+"&subtab="+subtab;
+
+jQuery(document).on("click", ".accordion", function(){
+	if ( jQuery(this).hasClass( 'active' ) ) {
+		jQuery(this).removeClass( 'active' );
+		jQuery(this).siblings( '.panel' ).slideUp( 'slow' );
+		jQuery( '.accordion' ).find('span.dashicons').addClass('dashicons-arrow-right-alt2');
+		jQuery( '.accordion' ).find('span.ast-accordion-btn').hide();	  
+	} else {
+		jQuery( '.accordion' ).removeClass( 'active' );
+		jQuery(".accordion").find('span.ast-accordion-btn').hide();
+		jQuery(".accordion").find('span.dashicons').addClass('dashicons-arrow-right-alt2');	
+		jQuery( '.panel' ).slideUp('slow');
+		jQuery(this).addClass( 'active' );
+		jQuery(this).find('span.dashicons').removeClass('dashicons-arrow-right-alt2');
+		jQuery(this).find('span.ast-accordion-btn').show();
+		jQuery(this).find('span.ast-accordion-btn button').prop("disabled", true);
+		jQuery(this).siblings( '.panel' ).slideDown( 'slow' );	  
 	}
-	
-	var addons = jQuery(this).data('addons');
-	if( addons !== undefined){
-		var url = window.location.protocol + "//" + window.location.host + window.location.pathname+"?page=woocommerce-advanced-shipment-tracking&tab="+tab+"&addons="+addons;
-	}
-	
-	var settings = jQuery(this).data('settings');
-	if( settings !== undefined){
-		var url = window.location.protocol + "//" + window.location.host + window.location.pathname+"?page=woocommerce-advanced-shipment-tracking&tab="+tab+"&settings="+settings;
-	}
-	
-	var type = jQuery(this).data('type');
-	if( type !== undefined){
-		var subtab = jQuery('input[name="ts_inner_tabs"]:checked').data('subtab');
-		var url = window.location.protocol + "//" + window.location.host + window.location.pathname+"?page=woocommerce-advanced-shipment-tracking&tab="+tab+"&subtab="+subtab+"&type="+type;
-	}
-	
-	window.history.pushState({path:url},'',url);	
 });
 
-jQuery('#shipping-provider-table').datatable({
-    pageSize: 25,	
-	pagingDivClass: 'text-left',
-	firstPage:'',
-	prevPage:'',
-	nextPage:'',
-	lastPage:'',
-	dom: "Bfriptip",
-    sort: [false, false, false, false, false, false],    
-    onChange: function(old_page, new_page){      
-		jQuery( '.tipTip' ).tipTip( {
-			'attribute': 'data-tip'		
-		} );
-    },
-	counterText: function (currentPage, totalPage, firstRow, lastRow, totalRow) {		
-		return 'Showing ' + firstRow +  ' to ' + lastRow + ' of ' + totalRow + ' entries' ;
-	}	
+jQuery(document).on("click", ".woocommerce-save-button", function(e){	
+	
+	var form = jQuery('#wc_ast_settings_form');
+	form.find(".spinner").addClass("active");
+	
+	jQuery.ajax({
+		url: ajaxurl,		
+		data: form.serialize(),		
+		type: 'POST',		
+		success: function(response) {	
+			form.find(".spinner").removeClass("active");
+			jQuery(document).ast_snackbar( shipment_tracking_table_rows.i18n.data_saved );			
+			jQuery( '.accordion' ).removeClass( 'active' );
+			jQuery( '.accordion' ).find( 'span.ast-accordion-btn' ).hide();
+			jQuery( '.accordion' ).find( 'span.dashicons' ).addClass( 'dashicons-arrow-right-alt2' );
+			jQuery( '.panel' ).slideUp( 'slow' );
+		},
+		error: function(response) {
+			console.log(response);			
+		}
+	});
+	return false;
 });
+
 
 jQuery(document).on("change", "#wc_ast_settings_form .ast-settings-toggle,.order_status_toggle,.enable_order_status_email_input,.custom_order_color_select, #wc_ast_status_shipped", function(){	
-	save_ast_seetings();
+	jQuery('span.ast-accordion-btn button').prop("disabled", false);
 });
 		
 jQuery('#wc_ast_status_partial_shipped_label_color').wpColorPicker({
 	change: function(e, ui) {
 		var color = ui.color.toString();			
 		jQuery('.order-status-table .order-label.wc-partially-shipped').css('background',color);
+	},
+});
+
+jQuery('#wc_ast_status_label_color').wpColorPicker({
+	change: function(e, ui) {
+		var color = ui.color.toString();			
+		jQuery('.order-status-table .order-label.wc-delivered').css('background',color);
 	},
 });
 
@@ -1158,45 +923,25 @@ jQuery('#wc_ast_status_updated_tracking_label_color').wpColorPicker({
 
 jQuery('body').click( function(){	
 	if ( jQuery('.order-status-table button.button.wp-color-result').hasClass( 'wp-picker-open' ) ) { 
-		save_ast_seetings(); 
+		jQuery('span.ast-accordion-btn button').prop("disabled", false);
 	}
 });
 
 jQuery('.order-status-table button.button.wp-color-result').click( function(){	
-	if ( jQuery(this).hasClass( 'wp-picker-open' ) ) {}else{save_ast_seetings();}
+	if ( jQuery(this).hasClass( 'wp-picker-open' ) ) {}else{jQuery('span.ast-accordion-btn button').prop("disabled", false);}
 });
 jQuery(".wc_ast_api_date_format").on("click", function (e) { 
-	save_ast_seetings();  
+	jQuery('span.ast-accordion-btn button').prop("disabled", false);
 });
 jQuery( "#wc_ast_show_orders_actions,#wc_ast_unclude_tracking_info" ).on("change", function (e) { 
-	save_ast_seetings();  
+	jQuery('span.ast-accordion-btn button').prop("disabled", false); 
 });
 
-function save_ast_seetings(){
-	
-	jQuery("#content2").block({
-		message: null,
-		overlayCSS: {
-			background: "#fff",
-			opacity: .6
-		}	
-    });	
-	var form = jQuery('#wc_ast_settings_form');
-	
-	jQuery.ajax({
-		url: ajaxurl,		
-		data: form.serialize(),		
-		type: 'POST',		
-		success: function(response) {
-			jQuery("#content2").unblock();	
-			jQuery(document).ast_snackbar( shipment_tracking_table_rows.i18n.data_saved );
-		},
-		error: function(response) {
-			console.log(response);			
-		}
-	});
-	return false;
-}
+jQuery('#wc_ast_unclude_tracking_info').on('select2:unselecting', function(e){
+	if ( jQuery(e.params.args.data.element).val() == 'partial-shipped' || jQuery(e.params.args.data.element).val() == 'shipped' || jQuery(e.params.args.data.element).val() == 'completed' ) {
+		e.preventDefault();
+	}
+});
 
 /* zorem_snackbar jquery */
 (function( $ ){

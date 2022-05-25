@@ -4,33 +4,35 @@
  * Plugin Name: Advanced Shipment Tracking for WooCommerce 
  * Plugin URI: https://www.zorem.com/products/woocommerce-advanced-shipment-tracking/ 
  * Description: Add shipment tracking information to your WooCommerce orders and provide customers with an easy way to track their orders. Shipment tracking Info will appear in customers accounts (in the order panel) and in WooCommerce order complete email. 
- * Version: 3.2.5
+ * Version: 3.4
  * Author: zorem
  * Author URI: https://www.zorem.com 
  * License: GPL-2.0+
  * License URI: 
  * Text Domain: woo-advanced-shipment-tracking 
- * WC tested up to: 5.4.1
+ * WC tested up to: 6.5.1
 */
 
-class zorem_woocommerce_advanced_shipment_tracking {
+class Zorem_Woocommerce_Advanced_Shipment_Tracking {
 	
 	/**
 	 * WooCommerce Advanced Shipment Tracking version.
 	 *
 	 * @var string
 	 */
-	public $version = '3.2.5';
+	public $version = '3.4';
 	
 	/**
 	 * Initialize the main plugin function
 	*/
-    public function __construct() {								
+	public function __construct() {								
 		
 		$this->plugin_file = __FILE__;
 		
 		// Add your templates to this array.
-		if (!defined('SHIPMENT_TRACKING_PATH')) define( 'SHIPMENT_TRACKING_PATH', $this->get_plugin_path());	
+		if (!defined('SHIPMENT_TRACKING_PATH')) {
+			define( 'SHIPMENT_TRACKING_PATH', $this->get_plugin_path());
+		}	
 
 		register_activation_hook( __FILE__, array( $this,'on_activation' ) );		
 		
@@ -38,7 +40,7 @@ class zorem_woocommerce_advanced_shipment_tracking {
 		
 		$this->table = $wpdb->prefix . 'woo_shippment_provider';
 		
-		if( is_multisite() ) {
+		if ( is_multisite() ) {
 			
 			if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
 				require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
@@ -55,7 +57,7 @@ class zorem_woocommerce_advanced_shipment_tracking {
 			$this->table = $wpdb->prefix . 'woo_shippment_provider';	
 		}				
 		
-		if( ! $this->is_ast_pro_active() || ! $this->ast_pro_version_check() ) {
+		if ( ! $this->is_ast_pro_active() || ! $this->ast_pro_version_check() ) {
 			if ( $this->is_wc_active() ) {			
 				
 				// Include required files.
@@ -79,42 +81,32 @@ class zorem_woocommerce_advanced_shipment_tracking {
 				//plugin admin_notice class init
 				$this->admin_notice->init();													
 				
-				add_action( 'plugins_loaded', array( $this, 'on_plugins_loaded' ) );	
-				
-				if( !function_exists( 'trackship_for_woocommerce' ) ) {				
-					$this->late_shipments->init();
-					$this->trackship->init();				
-				}
+				add_action( 'plugins_loaded', array( $this, 'on_plugins_loaded' ) );								
 				
 				add_action( 'admin_footer', array( $this, 'uninstall_notice') );	
 				add_action( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'ast_plugin_action_links' ) );	
 			}	
 		}	
-    }	
+	}
 	
 	/**
-	 * callback on activation and allow to activate if pro deactivated
+	 * Callback on activation and allow to activate if pro deactivated
 	 *
-	 * @access public
 	 * @since  1.0.0
 	*/
-	public function on_activation(){
+	public function on_activation() {
 
 		// Require parent plugin
-		if ( is_plugin_active( 'ast-pro/ast-pro.php' ) and current_user_can( 'activate_plugins' ) ) {
+		if ( is_plugin_active( 'ast-pro/ast-pro.php' ) && current_user_can( 'activate_plugins' ) ) {
 			
 			//admin notice for not allow activate plugin
-			wp_redirect( admin_url().'plugins.php?ast-not-allow=true' );
+			wp_redirect( admin_url() . 'plugins.php?ast-not-allow=true' );
 			exit;
 		}
 	}
 	
 	/**
-	 * Check if AST PRO is active
-	 *
-	 * @access private
-	 * @since  1.0.0
-	 * @return bool
+	 * Check if AST PRO is active	 
 	*/
 	private function is_ast_pro_active() {
 		
@@ -131,12 +123,8 @@ class zorem_woocommerce_advanced_shipment_tracking {
 		return $is_active;
 	}
 	
-		/**
-	 * Check if Advanced Shipment Tracking for WooCommerce is active
-	 *
-	 * @access private
-	 * @since  1.0.0
-	 * @return bool
+	/**
+	 * Check if Advanced Shipment Tracking for WooCommerce is active	 
 	*/
 	private function ast_pro_version_check() {
 		
@@ -157,8 +145,9 @@ class zorem_woocommerce_advanced_shipment_tracking {
 	}
 	
 	/**
-	 * Check if WooCommerce is active	 	
-	 * @since  1.0.0
+	 * Check if WooCommerce is active
+	 *	
+	 * @since 1.0.0
 	 * @return bool
 	*/
 	private function is_wc_active() {
@@ -181,15 +170,17 @@ class zorem_woocommerce_advanced_shipment_tracking {
 	}
 	
 	/**
-	 * Display WC active notice	 
-	 * @since  1.0.0
+	 * Display WC active notice
 	*/
 	public function notice_activate_wc() {
 		?>
 		<div class="error">
-			<p><?php 
+			<p>
+			<?php 
 			/* translators: %s: search WooCommerce plugin link */
-			printf( esc_html__( 'Please install and activate %1$sWooCommerce%2$s for Advanced Shipment Tracking for WooCommerce!', 'woo-advanced-shipment-tracking' ), '<a href="' . esc_url( admin_url( 'plugin-install.php?tab=search&s=WooCommerce&plugin-search-input=Search+Plugins' ) ) . '">', '</a>' ); ?></p>
+			printf( esc_html__( 'Please install and activate %1$sWooCommerce%2$s for Advanced Shipment Tracking for WooCommerce!', 'woo-advanced-shipment-tracking' ), '<a href="' . esc_url( admin_url( 'plugin-install.php?tab=search&s=WooCommerce&plugin-search-input=Search+Plugins' ) ) . '">', '</a>' ); 
+			?>
+			</p>
 		</div>
 		<?php
 	}
@@ -205,24 +196,23 @@ class zorem_woocommerce_advanced_shipment_tracking {
 		add_action( 'add_meta_boxes', array( $this->actions, 'add_meta_box' ) );		
 		add_action( 'woocommerce_view_order', array( $this->actions, 'show_tracking_info_order' ) );			
 				
-		add_action( 'woocommerce_my_account_my_orders_actions', array( $this->actions, 'add_column_my_account_orders_ast_track_column' ),10, 2 );
+		add_action( 'woocommerce_my_account_my_orders_actions', array( $this->actions, 'add_column_my_account_orders_ast_track_column' ), 10, 2 );
 		
 		add_action( 'wp_ajax_wc_shipment_tracking_delete_item', array( $this->actions, 'meta_box_delete_tracking' ) );
-		add_action( 'woocommerce_process_shop_order_meta', array( $this->actions, 'save_meta_box' ),0, 2 );	
+		add_action( 'woocommerce_process_shop_order_meta', array( $this->actions, 'save_meta_box' ), 0, 2 );
 		add_action( 'wp_ajax_wc_shipment_tracking_save_form', array( $this->actions, 'save_meta_box_ajax' ) );	
 
 		add_action( 'wp_ajax_reassign_order_status', array( $this, 'reassign_order_status' ) );			
 		
 		$preview = isset( $_REQUEST['wcast-tracking-preview'] ) && '1' === $_REQUEST['wcast-tracking-preview'] ? true : false ;
-		
 		if ( !$preview ) {			
 			$tracking_info_settings = get_option('tracking_info_settings');			
-			if( isset( $tracking_info_settings['display_tracking_info_at'] ) && 'after_order' == $tracking_info_settings['display_tracking_info_at'] ) {
+			if ( isset( $tracking_info_settings['display_tracking_info_at'] ) && 'after_order' == $tracking_info_settings['display_tracking_info_at'] ) {
 				add_action( 'woocommerce_email_order_meta', array( $this->actions, 'email_display' ), 0, 4 );
 			} else {
 				add_action( 'woocommerce_email_before_order_table', array( $this->actions, 'email_display' ), 0, 4 );
 			}	
-		}				
+		}
 		
 		// Custom tracking column in admin orders list.
 		add_filter( 'manage_shop_order_posts_columns', array( $this->actions, 'shop_order_columns' ), 99 );
@@ -254,10 +244,6 @@ class zorem_woocommerce_advanced_shipment_tracking {
 		$wc_ast_status_updated_tracking = get_option( 'wc_ast_status_updated_tracking' );		
 		if ( $wc_ast_status_updated_tracking ) {
 			add_action( 'woocommerce_order_status_updated-tracking', array( $this, 'email_trigger_updated_tracking' ), 10, 2 );	
-		}	
-					
-		if ( !function_exists( 'trackship_for_woocommerce' ) ) {	
-			add_action( 'template_redirect', array( $this->front, 'preview_tracking_page') );		
 		}
 		
 		add_action( 'ast_add_tracking_btn', array( $this->actions, 'ast_add_tracking_btn' ) );				
@@ -287,7 +273,7 @@ class zorem_woocommerce_advanced_shipment_tracking {
 	}
 		
 	/*** Method load Language file ***/
-	function wst_load_textdomain() {
+	public function wst_load_textdomain() {
 		load_plugin_textdomain( 'woo-advanced-shipment-tracking', false, dirname( plugin_basename(__FILE__) ) . '/lang' );
 	}
 		
@@ -369,25 +355,7 @@ class zorem_woocommerce_advanced_shipment_tracking {
 		$this->admin = WC_Advanced_Shipment_Tracking_Admin::get_instance();	
 
 		require_once $this->get_plugin_path() . '/includes/class-wc-advanced-shipment-tracking-settings.php';
-		$this->settings = WC_Advanced_Shipment_Tracking_Settings::get_instance();														
-		
-		require_once $this->get_plugin_path() . '/includes/class-wc-advanced-shipment-tracking-license.php';
-		$this->license = WC_Advanced_Shipment_Tracking_License::get_instance();
-
-		if ( !function_exists( 'trackship_for_woocommerce' ) ) {						
-			
-			require_once $this->get_plugin_path() . '/includes/class-wc-advanced-shipment-tracking-late-shipments.php';
-			$this->late_shipments = WC_Advanced_Shipment_Tracking_Late_Shipments::get_instance();
-			
-			require_once $this->get_plugin_path() . '/includes/class-wc-advanced-shipment-tracking-trackship.php';
-			$this->trackship = WC_Advanced_Shipment_Tracking_Trackship::get_instance();		
-			
-			require_once $this->get_plugin_path() . '/includes/class-wc-advanced-shipment-tracking-front.php';
-			$this->front = WC_Advanced_Shipment_Tracking_Front::get_instance();
-			
-			//api call function 
-			require_once $this->get_plugin_path() . '/includes/class-wc-advanced-shipment-tracking-api-call.php';
-		}
+		$this->settings = WC_Advanced_Shipment_Tracking_Settings::get_instance();		
 		
 		require_once $this->get_plugin_path() . '/includes/email-manager.php';				
 	}
@@ -430,15 +398,16 @@ class zorem_woocommerce_advanced_shipment_tracking {
 	/*
 	* include file on plugin load
 	*/
-	public function on_plugins_loaded() {		
+	public function on_plugins_loaded() {	
+		
 		require_once $this->get_plugin_path() . '/includes/email-manager.php';
 		
 		require_once $this->get_plugin_path() . '/includes/customizer/class-wcast-customizer.php';
-		
+	
 		require_once $this->get_plugin_path() . '/includes/customizer/class-wc-tracking-info-customizer.php';					
-		
+	
 		require_once $this->get_plugin_path() . '/includes/customizer/class-wc-partial-shipped-email-customizer.php';						
-		
+	
 		require_once $this->get_plugin_path() . '/includes/customizer/class-wc-updated-tracking-email-customizer.php';				
 
 		require_once $this->get_plugin_path() . '/includes/tracking-info.php';
@@ -460,21 +429,20 @@ class zorem_woocommerce_advanced_shipment_tracking {
 		$screen = get_current_screen();
 		
 		if ( 'plugins.php' == $screen->parent_file ) {
-			wp_enqueue_style( 'ast_styles',  wc_advanced_shipment_tracking()->plugin_dir_url() . 'assets/css/admin.css', array(), wc_advanced_shipment_tracking()->version );
+			wp_enqueue_style( 'ast_styles', wc_advanced_shipment_tracking()->plugin_dir_url() . 'assets/css/admin.css', array(), wc_advanced_shipment_tracking()->version );
 			$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 			wp_enqueue_script( 'jquery-blockui', WC()->plugin_url() . '/assets/js/jquery-blockui/jquery.blockUI' . $suffix . '.js', array( 'jquery' ), '2.70', true );
 		}
 		
-		$delivered_count = wc_orders_count( 'delivered' );
-		$ps_count = wc_orders_count( 'partial-shipped' );		
+		$ps_count = wc_orders_count( 'partial-shipped' );
+		$delivered_count = wc_orders_count( 'delivered' );				
 		
 		$order_statuses = wc_get_order_statuses(); 
 		
 		unset( $order_statuses['wc-partial-shipped'] );		
-		unset( $order_statuses['wc-delivered'] );
 		
-		if( $delivered_count > 0 || $ps_count > 0 ) { 
-		?>
+		if ( $ps_count > 0 || $delivered_count > 0 ) {
+			?>
 		
 		<script>
 		
@@ -527,75 +495,65 @@ class zorem_woocommerce_advanced_shipment_tracking {
 				<div class="popup_body">				
 					<form method="post" id="order_reassign_form">					
 						<?php 
-							if ( $delivered_count > 0 ) { 
-							?>
-							
-							<p><?php 
-								/* translators: %s: replace with delivered order count */
-								printf( esc_html__('We detected %s orders that use the Delivered order status, You can reassign these orders to a different status', 'woo-advanced-shipment-tracking'), $delivered_count ); 
-								?>
-							</p>														
-							<select id="reassign_delivered_order" name="reassign_delivered_order" class="reassign_select">
-								<option value=""><?php _e('Select', 'woocommerce'); ?></option>
-								<?php foreach($order_statuses as $key => $status){ ?>
-									<option value="<?php echo $key; ?>"><?php echo $status; ?></option>
-								<?php } ?>
-							</select>
-						
-						<?php } 
-						
 						if ( $ps_count > 0 ) { 
-						?>
-							<p><?php 
+							?>
+							<p>
+							<?php 
 								/* translators: %s: replace with Partially Shipped order count */
-								printf( esc_html__('We detected %s orders that use the Partially Shipped order status, You can reassign these orders to a different status', 'woo-advanced-shipment-tracking'), $ps_count ); 
-								?>
+								printf( esc_html__('We detected %s orders that use the Partially Shipped order status, You can reassign these orders to a different status', 'woo-advanced-shipment-tracking'), esc_html( $ps_count ) );
+							?>
 							</p>	
 							
 							<select id="reassign_ps_order" name="reassign_ps_order" class="reassign_select">
-								<option value=""><?php _e('Select', 'woocommerce'); ?></option>
-								<?php foreach($order_statuses as $key => $status){ ?>
-									<option value="<?php echo $key; ?>"><?php echo $status; ?></option>
+								<option value=""><?php esc_html_e('Select', 'woocommerce'); ?></option>
+								<?php foreach ( $order_statuses as $key => $status ) { ?>
+									<option value="<?php esc_html_e( $key ); ?>"><?php esc_html_e( $status ); ?></option>
 								<?php } ?>
 							</select>
 						
-						<?php } ?>
+						<?php
+						}
+						if ( $delivered_count > 0 ) { 
+							?>
+							<p>
+							<?php 
+								/* translators: %s: replace with Partially Shipped order count */
+								printf( esc_html__('We detected %s orders that use the Delivered order status, You can reassign these orders to a different status', 'woo-advanced-shipment-tracking'), esc_html__( $delivered_count ) ); 
+							?>
+							</p>	
+							
+							<select id="reassign_delivered_order" name="reassign_delivered_order" class="reassign_select">
+								<option value=""><?php esc_html_e('Select', 'woocommerce'); ?></option>
+								<?php foreach ( $order_statuses as $key => $status ) { ?>
+									<option value="<?php esc_html_e( $key ); ?>"><?php esc_html_e( $status ); ?></option>
+								<?php } ?>
+							</select>
+						
+						<?php } ?>	
 						<p>	
+							<?php wp_nonce_field( 'ast_reassign_order_status', 'ast_reassign_order_status_nonce' ); ?>
 							<input type="hidden" name="action" value="reassign_order_status">
-							<input type="button" value="Uninstall" class="uninstall_plugin button-primary btn_ast2">
-							<input type="button" value="Close" class="uninstall_close button-primary btn_red">				
+							<input type="button" value="<?php esc_html_e( 'Deactivate' ); ?>" class="uninstall_plugin button-primary btn_ast2">
+							<input type="button" value="<?php esc_html_e( 'Close', 'woocommerce' ); ?>" class="uninstall_close button-primary btn_red">				
 						</p>
 					</form>	
 				</div>	
 			</div>
 			<div class="popupclose"></div>
 		</div>
-		<?php }
+		<?php 
+		}
 	}
 	
 	/*
 	* Functon for reassign order status on plugin deactivation
 	*/
-	public function reassign_order_status() {		
+	public function reassign_order_status() {				
+
+		check_ajax_referer( 'ast_reassign_order_status', 'ast_reassign_order_status_nonce' );
 		
-		$reassign_delivered_order = isset( $_POST['reassign_delivered_order'] ) ? wc_clean( $_POST['reassign_delivered_order'] ) : '';
 		$reassign_ps_order = isset(	$_POST['reassign_ps_order']	) ? wc_clean( $_POST['reassign_ps_order'] ) : '';		
-		
-		if ( '' != $reassign_delivered_order ) {
-			
-			$args = array(
-				'status' => 'delivered',
-				'limit' => '-1',
-			);
-			
-			$orders = wc_get_orders( $args );
-			
-			foreach ( $orders as $order ) {				
-				$order_id = $order->get_id();
-				$order = new WC_Order( $order_id );
-				$order->update_status( $reassign_delivered_order );				
-			}			
-		}
+		$reassign_delivered_order = isset(	$_POST['reassign_delivered_order']	) ? wc_clean( $_POST['reassign_delivered_order'] ) : '';		
 		
 		if ( '' != $reassign_ps_order ) {
 			
@@ -610,6 +568,21 @@ class zorem_woocommerce_advanced_shipment_tracking {
 				$order_id = $order->get_id();
 				$order = new WC_Order( $order_id );
 				$order->update_status( $reassign_ps_order );				
+			}			
+		}
+		if ( '' != $reassign_delivered_order ) {
+			
+			$args = array(
+				'status' => 'delivered',
+				'limit' => '-1',
+			);
+			
+			$delivered_orders = wc_get_orders( $args );
+			
+			foreach ( $delivered_orders as $order ) {				
+				$order_id = $order->get_id();
+				$order = new WC_Order( $order_id );
+				$order->update_status( $reassign_delivered_order );				
 			}			
 		}
 		echo 1;
@@ -627,25 +600,35 @@ class zorem_woocommerce_advanced_shipment_tracking {
 	* @return array         List of modified plugin action links.
 	*/
 	public function ast_plugin_action_links ( $links ) {
-		return array_merge( array(
+		$links = array_merge( array(
+			'<a href="https://wordpress.org/support/plugin/woo-advanced-shipment-tracking/reviews/#new-post" target="blank">' . __( 'Review' ) . '</a>'
+		), $links );
+		$links = array_merge( array(
+			'<a href="https://wordpress.org/support/plugin/woo-advanced-shipment-tracking/#new-topic-0" target="blank">' . __( 'Support' ) . '</a>'
+		), $links );
+		$links = array_merge( array(
+			'<a href="https://www.zorem.com/docs/woocommerce-advanced-shipment-tracking/" target="blank">' . __( 'Docs' ) . '</a>'
+		), $links );
+		$links = array_merge( array(
 			'<a href="' . esc_url( admin_url( '/admin.php?page=woocommerce-advanced-shipment-tracking' ) ) . '">' . __( 'Settings' ) . '</a>'
 		), $links );		
+		return $links;	
 	}
 }
 
 /**
- * Returns an instance of zorem_woocommerce_advanced_shipment_tracking.
+ * Returns an instance of Zorem_Woocommerce_Advanced_Shipment_Tracking.
  *
  * @since 1.6.5
  * @version 1.6.5
  *
- * @return zorem_woocommerce_advanced_shipment_tracking
+ * @return Zorem_Woocommerce_Advanced_Shipment_Tracking
 */
 function wc_advanced_shipment_tracking() {
 	static $instance;
 
 	if ( ! isset( $instance ) ) {		
-		$instance = new zorem_woocommerce_advanced_shipment_tracking();
+		$instance = new Zorem_Woocommerce_Advanced_Shipment_Tracking();
 	}
 
 	return $instance;

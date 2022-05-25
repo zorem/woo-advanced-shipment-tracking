@@ -15,9 +15,9 @@ class WC_AST_Admin_Notices_Under_WC_Admin {
 	/**
 	 * Initialize the main plugin function
 	*/
-    public function __construct() {
+	public function __construct() {
 		$this->init();	
-    }
+	}
 	
 	/**
 	 * Get the class instance
@@ -36,37 +36,40 @@ class WC_AST_Admin_Notices_Under_WC_Admin {
 	/*
 	* init from parent mail class
 	*/
-	public function init(){										
-		//add_action('init', array( $this, 'admin_notices_for_ast_pro' ) );		
+	public function init() {
+		//add_action( 'admin_init', array( $this, 'admin_notices_for_ast_pro' ) );		
 	}
 
 	public function admin_notices_for_ast_pro() {
 
-		if( class_exists( 'ast_pro' ) ) {
-			return;
-		}	
-		
-		if ( ! class_exists( 'Automattic\WooCommerce\Admin\Notes\WC_Admin_Notes' ) ) {
+		if ( ! class_exists( 'Notes' ) ) {
 			return;
 		}
-		
-		$already_set = get_transient( 'ast_pro_wc_admin' );
-		
-		if( 'yes' == $already_set ){
+
+		if ( class_exists( 'ast_pro' ) ) {
 			return;
 		}	
 		
-		set_transient( 'ast_pro_wc_admin', 'yes' );				
+		$date_now = date( 'Y-m-d' );
 		
-		$note_name = 'ast_pro_wc_admin_notice';
+		$already_set = get_transient( 'ast_pro_1_year_wc_admin' );
+		
+		if ( 'yes' == $already_set || $date_now > '2022-03-31' ) {
+			//return;
+		}	
+		
+		set_transient( 'ast_pro_1_year_wc_admin', 'yes' );				
+		
+		$note_name = 'ast_pro_1_year_wc_admin_notice';
 		//$data_store = WC_Data_Store::load( 'admin-note' );		
 		
 		// Otherwise, add the note
 		$activated_time = current_time( 'timestamp', 0 );
-		$activated_time_formatted = date( 'F jS', $activated_time );
-		$note = new Automattic\WooCommerce\Admin\Notes\WC_Admin_Note();
-		$note->set_title( 'Advanced Shipment Tracking PRO' );
-		$note->set_content( 'We just released the Advanced Shipment Tracking Pro! Upgrade now and enjoy a 20% off early bird discount. To redeem your discount, use coupon code ASTPRO20 (valid until March 31st)' );
+		$activated_time_formatted = gmdate( 'F jS', $activated_time );
+		// Instantiate a new Note object
+		$note = new Note();
+		$note->set_title( 'AST PRO is celebrating 1 Year!' );
+		$note->set_content( 'Advanced Shipment Tracking Pro allows you to streamline & automate your fulfillment workflow, save time on your daily tasks and keep your customers happy and informed on their shipped orders. Use code ASTPRO20 to redeem your discount (valid by March 31th 2022)' );
 		$note->set_content_data( (object) array(
 			'getting_started'     => true,
 			'activated'           => $activated_time,
@@ -79,7 +82,7 @@ class WC_AST_Admin_Notices_Under_WC_Admin {
 		$note->set_image('');
 		// This example has two actions. A note can have 0 or 1 as well.
 		$note->add_action(
-			'settings', 'Upgrade to AST Pro', 'https://www.zorem.com/product/woocommerce-advanced-shipment-tracking/'
+			'settings', 'Upgrade Now', 'https://www.zorem.com/product/woocommerce-advanced-shipment-tracking/'
 		);		
 		$note->save();
 	}				
