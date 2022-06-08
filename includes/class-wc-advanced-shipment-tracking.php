@@ -737,8 +737,13 @@ class WC_Advanced_Shipment_Tracking_Actions {
 				$tracking_provider = $formated_tracking_item['formatted_tracking_provider'];
 				$order = wc_get_order(  $order_id );
 				
+<<<<<<< HEAD
 				/* translators: %s: Reaplce with tracking provider, %s: Reaplce with tracking number */
 				$note = sprintf( __( 'Tracking info was deleted for tracking provider %s with tracking number %s', 'woo-advanced-shipment-tracking' ), $tracking_provider, $tracking_number );
+=======
+				/* translators: %1$s: Reaplce with tracking provider, %2$s: Reaplce with tracking number */
+				$note = sprintf( __( 'Tracking info was deleted for tracking provider %1$s with tracking number %2$s', 'woo-advanced-shipment-tracking' ), $tracking_provider, $tracking_number );
+>>>>>>> 9b96574ab315fb52732e2620a9cd43be2c3b8ac2
 				
 				// Add the note
 				$order->add_order_note( $note );
@@ -1190,8 +1195,13 @@ class WC_Advanced_Shipment_Tracking_Actions {
 		$formated_tracking_item = $this->get_formatted_tracking_item( $order_id, $tracking_item );
 		$tracking_provider = $formated_tracking_item['formatted_tracking_provider'];								
 		
+<<<<<<< HEAD
 		/* translators: %s: Reaplce with tracking provider, %s: Reaplce with tracking number */
 		$note = sprintf( __( 'Order was shipped with %s and tracking number is: %s', 'woo-advanced-shipment-tracking' ), $tracking_provider, $tracking_item['tracking_number'] );
+=======
+		/* translators: %1$s: Reaplce with tracking provider, %2$s: Reaplce with tracking number */
+		$note = sprintf( __( 'Order was shipped with %1$s and tracking number is: %2$s', 'woo-advanced-shipment-tracking' ), $tracking_provider, $tracking_item['tracking_number'] );
+>>>>>>> 9b96574ab315fb52732e2620a9cd43be2c3b8ac2
 		
 		// Add the note
 		$order->add_order_note( $note );

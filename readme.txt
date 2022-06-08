@@ -83,7 +83,11 @@ Yes, you can upgrade to the [AST PRO](https://www.zorem.com/product/woocommerce-
 AST provides ways to manage the fulfillment and add tracking information to orders and communicate this info to your customers, if you want to have tracking automation, you can install [TrackShip for WooCommerce](https://wordpress.org/plugins/trackship-for-woocommerce/). TrackShip is a Multi-Carrier Shipment Tracking API which integrates into the WooCommerce ecosystem, once you connect TrackShip to your store, it will auto-track your Shipped orders and will poractivally update your orders with shipment status, delivery events and delivery confirmation. With TrackShip you can automate the last mile, have a tracking page on your store and enable proactive shipment status & delivery notifications by email/SMS to your customers.
 
 =Can I add a shipping provider that is not on your list?
+<<<<<<< HEAD
 We provide a list of more than 400+ shipping providers and carriers with a predefined tracking link. If you can’t find your shipping provider on the list, you can suggest a shipping provider on our [features board](https://feedback.zorem.com/ast) or on the [support forum](https://wordpress.org/support/plugin/woo-advanced-shipment-tracking/), If you need to add your own custom provider, this feature is only available in the [AST PRO](https://www.zorem.com/products/woocommerce-advanced-shipment-tracking/). 
+=======
+We provide a list of more than 300+ shipping providers and carriers with a predefined tracking link. If you can’t find your shipping provider on the list, you can suggest a shipping provider on our [features board](https://feedback.zorem.com/ast) or on the [support forum](https://wordpress.org/support/plugin/woo-advanced-shipment-tracking/), If you need to add your own custom provider, this feature is only available in the [AST PRO Fulfillment Manager](https://www.zorem.com/products/woocommerce-advanced-shipment-tracking/). 
+>>>>>>> 9b96574ab315fb52732e2620a9cd43be2c3b8ac2
 
 =Can I Import tracking information from CSV files?
 Yes, you can use our [CSV import tool](https://docs.zorem.com/docs/ast-free/add-tracking-to-orders/csv-import/) to import multiple tracking numbers to orders, you need to add each tracking number in one row.
