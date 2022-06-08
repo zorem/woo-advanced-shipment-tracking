@@ -7,7 +7,7 @@
 /**
  * Adds the individual sections, settings, and controls to the theme customizer
  */
-class wcast_partial_shipped_customizer_email {
+class Wcast_Partial_Shipped_Customizer_Email {
 	
 	
 	// Get our default values	
@@ -19,7 +19,9 @@ class wcast_partial_shipped_customizer_email {
 		add_action( 'customize_register', array( $this, 'wcast_register_sample_default_controls' ) );
 		
 		// Only proceed if this is own request.		
-		if ( ! $this->is_own_customizer_request() && ! $this->is_own_preview_request() )return;				
+		if ( ! $this->is_own_customizer_request() && ! $this->is_own_preview_request() ) {
+			return;
+		}	
 		
 		// Register our sections
 		add_action( 'customize_register', array( wcast_customizer(), 'wcast_add_customizer_sections' ) );	
@@ -65,8 +67,7 @@ class wcast_partial_shipped_customizer_email {
 	
 	/**
 	 * Checks to see if we are opening our custom customizer preview
-	 *
-	 * @access public
+	 *	 
 	 * @return bool
 	 */
 	public function is_own_preview_request() {
@@ -75,12 +76,11 @@ class wcast_partial_shipped_customizer_email {
 	
 	/**
 	 * Checks to see if we are opening our custom customizer controls
-	 *
-	 * @access public
+	 *	 
 	 * @return bool
 	 */
 	public function is_own_customizer_request() {
-		return isset( $_REQUEST['email'] ) && $_REQUEST['email'] === 'custom_order_status_email';
+		return isset( $_REQUEST['email'] ) && 'custom_order_status_email' === $_REQUEST['email'];
 	}
 
 	/**
@@ -100,8 +100,7 @@ class wcast_partial_shipped_customizer_email {
 	
 	/**
 	 * Get WooCommerce email settings page URL
-	 *
-	 * @access public
+	 *	 
 	 * @return string
 	 */
 	public function get_email_settings_page_url() {
@@ -109,7 +108,7 @@ class wcast_partial_shipped_customizer_email {
 	}
 	
 	/**
-	 * code for initialize default value for customizer
+	 * Code for initialize default value for customizer
 	*/
 	public function wcast_generate_defaults() {
 		$customizer_defaults = array(			
@@ -130,27 +129,6 @@ class wcast_partial_shipped_customizer_email {
 		* Load all our Customizer Custom Controls
 		*/
 		require_once trailingslashit( dirname(__FILE__) ) . 'custom-controls.php';						
-		
-		// Preview Order		
-		$wp_customize->add_setting( 'wcast_email_preview_order_id',
-			array(
-				'default' => 'mockup',
-				'transport' => 'refresh',
-				'sanitize_callback' => ''
-			)
-		);
-		$wp_customize->add_control( new AST_Dropdown_Select_Custom_Control( $wp_customize, 'wcast_email_preview_order_id',
-			array(
-				'label' => __( 'Preview order', 'woo-advanced-shipment-tracking' ),
-				'description' => '',
-				'section' => 'custom_order_status_email',
-				'input_attrs' => array(
-					'placeholder' => __( 'Mockup Order', 'woo-advanced-shipment-tracking' ),
-					'class' => 'preview_order_select',
-				),
-				'choices' => wcast_customizer()->get_order_ids(),
-			)
-		) );
 		
 		$order_status = array(
 			'partially_shipped' => __( 'Partially Shipped', 'woo-advanced-shipment-tracking' ),			
@@ -191,7 +169,7 @@ class wcast_partial_shipped_customizer_email {
 		$wp_customize->add_control( 'customizer_partial_shipped_order_settings_enabled',
 			array(
 				'label' => __( 'Enable Partially Shipped order status email', 'woo-advanced-shipment-tracking' ),
-				'description' => esc_html__( '', 'woo-advanced-shipment-tracking' ),
+				'description' => '',
 				'section' => 'custom_order_status_email',
 				'type' => 'checkbox',
 				'active_callback' => array( $this, 'active_callback' ),
@@ -210,7 +188,7 @@ class wcast_partial_shipped_customizer_email {
 		$wp_customize->add_control( 'woocommerce_customer_partial_shipped_order_settings[subject]',
 			array(
 				'label' => __( 'Subject', 'woocommerce' ),
-				'description' => esc_html__( 'Available variables:', 'woo-advanced-shipment-tracking' ).' {site_title}, {order_number}',
+				'description' => esc_html__( 'Available variables:', 'woo-advanced-shipment-tracking' ) . ' {site_title}, {order_number}',
 				'section' => 'custom_order_status_email',
 				'type' => 'text',
 				'input_attrs' => array(
@@ -234,7 +212,7 @@ class wcast_partial_shipped_customizer_email {
 		$wp_customize->add_control( 'woocommerce_customer_partial_shipped_order_settings[heading]',
 			array(
 				'label' => __( 'Email heading', 'woocommerce' ),
-				'description' => esc_html__( 'Available variables:', 'woo-advanced-shipment-tracking' ).' {site_title}, {order_number}',
+				'description' => esc_html__( 'Available variables:', 'woo-advanced-shipment-tracking' ) . ' {site_title}, {order_number}',
 				'section' => 'custom_order_status_email',
 				'type' => 'text',
 				'input_attrs' => array(
@@ -259,7 +237,7 @@ class wcast_partial_shipped_customizer_email {
 		$wp_customize->add_control( new AST_TinyMCE_Custom_control( $wp_customize, 'woocommerce_customer_partial_shipped_order_settings[wcast_partial_shipped_email_content]',
 			array(
 				'label' => __( 'Email content', 'woo-advanced-shipment-tracking' ),
-				'description' => __( 'Available variables:', 'woo-advanced-shipment-tracking' ).' {site_title}, {customer_email}, {customer_first_name}, {customer_last_name}, {customer_username}, {order_number}',
+				'description' => __( 'Available variables:', 'woo-advanced-shipment-tracking' ) . ' {site_title}, {customer_email}, {customer_first_name}, {customer_last_name}, {customer_username}, {order_number}',
 				'section' => 'custom_order_status_email',
 				'input_attrs' => array(
 					'toolbar1' => 'bold italic bullist numlist alignleft aligncenter alignright link',
@@ -287,45 +265,32 @@ class wcast_partial_shipped_customizer_email {
 		) );	
 	}
 	
-	public function active_callback(){
+	public function active_callback() {
 		return ( $this->is_own_preview_request() ) ? true : false ;	
 	}
 		
 	/**
 	 * Set up preview
-	 *
-	 * @access public
+	 *	 
 	 * @return void
 	 */
 	public function set_up_preview() {
 		// Make sure this is own preview request.
-		if ( ! $this->is_own_preview_request() )return;
-		include wc_advanced_shipment_tracking()->get_plugin_path() . '/includes/customizer/preview/partial_shipped_preview.php';exit;			
+		if ( ! $this->is_own_preview_request() ) {
+			return;
+		}	
+		include wc_advanced_shipment_tracking()->get_plugin_path() . '/includes/customizer/preview/partial_shipped_preview.php';
+		exit;
 	}
 	
 	/**
-	 * code for preview of delivered order status email
+	 * Code for preview of delivered order status email
 	*/
-	public function preview_partial_shipped_email(){
+	public function preview_partial_shipped_email() {
 		// Load WooCommerce emails.
 		$wc_emails      = WC_Emails::instance();
 		$emails         = $wc_emails->get_emails();		
-		$preview_id     = get_theme_mod('wcast_email_preview_order_id');
-		
-		if($preview_id == '' || $preview_id == 'mockup') {
-			$content = '<div style="padding: 35px 40px; background-color: white;">' . __( 'Please select order to preview.', 'woo-advanced-shipment-tracking' ) . '</div>';							
-			echo $content;
-			return;
-		}		
-		
-		$order = wc_get_order( $preview_id );
-		
-		if(!$order){
-			$content = '<div style="padding: 35px 40px; background-color: white;">' . __( 'Please select order to preview.', 'woo-advanced-shipment-tracking' ) . '</div>';							
-			echo $content;
-			return;
-		}
-		
+		$preview_id     = 'mockup';
 		$email_type = 'WC_Email_Customer_Partial_Shipped_Order';
 		
 		if ( false === $email_type ) {
@@ -338,7 +303,7 @@ class wcast_partial_shipped_customizer_email {
 		}
 		$order_status = 'partial-shipped';
 		// Get an order
-		$order = $this->get_wc_order_for_preview( $order_status, $preview_id );		
+		$order = wcast_customizer()->get_wc_order_for_preview( $order_status, $preview_id );		
 		
 		// Make sure gateways are running in case the email needs to input content from them.
 		WC()->payment_gateways();
@@ -361,64 +326,7 @@ class wcast_partial_shipped_customizer_email {
 		$content = $email->style_inline( $content );
 		$content = apply_filters( 'woocommerce_mail_content', $content );
 		
-		echo $content;		
-	}
-	
-	/**
-	 * Get WooCommerce order for preview
-	 *
-	 * @access public
-	 * @param string $order_status
-	 * @return object
-	 */
-	public function get_wc_order_for_preview( $order_status = null, $order_id = null ) {
-		if ( ! empty( $order_id ) && 'mockup' != $order_id ) {
-			return wc_get_order( $order_id );
-		} else {
-			// Use mockup order
-
-			// Instantiate order object
-			$order = new WC_Order();
-
-			// Other order properties
-			$order->set_props( array(
-				'id'                 => 1,
-				'status'             => ( null === $order_status ? 'processing' : $order_status ),
-				'billing_first_name' => 'Sherlock',
-				'billing_last_name'  => 'Holmes',
-				'billing_company'    => 'Detectives Ltd.',
-				'billing_address_1'  => '221B Baker Street',
-				'billing_city'       => 'London',
-				'billing_postcode'   => 'NW1 6XE',
-				'billing_country'    => 'GB',
-				'billing_email'      => 'sherlock@holmes.co.uk',
-				'billing_phone'      => '02079304832',
-				'date_created'       => date( 'Y-m-d H:i:s' ),
-				'total'              => 24.90,
-			) );
-
-			// Item #1
-			$order_item = new WC_Order_Item_Product();
-			$order_item->set_props( array(
-				'name'     => 'A Study in Scarlet',
-				'subtotal' => '9.95',
-				'sku'      => 'kwd_ex_1',
-			) );
-			$order->add_item( $order_item );
-
-			// Item #2
-			$order_item = new WC_Order_Item_Product();
-			$order_item->set_props( array(
-				'name'     => 'The Hound of the Baskervilles',
-				'subtotal' => '14.95',
-				'sku'      => 'kwd_ex_2',
-			) );
-			$order->add_item( $order_item );
-
-			// Return mockup order
-			return $order;
-		}
-
+		echo wp_kses_post( $content );
 	}	
 }
 
@@ -434,7 +342,7 @@ function ps_customizer() {
 	static $instance;
 
 	if ( ! isset( $instance ) ) {		
-		$instance = new wcast_partial_shipped_customizer_email();
+		$instance = new Wcast_Partial_Shipped_Customizer_Email();
 	}
 
 	return $instance;
@@ -451,16 +359,17 @@ add_action( 'customize_save_customizer_partial_shipped_order_settings_enabled', 
 
 /**
  * Update Delivered order email enable/disable
- *
  */
-function woocommerce_customer_partial_shipped_order_settings_fun($data){
-	$post_values = json_decode( wp_unslash( $_POST['customized'] ), true );
+function woocommerce_customer_partial_shipped_order_settings_fun( $data ) {
+	
+	$customized = isset( $_POST['customized'] ) ? wc_clean( $_POST['customized'] ) : '';
+	$post_values = json_decode( wp_unslash( $customized ), true );
 	$partial_shipped_order_settings = get_option( 'woocommerce_customer_partial_shipped_order_settings');
 	
-	if(isset($post_values['customizer_partial_shipped_order_settings_enabled']) && ($post_values['customizer_partial_shipped_order_settings_enabled'] == 1)){
+	if ( isset( $post_values['customizer_partial_shipped_order_settings_enabled'] ) && ( 1 == $post_values['customizer_partial_shipped_order_settings_enabled'] ) ) {
 		$partial_shipped_order_settings['enabled'] = 'yes';
-	} else{
+	} else {
 		$partial_shipped_order_settings['enabled'] = 'no';
 	}		
-	update_option( 'woocommerce_customer_partial_shipped_order_settings',$partial_shipped_order_settings);	
+	update_option( 'woocommerce_customer_partial_shipped_order_settings', $partial_shipped_order_settings );
 }

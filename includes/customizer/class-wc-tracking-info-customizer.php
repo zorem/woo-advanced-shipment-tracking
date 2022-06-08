@@ -7,7 +7,7 @@
 /**
  * Adds the individual sections, settings, and controls to the theme customizer
  */
-class wcast_initialise_customizer_settings {
+class Wcast_Initialise_Customizer_Settings {
 	// Get our default values	
 	private static $order_ids  = null;
 	
@@ -19,7 +19,9 @@ class wcast_initialise_customizer_settings {
 		add_action( 'customize_register', array( $this, 'wcast_register_sample_default_controls' ) );
 		
 		// Only proceed if this is own request.
-		if ( ! $this->is_own_customizer_request() && ! $this->is_own_preview_request() )return;					
+		if ( ! $this->is_own_customizer_request() && ! $this->is_own_preview_request() ) {
+			return;
+		}	
 
 		// Register our sections
 		add_action( 'customize_register', array( wcast_customizer(), 'wcast_add_customizer_sections' ) );	
@@ -45,7 +47,7 @@ class wcast_initialise_customizer_settings {
 	
 	
 	/**
-	 * add css and js for preview
+	 * Add css and js for preview
 	*/	
 	public function enqueue_preview_scripts() {
 		 wp_enqueue_script('wcast-preview-scripts', wc_advanced_shipment_tracking()->plugin_dir_url() . '/assets/js/preview-scripts.js', array('jquery', 'customize-preview'), wc_advanced_shipment_tracking()->version, true);
@@ -68,8 +70,7 @@ class wcast_initialise_customizer_settings {
 	
 	/**
 	 * Checks to see if we are opening our custom customizer preview
-	 *
-	 * @access public
+	 *	 
 	 * @return bool
 	 */
 	public function is_own_preview_request() {
@@ -78,19 +79,18 @@ class wcast_initialise_customizer_settings {
 	
 	/**
 	 * Checks to see if we are opening our custom customizer controls
-	 *
-	 * @access public
+	 *	 
 	 * @return bool
 	 */
 	public function is_own_customizer_request() {
-		return isset( $_REQUEST['email'] ) && $_REQUEST['email'] === 'ast_tracking_general_section';
+		return isset( $_REQUEST['email'] ) && 'ast_tracking_general_section' === $_REQUEST['email'];
 	}
 	
 	/**
 	 * Get Customizer URL
 	 *
 	 */
-	public function get_customizer_url($email,$return_tab) {	
+	public function get_customizer_url( $email, $return_tab ) {	
 		return add_query_arg( array(
 			'wcast-customizer' => '1',
 			'email' => $email,		
@@ -103,16 +103,15 @@ class wcast_initialise_customizer_settings {
 	
 	/**
 	 * Get WooCommerce email settings page URL
-	 *
-	 * @access public
+	 *	 
 	 * @return string
 	 */
-	public function get_email_settings_page_url($return_tab) {
-		return admin_url( 'admin.php?page=woocommerce-advanced-shipment-tracking&tab='.$return_tab );
+	public function get_email_settings_page_url( $return_tab ) {
+		return admin_url( 'admin.php?page=woocommerce-advanced-shipment-tracking&tab=' . $return_tab );
 	}
 	
 	/**
-	 * code for initialize default value for customizer
+	 * Code for initialize default value for customizer
 	*/	
 	public function wcast_generate_defaults() {
 		$customizer_defaults = array(
@@ -166,29 +165,8 @@ class wcast_initialise_customizer_settings {
 		
 		$font_size_array[ '' ] = __( 'Select', 'woocommerce' );
 		for ( $i = 10; $i <= 30; $i++ ) {
-			$font_size_array[ $i ] = $i."px";
+			$font_size_array[ $i ] = $i . 'px';
 		}
-		
-		// Preview Order				
-		$wp_customize->add_setting( 'wcast_preview_order_id',
-			array(
-				'default' => $this->defaults['wcast_preview_order_id'],
-				'transport' => 'refresh',
-				'sanitize_callback' => ''
-			)
-		);
-		$wp_customize->add_control( new AST_Dropdown_Select_Custom_Control( $wp_customize, 'wcast_preview_order_id',
-			array(
-				'label' => __( 'Preview order', 'woo-advanced-shipment-tracking' ),
-				'description' => esc_html__( 'Select an order to preview and design the tracking info display.', 'woo-advanced-shipment-tracking' ),
-				'section' => 'ast_tracking_general_section',
-				'input_attrs' => array(
-					'placeholder' => __( 'Please select a order...', 'woo-advanced-shipment-tracking' ),
-					'class' => 'preview_order_select',
-				),
-				'choices' => wcast_customizer()->get_order_ids(),
-			)
-		) );				
 		
 		// Tracking Display Position
 		$wp_customize->add_setting( 'tracking_info_settings[display_tracking_info_at]',
@@ -223,7 +201,7 @@ class wcast_initialise_customizer_settings {
 		$wp_customize->add_control( 'tracking_info_settings[hide_trackig_header]',
 			array(
 				'label' => __( 'Hide Tracking Header', 'woo-advanced-shipment-tracking' ),
-				'description' => esc_html__( '', 'woo-advanced-shipment-tracking' ),
+				'description' => '',
 				'section' => 'ast_tracking_general_section',
 				'type' => 'checkbox'
 			)
@@ -241,7 +219,7 @@ class wcast_initialise_customizer_settings {
 		$wp_customize->add_control( 'tracking_info_settings[header_text_change]',
 			array(
 				'label' => __( 'Tracking Header text', 'woo-advanced-shipment-tracking' ),
-				'description' => esc_html__( '', 'woo-advanced-shipment-tracking' ),
+				'description' => '',
 				'section' => 'ast_tracking_general_section',
 				'type' => 'text',
 				'input_attrs' => array(
@@ -408,7 +386,7 @@ class wcast_initialise_customizer_settings {
 		$wp_customize->add_control( 'tracking_info_settings[show_provider_border]',
 			array(
 				'label' => __( 'Show bottom border', 'woo-advanced-shipment-tracking' ),
-				'description' => esc_html__( '', 'woo-advanced-shipment-tracking' ),
+				'description' => '',
 				'section' => 'ast_tracking_general_section',
 				'type' => 'checkbox',
 				'active_callback' => array( $this, 'active_callback_for_simple_layout' ),
@@ -464,7 +442,7 @@ class wcast_initialise_customizer_settings {
 		$wp_customize->add_control( 'tracking_info_settings[display_shipment_provider_name]',
 			array(
 				'label' => __( 'Display shipping provider name', 'woo-advanced-shipment-tracking' ),
-				'description' => esc_html__( '', 'woo-advanced-shipment-tracking' ),
+				'description' => '',
 				'section' => 'ast_tracking_general_section',
 				'type' => 'checkbox',
 				'active_callback' => array( $this, 'active_callback_for_table_layout' ),
@@ -483,7 +461,7 @@ class wcast_initialise_customizer_settings {
 		$wp_customize->add_control( 'tracking_info_settings[display_shipment_provider_image]',
 			array(
 				'label' => __( 'Display shipping provider image', 'woo-advanced-shipment-tracking' ),
-				'description' => esc_html__( '', 'woo-advanced-shipment-tracking' ),
+				'description' => '',
 				'section' => 'ast_tracking_general_section',
 				'type' => 'checkbox',
 				'active_callback' => array( $this, 'active_callback_for_table_layout' ),
@@ -502,7 +480,7 @@ class wcast_initialise_customizer_settings {
 		$wp_customize->add_control( 'tracking_info_settings[remove_date_from_tracking]',
 			array(
 				'label' => __( 'Hide the shipped date', 'woo-advanced-shipment-tracking' ),
-				'description' => esc_html__( '', 'woo-advanced-shipment-tracking' ),
+				'description' => '',
 				'section' => 'ast_tracking_general_section',
 				'type' => 'checkbox',
 				'active_callback' => array( $this, 'active_callback_for_table_layout' ),
@@ -521,7 +499,7 @@ class wcast_initialise_customizer_settings {
 		$wp_customize->add_control( 'tracking_info_settings[tracking_number_link]',
 			array(
 				'label' => __( 'Use tracking number as a link', 'woo-advanced-shipment-tracking' ),
-				'description' => esc_html__( '', 'woo-advanced-shipment-tracking' ),
+				'description' => '',
 				'section' => 'ast_tracking_general_section',
 				'type' => 'checkbox',
 				'active_callback' => array( $this, 'active_callback_for_table_layout' ),
@@ -642,7 +620,7 @@ class wcast_initialise_customizer_settings {
 		$wp_customize->add_control( 'tracking_info_settings[hide_table_header]',
 			array(
 				'label' => __( 'Hide Table Headers', 'woo-advanced-shipment-tracking' ),
-				'description' => esc_html__( '', 'woo-advanced-shipment-tracking' ),
+				'description' => '',
 				'section' => 'ast_tracking_general_section',
 				'type' => 'checkbox',
 				'active_callback' => array( $this, 'active_callback_for_table_layout' ),
@@ -661,7 +639,7 @@ class wcast_initialise_customizer_settings {
 		$wp_customize->add_control( 'tracking_info_settings[provider_header_text]',
 			array(
 				'label' => __( 'Shipping provider header text', 'woo-advanced-shipment-tracking' ),
-				'description' => esc_html__( '', 'woo-advanced-shipment-tracking' ),
+				'description' => '',
 				'section' => 'ast_tracking_general_section',
 				'type' => 'text',
 				'input_attrs' => array(
@@ -685,7 +663,7 @@ class wcast_initialise_customizer_settings {
 		$wp_customize->add_control( 'tracking_info_settings[tracking_number_header_text]',
 			array(
 				'label' => __( 'Tracking number header text', 'woo-advanced-shipment-tracking' ),
-				'description' => esc_html__( '', 'woo-advanced-shipment-tracking' ),
+				'description' => '',
 				'section' => 'ast_tracking_general_section',
 				'type' => 'text',
 				'input_attrs' => array(
@@ -708,7 +686,7 @@ class wcast_initialise_customizer_settings {
 		$wp_customize->add_control( 'tracking_info_settings[shipped_date_header_text]',
 			array(
 				'label' => __( 'Shipped date header text', 'woo-advanced-shipment-tracking' ),
-				'description' => esc_html__( '', 'woo-advanced-shipment-tracking' ),
+				'description' => '',
 				'section' => 'ast_tracking_general_section',
 				'type' => 'text',
 				'input_attrs' => array(
@@ -945,7 +923,7 @@ class wcast_initialise_customizer_settings {
 		$wp_customize->add_control( 'tracking_info_settings[show_track_label]',
 			array(
 				'label' => __( 'Track Header', 'woo-advanced-shipment-tracking' ),
-				'description' => esc_html__( '', 'woo-advanced-shipment-tracking' ),
+				'description' => '',
 				'section' => 'ast_tracking_general_section',
 				'type' => 'checkbox',
 				'active_callback' => array( $this, 'active_callback_for_table_layout_tracking_link' ),				
@@ -964,7 +942,7 @@ class wcast_initialise_customizer_settings {
 		$wp_customize->add_control( 'tracking_info_settings[track_header_text]',
 			array(
 				'label' => __( 'Track header text', 'woo-advanced-shipment-tracking' ),
-				'description' => esc_html__( '', 'woo-advanced-shipment-tracking' ),
+				'description' => '',
 				'section' => 'ast_tracking_general_section',
 				'type' => 'text',
 				'input_attrs' => array(
@@ -1014,107 +992,121 @@ class wcast_initialise_customizer_settings {
 	}
 	
 	
-	public function active_callback_for_hide_trackig_header(){
-		$ast = new WC_Advanced_Shipment_Tracking_Actions;	
-		$hide_trackig_header = $ast->get_option_value_from_array('tracking_info_settings','hide_trackig_header','');
+	public function active_callback_for_hide_trackig_header() {
+		$ast = new WC_Advanced_Shipment_Tracking_Actions();
+		$hide_trackig_header = $ast->get_option_value_from_array( 'tracking_info_settings', 'hide_trackig_header', '' );
 		return ( !$hide_trackig_header ) ? true : false ;			
 	}
 	
-	public function active_callback_for_table_layout(){
+	public function active_callback_for_table_layout() {
 		
 		$fluid_template = apply_filters( 'check_if_fluid_template_exist', false );
-		if( $fluid_template )return false;
+		if ( $fluid_template ) {
+			return false;
+		}	
 		
-		$ast = new WC_Advanced_Shipment_Tracking_Actions;	
-		$select_tracking_template = $ast->get_option_value_from_array('tracking_info_settings','select_tracking_template',$this->defaults['select_tracking_template']);
+		$ast = new WC_Advanced_Shipment_Tracking_Actions();
+		$select_tracking_template = $ast->get_option_value_from_array( 'tracking_info_settings', 'select_tracking_template', $this->defaults['select_tracking_template'] );
 		
-		return ( $select_tracking_template == 'default_table' ) ? true : false ;
+		return ( 'default_table' == $select_tracking_template ) ? true : false ;
 	}
 	
-	public function active_callback_for_table_layout_table_header(){
+	public function active_callback_for_table_layout_table_header() {
 		
 		$fluid_template = apply_filters( 'check_if_fluid_template_exist', false );
-		if( $fluid_template )return false;
+		if ( $fluid_template ) {
+			return false;
+		}	
 		
-		$ast = new WC_Advanced_Shipment_Tracking_Actions;	
-		$select_tracking_template = $ast->get_option_value_from_array('tracking_info_settings','select_tracking_template',$this->defaults['select_tracking_template']);
-		$hide_table_header = $ast->get_option_value_from_array( 'tracking_info_settings','hide_table_header', '' );
+		$ast = new WC_Advanced_Shipment_Tracking_Actions();
+		$select_tracking_template = $ast->get_option_value_from_array( 'tracking_info_settings', 'select_tracking_template', $this->defaults['select_tracking_template'] );
+		$hide_table_header = $ast->get_option_value_from_array( 'tracking_info_settings', 'hide_table_header', '' );
 		
-		return ( $select_tracking_template == 'default_table' && !$hide_table_header ) ? true : false ;
+		return ( 'default_table' == $select_tracking_template && !$hide_table_header ) ? true : false ;
 	}	
 
-	public function active_callback_for_table_layout_tracking_link(){
+	public function active_callback_for_table_layout_tracking_link() {
 		
 		$fluid_template = apply_filters( 'check_if_fluid_template_exist', false );
-		if( $fluid_template )return false;
+		if ( $fluid_template ) {
+			return false;
+		}	
 		
-		$ast = new WC_Advanced_Shipment_Tracking_Actions;	
-		$select_tracking_template = $ast->get_option_value_from_array('tracking_info_settings','select_tracking_template',$this->defaults['select_tracking_template']);
-		$tracking_number_link = $ast->get_option_value_from_array( 'tracking_info_settings','tracking_number_link', '' );
+		$ast = new WC_Advanced_Shipment_Tracking_Actions();
+		$select_tracking_template = $ast->get_option_value_from_array( 'tracking_info_settings', 'select_tracking_template', $this->defaults['select_tracking_template'] );
+		$tracking_number_link = $ast->get_option_value_from_array( 'tracking_info_settings', 'tracking_number_link', '' );
 		
-		return ( $select_tracking_template == 'default_table' && !$tracking_number_link ) ? true : false ;
+		return ( 'default_table' == $select_tracking_template && !$tracking_number_link ) ? true : false ;
 	}	
 	
-	public function active_callback_for_table_layout_tracking_link_track_header(){
+	public function active_callback_for_table_layout_tracking_link_track_header() {
 		
 		$fluid_template = apply_filters( 'check_if_fluid_template_exist', false );
-		if( $fluid_template )return false;
+		if ( $fluid_template ) {
+			return false;
+		}
 		
-		$ast = new WC_Advanced_Shipment_Tracking_Actions;	
-		$select_tracking_template = $ast->get_option_value_from_array('tracking_info_settings','select_tracking_template',$this->defaults['select_tracking_template']);
-		$tracking_number_link = $ast->get_option_value_from_array( 'tracking_info_settings','tracking_number_link', '' );
-		$show_track_label = $ast->get_option_value_from_array( 'tracking_info_settings','show_track_label', '' );
+		$ast = new WC_Advanced_Shipment_Tracking_Actions();
+		$select_tracking_template = $ast->get_option_value_from_array( 'tracking_info_settings', 'select_tracking_template', $this->defaults['select_tracking_template'] );
+		$tracking_number_link = $ast->get_option_value_from_array( 'tracking_info_settings', 'tracking_number_link', '' );
+		$show_track_label = $ast->get_option_value_from_array( 'tracking_info_settings', 'show_track_label', '' );
 		
-		return ( $select_tracking_template == 'default_table' && !$tracking_number_link && $show_track_label ) ? true : false ;
+		return ( 'default_table' == $select_tracking_template && !$tracking_number_link && $show_track_label ) ? true : false ;
 	}
 
-	public function active_callback_for_simple_layout(){
+	public function active_callback_for_simple_layout() {
 		
 		$fluid_template = apply_filters( 'check_if_fluid_template_exist', false );
-		if( $fluid_template )return false;
+		if ( $fluid_template ) {
+			return false;
+		}	
 		
-		$ast = new WC_Advanced_Shipment_Tracking_Actions;	
-		$select_tracking_template = $ast->get_option_value_from_array('tracking_info_settings','select_tracking_template',$this->defaults['select_tracking_template']);
+		$ast = new WC_Advanced_Shipment_Tracking_Actions();	
+		$select_tracking_template = $ast->get_option_value_from_array( 'tracking_info_settings', 'select_tracking_template', $this->defaults['select_tracking_template'] );
 		
-		return ( $select_tracking_template == 'simple_list' ) ? true : false ;
+		return ( 'simple_list' == $select_tracking_template ) ? true : false ;
 	}	
 	
-	public function active_callback_for_simple_layout_show_provider_border(){
+	public function active_callback_for_simple_layout_show_provider_border() {
 		
 		$fluid_template = apply_filters( 'check_if_fluid_template_exist', false );
-		if( $fluid_template )return false;
+		if ( $fluid_template ) {
+			return false;
+		}	
 		
-		$ast = new WC_Advanced_Shipment_Tracking_Actions;	
-		$select_tracking_template = $ast->get_option_value_from_array('tracking_info_settings','select_tracking_template',$this->defaults['select_tracking_template']);
-		$show_provider_border = $ast->get_option_value_from_array( 'tracking_info_settings','show_provider_border', $this->defaults['show_provider_border'] );
+		$ast = new WC_Advanced_Shipment_Tracking_Actions();
+		$select_tracking_template = $ast->get_option_value_from_array( 'tracking_info_settings', 'select_tracking_template', $this->defaults['select_tracking_template'] );
+		$show_provider_border = $ast->get_option_value_from_array( 'tracking_info_settings', 'show_provider_border', $this->defaults['show_provider_border'] );
 		
-		return ( $select_tracking_template == 'simple_list' && $show_provider_border ) ? true : false ;
+		return ( 'simple_list' == $select_tracking_template && $show_provider_border ) ? true : false ;
 	}
 	
 	/**
 	 * Set up preview
-	 *
-	 * @access public
+	 *	 
 	 * @return void
 	 */
 	public function set_up_preview() {
 		// Make sure this is own preview request.
-		if ( ! $this->is_own_preview_request() )return;
-		include wc_advanced_shipment_tracking()->get_plugin_path() . '/includes/customizer/preview/preview.php';exit;			
+		if ( ! $this->is_own_preview_request() ) {
+			return;
+		}	
+		include wc_advanced_shipment_tracking()->get_plugin_path() . '/includes/customizer/preview/preview.php';
+		exit;			
 	}
 	
 	/**
-	 * code for preview of tracking info in email
+	 * Code for preview of tracking info in email
 	*/	
-	public function preview_completed_email(){
+	public function preview_completed_email() {
 		
 		$ast = WC_Advanced_Shipment_Tracking_Actions::get_instance();				
 				
 		$tracking_info_settings = get_option('tracking_info_settings');		
 					
-		if($tracking_info_settings['display_tracking_info_at'] == 'after_order'){			
+		if ( 'after_order' == $tracking_info_settings['display_tracking_info_at'] ) {
 			add_action( 'woocommerce_email_order_meta', array( $ast, 'email_display' ), 0, 4 );
-		} else{
+		} else {
 			add_action( 'woocommerce_email_before_order_table', array( $ast, 'email_display' ), 0, 4 );
 		}	
 		
@@ -1122,19 +1114,14 @@ class wcast_initialise_customizer_settings {
 		$wc_emails      = WC_Emails::instance();
 		$emails         = $wc_emails->get_emails();
 		$email_template = 'customer_completed_order';
-		$preview_id     = get_theme_mod('wcast_preview_order_id');
+		$preview_id     = 'mockup';
 		$email_type = 'WC_Email_Customer_Completed_Order';
 		
-		if ( false === $email_type )return false;
+		if ( false === $email_type ) {
+			return false;
+		}	
 		
-		$order_status = 'completed';
-		
-		if($preview_id == '' || $preview_id == 'mockup') {							
-			
-			//$content = '<div style="padding: 35px 40px; background-color: white;">' . __( 'To preview the tracking display, please add tracking information to at least one order and choose it in the preview order selection.', 'woo-advanced-shipment-tracking' ) . '</div>';							
-			//echo $content;
-			//return;
-		}		
+		$order_status = 'completed';	
 		
 		// Reference email.
 		if ( isset( $emails[ $email_type ] ) && is_object( $emails[ $email_type ] ) ) {
@@ -1142,7 +1129,7 @@ class wcast_initialise_customizer_settings {
 		}
 		
 		// Get an order
-		$order = $this->get_wc_order_for_preview( $order_status, $preview_id );		
+		$order = wcast_customizer()->get_wc_order_for_preview( $order_status, $preview_id );		
 		
 		// Make sure gateways are running in case the email needs to input content from them.
 		WC()->payment_gateways();
@@ -1166,66 +1153,11 @@ class wcast_initialise_customizer_settings {
 		if ( 'plain' === $email->email_type ) {
 			$content = '<div style="padding: 35px 40px; background-color: white;">' . str_replace( "\n", '<br/>', $content ) . '</div>';
 		}
-		echo $content;	
+		echo wp_kses_post( $content );
 	}	
-	
-	/**
-	 * Get WooCommerce order for preview
-	 *
-	 * @access public
-	 * @param string $order_status
-	 * @return object
-	 */
-	public function get_wc_order_for_preview( $order_status = null, $order_id = null ) {
-		if ( ! empty( $order_id ) && 'mockup' != $order_id ) {
-			return wc_get_order( $order_id );
-		} else {			
-
-			// Instantiate order object
-			$order = new WC_Order();			
-			
-			// Other order properties
-			$order->set_props( array(
-				'id'                 => 1,
-				'status'             => ( null === $order_status ? 'processing' : $order_status ),
-				'billing_first_name' => 'Sherlock',
-				'billing_last_name'  => 'Holmes',
-				'billing_company'    => 'Detectives Ltd.',
-				'billing_address_1'  => '221B Baker Street',
-				'billing_city'       => 'London',
-				'billing_postcode'   => 'NW1 6XE',
-				'billing_country'    => 'GB',
-				'billing_email'      => 'sherlock@holmes.co.uk',
-				'billing_phone'      => '02079304832',
-				'date_created'       => date( 'Y-m-d H:i:s' ),
-				'total'              => 24.90,				
-			) );
-
-			// Item #1
-			$order_item = new WC_Order_Item_Product();
-			$order_item->set_props( array(
-				'name'     => 'A Study in Scarlet',
-				'subtotal' => '9.95',
-				'sku'      => 'kwd_ex_1',
-			) );
-			$order->add_item( $order_item );
-
-			// Item #2
-			$order_item = new WC_Order_Item_Product();
-			$order_item->set_props( array(
-				'name'     => 'The Hound of the Baskervilles',
-				'subtotal' => '14.95',
-				'sku'      => 'kwd_ex_2',
-			) );
-			$order->add_item( $order_item );						
-
-			// Return mockup order
-			return $order;
-		}
-	}
 }
 /**
  * Initialise our Customizer settings
  */
 
-$wcast_customizer_settings = new wcast_initialise_customizer_settings();
+$wcast_customizer_settings = new Wcast_Initialise_Customizer_Settings();
