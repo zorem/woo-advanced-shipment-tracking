@@ -81,7 +81,11 @@
     transition-timing-function: ease-in-out;
     position: absolute;
     right: 0;
+<<<<<<< HEAD
+    top: 274px;
+=======
     top: 105px;
+>>>>>>> 9b96574ab315fb52732e2620a9cd43be2c3b8ac2
     z-index: 1000;
     overflow-x: hidden;
     overflow-y: auto;	
@@ -1695,6 +1699,7 @@ ul.csv_error_details_ul li:before{
     font-weight: 500;
 	color: #444;
 }
+
 .trackship_addon_section{
     background: #fff;
 	border: 1px solid #e0e0e0;	
@@ -2078,7 +2083,22 @@ span.dashicons.dashicons-trash.remove {
 .multiple_select_container.wc_ast_unclude_tracking_info .select2-selection__choice[title="Partially Shipped"] .select2-selection__choice__remove, .multiple_select_container.wc_ast_unclude_tracking_info .select2-selection__choice[title="Shipped"] .select2-selection__choice__remove, .multiple_select_container.wc_ast_unclude_tracking_info .select2-selection__choice[title="Completed"] .select2-selection__choice__remove {
     display: none!important;
 }
+<<<<<<< HEAD
+.admin-message-panel {
+	background: #fff;	
+	border-bottom: 1px solid #e0e0e0;
+    padding: 20px;    
+}
+.admin_message_header{
+	font-size: 25px;
+    line-height: 25px;
+    margin: 0;
+    font-weight: 500;
+    color: #444;
+}
+=======
 
+>>>>>>> 9b96574ab315fb52732e2620a9cd43be2c3b8ac2
 /*** RTL CSS ***/
 .rtl .tab_section .accordion span.dashicons {
     float: left;

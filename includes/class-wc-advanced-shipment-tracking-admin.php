@@ -210,6 +210,10 @@ class WC_Advanced_Shipment_Tracking_Admin {
 		
 		<div class="zorem-layout">
 			<?php do_action( 'ast_settings_admin_notice' ); ?>	
+<<<<<<< HEAD
+			<?php include 'views/admin_message_panel.php'; ?>
+=======
+>>>>>>> 9b96574ab315fb52732e2620a9cd43be2c3b8ac2
 			<div class="zorem-layout__header">
 				<h1 class="page_heading">
 					<a href="javascript:void(0)"><?php esc_html_e( 'Shipment Tracking', 'woo-advanced-shipment-tracking' ); ?></a> <span class="dashicons dashicons-arrow-right-alt2"></span> <span class="breadcums_page_heading"><?php esc_html_e( 'Settings', 'woo-advanced-shipment-tracking' ); ?></span>
@@ -218,7 +222,12 @@ class WC_Advanced_Shipment_Tracking_Admin {
 			</div>				
 			<div class="woocommerce zorem_admin_layout">
 				<div class="ast_admin_content zorem_admin_settings">
+<<<<<<< HEAD
+					
+					<?php include 'views/activity_panel.php'; ?>					
+=======
 					<?php include 'views/activity_panel.php'; ?>
+>>>>>>> 9b96574ab315fb52732e2620a9cd43be2c3b8ac2
 					<div class="ast_nav_div">											
 						<?php
 						$this->get_html_menu_tab( $this->get_ast_tab_settings_data() );

@@ -7,6 +7,10 @@ $wc_ast_api_key = get_option('wc_ast_api_key');
 <section id="content6" class="tab_section">
 	<div class="tab_container_without_bg">
 
+<<<<<<< HEAD
+		<?php do_action('ast_addon_license_form'); ?>	
+		
+=======
 		<?php
 		$show_addons_tab = apply_filters( 'ast_show_addons_tab', false );
 		
@@ -26,11 +30,16 @@ $wc_ast_api_key = get_option('wc_ast_api_key');
 		
 		<?php do_action('ast_addon_license_form'); ?>	
 		<?php if ( !class_exists( 'ast_pro' ) ) { ?>
+>>>>>>> 9b96574ab315fb52732e2620a9cd43be2c3b8ac2
 		<div class="section-content trackship_addon_section">
 			<div class="ast-row">
 				<div class="as-col-6">
 					<div class="ts_col_inner">
+<<<<<<< HEAD
+						<h1 class="ast_pro_landing_header">Advanced Shipment Tracking PRO</h1>
+=======
 						<h1 class="ast_pro_landing_header">AST PRO Fulfillment Manager</h1>
+>>>>>>> 9b96574ab315fb52732e2620a9cd43be2c3b8ac2
 						<ul class="ast_pro_features_list">
 							<li>Premium Support</li>
 							<li>Tracking per item</li>
@@ -51,8 +60,7 @@ $wc_ast_api_key = get_option('wc_ast_api_key');
 					</div>
 				</div>
 			</div>
-		</div>	
-		<?php } ?>					
+		</div>						
 		
 		<h1 class="tab_section_heading clear_spacing" style="margin: 20px 0 0;">Level up your fulfillment workflows</h1>				
 		
