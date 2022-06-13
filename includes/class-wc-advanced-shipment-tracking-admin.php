@@ -191,7 +191,7 @@ class WC_Advanced_Shipment_Tracking_Admin {
 		$WC_Countries = new WC_Countries();
 		$countries = $WC_Countries->get_countries();				
 		
-		$default_shippment_providers = $wpdb->get_results( "SELECT * FROM {$this->table} ORDER BY shipping_default ASC, display_in_order DESC, trackship_supported DESC, id ASC" );		
+		$default_shippment_providers = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %1s ORDER BY shipping_default ASC, display_in_order DESC, trackship_supported DESC, id ASC', $this->table ) );
 		
 		foreach ( $default_shippment_providers as $key => $value ) {			
 			$search = array('(US)', '(UK)');
@@ -208,26 +208,18 @@ class WC_Advanced_Shipment_Tracking_Admin {
 		wp_enqueue_script( 'shipment_tracking_table_rows' ); 
 		?>		
 		
-		<div class="zorem-layout">
-			<?php do_action( 'ast_settings_admin_notice' ); ?>	
-<<<<<<< HEAD
-			<?php include 'views/admin_message_panel.php'; ?>
-=======
->>>>>>> 9b96574ab315fb52732e2620a9cd43be2c3b8ac2
+		<div class="zorem-layout">					
 			<div class="zorem-layout__header">
 				<h1 class="page_heading">
 					<a href="javascript:void(0)"><?php esc_html_e( 'Shipment Tracking', 'woo-advanced-shipment-tracking' ); ?></a> <span class="dashicons dashicons-arrow-right-alt2"></span> <span class="breadcums_page_heading"><?php esc_html_e( 'Settings', 'woo-advanced-shipment-tracking' ); ?></span>
 				</h1>				
 				<img class="zorem-layout__header-logo" src="<?php echo esc_url( wc_advanced_shipment_tracking()->plugin_dir_url() ); ?>assets/images/ast-logo.png">								
-			</div>				
+			</div>
+			<?php do_action( 'ast_settings_admin_notice' ); ?>
 			<div class="woocommerce zorem_admin_layout">
 				<div class="ast_admin_content zorem_admin_settings">
-<<<<<<< HEAD
 					
 					<?php include 'views/activity_panel.php'; ?>					
-=======
-					<?php include 'views/activity_panel.php'; ?>
->>>>>>> 9b96574ab315fb52732e2620a9cd43be2c3b8ac2
 					<div class="ast_nav_div">											
 						<?php
 						$this->get_html_menu_tab( $this->get_ast_tab_settings_data() );
@@ -1471,17 +1463,14 @@ class WC_Advanced_Shipment_Tracking_Admin {
 
 		global $wpdb;					
 		
-		$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$this->table} WHERE api_provider_name = %s", $tracking_provider );
-		$shippment_provider = $wpdb->get_var( $sql );
+		$shippment_provider = $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM %1s WHERE api_provider_name = %s', $this->table, $tracking_provider ) );
 		
 		if ( 0 == $shippment_provider ) {
-			$sql = "SELECT COUNT(*) FROM {$this->table} WHERE JSON_CONTAINS(api_provider_name, '[" . '"' . $tracking_provider . '"' . "]')";
-			$shippment_provider = $wpdb->get_var( $sql );			
+			$shippment_provider = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM %1s WHERE JSON_CONTAINS(api_provider_name, '[" . '"' . $tracking_provider . '"' . "]')", $this->table ) );			
 		}	
 		
 		if ( 0 == $shippment_provider ) {
-			$sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$this->table} WHERE provider_name = %s", $tracking_provider );
-			$shippment_provider = $wpdb->get_var( $sql );
+			$shippment_provider = $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM %1s WHERE provider_name = %s', $this->table, $tracking_provider ) );
 		}	 		
 		
 		$order = wc_get_order($order_id);		
@@ -1890,7 +1879,7 @@ class WC_Advanced_Shipment_Tracking_Admin {
 				<?php 
 				foreach ( $default_shippment_providers as $d_s_p ) {
 				$provider_type = ( 1 == $d_s_p->shipping_default ) ? 'default_provider' : 'custom_provider';
-				?>
+					?>
 				<div class="grid-item hip-item">					
 					<div class="grid-top">
 						<div class="grid-provider-img">
@@ -1913,7 +1902,7 @@ class WC_Advanced_Shipment_Tracking_Admin {
 									echo '<img class="provider-thumb" src="' . esc_url( wc_advanced_shipment_tracking()->plugin_dir_url() ) . 'assets/images/icon-default.png">';
 								}  
 							}
-							?>							
+							?>
 						</div>
 						<div class="grid-provider-name">
 							<span class="provider_name">
@@ -2029,20 +2018,20 @@ class WC_Advanced_Shipment_Tracking_Admin {
 		global $wpdb;		
 		
 		if ( 'active' == $status ) {				
-			$default_shippment_providers = $wpdb->get_results( "SELECT * FROM $this->table WHERE display_in_order = 1" );	
+			$default_shippment_providers = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %1s WHERE display_in_order = 1', $this->table ) );
 		}
 		
 		if ( 'inactive' == $status ) {			
-			$default_shippment_providers = $wpdb->get_results( "SELECT * FROM $this->table WHERE display_in_order = 0" );	
+			$default_shippment_providers = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %1s WHERE display_in_order = 0', $this->table ) );
 		}
 		
 		if ( 'custom' == $status ) {			
-			$default_shippment_providers = $wpdb->get_results( "SELECT * FROM $this->table WHERE shipping_default = 0" );	
+			$default_shippment_providers = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %1s WHERE shipping_default = 0', $this->table ) );
 		}
 		
 		if ( 'all' == $status ) {
 			$status = '';
-			$default_shippment_providers = $wpdb->get_results( "SELECT * FROM $this->table ORDER BY shipping_default ASC, display_in_order DESC, trackship_supported DESC, id ASC" );	
+			$default_shippment_providers = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %1s ORDER BY shipping_default ASC, display_in_order DESC, trackship_supported DESC, id ASC', $this->table ) );
 		}
 		
 		$html = $this->get_provider_html( $default_shippment_providers, $status );		
@@ -2156,7 +2145,7 @@ class WC_Advanced_Shipment_Tracking_Admin {
 		}
 		$status = 'all';
 		
-		$default_shippment_providers = $wpdb->get_results( "SELECT * FROM $this->table ORDER BY shipping_default ASC, display_in_order DESC, trackship_supported DESC, id ASC" );
+		$default_shippment_providers = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %1s ORDER BY shipping_default ASC, display_in_order DESC, trackship_supported DESC, id ASC', $this->table ) );
 		$html = $this->get_provider_html( $default_shippment_providers, $status );		
 		exit;
 	}
@@ -2175,7 +2164,7 @@ class WC_Advanced_Shipment_Tracking_Admin {
 		$id = isset( $_POST['provider_id'] ) ? wc_clean( $_POST['provider_id'] ) : '';		
 		global $wpdb;
 		
-		$shippment_provider = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $this->table WHERE id=%d", $id ) );
+		$shippment_provider = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %1s WHERE id=%d', $this->table, $id ) );
 		
 		if ( 0 != $shippment_provider[0]->custom_thumb_id ) {
 			$image = wp_get_attachment_url( $shippment_provider[0]->custom_thumb_id );	
@@ -2241,7 +2230,7 @@ class WC_Advanced_Shipment_Tracking_Admin {
 		);
 		$wpdb->update( $this->table, $data_array, $where_array );
 		$status = 'active';
-		$default_shippment_providers = $wpdb->get_results( "SELECT * FROM $this->table ORDER BY shipping_default ASC, display_in_order DESC, trackship_supported DESC, id ASC" );	
+		$default_shippment_providers = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %1s ORDER BY shipping_default ASC, display_in_order DESC, trackship_supported DESC, id ASC', $this->table ) );
 		$html = $this->get_provider_html( $default_shippment_providers, $status );		
 		exit;
 	}
@@ -2273,7 +2262,7 @@ class WC_Advanced_Shipment_Tracking_Admin {
 		
 		$wpdb->update( $this->table, $data_array, $where_array );
 		$status = 'active';
-		$default_shippment_providers = $wpdb->get_results( "SELECT * FROM $this->table ORDER BY shipping_default ASC, display_in_order DESC, trackship_supported DESC, id ASC" );	
+		$default_shippment_providers = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %1s ORDER BY shipping_default ASC, display_in_order DESC, trackship_supported DESC, id ASC', $this->table ) );
 		$html = $this->get_provider_html( $default_shippment_providers, $status );		
 		exit;
 	}	
@@ -2305,7 +2294,7 @@ class WC_Advanced_Shipment_Tracking_Admin {
 		
 		$wpdb->update( $this->table, $data_array, $where_array );
 		$status = 'all';
-		$default_shippment_providers = $wpdb->get_results( "SELECT * FROM $this->table ORDER BY shipping_default ASC, display_in_order DESC, trackship_supported DESC, id ASC" );	
+		$default_shippment_providers = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %1s ORDER BY shipping_default ASC, display_in_order DESC, trackship_supported DESC, id ASC', $this->table ) );
 		$html = $this->get_provider_html( $default_shippment_providers, $status );
 		exit;
 	}	
@@ -2317,7 +2306,7 @@ class WC_Advanced_Shipment_Tracking_Admin {
 	 */
 	public function filter_orders_by_shipping_provider() {
 		global $typenow, $wpdb;
-		$default_shippment_providers = $wpdb->get_results( "SELECT * FROM $this->table ORDER BY shipping_default ASC, display_in_order DESC, trackship_supported DESC, id ASC" );
+		$default_shippment_providers = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %1s ORDER BY shipping_default ASC, display_in_order DESC, trackship_supported DESC, id ASC', $this->table ) );
 		
 		if ( 'shop_order' === $typenow ) {
 			?>
@@ -2374,15 +2363,14 @@ class WC_Advanced_Shipment_Tracking_Admin {
 		
 		global $wpdb;
 		
-		$tracking_provider = $wpdb->get_var( $wpdb->prepare( "SELECT ts_slug FROM $this->table WHERE api_provider_name = %s", $tracking_provider_name ) );		
+		$tracking_provider = $wpdb->get_var( $wpdb->prepare( 'SELECT ts_slug FROM %1s WHERE api_provider_name = %s', $this->table, $tracking_provider_name ) );				
 		
 		if ( !$tracking_provider ) {			
-			$query = "SELECT ts_slug FROM $this->table WHERE JSON_CONTAINS(api_provider_name, '[" . '"' . $tracking_provider_name . '"' . "]')";
-			$tracking_provider = $wpdb->get_var( $query );			
+			$tracking_provider = $wpdb->get_var(  $wpdb->prepare( "SELECT ts_slug FROM %1s WHERE JSON_CONTAINS(api_provider_name, '[" . '"' . $tracking_provider_name . '"' . "]')", $this->table ) );			
 		}		
 		
 		if ( !$tracking_provider ) {
-			$tracking_provider = $wpdb->get_var( $wpdb->prepare( "SELECT ts_slug FROM $this->table WHERE provider_name = %s", $tracking_provider_name ) );
+			$tracking_provider = $wpdb->get_var( $wpdb->prepare( 'SELECT ts_slug FROM %1s WHERE provider_name = %s', $this->table, $tracking_provider_name ) );
 		}		
 		
 		if ( !$tracking_provider ) {

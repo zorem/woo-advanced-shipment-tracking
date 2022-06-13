@@ -50,13 +50,9 @@ class WC_AST_Admin_Notices_Under_WC_Admin {
 			return;
 		}	
 		
-		$date_now = date( 'Y-m-d' );
+		$date_now = gmdate( 'Y-m-d' );
 		
-		$already_set = get_transient( 'ast_pro_1_year_wc_admin' );
-		
-		if ( 'yes' == $already_set || $date_now > '2022-03-31' ) {
-			//return;
-		}	
+		$already_set = get_transient( 'ast_pro_1_year_wc_admin' );			
 		
 		set_transient( 'ast_pro_1_year_wc_admin', 'yes' );				
 		

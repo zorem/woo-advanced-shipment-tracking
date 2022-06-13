@@ -55,7 +55,7 @@ class WC_Advanced_Shipment_Tracking_Actions {
 
 			global $wpdb;
 			$wpdb->hide_errors();
-			$results = $wpdb->get_results( "SELECT * FROM {$this->table}" );
+			$results = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %1s', $this->table ) );
 			
 			if ( ! empty( $results ) ) {
 				
@@ -87,16 +87,16 @@ class WC_Advanced_Shipment_Tracking_Actions {
 			$WC_Countries = new WC_Countries();
 			$wpdb->hide_errors();
 			
-			$shippment_countries = $wpdb->get_results( "SELECT shipping_country FROM {$this->table} WHERE display_in_order = 1 GROUP BY shipping_country" );
+			$shippment_countries = $wpdb->get_results( $wpdb->prepare( 'SELECT shipping_country FROM %1s WHERE display_in_order = 1 GROUP BY shipping_country', $this->table ) );
 			
-			$results = $wpdb->get_results( "SELECT * FROM {$this->table} GROUP BY shipping_country" );
+			$results = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %1s GROUP BY shipping_country', $this->table ) );
 			
 			
 			foreach ( $shippment_countries as $s_c ) {
 				
 				$country_name = ( 'Global' != $s_c->shipping_country ) ? esc_attr( $WC_Countries->countries[ $s_c->shipping_country ] ) : 'Global';
 				$country = $s_c->shipping_country;
-				$shippment_providers_by_country = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$this->table} WHERE shipping_country = %s AND display_in_order = 1", $country ) );
+				$shippment_providers_by_country = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %1s WHERE shipping_country = %s AND display_in_order = 1', $this->table, $country ) );				
 								
 				$providers_array = array();
 				$new_provider = array();
@@ -176,7 +176,7 @@ class WC_Advanced_Shipment_Tracking_Actions {
 				$tracking_provider = isset( $tracking_item['tracking_provider'] ) ? $tracking_item['tracking_provider'] : $tracking_item['custom_tracking_provider'];
 				$tracking_provider = apply_filters( 'convert_provider_name_to_slug', $tracking_provider );
 
-				$results = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $this->table WHERE ts_slug = %s", $tracking_provider ) );
+				$results = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM %1s WHERE ts_slug = %s', $this->table, $tracking_provider ) );
 				
 				$provider_name = apply_filters('get_ast_provider_name', $tracking_provider, $results);
 				
@@ -229,7 +229,7 @@ class WC_Advanced_Shipment_Tracking_Actions {
 		$formatted = $this->get_formatted_tracking_item( $order_id, $item );			
 		$tracking_provider = isset( $item['tracking_provider'] ) ? $item['tracking_provider'] : $item['custom_tracking_provider'];
 		$tracking_provider = apply_filters( 'convert_provider_name_to_slug', $tracking_provider );
-		$results = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $this->table WHERE ts_slug = %s", $tracking_provider ) );		
+		$results = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM %1s WHERE ts_slug = %s', $this->table, $tracking_provider ) );
 		$provider_name = apply_filters( 'get_ast_provider_name', $tracking_provider, $results );
 		?>
 		<div class="tracking-item" id="tracking-item-<?php echo esc_attr( $item['tracking_id'] ); ?>">
@@ -273,9 +273,9 @@ class WC_Advanced_Shipment_Tracking_Actions {
 		
 		$tracking_items = $this->get_tracking_items( $post->ID );
 		
-		$shippment_countries = $wpdb->get_results( "SELECT shipping_country FROM $this->table WHERE display_in_order = 1 GROUP BY shipping_country" );
+		$shippment_countries = $wpdb->get_results( $wpdb->prepare( 'SELECT shipping_country FROM %1s WHERE display_in_order = 1 GROUP BY shipping_country', $this->table ) );
 		
-		$shippment_providers = $wpdb->get_results( "SELECT * FROM $this->table" );
+		$shippment_providers = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %1s', $this->table ) );
 		
 		$default_provider = get_option( 'wc_ast_default_provider' );
 		$wc_ast_default_mark_shipped = 	get_option( 'wc_ast_default_mark_shipped' );
@@ -330,7 +330,7 @@ class WC_Advanced_Shipment_Tracking_Actions {
 				}
 				echo '<optgroup label="' . esc_html( $country_name ) . '">';
 					$country = $s_c->shipping_country;				
-					$shippment_providers_by_country = $wpdb->get_results( "SELECT * FROM $this->table WHERE shipping_country = '$country' AND display_in_order = 1" );
+					$shippment_providers_by_country = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %1s WHERE shipping_country = %s AND display_in_order = 1', $this->table, $country ) );
 				foreach ( $shippment_providers_by_country as $providers ) {		
 					$providers->ts_slug;	
 					$selected = ( esc_attr( $providers->provider_name ) == $default_provider ) ? 'selected' : '';
@@ -737,13 +737,8 @@ class WC_Advanced_Shipment_Tracking_Actions {
 				$tracking_provider = $formated_tracking_item['formatted_tracking_provider'];
 				$order = wc_get_order(  $order_id );
 				
-<<<<<<< HEAD
 				/* translators: %s: Reaplce with tracking provider, %s: Reaplce with tracking number */
 				$note = sprintf( __( 'Tracking info was deleted for tracking provider %s with tracking number %s', 'woo-advanced-shipment-tracking' ), $tracking_provider, $tracking_number );
-=======
-				/* translators: %1$s: Reaplce with tracking provider, %2$s: Reaplce with tracking number */
-				$note = sprintf( __( 'Tracking info was deleted for tracking provider %1$s with tracking number %2$s', 'woo-advanced-shipment-tracking' ), $tracking_provider, $tracking_number );
->>>>>>> 9b96574ab315fb52732e2620a9cd43be2c3b8ac2
 				
 				// Add the note
 				$order->add_order_note( $note );
@@ -1068,7 +1063,7 @@ class WC_Advanced_Shipment_Tracking_Actions {
 		}
 		
 		global $wpdb;
-		$results = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$this->table} WHERE ts_slug = %s", $tracking_item['tracking_provider'] ) );
+		$results = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM %1s WHERE ts_slug = %s', $this->table, $tracking_item['tracking_provider'] ) );
 		$formatted[ 'tracking_provider_image' ] = apply_filters( 'get_shipping_provdider_src', $results ); 	
 		
 		return $formatted;
@@ -1154,9 +1149,9 @@ class WC_Advanced_Shipment_Tracking_Actions {
 				
 				if ( isset($args['source']) && 'REST_API' == $args['source'] ) {
 					$wc_ast_api_date_format = get_option( 'wc_ast_api_date_format', 'd-m-Y' );					
-					$date = date_i18n( __( $wc_ast_api_date_format, 'woo-advanced-shipment-tracking' ), strtotime( $args['date_shipped'] ) );				
+					$date = date_i18n( $wc_ast_api_date_format, strtotime( $args['date_shipped'] ) );				
 				} else {									
-					$date = date_i18n( __( 'd-m-Y', 'woo-advanced-shipment-tracking' ), strtotime( $args['date_shipped'] ) );
+					$date = date_i18n( 'd-m-Y', strtotime( $args['date_shipped'] ) );
 				} 						
 			
 				$tracking_item['date_shipped'] = wc_clean( strtotime( $date ) );
@@ -1195,13 +1190,8 @@ class WC_Advanced_Shipment_Tracking_Actions {
 		$formated_tracking_item = $this->get_formatted_tracking_item( $order_id, $tracking_item );
 		$tracking_provider = $formated_tracking_item['formatted_tracking_provider'];								
 		
-<<<<<<< HEAD
 		/* translators: %s: Reaplce with tracking provider, %s: Reaplce with tracking number */
 		$note = sprintf( __( 'Order was shipped with %s and tracking number is: %s', 'woo-advanced-shipment-tracking' ), $tracking_provider, $tracking_item['tracking_number'] );
-=======
-		/* translators: %1$s: Reaplce with tracking provider, %2$s: Reaplce with tracking number */
-		$note = sprintf( __( 'Order was shipped with %1$s and tracking number is: %2$s', 'woo-advanced-shipment-tracking' ), $tracking_provider, $tracking_item['tracking_number'] );
->>>>>>> 9b96574ab315fb52732e2620a9cd43be2c3b8ac2
 		
 		// Add the note
 		$order->add_order_note( $note );
