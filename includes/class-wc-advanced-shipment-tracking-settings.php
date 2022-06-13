@@ -493,7 +493,7 @@ class WC_Advanced_Shipment_Tracking_Settings {
 		$WC_Countries = new WC_Countries();
 		$countries = $WC_Countries->get_countries();
 		
-		$shippment_countries = $wpdb->get_results( "SELECT shipping_country FROM $this->table WHERE display_in_order = 1 GROUP BY shipping_country" );				
+		$shippment_countries = $wpdb->get_results( $wpdb->prepare( 'SELECT shipping_country FROM %1s WHERE display_in_order = 1 GROUP BY shipping_country', $this->table ) );			
 		
 		$default_provider = get_option( 'wc_ast_default_provider' );
 		ob_start();
@@ -524,8 +524,7 @@ class WC_Advanced_Shipment_Tracking_Settings {
 									}
 									echo '<optgroup label="' . esc_html( $country_name ) . '">';
 									$country = $s_c->shipping_country;				
-									$shippment_providers_by_country = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $this->table WHERE shipping_country = %s AND display_in_order = 1", $country ) );
-									foreach ( $shippment_providers_by_country as $providers ) {											
+									$shippment_providers_by_country = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %1s WHERE shipping_country = %s AND display_in_order = 1', $this->table, $country ) );			foreach ( $shippment_providers_by_country as $providers ) {											
 										$selected = ( esc_attr( $providers->provider_name ) == $default_provider ) ? 'selected' : '';
 										echo '<option value="' . esc_attr( $providers->ts_slug ) . '" ' . esc_html( $selected ) . '>' . esc_html( $providers->provider_name ) . '</option>';
 									}
@@ -559,8 +558,8 @@ class WC_Advanced_Shipment_Tracking_Settings {
 		</div>
 		<?php		
 		$html = ob_get_clean();
-		echo $html;
-		exit;	
+		$json['html'] = $html;
+		wp_send_json_success( $json );	
 	}	
 	
 	/**
@@ -600,7 +599,7 @@ class WC_Advanced_Shipment_Tracking_Settings {
 			
 			if ( 1 == $reset_checked ) {
 				
-				$wpdb->query( "DROP TABLE IF EXISTS {$this->table}" );
+				$wpdb->query( $wpdb->prepare( 'DROP TABLE IF EXISTS %1s', $this->table ) );
 				
 				$install = WC_Advanced_Shipment_Tracking_Install::get_instance();
 				$install->create_shippment_tracking_table();
@@ -643,7 +642,7 @@ class WC_Advanced_Shipment_Tracking_Settings {
 				}
 				
 				$status = 'active';
-				$default_shippment_providers = $wpdb->get_results( "SELECT * FROM $this->table ORDER BY shipping_default ASC, display_in_order DESC, trackship_supported DESC, id ASC" );	
+				$default_shippment_providers = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %1s ORDER BY shipping_default ASC, display_in_order DESC, trackship_supported DESC, id ASC', $this->table ) );
 				ob_start();
 				$admin = new WC_Advanced_Shipment_Tracking_Admin();
 				$html = $admin->get_provider_html( $default_shippment_providers, $status );
@@ -653,7 +652,7 @@ class WC_Advanced_Shipment_Tracking_Settings {
 				exit;
 			} else {
 			
-				$default_shippment_providers = $wpdb->get_results( "SELECT * FROM $this->table WHERE shipping_default = 1" );
+				$default_shippment_providers = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %1s WHERE shipping_default = 1', $this->table ) );
 				
 				foreach ( $default_shippment_providers as $key => $val ) {
 					$shippment_providers[ $val->ts_slug ] = $val;						
@@ -784,7 +783,7 @@ class WC_Advanced_Shipment_Tracking_Settings {
 				}
 				
 				$status = 'active';
-				$default_shippment_providers = $wpdb->get_results( "SELECT * FROM $this->table ORDER BY shipping_default ASC, display_in_order DESC, trackship_supported DESC, id ASC" );	
+				$default_shippment_providers = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %1s ORDER BY shipping_default ASC, display_in_order DESC, trackship_supported DESC, id ASC', $this->table ) );
 				ob_start();
 				$admin = new WC_Advanced_Shipment_Tracking_Admin();
 				$html = $admin->get_provider_html( $default_shippment_providers, $status );

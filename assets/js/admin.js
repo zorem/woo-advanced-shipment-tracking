@@ -300,7 +300,7 @@ jQuery(document).on("click", ".add_inline_tracking", function(){
 		success: function(response) {
 			jQuery( ".add_tracking_popup" ).remove();
 			jQuery( ".tracking_details_popup" ).remove();	
-			jQuery("body").append(response);				
+			jQuery("body").append(response.data.html);				
 			jQuery('.add_tracking_popup').show();
 			jQuery( "#add_tracking_number_form #tracking_number" ).focus();		
 			jQuery('.tracking_provider_dropdown').select2();					

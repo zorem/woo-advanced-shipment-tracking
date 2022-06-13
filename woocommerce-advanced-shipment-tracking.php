@@ -4,7 +4,7 @@
  * Plugin Name: Advanced Shipment Tracking for WooCommerce 
  * Plugin URI: https://www.zorem.com/products/woocommerce-advanced-shipment-tracking/ 
  * Description: Add shipment tracking information to your WooCommerce orders and provide customers with an easy way to track their orders. Shipment tracking Info will appear in customers accounts (in the order panel) and in WooCommerce order complete email. 
- * Version: 3.4
+ * Version: 3.4.1
  * Author: zorem
  * Author URI: https://www.zorem.com 
  * License: GPL-2.0+
@@ -20,7 +20,7 @@ class Zorem_Woocommerce_Advanced_Shipment_Tracking {
 	 *
 	 * @var string
 	 */
-	public $version = '3.4';
+	public $version = '3.4.1';
 	
 	/**
 	 * Initialize the main plugin function
@@ -291,51 +291,7 @@ class Zorem_Woocommerce_Advanced_Shipment_Tracking {
 		$this->plugin_path = untrailingslashit( plugin_dir_path( __FILE__ ) );
 
 		return $this->plugin_path;
-	}	
-	
-	/**
-	 * Get shipping providers with normalized values (respect decimal separator
-	 * settings), for display.
-	 *
-	 * @return array
-	 */
-	public function get_normalized_shipping_providers() {
-		$shipping_providers = $this->get_shipping_providers( ARRAY_A );		
-		$decimal_separator = wc_get_price_decimal_separator();
-		$normalize_keys = array(
-			'id',
-			'provider_name',
-			'shipping_country',
-			'provider_url',
-		);
-
-		foreach ( $shipping_providers as $index => $shipping_provider ) {
-			foreach ( $normalize_keys as $key ) {
-				if ( ! isset( $shipping_provider[ $key ] ) ) {
-					continue;
-				}
-
-				$shipping_providers[ $index ][ $key ] = str_replace( '.', $decimal_separator, $shipping_providers[ $index ][ $key ] );
-			}
-		}
-
-		return $shipping_providers;
-	}
-	
-	/**
-	 * Get raw shipping providers from the DB.
-	 *
-	 * @param string $output Output format.
-	 * @return mixed
-	 */
-	public function get_shipping_providers( $output = OBJECT ) {
-		global $wpdb;		
-		return $wpdb->get_results( "
-			SELECT * FROM {$this->table}			
-			WHERE shipping_default = 0
-			ORDER BY id ASC
-		", $output );
-	}
+	}		
 	
 	/*
 	* include files
