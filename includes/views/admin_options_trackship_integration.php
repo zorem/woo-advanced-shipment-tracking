@@ -21,7 +21,7 @@ wp_enqueue_script( 'trackship_script' );
 							<li>Increase customer satisfaction and repeat purchases</li>							
 						</ul>
 						<h3 class="ts_landing_h3">Start for Free. 50 Free trackers / monthly</h3>
-						<a href="wordpress.org/plugins/trackship-for-woocommerce/" class="button-primary btn_green2 btn_large" target="_blank">Install TrackShip for WooCommerce</a>							
+						<a href="https://wordpress.org/plugins/trackship-for-woocommerce/" class="button-primary btn_green2 btn_large" target="_blank">Install TrackShip for WooCommerce</a>							
 					</div>
 				</div>									
 				<div class="as-col-6">
