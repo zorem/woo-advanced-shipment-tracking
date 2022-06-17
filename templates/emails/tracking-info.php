@@ -89,11 +89,11 @@ if ( $tracking_items ) :
 	if ( $email_preview ) {
 		?>
 		<h2 class="header_text <?php esc_html_e( ( $hide_trackig_header ) ? 'hide' : '' ); ?>" style="text-align:<?php esc_html_e( $text_align ); ?>;">
-			<?php esc_html_e( apply_filters( 'woocommerce_shipment_tracking_my_orders_title', __( $shipment_tracking_header, 'woo-advanced-shipment-tracking' ) ) ); ?>
+			<?php esc_html_e( apply_filters( 'woocommerce_shipment_tracking_my_orders_title', $shipment_tracking_header ) ); ?>
 		</h2>
 	<?php } else { ?>
 		<h2 class="header_text" style="text-align:<?php esc_html_e( $text_align ); ?>;<?php esc_html_e( ( $hide_trackig_header ) ? 'display:none' : '' ); ?>">
-			<?php esc_html_e( apply_filters( 'woocommerce_shipment_tracking_my_orders_title', __( $shipment_tracking_header, 'woo-advanced-shipment-tracking' ) ) ); ?>
+			<?php esc_html_e( apply_filters( 'woocommerce_shipment_tracking_my_orders_title', $shipment_tracking_header ) ); ?>
 		</h2>
 	<?php } ?>
 	
@@ -133,7 +133,7 @@ if ( $tracking_items ) :
 				<tr>
 					<?php if ( $show_provider_th ) { ?>
 						<th class="tracking-provider"  colspan="<?php esc_html_e( $colspan ); ?>" scope="col" class="td" style="<?php esc_html_e( $th_column_style ); ?>">
-							<?php esc_html_e( $provider_header_text, 'woo-advanced-shipment-tracking' ); ?>
+							<?php esc_html_e( $provider_header_text ); ?>
 						</th>
 					<?php 
 					} 
@@ -141,14 +141,14 @@ if ( $tracking_items ) :
 					do_action( 'ast_tracking_email_header', $order_id, $th_column_style );
 					?>
 					
-					<th class="tracking-number" scope="col" class="td" style="<?php esc_html_e( $th_column_style ); ?>"><?php esc_html_e( $tracking_number_header_text, 'woo-advanced-shipment-tracking' ); ?></th>												
+					<th class="tracking-number" scope="col" class="td" style="<?php esc_html_e( $th_column_style ); ?>"><?php esc_html_e( $tracking_number_header_text ); ?></th>												
 					<?php if ( $email_preview ) { ?>
-						<th class="date-shipped <?php esc_html_e( ( 1 == $remove_date_from_tracking_info ) ? 'hide' : '' ); ?>" scope="col" class="td" style="<?php esc_html_e( $th_column_style ); ?>"><?php esc_html_e( $shipped_date_header_text, 'woo-advanced-shipment-tracking' ); ?></th>
+						<th class="date-shipped <?php esc_html_e( ( 1 == $remove_date_from_tracking_info ) ? 'hide' : '' ); ?>" scope="col" class="td" style="<?php esc_html_e( $th_column_style ); ?>"><?php esc_html_e( $shipped_date_header_text ); ?></th>
 					<?php 
 					} else {
 						if ( 1 != $remove_date_from_tracking_info ) {
 							?>
-							<th class="date-shipped" style="<?php esc_html_e( $th_column_style ); ?>"><span class="nobr"><?php esc_html_e( $shipped_date_header_text, 'woo-advanced-shipment-tracking' ); ?></span></th>
+							<th class="date-shipped" style="<?php esc_html_e( $th_column_style ); ?>"><span class="nobr"><?php esc_html_e( $shipped_date_header_text ); ?></span></th>
 						<?php 
 						}
 					}
@@ -156,9 +156,9 @@ if ( $tracking_items ) :
 					if ( !$tracking_number_link ) {
 						if ( $email_preview ) { 
 							?>
-							<th class="order-actions" scope="col" class="td" style="<?php esc_html_e( $th_column_style ); ?>"><span class="track_label <?php esc_html_e( ( 1 != $show_track_label ) ? 'hide' : '' ); ?>"><?php esc_html_e( $track_header_text, 'woo-advanced-shipment-tracking' ); ?></span></th>
+							<th class="order-actions" scope="col" class="td" style="<?php esc_html_e( $th_column_style ); ?>"><span class="track_label <?php esc_html_e( ( 1 != $show_track_label ) ? 'hide' : '' ); ?>"><?php esc_html_e( $track_header_text ); ?></span></th>
 						<?php } else { ?>
-							<th class="order-actions" scope="col" class="td" style="<?php esc_html_e( $th_column_style ); ?>"><?php esc_html_e( ( 1 == $show_track_label ) ? __( $track_header_text, 'woo-advanced-shipment-tracking' ) : '' ); ?></th>
+							<th class="order-actions" scope="col" class="td" style="<?php esc_html_e( $th_column_style ); ?>"><?php esc_html_e( ( 1 == $show_track_label ) ? __( $track_header_text ) : '' ); ?></th>
 						<?php 
 						} 
 					} 
@@ -170,7 +170,7 @@ if ( $tracking_items ) :
 				<tr>
 					<?php if ( $show_provider_th ) { ?>
 						<th class="tracking-provider" colspan="<?php esc_html_e( $colspan ); ?>"  scope="col" class="td" style="<?php esc_html_e( $th_column_style ); ?>">
-							<?php esc_html_e( $provider_header_text, 'woo-advanced-shipment-tracking' ); ?>
+							<?php esc_html_e( $provider_header_text ); ?>
 						</th>
 					<?php 
 					}
@@ -178,14 +178,14 @@ if ( $tracking_items ) :
 					do_action( 'ast_tracking_email_header', $order_id, $th_column_style); 
 					?>
 					
-					<th class="tracking-number" scope="col" class="td" style="<?php esc_html_e( $th_column_style ); ?>"><?php esc_html_e( $tracking_number_header_text, 'woo-advanced-shipment-tracking' ); ?></th>				
+					<th class="tracking-number" scope="col" class="td" style="<?php esc_html_e( $th_column_style ); ?>"><?php esc_html_e( $tracking_number_header_text ); ?></th>				
 					<?php if ( $email_preview ) { ?>
-						<th class="date-shipped <?php esc_html_e( ( 1 != $remove_date_from_tracking_info ) ? 'hide' : '' ); ?>" scope="col" class="td" style="<?php esc_html_e( $th_column_style ); ?>"><?php esc_html_e( $shipped_date_header_text, 'woo-advanced-shipment-tracking' ); ?></th>
+						<th class="date-shipped <?php esc_html_e( ( 1 != $remove_date_from_tracking_info ) ? 'hide' : '' ); ?>" scope="col" class="td" style="<?php esc_html_e( $th_column_style ); ?>"><?php esc_html_e( $shipped_date_header_text ); ?></th>
 					<?php 
 					} else {
 						if ( 1 != $remove_date_from_tracking_info ) {
 							?>
-							<th class="date-shipped" style="<?php esc_html_e( $th_column_style ); ?>"><span class="nobr"><?php esc_html_e( $shipped_date_header_text, 'woo-advanced-shipment-tracking' ); ?></span></th>
+							<th class="date-shipped" style="<?php esc_html_e( $th_column_style ); ?>"><span class="nobr"><?php esc_html_e( $shipped_date_header_text ); ?></span></th>
 						<?php 
 						}
 					}
@@ -193,9 +193,9 @@ if ( $tracking_items ) :
 					if ( !$tracking_number_link ) {
 						if ( $email_preview ) { 
 							?>
-							<th class="order-actions" scope="col" class="td" style="<?php esc_html_e( $th_column_style ); ?>"><span class="track_label <?php esc_html_e( ( 1 != $show_track_label ) ? 'hide' : '' ); ?>"><?php esc_html_e( $track_header_text, 'woo-advanced-shipment-tracking' ); ?></span></th>
+							<th class="order-actions" scope="col" class="td" style="<?php esc_html_e( $th_column_style ); ?>"><span class="track_label <?php esc_html_e( ( 1 != $show_track_label ) ? 'hide' : '' ); ?>"><?php esc_html_e( $track_header_text ); ?></span></th>
 						<?php } else { ?>
-							<th class="order-actions" scope="col" class="td" style="<?php esc_html_e( $th_column_style ); ?>"><?php esc_html_e( ( 1 == $show_track_label ) ? __( $track_header_text, 'woo-advanced-shipment-tracking' ) : '' ); ?></th>
+							<th class="order-actions" scope="col" class="td" style="<?php esc_html_e( $th_column_style ); ?>"><?php esc_html_e( ( 1 == $show_track_label ) ? __( $track_header_text ) : '' ); ?></th>
 						<?php 
 						} 
 					} 

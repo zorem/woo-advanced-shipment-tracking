@@ -74,7 +74,7 @@ if ( isset( $_GET['open'] ) && 'synch_providers' == $_GET['open'] ) {
 								<option value=""><?php esc_html_e( 'Shipping Country', 'woo-advanced-shipment-tracking' ); ?></option>
 								<option value="Global"><?php esc_html_e( 'Global', 'woo-advanced-shipment-tracking' ); ?></option>
 								<?php foreach ( $countries as $key=>$val ) { ?>
-										<option value="<?php esc_html_e( $key ); ?>" ><?php esc_html_e( $val, 'woo-advanced-shipment-tracking'); ?></option>
+										<option value="<?php esc_html_e( $key ); ?>" ><?php esc_html_e( $val ); ?></option>
 									<?php } ?>
 							</select>
 						</div>

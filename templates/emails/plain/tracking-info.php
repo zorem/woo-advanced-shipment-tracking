@@ -25,7 +25,7 @@ if ( $tracking_items ) {
 	
 	$track_header_text = $ast->get_option_value_from_array( 'tracking_info_settings', 'track_header_text', $wcast_customizer_settings->defaults['track_header_text'] );
 
-	echo esc_html( strtoupper( apply_filters( 'woocommerce_shipment_tracking_my_orders_title', __( $shipment_tracking_header, 'woo-advanced-shipment-tracking' ) ) ) ) . "\n\n";
+	echo esc_html( strtoupper( apply_filters( 'woocommerce_shipment_tracking_my_orders_title', $shipment_tracking_header ) ) ) . "\n\n";
 	
 	if ( isset( $shipment_tracking_header_text ) ) {
 		echo esc_html( $shipment_tracking_header_text ) . "\n\n";
@@ -37,9 +37,9 @@ if ( $tracking_items ) {
 	}
 
 	foreach ( $tracking_items as $tracking_item ) {
-		echo esc_html__( $provider_header_text, 'woo-advanced-shipment-tracking' ) . ': ' . esc_html( apply_filters( 'ast_provider_title', esc_html( $tracking_item['formatted_tracking_provider'] ) ) ) . "\n";
-		echo esc_html__( $tracking_number_header_text, 'woo-advanced-shipment-tracking' ) . ': ' . esc_html( $tracking_item['tracking_number'] ) . "\n";
-		echo esc_html__( $track_header_text, 'woo-advanced-shipment-tracking' ) . ': ' . esc_url( $tracking_item['ast_tracking_link'] ) . "\n\n";
+		echo esc_html__( $provider_header_text ) . ': ' . esc_html( apply_filters( 'ast_provider_title', esc_html( $tracking_item['formatted_tracking_provider'] ) ) ) . "\n";
+		echo esc_html__( $tracking_number_header_text ) . ': ' . esc_html( $tracking_item['tracking_number'] ) . "\n";
+		echo esc_html__( $track_header_text ) . ': ' . esc_url( $tracking_item['ast_tracking_link'] ) . "\n\n";
 	}
 
 	echo "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= \n\n";
