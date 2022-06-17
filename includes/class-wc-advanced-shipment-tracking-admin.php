@@ -1471,7 +1471,11 @@ class WC_Advanced_Shipment_Tracking_Admin {
 		
 		if ( 0 == $shippment_provider ) {
 			$shippment_provider = $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM %1s WHERE provider_name = %s', $this->table, $tracking_provider ) );
-		}	 		
+		}
+		
+		if ( 0 == $shippment_provider ) {
+			$shippment_provider = $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM %1s WHERE ts_slug = %s', $this->table, $tracking_provider ) );
+		}
 		
 		$order = wc_get_order($order_id);		
 		

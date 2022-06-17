@@ -181,8 +181,9 @@ class WC_Advanced_Shipment_Tracking_Settings {
 	* Change order status to delivered
 	*/
 	public function add_bulk_actions( $bulk_actions ) {
-		$lable = wc_get_order_status_name( 'delivered' );
-		$bulk_actions['mark_delivered'] = __( 'Change status to ' . $lable . '', 'woo-advanced-shipment-tracking' );	
+		$lable = wc_get_order_status_name( 'delivered' );	
+		/* translators: %s: search order status label */
+		$bulk_actions['mark_delivered'] = sprintf( __( 'Change status to %s', 'woo-advanced-shipment-tracking' ), $lable );	
 		return $bulk_actions;		
 	}
 	
@@ -370,8 +371,9 @@ class WC_Advanced_Shipment_Tracking_Settings {
 	* Change order status to Updated Tracking
 	*/
 	public function add_bulk_actions_updated_tracking( $bulk_actions ) {
-		$lable = wc_get_order_status_name( 'updated-tracking' );
-		$bulk_actions['mark_updated-tracking'] = __( 'Change status to ' . $lable . '', 'woo-advanced-shipment-tracking' );
+		$lable = wc_get_order_status_name( 'updated-tracking' );	
+		/* translators: %s: search order status label */	
+		$bulk_actions['mark_updated-tracking'] = sprintf( __( 'Change status to %s', 'woo-advanced-shipment-tracking' ), $lable );
 		return $bulk_actions;		
 	}
 
@@ -381,7 +383,8 @@ class WC_Advanced_Shipment_Tracking_Settings {
 	*/
 	public function add_bulk_actions_partial_shipped( $bulk_actions ) {
 		$lable = wc_get_order_status_name( 'partial-shipped' );
-		$bulk_actions['mark_partial-shipped'] = __( 'Change status to ' . $lable . '', 'woo-advanced-shipment-tracking' );
+		/* translators: %s: search order status label */
+		$bulk_actions['mark_partial-shipped'] = sprintf( __( 'Change status to %s', 'woo-advanced-shipment-tracking' ), $lable );
 		return $bulk_actions;		
 	}
 
@@ -614,15 +617,9 @@ class WC_Advanced_Shipment_Tracking_Settings {
 					$img_slug = sanitize_title( $provider_name );
 									
 					$img = $ast_directory . '/' . $img_slug . '.png';
-					
-					$ch = curl_init(); 
-			
-					curl_setopt( $ch, CURLOPT_HEADER, 0 ); 
-					curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 ); 
-					curl_setopt( $ch, CURLOPT_URL, $img_url ); 
-					
-					$data = curl_exec( $ch );
-					curl_close( $ch );
+
+					$response = wp_remote_get( $img_url );
+					$data = wp_remote_retrieve_body( $response );					
 					
 					file_put_contents( $img, $data );
 								
@@ -723,14 +720,8 @@ class WC_Advanced_Shipment_Tracking_Settings {
 						$img_slug = sanitize_title( $provider_name );
 						$img = $ast_directory . '/' . $img_slug . '.png';
 						
-						$ch = curl_init(); 
-		
-						curl_setopt( $ch, CURLOPT_HEADER, 0 ); 
-						curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
-						curl_setopt( $ch, CURLOPT_URL, $img_url );
-					
-						$data = curl_exec( $ch ); 
-						curl_close( $ch );
+						$response = wp_remote_get( $img_url );
+						$data = wp_remote_retrieve_body( $response );
 						
 						file_put_contents( $img, $data );
 																		

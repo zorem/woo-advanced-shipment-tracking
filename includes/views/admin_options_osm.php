@@ -39,7 +39,7 @@ $wcast_initialise_customizer_settings = new wcast_initialise_customizer_settings
 						<span class="order-label <?php echo esc_html( $data['label_class'] ); ?>">
 							<?php 
 							if ( get_option( $data['id'] ) ) {
-								esc_html_e( wc_get_order_status_name( $data['slug'] ), 'woo-advanced-shipment-tracking' );	
+								esc_html_e( wc_get_order_status_name( $data['slug'] ) );	
 							} else {
 								echo esc_html( $data['label'] );
 							}

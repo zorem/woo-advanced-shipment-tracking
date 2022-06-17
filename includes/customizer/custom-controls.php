@@ -9,7 +9,7 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 		public function render_content() {
 			?>
 			<label>
-				<h3 class="control_heading"><?php esc_html_e( $this->label, 'woo-advanced-shipment-tracking' ); ?></h3>
+				<h3 class="control_heading"><?php esc_html_e( $this->label ); ?></h3>
 				<?php if ( ! empty( $this->description ) ) : ?>
 				<span class="description customize-control-description"><?php esc_html_e( $this->description ); ?></span>
 				<?php endif; ?>
@@ -23,7 +23,7 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 		public function render_content() {
 			?>
 			<label>
-				<h3 class="customize-control-title"><?php esc_html_e( $this->label, 'woo-advanced-shipment-tracking' ); ?></h3>
+				<h3 class="customize-control-title"><?php esc_html_e( $this->label ); ?></h3>
 				<?php if ( ! empty( $this->description ) ) : ?>
 				<span class="description customize-control-description"><?php echo wp_kses_post( $this->description ); ?></span>
 				<?php endif; ?>
@@ -67,7 +67,7 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 		public function render_content() {
 			?>
 			<div class="slider-custom-control">
-				<span class="customize-control-title"><?php esc_html_e( $this->label, 'woo-advanced-shipment-tracking' ); ?></span>				
+				<span class="customize-control-title"><?php esc_html_e( $this->label ); ?></span>				
 				<div class="slider" slider-min-value="<?php echo esc_attr( $this->input_attrs['min'] ); ?>" slider-max-value="<?php echo esc_attr( $this->input_attrs['max'] ); ?>" slider-step-value="<?php echo esc_attr( $this->input_attrs['step'] ); ?>">
 				</div>				
 				<span class="slider-reset dashicons dashicons-image-rotate" slider-reset-value="<?php echo esc_attr( $this->input_attrs['default'] ); ?>"></span>
@@ -158,7 +158,7 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 		public function render_content() {
 			?>
 			<div class="tinymce-control">
-				<span class="customize-control-title"><?php esc_html_e( $this->label, 'woo-advanced-shipment-tracking' ); ?></span>
+				<span class="customize-control-title"><?php esc_html_e( $this->label ); ?></span>
 				<?php if ( !empty( $this->description ) ) { ?>
 					<span class="customize-control-description"><?php echo esc_html( $this->description ); ?></span>
 				<?php } ?>

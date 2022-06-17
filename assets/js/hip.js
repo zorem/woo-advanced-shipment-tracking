@@ -203,7 +203,7 @@ jQuery.fn.hip = function(param) {
     });
 
   } else {
-    throw new Error('Element not found');
+    //throw new Error('Element not found');
   }
 
   return this; // This is needed so other functions can keep chaining off of this

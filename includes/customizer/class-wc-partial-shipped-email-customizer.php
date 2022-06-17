@@ -194,7 +194,7 @@ class Wcast_Partial_Shipped_Customizer_Email {
 				'input_attrs' => array(
 					'class' => '',
 					'style' => '',
-					'placeholder' => __( $this->defaults['wcast_partial_shipped_email_subject'], 'woo-advanced-shipment-tracking' ),
+					'placeholder' => $this->defaults['wcast_partial_shipped_email_subject'],
 				),
 				'active_callback' => array( $this, 'active_callback' ),
 			)
@@ -218,7 +218,7 @@ class Wcast_Partial_Shipped_Customizer_Email {
 				'input_attrs' => array(
 					'class' => '',
 					'style' => '',
-					'placeholder' => __( $this->defaults['wcast_partial_shipped_email_heading'], 'woo-advanced-shipment-tracking' ),
+					'placeholder' => $this->defaults['wcast_partial_shipped_email_heading'],
 				),
 				'active_callback' => array( $this, 'active_callback' ),
 			)

@@ -77,7 +77,7 @@ class WC_Advanced_Shipment_Tracking_Install {
 		// Add transient to trigger redirect.
 		set_transient( '_ast_activation_redirect', 1, 30 );		
 		
-		$this->create_shippment_tracking_table();								
+		$this->ast_insert_shipping_providers();								
 		
 		$wc_ast_default_mark_shipped = get_option( 'wc_ast_default_mark_shipped' );
 		if ( '' == $wc_ast_default_mark_shipped ) {
@@ -102,33 +102,36 @@ class WC_Advanced_Shipment_Tracking_Install {
 	* function for create shipping provider table
 	*/
 	public function create_shippment_tracking_table() {
-		
 		global $wpdb;
-		
-		if ( !$wpdb->query( $wpdb->prepare( 'show tables like %s', $this->table ) ) ) {
-			$charset_collate = $wpdb->get_charset_collate();			
-			$sql = "CREATE TABLE $this->table (
-				id mediumint(9) NOT NULL AUTO_INCREMENT,
-				provider_name varchar(500) DEFAULT '' NOT NULL,
-				api_provider_name text NULL DEFAULT NULL,
-				custom_provider_name text NULL DEFAULT NULL,
-				ts_slug text NULL DEFAULT NULL,
-				provider_url varchar(500) DEFAULT '' NULL,
-				shipping_country varchar(45) DEFAULT '' NULL,
-				shipping_default tinyint(4) NULL DEFAULT '0',
-				custom_thumb_id int(11) NOT NULL DEFAULT '0',
-				display_in_order tinyint(4) NOT NULL DEFAULT '1',
-				trackship_supported int(11) NOT NULL DEFAULT '0',
-				sort_order int(11) NOT NULL DEFAULT '0',				
-				PRIMARY KEY  (id)
-			) $charset_collate;";			
-			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-			dbDelta( $sql );
+		$charset_collate = $wpdb->get_charset_collate();			
+		$sql = "CREATE TABLE $this->table (
+			id mediumint(9) NOT NULL AUTO_INCREMENT,
+			provider_name varchar(500) DEFAULT '' NOT NULL,
+			api_provider_name text NULL DEFAULT NULL,
+			custom_provider_name text NULL DEFAULT NULL,
+			ts_slug text NULL DEFAULT NULL,
+			provider_url varchar(500) DEFAULT '' NULL,
+			shipping_country varchar(45) DEFAULT '' NULL,
+			shipping_default tinyint(4) NULL DEFAULT '0',
+			custom_thumb_id int(11) NOT NULL DEFAULT '0',
+			display_in_order tinyint(4) NOT NULL DEFAULT '1',
+			trackship_supported int(11) NOT NULL DEFAULT '0',
+			sort_order int(11) NOT NULL DEFAULT '0',				
+			PRIMARY KEY  (id)
+		) $charset_collate;";			
+		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+		dbDelta( $sql );		
+	}
+	
+	public function ast_insert_shipping_providers() {
+		global $wpdb;		
+		if ( !$wpdb->query( $wpdb->prepare( 'show tables like %s', $this->table ) ) ) {			
+			$this->create_shippment_tracking_table();	
 			$this->update_shipping_providers();	
 		} else {
 			$this->check_all_column_exist();
 		}
-	}	
+	}
 	
 	/*
 	* check if all column exist in shipping provider database
@@ -146,19 +149,19 @@ class WC_Advanced_Shipment_Tracking_Install {
 
 		$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '%1s' AND COLUMN_NAME = 'api_provider_name' ", $this->table ), ARRAY_A );
 		if ( ! $row ) {
-			$wpdb->query( $wpdb->prepare( "ALTER TABLE %1s ADD api_provider_name text NULL DEFAULT NULL AFTER provider_name", $this->table ) );
+			$wpdb->query( $wpdb->prepare( 'ALTER TABLE %1s ADD api_provider_name text NULL DEFAULT NULL AFTER provider_name', $this->table ) );
 			$db_update_need = true;
 		}
 
 		$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '%1s' AND COLUMN_NAME = 'custom_provider_name' ", $this->table ), ARRAY_A );
 		if ( ! $row ) {
-			$wpdb->query( $wpdb->prepare( "ALTER TABLE %1s ADD custom_provider_name text NULL DEFAULT NULL AFTER api_provider_name", $this->table ) );
+			$wpdb->query( $wpdb->prepare( 'ALTER TABLE %1s ADD custom_provider_name text NULL DEFAULT NULL AFTER api_provider_name', $this->table ) );
 			$db_update_need = true;
 		}
 
 		$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '%1s' AND COLUMN_NAME = 'ts_slug' ", $this->table ), ARRAY_A );
 		if ( ! $row ) {
-			$wpdb->query( $wpdb->prepare( "ALTER TABLE %1s ADD ts_slug text NULL DEFAULT NULL AFTER custom_provider_name", $this->table ) );
+			$wpdb->query( $wpdb->prepare( 'ALTER TABLE %1s ADD ts_slug text NULL DEFAULT NULL AFTER custom_provider_name', $this->table ) );
 			$db_update_need = true;
 		}
 
@@ -319,14 +322,10 @@ class WC_Advanced_Shipment_Tracking_Install {
 				$img_url = $provider['img_url'];
 				$img_slug = sanitize_title($provider_name);
 				$img = $ast_directory . '/' . $img_slug . '.png';
-				$ch = curl_init(); 
-		
-				curl_setopt($ch, CURLOPT_HEADER, 0); 
-				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
-				curl_setopt($ch, CURLOPT_URL, $img_url); 
 				
-				$data = curl_exec($ch); 
-				curl_close($ch); 							
+				$response = wp_remote_get( $img_url );
+				$data = wp_remote_retrieve_body( $response );
+
 				file_put_contents($img, $data);
 			}
 		}	
@@ -401,14 +400,8 @@ class WC_Advanced_Shipment_Tracking_Install {
 					$img_slug = sanitize_title($provider_name);
 					$img = $ast_directory . '/' . $img_slug . '.png';
 					
-					$ch = curl_init(); 
-	
-					curl_setopt($ch, CURLOPT_HEADER, 0); 
-					curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
-					curl_setopt($ch, CURLOPT_URL, $img_url); 
-				
-					$data = curl_exec($ch); 
-					curl_close($ch); 
+					$response = wp_remote_get( $img_url );
+					$data = wp_remote_retrieve_body( $response );
 					
 					file_put_contents($img, $data); 			
 					

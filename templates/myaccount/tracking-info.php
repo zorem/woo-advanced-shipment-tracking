@@ -81,7 +81,7 @@ if ( $tracking_items ) :
 	
 	if ( 1 != $hide_trackig_header ) { 
 		?>
-		<h2><?php esc_html_e( apply_filters( 'woocommerce_shipment_tracking_my_orders_title', __( $shipment_tracking_header, 'woo-advanced-shipment-tracking' ) ) ); ?></h2>
+		<h2><?php esc_html_e( apply_filters( 'woocommerce_shipment_tracking_my_orders_title', __( $shipment_tracking_header ) ) ); ?></h2>
 	<?php } ?>
 	
 	<p><?php esc_html_e( $shipment_tracking_header_text ); ?></p>
@@ -141,7 +141,7 @@ if ( $tracking_items ) :
 				<tr>
 					<?php if ( $show_provider_th ) { ?>
 						<th class="tracking-provider" colspan="<?php esc_html_e( $colspan ); ?>" style="<?php esc_html_e( $th_column_style ); ?>">
-							<?php esc_html_e( $provider_header_text, 'woo-advanced-shipment-tracking' ); ?>
+							<?php esc_html_e( $provider_header_text ); ?>
 						</th>
 					<?php 
 					}
@@ -149,10 +149,10 @@ if ( $tracking_items ) :
 					do_action( 'ast_tracking_my_acoount_header', $order_id, $th_column_style ); 
 					?>
 					
-					<th class="" style="<?php esc_html_e( $th_column_style ); ?>"><?php esc_html_e( $tracking_number_header_text, 'woo-advanced-shipment-tracking' ); ?></th>
+					<th class="" style="<?php esc_html_e( $th_column_style ); ?>"><?php esc_html_e( $tracking_number_header_text ); ?></th>
 					
 					<?php if ( 1 != $remove_date_from_tracking_info ) { ?>
-						<th class="date-shipped" style="<?php esc_html_e( $th_column_style ); ?>"><?php esc_html_e( $shipped_date_header_text, 'woo-advanced-shipment-tracking' ); ?></th>
+						<th class="date-shipped" style="<?php esc_html_e( $th_column_style ); ?>"><?php esc_html_e( $shipped_date_header_text ); ?></th>
 					<?php 
 					}
 					
@@ -161,7 +161,7 @@ if ( $tracking_items ) :
 						<th class="order-actions" style="<?php esc_html_e( $th_column_style ); ?>">
 							<?php 
 							if ( 1 == $show_track_label ) { 
-								esc_html_e( $track_header_text, 'woo-advanced-shipment-tracking' ); 
+								esc_html_e( $track_header_text ); 
 							}
 							?>
 						</th>
