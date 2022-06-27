@@ -361,11 +361,11 @@ class WC_Advanced_Shipment_Tracking_Install {
 			
 			$default_shippment_providers = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %1s WHERE shipping_default = 1', $this->table ) );
 			foreach ( $default_shippment_providers as $key => $val ) {
-				$shippment_providers[ $val->provider_name ] = $val;						
+				$shippment_providers[ $val->ts_slug ] = $val;						
 			}
 	
 			foreach ( $providers as $key => $val ) {
-				$providers_name[ $val['provider_name'] ] = $val;						
+				$providers_name[ $val['shipping_provider_slug'] ] = $val;						
 			}					
 			
 			$n = 0;
@@ -378,13 +378,16 @@ class WC_Advanced_Shipment_Tracking_Install {
 				$trackship_supported = $provider['trackship_supported'];
 				
 				if ( isset( $shippment_providers[ $ts_slug ] ) ) {				
+					
+					$db_provider_name = $shippment_providers[ $ts_slug ]->provider_name;
 					$db_provider_url = $shippment_providers[$ts_slug]->provider_url;
 					$db_shipping_country = $shippment_providers[$ts_slug]->shipping_country;
 					$db_ts_slug = $shippment_providers[$ts_slug]->ts_slug;
 					$db_trackship_supported = $shippment_providers[$ts_slug]->trackship_supported;
 					
-					if ( ( $db_provider_url != $provider_url ) || ( $db_shipping_country != $shipping_country ) || ( $db_ts_slug != $ts_slug ) || ( $db_trackship_supported != $trackship_supported ) ) {
+					if ( ( $db_provider_name != $provider_name ) || ( $db_provider_url != $provider_url ) || ( $db_shipping_country != $shipping_country ) || ( $db_ts_slug != $ts_slug ) || ( $db_trackship_supported != 	$trackship_supported ) ) {
 						$data_array = array(
+							'provider_name' => $provider_name,
 							'ts_slug' => $ts_slug,
 							'provider_url' => $provider_url,
 							'shipping_country' => $shipping_country,
