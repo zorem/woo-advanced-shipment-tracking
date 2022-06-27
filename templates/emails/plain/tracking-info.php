@@ -33,13 +33,13 @@ if ( $tracking_items ) {
 	
 	if ( isset( $new_status ) ) {
 		/* translators: %s: replace with status */
-		echo sprintf( esc_html__( 'Shipment status changed to %s', 'woo-advanced-shipment-tracking' ), esc_html( apply_filters( 'trackship_status_filter', $new_status ) ) ) . "\n\n";
+		echo sprintf( esc_html( 'Shipment status changed to %s', 'woo-advanced-shipment-tracking' ), esc_html( apply_filters( 'trackship_status_filter', $new_status ) ) ) . "\n\n";
 	}
 
 	foreach ( $tracking_items as $tracking_item ) {
-		echo esc_html__( $provider_header_text ) . ': ' . esc_html( apply_filters( 'ast_provider_title', esc_html( $tracking_item['formatted_tracking_provider'] ) ) ) . "\n";
-		echo esc_html__( $tracking_number_header_text ) . ': ' . esc_html( $tracking_item['tracking_number'] ) . "\n";
-		echo esc_html__( $track_header_text ) . ': ' . esc_url( $tracking_item['ast_tracking_link'] ) . "\n\n";
+		echo esc_html( $provider_header_text ) . ': ' . esc_html( apply_filters( 'ast_provider_title', esc_html( $tracking_item['formatted_tracking_provider'] ) ) ) . "\n";
+		echo esc_html( $tracking_number_header_text ) . ': ' . esc_html( $tracking_item['tracking_number'] ) . "\n";
+		echo esc_html( $track_header_text ) . ': ' . esc_url( $tracking_item['ast_tracking_link'] ) . "\n\n";
 	}
 
 	echo "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= \n\n";

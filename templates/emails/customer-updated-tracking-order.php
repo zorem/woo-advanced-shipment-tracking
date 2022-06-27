@@ -18,10 +18,11 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-$ut_settings = new wcast_updated_tracking_customizer_email();
+
 $ast = new WC_Advanced_Shipment_Tracking_Actions();
 
-$email_content = $ast->get_option_value_from_array( 'woocommerce_customer_updated_tracking_order_settings', 'wcast_updated_tracking_email_content', $ut_settings->defaults['wcast_updated_tracking_email_content'] );
+$default_content = __( "Hi there. we thought you'd like to know that the shipment tracking for your recent order from {site_title} has been updated.", 'woo-advanced-shipment-tracking' );
+$email_content = $ast->get_option_value_from_array( 'woocommerce_customer_updated_tracking_order_settings', 'wcast_updated_tracking_email_content', $default_content );
 $email_content = wc_advanced_shipment_tracking_email_class()->email_content( $email_content, $order->get_id(), $order );
 
 /*

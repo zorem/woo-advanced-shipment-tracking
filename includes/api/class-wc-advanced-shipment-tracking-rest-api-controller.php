@@ -62,10 +62,7 @@ class WC_Advanced_Shipment_Tracking_REST_API_Controller extends WC_REST_Controll
 				'args'                => array_merge( $this->get_endpoint_args_for_item_schema( WP_REST_Server::CREATABLE ), array(
 					'tracking_number' => array(
 						'required' => true,
-					),
-					'tracking_provider' => array(
-						'required' => true,
-					),
+					),				
 				) ),
 			),
 			'schema' => array( $this, 'get_public_item_schema' ),
