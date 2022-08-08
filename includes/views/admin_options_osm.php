@@ -1,6 +1,3 @@
-<?php
-$wcast_initialise_customizer_settings = new wcast_initialise_customizer_settings();	
-?>
 <div class="custom_order_status_section">							
 	<table class="form-table order-status-table">
 		<tbody>					
@@ -14,7 +11,7 @@ $wcast_initialise_customizer_settings = new wcast_initialise_customizer_settings
 					<?php esc_html_e( 'Rename the “Completed” Order status label to “Shipped”', 'woo-advanced-shipment-tracking' ); ?>
 				</td>	
 				<td style="text-align:right;">
-					<a class='settings_edit' href="<?php echo esc_url( $wcast_initialise_customizer_settings->get_customizer_url( 'ast_tracking_general_section', 'settings' ) ); ?>"><span class="dashicons dashicons-admin-generic"></span></a>
+					<a class='settings_edit' href="<?php echo esc_url( admin_url( 'admin.php?page=ast_customizer&email_type=completed' ) ); ?>"><span class="dashicons dashicons-admin-generic"></span></a>
 				</td>
 			</tr>
 			
@@ -74,7 +71,9 @@ $wcast_initialise_customizer_settings = new wcast_initialise_customizer_settings
 								<input type="hidden" name="<?php esc_html_e( $data['email_field'] ); ?>" value="0"/>
 								<input type="checkbox" name="<?php esc_html_e( $data['email_field'] ); ?>" id="<?php esc_html_e( $data['email_field'] ); ?>"class="enable_order_status_email_input"  <?php esc_html_e( $checked ); ?> value="1"><?php esc_html_e( 'Send Email', 'woo-advanced-shipment-tracking' ); ?>
 							</label>
-							<a class='settings_edit' href="<?php echo esc_url( $data['edit_email'] ); ?>"><span class="dashicons dashicons-admin-generic"></span></a>
+							<?php if ( 'updated_tracking' != $o_status ) { ?>
+								<a class='settings_edit' href="<?php echo esc_url( $data['edit_email'] ); ?>"><span class="dashicons dashicons-admin-generic"></span></a>
+							<?php } ?>
 						</fieldset>
 						<?php } ?>
 					</td>

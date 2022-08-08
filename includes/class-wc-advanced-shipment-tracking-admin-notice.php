@@ -61,10 +61,6 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 	}
 	
 	public function ast_settings_admin_notice() {
-		$date_now = gmdate( 'Y-m-d' );
-		if ( $date_now > '2022-06-30' ) {
-			return;
-		}
 		include 'views/admin_message_panel.php';
 	}
 	

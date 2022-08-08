@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: WooCommerce Advanced Shipment Tracking\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-11 09:34+0000\n"
-"PO-Revision-Date: 2022-06-17 11:26+0000\n"
+"PO-Revision-Date: 2022-08-08 05:01+0000\n"
 "Last-Translator: John Doe\n"
 "Language-Team: Greek\n"
 "Language: el\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Loco https://localise.biz/\n"
-"X-Loco-Version: 2.6.2; wp-6.0"
+"X-Loco-Version: 2.6.2; wp-6.0.1"
 
 #. %s: search WooCommerce plugin link
 #: includes/views/admin_options_shipping_provider.php:91
@@ -20,7 +20,7 @@ msgstr ""
 msgid "<a href=\"%s\" target=\"blank\">documentation</a>"
 msgstr "<a href=\"%s\" target=\"blank\">τεκμηρίωση</a>"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:2391
+#: includes/class-wc-advanced-shipment-tracking-admin.php:2063
 msgid "Add API Name alias"
 msgstr "Προσθήκη ψευδωνύμου ονόματος API"
 
@@ -33,8 +33,8 @@ msgstr ""
 "ονόματα παρόχων που ενημερώνονται στο API παρακολούθησης αποστολών από "
 "εξωτερικές υπηρεσίες αποστολής"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1880
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1992
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1552
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1664
 msgid "Add Custom Provider"
 msgstr "Προσθήκη προσαρμοσμένου παροχέα"
 
@@ -51,12 +51,12 @@ msgstr ""
 "στους λογαριασμούς πελατών (στον πίνακα παραγγελιών) και στο πλήρες email "
 "της παραγγελίας WooCommerce."
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:837
+#: includes/class-wc-advanced-shipment-tracking-admin.php:509
 msgid "add the [wcast-track-order] shortcode in the selected page."
 msgstr ""
 "προσθέστε τον σύντομο κωδικό [wcast-track-order] στην επιλεγμένη σελίδα."
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1852
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1524
 msgid "Add Tracking"
 msgstr "Add Tracking"
 
@@ -68,208 +68,19 @@ msgstr "Add Tracking - order\t"
 msgid "Add Tracking Info"
 msgstr "Προσθήκη Παρακολούθησης"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:556
-msgid ""
-"Add Tracking Information in AST meta fields when you automatically sync "
-"tracking numbers from aliexpress orders"
-msgstr ""
-"Προσθέστε πληροφορίες παρακολούθησης στα μετα -πεδία AST όταν συγχρονίζετε "
-"αυτόματα τους αριθμούς παρακολούθησης από παραγγελίες aliexpress"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:637
-msgid ""
-"Add tracking information in invoice PDF generate by WooCommerce PDF Invoices "
-"& Packing Slips plugin By Ewout Fernhout"
-msgstr ""
-"Προσθέστε πληροφορίες παρακολούθησης στο τιμολόγιο PDF που δημιουργούνται "
-"από την προσθήκη WooCommerce PDF Invoices & Packing Slips By Ewout Fernhout"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:647
-msgid ""
-"Add tracking information in invoice PDF generate by WooCommerce PDF Invoices "
-"plugin By Bas Elbers"
-msgstr ""
-"Προσθέστε πληροφορίες παρακολούθησης στο τιμολόγιο PDF που δημιουργείται από "
-"την προσθήκη WooCommerce PDF Invoices By Bas Elbers"
-
 #: includes/views/admin_options_settings.php:14
 msgid "Add Tracking Options"
 msgstr "Προσθήκη επιλογών παρακολούθησης"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:955
+#: includes/class-wc-advanced-shipment-tracking-admin.php:627
 msgid "Add Tracking Order action"
 msgstr "Προσθέστε ενέργεια εντολής παρακολούθησης"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:512
-msgid ""
-"Adding tracking information to your orders shipped with 3plwinner and "
-"automate your workflow"
-msgstr ""
-"Προσθέτοντας πληροφορίες παρακολούθησης στις παραγγελίες σας που "
-"αποστέλλονται με 3plwinner και αυτοματοποιήστε τη ροή εργασίας σας"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:468
-msgid ""
-"Adding tracking information to your orders shipped with CustomCat and "
-"automate your workflow"
-msgstr ""
-"Προσθέτοντας πληροφορίες παρακολούθησης στις παραγγελίες σας που "
-"αποστέλλονται με CustomCat και αυτοματοποιήστε τη ροή εργασίας σας"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:479
-msgid ""
-"Adding tracking information to your orders shipped with Dear Systems and "
-"automate your workflow"
-msgstr ""
-"Προσθέτοντας πληροφορίες παρακολούθησης στις παραγγελίες σας που "
-"αποστέλλονται με Dear Systems και αυτοματοποιήστε τη ροή εργασίας σας"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:523
-msgid ""
-"Adding tracking information to your orders shipped with Dianxiaomi and "
-"automate your workflow"
-msgstr ""
-"Προσθέτοντας πληροφορίες παρακολούθησης στις παραγγελίες σας που "
-"αποστέλλονται με Dianxiaomi και αυτοματοποιήστε τη ροή εργασίας σας"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:534
-msgid ""
-"Adding tracking information to your orders shipped with EIZ and automate "
-"your workflow"
-msgstr ""
-"Προσθέστε πληροφορίες παρακολούθησης στις παραγγελίες σας που αποστέλλονται "
-"με EIZ και αυτοματοποιήστε τη ροή εργασιών σας"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:617
-msgid ""
-"Adding tracking information to your orders shipped with Inventory source and "
-"automate your workflow"
-msgstr ""
-"Προσθέστε πληροφορίες παρακολούθησης στις παραγγελίες σας που αποστέλλονται "
-"με την πηγή αποθέματος και αυτοματοποιήστε τη ροή εργασιών σας"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:501
-msgid ""
-"Adding tracking information to your orders shipped with Picqer and automate "
-"your workflow"
-msgstr ""
-"Προσθέτοντας πληροφορίες παρακολούθησης στις παραγγελίες σας που "
-"αποστέλλονται με Picqer και αυτοματοποιήστε τη ροή εργασίας σας"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:567
-msgid ""
-"Adding tracking information to your orders shipped with pirate Ship and "
-"automate your workflow"
-msgstr ""
-"Προσθέστε πληροφορίες παρακολούθησης στις παραγγελίες σας που αποστέλλονται "
-"με πειρατική αποστολή και αυτοματοποιήστε τη ροή εργασιών σας"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:435
-msgid ""
-"Adding tracking information to your orders shipped with QuickBooks Commerce "
-"and automate your workflow"
-msgstr ""
-"Προσθέτοντας πληροφορίες παρακολούθησης στις παραγγελίες σας που "
-"αποστέλλονται με το QuickBooks Commerce και αυτοματοποιήστε τη ροή εργασίας "
-"σας"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:446
-msgid ""
-"Adding tracking information to your orders shipped with ReadyToShip and "
-"automate your workflow"
-msgstr ""
-"Προσθέτοντας πληροφορίες παρακολούθησης στις παραγγελίες σας που "
-"αποστέλλονται με το ReadyToShip και αυτοματοποιήστε τη ροή εργασίας σας"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:457
-msgid ""
-"Adding tracking information to your orders shipped with Royal Mail Click & "
-"Drop and automate your workflow"
-msgstr ""
-"Προσθέτοντας πληροφορίες παρακολούθησης στις παραγγελίες σας που "
-"αποστέλλονται με Royal Mail Click & Drop και αυτοματοποιήστε τη ροή εργασίας "
-"σας"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:577
-msgid ""
-"Adding tracking information to your orders shipped with sendcloud and "
-"automate your workflow"
-msgstr ""
-"Προσθέστε πληροφορίες παρακολούθησης στις παραγγελίες σας που αποστέλλονται "
-"με το sendcloud και αυτοματοποιήστε τη ροή εργασιών σας"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:607
-msgid ""
-"Adding tracking information to your orders shipped with Shippo and automate "
-"your workflow"
-msgstr ""
-"Προσθέστε πληροφορίες παρακολούθησης στις παραγγελίες σας που αποστέλλονται "
-"με το Shippo και αυτοματοποιήστε τη ροή εργασιών σας"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:545
-msgid ""
-"Adding tracking information to your orders shipped with shippypro and "
-"automate your workflow"
-msgstr ""
-"Προσθέστε πληροφορίες παρακολούθησης στις παραγγελίες σας που αποστέλλονται "
-"με το shippypro και αυτοματοποιήστε τη ροή εργασιών σας"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:402
-msgid ""
-"Adding tracking information to your orders shipped with ShipStation and "
-"automate your workflow"
-msgstr ""
-"Προσθέτοντας πληροφορίες παρακολούθησης στις παραγγελίες σας που "
-"αποστέλλονται με ShipStation και αυτοματοποιήστε τη ροή εργασίας σας"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:587
-msgid ""
-"Adding tracking information to your orders shipped with shiptheory and "
-"automate your workflow"
-msgstr ""
-"Προσθέστε πληροφορίες παρακολούθησης στις παραγγελίες σας που αποστέλλονται "
-"με τη θεωρία πλοίων και αυτοματοποιήστε τη ροή εργασιών σας"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:597
-msgid ""
-"Adding tracking information to your orders shipped with stamps.com and "
-"automate your workflow"
-msgstr ""
-"Προσθέστε πληροφορίες παρακολούθησης στις παραγγελίες σας που αποστέλλονται "
-"με το stamps.com και αυτοματοποιήστε τη ροή εργασιών σας"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:627
-msgid ""
-"Adding tracking information to your orders shipped with WooCommerce Amazon "
-"Fulfillment and automate your workflow"
-msgstr ""
-"Προσθήκη πληροφοριών παρακολούθησης στις παραγγελίες σας που αποστέλλονται "
-"με το WooCommerce Amazon Fulfillment και αυτοματοποίηση της ροής εργασιών σας"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:413
-msgid ""
-"Adding tracking information to your orders shipped with WooCommerce Shipping "
-"to the Shipment Tracking and automate your workflow"
-msgstr ""
-"Προσθήκη πληροφοριών παρακολούθησης στις παραγγελίες σας που αποστέλλονται "
-"με WooCommerce Shipping στην παρακολούθηση αποστολών και αυτοματοποιήστε τη "
-"ροή εργασίας σας"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:424
-msgid ""
-"Adding tracking information to your orders when generating shipping labels "
-"using the WooCommerce UPS Shipping Plugin with Print Label plugin by "
-"PluginHive"
-msgstr ""
-"Προσθήκη πληροφοριών παρακολούθησης στις παραγγελίες σας κατά τη δημιουργία "
-"ετικετών αποστολής χρησιμοποιώντας το πρόσθετο αποστολής WooCommerce UPS "
-"Shipping με προσθήκη ετικέτας Print από την PluginHive"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1052
+#: includes/class-wc-advanced-shipment-tracking-admin.php:724
 msgid "Additional Order Emails Display"
 msgstr "Εμφάνιση πρόσθετων email παραγγελιών"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:245
+#: includes/customizer/ast-customizer.php:475
 msgid "Additional text after header"
 msgstr "Πρόσθετο κείμενο μετά την κεφαλίδα"
 
@@ -277,15 +88,11 @@ msgstr "Πρόσθετο κείμενο μετά την κεφαλίδα"
 msgid "Advanced Shipment Tracking for WooCommerce"
 msgstr "Προηγμένη παρακολούθηση αποστολών για το WooCommerce"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:187
-msgid "After Order Details"
-msgstr "Μετά από Λεπτομέρειες Παραγγελίας"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1929
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1601
 msgid "API aliases"
 msgstr "Ψευδώνυμα API"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1077
+#: includes/class-wc-advanced-shipment-tracking-admin.php:749
 msgid "API Date Format"
 msgstr "Μορφή ημερομηνίας API"
 
@@ -293,39 +100,47 @@ msgstr "Μορφή ημερομηνίας API"
 msgid "API Name"
 msgstr "Όνομα API"
 
-#: includes/customizer/class-wc-partial-shipped-email-customizer.php:191
-#: includes/customizer/class-wc-partial-shipped-email-customizer.php:215
-#: includes/customizer/class-wc-partial-shipped-email-customizer.php:240
-#: includes/customizer/class-wc-partial-shipped-email-customizer.php:260
-#: includes/customizer/class-wc-tracking-info-customizer.php:333
-msgid "Available variables:"
-msgstr "Διαθέσιμες μεταβλητές:"
+#: includes/customizer/ast-customizer.php:89
+msgid "AST Customizer"
+msgstr "AST Customizer"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:186
-msgid "Before Order Details"
-msgstr "Πριν από τις λεπτομέρειες της παραγγελίας"
+#: includes/customizer/ast-customizer.php:671
+msgid "Available Placeholders:"
+msgstr "Διαθέσιμα Placeholders:"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:537
+#: includes/customizer/ast-customizer.php:506
+msgid "Background color"
+msgstr "Χρώμα του φόντου"
+
+#: includes/customizer/ast-customizer.php:514
 msgid "Border color"
 msgstr "Χρώμα πλαισίου"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:555
-msgid "Border size"
-msgstr "Μέγεθος περιθωρίου"
+#: includes/customizer/ast-customizer.php:522
+msgid "Border radius"
+msgstr "Ακτίνα συνόρων"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:407
-msgid "Bottom border color"
-msgstr "Το χρώμα του κάτω ορίου"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:968
+#: includes/customizer/ast-customizer.php:579
 msgid "Button color"
 msgstr "Χρώμα κουμπιού"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:986
+#: includes/customizer/ast-customizer.php:587
 msgid "Button font color"
 msgstr "Χρώμα γραμματοσειράς κουμπιού"
 
-#: includes/api/class-wc-advanced-shipment-tracking-rest-api-controller.php:225
+#: includes/customizer/ast-customizer.php:595
+msgid "Button radius"
+msgstr "Ακτίνα κουμπιού"
+
+#: includes/customizer/ast-customizer.php:567
+msgid "Button size"
+msgstr "Μέγεθος κουμπιού"
+
+#: includes/customizer/ast-customizer.php:557
+msgid "Button text"
+msgstr "Κείμενο κουμπιού"
+
+#: includes/api/class-wc-advanced-shipment-tracking-rest-api-controller.php:222
 msgid "Cannot create existing order shipment tracking."
 msgstr ""
 "Δεν είναι δυνατή η δημιουργία της υπάρχουσας παρακολούθησης αποστολής "
@@ -347,7 +162,7 @@ msgstr "Αλλαγή κατάστασης σε %s"
 msgid "Change status to shipped"
 msgstr "Αλλάξτε την κατάσταση αποστολής"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1078
+#: includes/class-wc-advanced-shipment-tracking-admin.php:750
 msgid "Choose for which Order status to display"
 msgstr "Επιλέξτε για ποια κατάσταση παραγγελίας θα εμφανίζεται"
 
@@ -359,32 +174,6 @@ msgstr "Επιλέξτε τη μορφή αποστολής ημερομηνία
 msgid "Completed"
 msgstr "Ολοκληρώθηκε το"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:312
-msgid "Content"
-msgstr "Περιεχόμενο"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:807
-msgid "Content Background color"
-msgstr "Χρώμα φόντου περιεχομένου"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:370
-#: includes/customizer/class-wc-tracking-info-customizer.php:825
-msgid "Content font color"
-msgstr "Το χρώμα γραμματοσειράς περιεχομένου"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:351
-#: includes/customizer/class-wc-tracking-info-customizer.php:843
-msgid "Content font size"
-msgstr "Μέγεθος γραμματοσειράς περιεχομένου"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:885
-msgid "Content font weight"
-msgstr "Βάρος γραμματοσειράς περιεχομένου"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:862
-msgid "Content line height"
-msgstr "Το ύψος της γραμμής περιεχομένου"
-
 #: includes/views/admin_options_bulk_upload.php:55
 msgid "Continue"
 msgstr "Να συνεχίσει"
@@ -393,8 +182,8 @@ msgstr "Να συνεχίσει"
 msgid "Country"
 msgstr "Country"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:295
-#: includes/class-wc-advanced-shipment-tracking-admin.php:299
+#: includes/class-wc-advanced-shipment-tracking-admin.php:274
+#: includes/class-wc-advanced-shipment-tracking-admin.php:278
 #: includes/views/admin_options_bulk_upload.php:8
 msgid "CSV Import"
 msgstr "Εισαγωγή CSV"
@@ -407,10 +196,6 @@ msgstr "Προσαρμοσμένο όνομα API"
 msgid "Custom display name"
 msgstr "Προσαρμοσμένο εμφανιζόμενο όνομα"
 
-#: includes/customizer/class-wcast-customizer.php:44
-msgid "Custom order status email"
-msgstr "Email κατάστασης προσαρμοσμένης παραγγελίας"
-
 #: includes/views/admin_options_shipping_provider.php:82
 msgid "Custom URL"
 msgstr "Προσαρμοσμένη διεύθυνση URL"
@@ -419,12 +204,12 @@ msgstr "Προσαρμοσμένη διεύθυνση URL"
 msgid "Customer View"
 msgstr "Προβολή πελατών"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:734
-#: includes/class-wc-advanced-shipment-tracking-admin.php:854
+#: includes/class-wc-advanced-shipment-tracking-admin.php:406
+#: includes/class-wc-advanced-shipment-tracking-admin.php:526
 msgid "Customize"
 msgstr "Προσαρμόστε"
 
-#: includes/views/admin_options_osm.php:66
+#: includes/views/admin_options_osm.php:63
 msgid "Dark Font"
 msgstr "Σκούρα γραμματοσειρά"
 
@@ -432,8 +217,8 @@ msgstr "Σκούρα γραμματοσειρά"
 msgid "Data saved successfully."
 msgstr "Τα δεδομένα αποθηκεύτηκαν με επιτυχία."
 
-#: includes/class-wc-advanced-shipment-tracking.php:369
 #: includes/class-wc-advanced-shipment-tracking-settings.php:544
+#: includes/class-wc-advanced-shipment-tracking.php:369
 msgid "Date shipped:"
 msgstr "Ημερομηνία αποστολής:"
 
@@ -443,7 +228,7 @@ msgstr "Ημερομηνία αποστολής:"
 msgid "Delivered"
 msgstr "Παραδόθηκε"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1225
+#: includes/class-wc-advanced-shipment-tracking-admin.php:897
 msgid "delivered"
 msgstr "παραδόθηκε"
 
@@ -455,14 +240,6 @@ msgid_plural "Delivered <span class=\"count\">(%s)</span>"
 msgstr[0] "Παραδόθηκε <span class=\"count\">(%s)</span>"
 msgstr[1] "Παραδόθηκε <span class=\"count\">(%s)</span>"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:463
-msgid "Display shipping provider image"
-msgstr "Εμφανίστε την εικόνα του προμηθευτή αποστολής"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:444
-msgid "Display shipping provider name"
-msgstr "Εμφάνιση ονόματος παρόχου αποστολής"
-
 #: includes/views/admin_options_bulk_upload.php:117
 msgid "Download sample csv"
 msgstr "Λήψη δείγματος csv"
@@ -471,84 +248,46 @@ msgstr "Λήψη δείγματος csv"
 msgid "Edit Shipping Provider"
 msgstr "Επεξεργασία παρόχου αποστολής"
 
-#: includes/customizer/class-wc-partial-shipped-email-customizer.php:239
+#: includes/customizer/ast-customizer.php:383
+#: includes/customizer/ast-customizer.php:384
+#: includes/customizer/ast-customizer.php:393
+#: includes/customizer/ast-customizer.php:437
+#: includes/customizer/ast-customizer.php:438
+#: includes/customizer/ast-customizer.php:615
+msgid "Email Content"
+msgstr "Περιεχόμενο email"
+
+#: includes/customizer/ast-customizer.php:659
 msgid "Email content"
 msgstr "Περιεχόμενο email"
 
-#: includes/customizer/class-wc-partial-shipped-email-customizer.php:149
-msgid "Email Type"
+#: includes/customizer/ast-customizer.php:697
+msgid "Email Customizer"
+msgstr "Email Customizer"
+
+#: includes/customizer/ast-customizer.php:647
+msgid "Email heading"
+msgstr "Επικεφαλίδα email"
+
+#: includes/customizer/ast-customizer.php:636
+msgid "Email Subject"
+msgstr "Θέμα του μέιλ"
+
+#: includes/customizer/ast-customizer.php:622
+#| msgid "Email Type"
+msgid "Email type"
 msgstr "Τύπος email"
 
-#: includes/customizer/class-wc-partial-shipped-email-customizer.php:171
-msgid "Enable Partially Shipped order status email"
-msgstr "Ενεργοποίηση μηνύματος κατάστασης παραγγελίας μερικής αποστολής"
+#: includes/customizer/ast-customizer.php:858
+msgid "Enable email"
+msgstr "Ενεργοποίηση email"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:511
-msgid "Enable the 3plwinner integration"
-msgstr "Ενεργοποιήστε την ενσωμάτωση 3plwinner"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:555
-msgid "Enable the AliExpress Dropshipping integration"
-msgstr "Ενεργοποιήστε την ενσωμάτωση AliExpress Dropshipping"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:467
-msgid "Enable the CustomCat integration"
-msgstr "Ενεργοποιήστε την ενσωμάτωση CustomCat"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:478
-msgid "Enable the Dear Systems integration"
-msgstr "Ενεργοποιήστε την ολοκλήρωση Dear Systems"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:522
-msgid "Enable the Dianxiaomi integration"
-msgstr "Ενεργοποιήστε την ενσωμάτωση Dianxiaomi"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:533
-msgid "Enable the EIZ integration"
-msgstr "Ενεργοποιήστε την ενσωμάτωση EIZ"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:500
-msgid "Enable the Picqer integration"
-msgstr "Ενεργοποιήστε την ενσωμάτωση Picqer"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:434
-msgid "Enable the QuickBooks Commerce (formerly TradeGecko) Integrations"
-msgstr "Ενεργοποιήστε τις ενσωματώσεις QuickBooks Commerce (πρώην TradeGecko)"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:445
-msgid "Enable the ReadyToShip integration"
-msgstr "Ενεργοποιήστε την ενσωμάτωση ReadyToShip"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:456
-msgid "Enable the Royal Mail Click & Drop integration"
-msgstr "Ενεργοποιήστε την ενσωμάτωση Royal Mail Click & Drop"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:544
-msgid "Enable the Shippypro integration"
-msgstr "Ενεργοποιήστε την ενσωμάτωση Shippypro"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:401
-msgid "Enable the ShipStation integration"
-msgstr "Ενεργοποιήστε την ενσωμάτωση ShipStation"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:412
-msgid "Enable the WC Shipping integration"
-msgstr "Ενεργοποιήστε την ενσωμάτωση WC Shipping"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:423
-msgid ""
-"Enable the WooCommerce UPS Shipping Plugin with Print Label plugin "
-"integration"
-msgstr ""
-"Ενεργοποιήστε το WooCommerce UPS Shipping Plugin με ενσωμάτωση πρόσθετου "
-"Print Label"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1059
+#: includes/class-wc-advanced-shipment-tracking-admin.php:731
 msgid "Enable Track button in orders history (actions)"
 msgstr ""
 "Ενεργοποίηση κουμπιού παρακολούθησης στο ιστορικό παραγγελιών (ενέργειες)"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:2318
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1990
 msgid "Filter by shipping provider"
 msgstr "Φιλτράρισμα ανά πάροχο αποστολής"
 
@@ -560,8 +299,8 @@ msgstr "Εκπλήρωση παραγγελίας"
 msgid "Fulfillement WorkFlow"
 msgstr "Πλήρης ροή εργασίας"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:339
-#: includes/class-wc-advanced-shipment-tracking-admin.php:343
+#: includes/class-wc-advanced-shipment-tracking-admin.php:310
+#: includes/class-wc-advanced-shipment-tracking-admin.php:314
 msgid "General Settings"
 msgstr "Γενικές Ρυθμίσεις"
 
@@ -569,27 +308,20 @@ msgstr "Γενικές Ρυθμίσεις"
 msgid "Global"
 msgstr "Παγκόσμια"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:269
+#: includes/class-wc-advanced-shipment-tracking-admin.php:248
 msgid "Go Pro"
 msgstr "Γίνε επαγγελματίας"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:731
-msgid "Headers background color"
-msgstr "Χρώμα φόντου κεφαλίδων"
+#: templates/emails/customer-updated-tracking-order.php:24
+msgid ""
+"Hi there. we thought you'd like to know that the shipment tracking for your "
+"recent order from {site_title} has been updated."
+msgstr ""
+"Γεια σου. πιστεύαμε ότι θα θέλατε να γνωρίζετε ότι η παρακολούθηση αποστολής "
+"για την πρόσφατη παραγγελία σας από τον ιστότοπο {site_title} έχει "
+"ενημερωθεί."
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:749
-msgid "Headers font color"
-msgstr "Χρώμα γραμματοσειράς κεφαλίδων"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:712
-msgid "Headers font size"
-msgstr "Κεφάλαιο μέγεθος γραμματοσειράς"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:767
-msgid "Headers font weight"
-msgstr "Βάρος γραμματοσειράς κεφαλίδων"
-
-#: includes/customizer/class-wc-partial-shipped-email-customizer.php:117
+#: includes/customizer/ast-customizer.php:330
 msgid ""
 "Hi there. we thought you'd like to know that your recent order from "
 "{site_title} has been partially shipped."
@@ -603,17 +335,19 @@ msgstr ""
 msgid "hide details"
 msgstr "κρύψε τις λεπτομέρειες"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:622
-msgid "Hide Table Headers"
-msgstr "Απόκρυψη κεφαλίδων πίνακα"
+#: includes/customizer/ast-customizer.php:532
+#| msgid "Display shipping provider image"
+msgid "Hide shipping provider image"
+msgstr "Απόκρυψη εικόνας παρόχου αποστολής"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:482
-#| msgid "Hide the ship date"
-msgid "Hide the shipped date"
+#: includes/customizer/ast-customizer.php:541
+#| msgid "Hide the shipped date"
+msgid "Hide the shipping date"
 msgstr "Απόκρυψη της ημερομηνίας του πλοίου"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:203
-msgid "Hide Tracking Header"
+#: includes/customizer/ast-customizer.php:456
+#| msgid "Hide Tracking Header"
+msgid "Hide tracking header"
 msgstr "Απόκρυψη κεφαλίδας παρακολούθησης"
 
 #: includes/views/admin_options_bulk_upload.php:118
@@ -632,17 +366,9 @@ msgstr "https://www.zorem.com/products/woocommerce-advanced-shipment-tracking/"
 msgid "Import in Progress"
 msgstr "Εισαγωγή σε εξέλιξη"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:304
-msgid "Integrations"
-msgstr "Ενσωματώσεις"
-
-#: includes/api/class-wc-advanced-shipment-tracking-rest-api-controller.php:234
+#: includes/api/class-wc-advanced-shipment-tracking-rest-api-controller.php:231
 msgid "Invalid order ID."
 msgstr "Μη έγκυρο αναγνωριστικό παραγγελίας."
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:616
-msgid "Inventory source"
-msgstr "Πηγή αποθέματος"
 
 #: includes/views/admin_options_bulk_upload.php:46
 msgid ""
@@ -653,11 +379,15 @@ msgstr ""
 "σε τυχόν υπάρχουσες πληροφορίες παρακολούθησης που έχουν προστεθεί στις "
 "παραγγελίες."
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:269
+#: includes/customizer/ast-customizer.php:573
+msgid "Large"
+msgstr "Μεγάλο"
+
+#: includes/class-wc-advanced-shipment-tracking-admin.php:248
 msgid "License"
 msgstr "Αδεια"
 
-#: includes/views/admin_options_osm.php:65
+#: includes/views/admin_options_osm.php:62
 msgid "Light Font"
 msgstr "Φως γραμματοσειράς"
 
@@ -665,7 +395,7 @@ msgstr "Φως γραμματοσειράς"
 msgid "Mark as Completed?"
 msgstr "Σημειώστε ως ολοκληρωμένο;"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1861
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1533
 msgid "Mark as Shipped"
 msgstr "Επισήμανση ως αποσταλεί"
 
@@ -681,31 +411,29 @@ msgstr "Επισήμανση παραγγελίας ως παραδοθείσα�
 msgid "Mark order as:"
 msgstr "Σημειώστε την τάξη ως:"
 
-#: includes/customizer/class-wcast-customizer.php:260
+#: includes/customizer/ast-customizer.php:1074
 msgid "Mockup Order"
 msgstr "Παραγγελία κοροϊδεύω"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:838
+#: includes/class-wc-advanced-shipment-tracking-admin.php:510
 msgid "more info"
 msgstr "περισσότερες πληροφορίες"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:2391
+#: includes/class-wc-advanced-shipment-tracking-admin.php:2063
 msgid "Multiple API names mapping is a pro features"
 msgstr ""
 "Η αντιστοίχιση πολλαπλών ονομάτων API είναι επαγγελματικά χαρακτηριστικά"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1065
+#: includes/customizer/ast-customizer.php:572
+msgid "Normal"
+msgstr "Κανονικός"
+
+#: includes/class-wc-advanced-shipment-tracking-admin.php:737
 msgid "Open the Track Button link in a new tab"
 msgstr "Ανοίξτε τον σύνδεσμο Κουμπί παρακολούθησης σε μια νέα καρτέλα"
 
-#. %s: Order ID.
-#: templates/emails/wcast-email-order-details.php:55
-#, php-format
-msgid "Order number: %s"
-msgstr "Αριθμός παραγγελίας:% s"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:348
-#: includes/class-wc-advanced-shipment-tracking-admin.php:352
+#: includes/class-wc-advanced-shipment-tracking-admin.php:319
+#: includes/class-wc-advanced-shipment-tracking-admin.php:323
 msgid "Order Statuses"
 msgstr "Καταστάσεις παραγγελίας"
 
@@ -722,7 +450,7 @@ msgstr "Η παραγγελία στάλθηκε με %1$s και ο αριθμ�
 msgid "Order was shipped with %s and tracking number is: %s"
 msgstr "Η παραγγελία εστάλη με %s και ο αριθμός παρακολούθησης είναι: %s"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:830
+#: includes/class-wc-advanced-shipment-tracking-admin.php:502
 msgid "Other"
 msgstr "Αλλα"
 
@@ -730,10 +458,12 @@ msgstr "Αλλα"
 msgid "Partial Shipped"
 msgstr "Μερική αποστολή"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1214
+#: includes/class-wc-advanced-shipment-tracking-admin.php:886
 #: includes/class-wc-advanced-shipment-tracking-settings.php:275
 #: includes/class-wc-advanced-shipment-tracking-settings.php:307
-#: includes/customizer/class-wc-partial-shipped-email-customizer.php:134
+#: includes/customizer/ast-customizer.php:129
+#: includes/customizer/ast-customizer.php:354
+#: includes/customizer/ast-customizer.php:609
 msgid "Partially Shipped"
 msgstr "Μερικώς αποστέλλονται"
 
@@ -744,25 +474,6 @@ msgid "Partially Shipped <span class=\"count\">(%s)</span>"
 msgid_plural "Partially Shipped <span class=\"count\">(%s)</span>"
 msgstr[0] "Μερική αποστολή <span class = \"count\"> (% s) </ span>"
 msgstr[1] "Μερική αποστολή <span class = \"count\"> (% s) </ span>"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:636
-msgid ""
-"PDF invoices integration for WooCommerce PDF Invoices & Packing Slips plugin "
-"By Ewout Fernhout"
-msgstr ""
-"Ενσωμάτωση τιμολογίων PDF για την προσθήκη WooCommerce PDF Invoices & "
-"Packing Slips By Ewout Fernhout"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:646
-msgid ""
-"PDF invoices integration for WooCommerce PDF Invoices plugin By Bas Elbers"
-msgstr ""
-"Ενσωμάτωση τιμολογίων PDF για την προσθήκη WooCommerce PDF Invoices By Bas "
-"Elbers"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:566
-msgid "Pirate Ship"
-msgstr "Πειρατικό καράβι"
 
 #. %s: search WooCommerce plugin link
 #: woocommerce-advanced-shipment-tracking.php:181
@@ -782,21 +493,16 @@ msgstr "Ανεβάστε ένα έγκυρο αρχείο CSV."
 msgid "Preview:"
 msgstr "Επισκόπηση:"
 
-#: includes/class-wc-advanced-shipment-tracking.php:361
 #: includes/class-wc-advanced-shipment-tracking-settings.php:540
+#: includes/class-wc-advanced-shipment-tracking.php:361
 msgid "Product Code:"
 msgstr "Κωδικός προϊόντος:"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:141
-#: includes/customizer/class-wc-tracking-info-customizer.php:648
-#: templates/emails/tracking-info.php:216
-#: templates/myaccount/tracking-info.php:192
+#: templates/emails/plain/tracking-info.php:32
 msgid "Provider"
 msgstr "Μεταφορέας"
 
 #: includes/views/admin_options_shipping_provider.php:57
-#: templates/emails/tracking-info.php:222
-#: templates/myaccount/tracking-info.php:198
 msgid "Provider Name"
 msgstr "Ονομα πάροχου"
 
@@ -816,7 +522,7 @@ msgstr "Οι προμηθευτές ενημερώθηκαν"
 msgid "Really delete this entry? This will not be undo."
 msgstr "Να διαγραφεί πραγματικά αυτή η καταχώριση; Αυτό δεν θα αναιρεθεί."
 
-#: includes/views/admin_options_osm.php:14
+#: includes/views/admin_options_osm.php:11
 msgid "Rename the “Completed” Order status label to “Shipped”"
 msgstr ""
 "Μετονομάστε την ετικέτα κατάστασης παραγγελίας που ολοκληρώθηκε σε "
@@ -848,31 +554,23 @@ msgstr "Αποθήκευση & Κλείσιμο"
 msgid "Save Tracking"
 msgstr "Αποθήκευση Παρακολούθησης"
 
+#: includes/customizer/ast-customizer.php:155
+msgid "Saved"
+msgstr "Αποθηκεύτηκε"
+
 #: includes/views/admin_options_shipping_provider.php:27
 msgid "Search by provider / country"
 msgstr "Αναζήτηση ανά προμηθευτή / χώρα"
-
-#: includes/customizer/class-wc-partial-shipped-email-customizer.php:153
-msgid "Select email type"
-msgstr "Επιλέξτε τύπο email"
 
 #: includes/class-wc-advanced-shipment-tracking.php:323
 msgid "Select Provider"
 msgstr "Επιλογή Παροχέα"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:259
-msgid "Select Template"
-msgstr "Επιλέξτε Πρότυπο"
-
-#: includes/views/admin_options_osm.php:75
+#: includes/views/admin_options_osm.php:72
 msgid "Send Email"
 msgstr "Να στείλετε e-mail"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:576
-msgid "Sendcloud"
-msgstr "Sendcloud"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:949
+#: includes/class-wc-advanced-shipment-tracking-admin.php:621
 msgid ""
 "Set the \"mark as shipped\" option checked  when adding tracking info to "
 "orders"
@@ -881,8 +579,8 @@ msgstr ""
 "παρακολούθησης σε παραγγελίες"
 
 #: includes/class-wc-advanced-shipment-tracking-admin.php:214
-#: includes/class-wc-advanced-shipment-tracking-admin.php:277
-#: includes/class-wc-advanced-shipment-tracking-admin.php:281
+#: includes/class-wc-advanced-shipment-tracking-admin.php:256
+#: includes/class-wc-advanced-shipment-tracking-admin.php:260
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
@@ -891,7 +589,7 @@ msgid "Settings Saved."
 msgstr "Οι Ρυθμίσεις Αποθηκεύτηκαν."
 
 #. %s: replace with status
-#: templates/emails/plain/tracking-info.php:36
+#: templates/emails/plain/tracking-info.php:28
 #, php-format
 msgid "Shipment status changed to %s"
 msgstr "Η κατάσταση αποστολής άλλαξε στο% s"
@@ -907,10 +605,12 @@ msgstr "Παρακολούθηση Αποστολής"
 msgid "Shipment Tracking API"
 msgstr "API παρακολούθησης αποστολών"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:871
-#: includes/class-wc-advanced-shipment-tracking-admin.php:967
-#: includes/class-wc-advanced-shipment-tracking.php:467
+#: includes/class-wc-advanced-shipment-tracking-admin.php:543
+#: includes/class-wc-advanced-shipment-tracking-admin.php:639
 #: includes/class-wc-advanced-shipment-tracking-settings.php:431
+#: includes/class-wc-advanced-shipment-tracking.php:467
+#: includes/customizer/ast-customizer.php:125
+#: includes/customizer/ast-customizer.php:350
 msgid "Shipped"
 msgstr "Αποστέλλονται"
 
@@ -922,29 +622,13 @@ msgid_plural "Shipped <span class=\"count\">(%s)</span>"
 msgstr[0] "Αποστέλλονται <span class = \"count\"> (% s) </ span>"
 msgstr[1] "Αποστέλλονται <span class = \"count\"> (% s) </ span>"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:143
-#: includes/customizer/class-wc-tracking-info-customizer.php:695
-msgid "Shipped Date"
-msgstr "Ημερομηνία αποστολής"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:688
-#| msgid "Ship date header text"
-msgid "Shipped date header text"
-msgstr "Κείμενο κεφαλίδας ημερομηνίας πλοίου"
-
 #. 1: shipping date
 #: includes/class-wc-advanced-shipment-tracking.php:255
 #, php-format
 msgid "Shipped on %s"
 msgstr "Στάλθηκε στις %s"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:151
-msgid "Shipped on {ship_date} via {shipping_provider} - {tracking_number_link}"
-msgstr ""
-"Αποστέλλονται στις {ship_date} μέσω {shipping_provider} - "
-"{tracking_number_link}"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1816
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1488
 msgid "Shipped Order"
 msgstr "Αποστολή παραγγελίας"
 
@@ -956,18 +640,14 @@ msgstr "Χώρα αποστολής"
 msgid "Shipping Provider"
 msgstr "Πάροχος αποστολών"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:641
-msgid "Shipping provider header text"
-msgstr "Κείμενο κεφαλίδας παρόχου αποστολής"
-
-#: includes/class-wc-advanced-shipment-tracking.php:321
 #: includes/class-wc-advanced-shipment-tracking-settings.php:518
 #: includes/class-wc-advanced-shipment-tracking-settings.php:520
+#: includes/class-wc-advanced-shipment-tracking.php:321
 msgid "Shipping Provider:"
 msgstr "Πάροχος υπηρεσιών:"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:286
-#: includes/class-wc-advanced-shipment-tracking-admin.php:290
+#: includes/class-wc-advanced-shipment-tracking-admin.php:265
+#: includes/class-wc-advanced-shipment-tracking-admin.php:269
 msgid "Shipping Providers"
 msgstr "Πάροχοι αποστολών"
 
@@ -976,29 +656,9 @@ msgid "Shipping providers database reset successfully."
 msgstr ""
 "Η επαναφορά βάσης δεδομένων παρόχων αποστολής ολοκληρώθηκε με επιτυχία."
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:606
-msgid "Shippo"
-msgstr "Shippo"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:586
-msgid "Shiptheory"
-msgstr "Shiptheory"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:388
-msgid "Show bottom border"
-msgstr "Εμφάνιση περιθωρίου κάτω"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:295
-msgid "Simple Layout Design"
-msgstr "Απλό σχέδιο διάταξης"
-
-#: includes/api/class-wc-advanced-shipment-tracking-rest-api-controller.php:238
+#: includes/api/class-wc-advanced-shipment-tracking-rest-api-controller.php:235
 msgid "Special character not allowd in tracking number"
 msgstr "Ειδικός χαρακτήρας που δεν επιτρέπεται στον αριθμό καταδίωξης"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:596
-msgid "Stamps.com"
-msgstr "Stamps.com"
 
 #: includes/views/admin_options_shipping_provider.php:110
 #: includes/views/admin_options_shipping_provider.php:124
@@ -1013,31 +673,6 @@ msgstr ""
 "Ο συγχρονισμός της λίστας παρόχων ναυτιλίας προσθέτει ή ενημερώνει τους "
 "προκαθορισμένους παροχείς αποστολής και δεν θα επηρεάσει τους "
 "προσαρμοσμένους παροχείς αποστολής."
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:790
-msgid "Table Content"
-msgstr "Περιεχόμενο πίνακα"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:520
-msgid "Table Design Options"
-msgstr "Επιλογές σχεδίασης πίνακα"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:605
-#| msgid "Table Headers"
-msgid "Table Header"
-msgstr "Κεφαλίδες στον πίνακα"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:260
-msgid "Table Layout"
-msgstr "Διάταξη πίνακα"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:427
-msgid "Table Options"
-msgstr "Επιλογές πίνακα"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:581
-msgid "Text align"
-msgstr "Στοίχιση κειμένου"
 
 #: includes/views/admin_options_shipping_provider.php:61
 msgid ""
@@ -1060,47 +695,33 @@ msgstr "Αυτό το πρόγραμμα περιήγησης δεν υποστ�
 #: includes/class-wc-advanced-shipment-tracking.php:784
 #: includes/class-wc-advanced-shipment-tracking.php:817
 #: includes/class-wc-advanced-shipment-tracking.php:835
-#: includes/customizer/class-wc-tracking-info-customizer.php:144
-#: includes/customizer/class-wc-tracking-info-customizer.php:951
-#: templates/emails/tracking-info.php:264
-#: templates/myaccount/tracking-info.php:244
-#: templates/myaccount/tracking-info.php:246
+#: templates/emails/plain/tracking-info.php:34
 msgid "Track"
 msgstr "Παρακολούθηση"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:908
-msgid "Track Button"
-msgstr "Κουμπί παρακολούθησης"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:925
-msgid "Track Header"
-msgstr "Παρακολούθηση κεφαλίδας"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:944
-msgid "Track header text"
-msgstr "Κείμενο κεφαλίδας παρακολούθησης"
 
 #: includes/class-wc-advanced-shipment-tracking.php:242
 #: includes/class-wc-advanced-shipment-tracking.php:387
 msgid "Track Shipment"
 msgstr "Παρακολούθηση αποστολής"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:274
-#: includes/customizer/class-wc-tracking-info-customizer.php:277
-msgid "Tracking display layout"
-msgstr "Παρακολούθηση της διάταξης προβολής"
+#: includes/customizer/ast-customizer.php:318
+msgid "Track Your Order"
+msgstr "Παρακολουθήστε την παραγγελία σας"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:182
-msgid "Tracking Display Position"
-msgstr "Παρακολούθηση θέσης προβολής"
+#: includes/customizer/ast-customizer.php:492
+msgid "Tracker type"
+msgstr "Τύπος ιχνηλάτη"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:221
-msgid "Tracking Header text"
+#: includes/customizer/ast-customizer.php:428
+#: includes/customizer/ast-customizer.php:551
+#| msgid "Track Button"
+msgid "Tracking Button"
+msgstr "Κουμπί παρακολούθησης"
+
+#: includes/customizer/ast-customizer.php:465
+#| msgid "Tracking Header text"
+msgid "Tracking header text"
 msgstr "Κείμενο κεφαλίδας εντοπισμού"
-
-#: includes/customizer/class-wcast-customizer.php:37
-msgid "Tracking info display"
-msgstr "Παρακολούθηση πληροφοριών εμφάνισης"
 
 #. %s: Reaplce with tracking provider, %s: Reaplce with tracking number
 #: includes/class-wc-advanced-shipment-tracking.php:741
@@ -1114,32 +735,29 @@ msgstr ""
 "Οι πληροφορίες παρακολούθησης διαγράφηκαν για τον πάροχο παρακολούθησης %s "
 "με αριθμό παρακολούθησης %s"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:228
-msgid "Tracking Information"
-msgstr "Πληροφορίες Παρακολούθησης"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:142
-#: includes/customizer/class-wc-tracking-info-customizer.php:672
-#: templates/emails/tracking-info.php:235
-#: templates/myaccount/tracking-info.php:213
+#: templates/emails/plain/tracking-info.php:33
 msgid "Tracking Number"
 msgstr "Αριθμός"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:665
-#| msgid "Tracking Number header text"
-msgid "Tracking number header text"
-msgstr "Κείμενο κεφαλίδας αριθμού παρακολούθησης"
-
-#: includes/class-wc-advanced-shipment-tracking.php:317
 #: includes/class-wc-advanced-shipment-tracking-settings.php:514
+#: includes/class-wc-advanced-shipment-tracking.php:317
 msgid "Tracking number:"
 msgstr "Αριθμός Παρακολούθησης:"
+
+#: includes/customizer/ast-customizer.php:374
+#: includes/customizer/ast-customizer.php:375
+#: includes/customizer/ast-customizer.php:401
+#: includes/customizer/ast-customizer.php:411
+#: includes/customizer/ast-customizer.php:420
+#: includes/customizer/ast-customizer.php:429
+msgid "Tracking Widget"
+msgstr "Γραφικό στοιχείο παρακολούθησης"
 
 #: includes/views/admin_options_shipping_provider.php:99
 msgid "Update"
 msgstr "Update"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1242
+#: includes/class-wc-advanced-shipment-tracking-admin.php:914
 #: includes/class-wc-advanced-shipment-tracking-settings.php:260
 #: includes/class-wc-advanced-shipment-tracking-settings.php:293
 #: includes/class-wc-advanced-shipment-tracking-settings.php:412
@@ -1170,10 +788,6 @@ msgstr ""
 "Χρησιμοποιήστε το εργαλείο εισαγωγής CSV για μαζική εισαγωγή πληροφοριών "
 "παρακολούθησης σε παραγγελίες από ένα αρχείο CSV"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:501
-msgid "Use tracking number as a link"
-msgstr "Χρησιμοποιήστε τον αριθμό παρακολούθησης ως σύνδεσμο"
-
 #: includes/class-wc-advanced-shipment-tracking-settings.php:804
 #: includes/class-wc-advanced-shipment-tracking-settings.php:821
 #: includes/class-wc-advanced-shipment-tracking-settings.php:838
@@ -1186,7 +800,7 @@ msgid "View Orders"
 msgstr "Προβολή παραγγελιών"
 
 #. %s: replace with Partially Shipped order count
-#: woocommerce-advanced-shipment-tracking.php:475
+#: woocommerce-advanced-shipment-tracking.php:478
 #, php-format
 msgid ""
 "We detected %s orders that use the Delivered order status, You can reassign "
@@ -1197,7 +811,7 @@ msgstr ""
 "διαφορετική κατάσταση"
 
 #. %s: replace with Partially Shipped order count
-#: woocommerce-advanced-shipment-tracking.php:457
+#: woocommerce-advanced-shipment-tracking.php:460
 #, php-format
 msgid ""
 "We detected %s orders that use the Partially Shipped order status, You can "
@@ -1210,16 +824,25 @@ msgstr ""
 msgid "White Label Provider Name"
 msgstr "Όνομα παρόχου λευκής ετικέτας"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:626
-msgid "WooCommerce Amazon Fulfillment"
-msgstr "Εκπλήρωση WooCommerce Amazon"
+#: includes/customizer/ast-customizer.php:410
+#: includes/customizer/ast-customizer.php:448
+msgid "Widget Header"
+msgstr "Κεφαλίδα γραφικών στοιχείων"
 
+#: includes/customizer/ast-customizer.php:419
+#: includes/customizer/ast-customizer.php:486
+msgid "Widget Style"
+msgstr "Στυλ widget"
+
+#: includes/class-wc-advanced-shipment-tracking-settings.php:545
 #: includes/class-wc-advanced-shipment-tracking.php:370
 #: includes/class-wc-advanced-shipment-tracking.php:373
-#: includes/class-wc-advanced-shipment-tracking-settings.php:545
-#: includes/class-wc-advanced-shipment-tracking-settings.php:545
 msgid "Y-m-d"
 msgstr "Υ-μ-η"
+
+#: includes/customizer/ast-customizer.php:695
+msgid "You are customizing"
+msgstr "Προσαρμόζετε"
 
 #: includes/class-wc-advanced-shipment-tracking-admin.php:168
 msgid "You can upload only csv file."
@@ -1236,22 +859,22 @@ msgstr ""
 "στο "
 
 #. %s: replace with status
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1987
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1659
 #, php-format
 msgid "You did not create any %s shipping providers yet."
 msgstr "Δεν έχετε δημιουργήσει παρόχους αποστολής% s ακόμη."
 
 #. %s: replace with status
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1998
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1670
 #, php-format
 msgid "You don't have any %s shipping providers."
 msgstr "Δεν διαθέτετε παρόχους ναυτιλίας% s."
 
-#: includes/customizer/class-wc-partial-shipped-email-customizer.php:116
+#: includes/customizer/ast-customizer.php:329
 msgid "Your Order is Partially Shipped"
 msgstr "Η παραγγελία σας έχει αποσταλεί μερικώς"
 
-#: includes/customizer/class-wc-partial-shipped-email-customizer.php:115
+#: includes/customizer/ast-customizer.php:328
 msgid "Your {site_title} order is now partially shipped"
 msgstr "Η παραγγελία σας {site_title} αποστέλλεται τώρα εν μέρει"
 
