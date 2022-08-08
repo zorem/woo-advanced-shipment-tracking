@@ -11,17 +11,18 @@
  * the readme will list any important changes.
  *
  * @see https://docs.woocommerce.com/document/template-structure/
- * @package WooCommerce/Templates/Emails
+ * @package WooCommerce\Templates\Emails
  * @version 3.7.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
 $ast_customizer = Ast_Customizer::get_instance();
 $ast = new WC_Advanced_Shipment_Tracking_Actions();
 
-$email_content = $ast->get_option_value_from_array( 'woocommerce_customer_partial_shipped_order_settings', 'wcast_partial_shipped_email_content', $ast_customizer->defaults['partial_shipped_email_content'] );	
+$email_content = $ast->get_option_value_from_array( 'woocommerce_customer_completed_order_settings', 'wcast_completed_email_content', $ast_customizer->defaults['completed_email_content'] );	
 $email_content = wc_advanced_shipment_tracking_email_class()->email_content( $email_content, $order->get_id(), $order );
 
 /*
@@ -29,7 +30,7 @@ $email_content = wc_advanced_shipment_tracking_email_class()->email_content( $em
  */
 do_action( 'woocommerce_email_header', $email_heading, $email ); ?>
 
-<?php /* translators: %s: Site title */ ?>
+<?php /* translators: %s: Customer first name */ ?>
 <div class="email_content"><?php echo wp_kses_post( wpautop( wptexturize( $email_content ) ) ); ?></div>
 <?php
 
@@ -51,6 +52,13 @@ do_action( 'woocommerce_email_order_meta', $order, $sent_to_admin, $plain_text, 
  * @hooked WC_Emails::email_address() Shows email address
  */
 do_action( 'woocommerce_email_customer_details', $order, $sent_to_admin, $plain_text, $email );
+
+/**
+ * Show user-defined additional content - this is set in each email's settings.
+ */
+if ( $additional_content ) {
+	echo wp_kses_post( wpautop( wptexturize( $additional_content ) ) );
+}
 
 /*
  * @hooked WC_Emails::email_footer() Output the email footer

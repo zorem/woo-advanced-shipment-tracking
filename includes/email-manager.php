@@ -15,7 +15,13 @@ class WC_Advanced_Shipment_Tracking_Email_Manager {
 			define( 'AST_TEMPLATE_PATH', SHIPMENT_TRACKING_PATH . '/templates/' );
 		}	
 		// hook for when order status is changed	
-		add_filter( 'woocommerce_email_classes', array( $this, 'custom_init_emails' ) );		
+		add_filter( 'woocommerce_email_classes', array( $this, 'custom_init_emails' ) );	
+		
+		// Use our templates instead of woocommerce.
+		add_filter( 'woocommerce_locate_template', array( $this, 'filter_locate_template' ), 100, 3 );
+
+		add_filter( 'woocommerce_email_heading_customer_completed_order', array( $this, 'completed_email_heading' ), 10, 2 );
+		add_filter( 'woocommerce_email_subject_customer_completed_order', array( $this, 'completed_email_subject' ), 10, 2 );
 	}		    
 	
 	/**
@@ -86,8 +92,72 @@ class WC_Advanced_Shipment_Tracking_Email_Manager {
 	 */
 	private function get_blogname() {
 		return wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
-	}		
+	}
 	
+	/**
+	 * Filter in custom email templates with priority to child themes
+	 *
+	 * @param string $template the email template file.
+	 * @param string $template_name name of email template.
+	 * @param string $template_path path to email template.	 
+	 * @return string
+	 */
+	public function filter_locate_template( $template, $template_name, $template_path ) {
+
+		// Make sure we are working with an email template.
+		if ( ! in_array( 'emails', explode( '/', $template_name ) ) ) {
+			return $template;
+		}
+
+		// clone template.
+		$_template = $template;
+
+		// Get the woocommerce template path if empty.
+		if ( ! $template_path ) {
+			global $woocommerce;
+			$template_path = $woocommerce->template_url;
+		}
+
+		// Get our template path.
+		$plugin_path = SHIPMENT_TRACKING_PATH . '/templates/';
+		
+
+		// Look within passed path within the theme - this is priority.
+		$template = locate_template( array( $template_path . $template_name, $template_name ) );
+
+		// If theme isn't trying to override get the template from this plugin, if it exists.
+		if ( ! $template && file_exists( $plugin_path . $template_name ) ) {
+			$template = $plugin_path . $template_name;
+		}
+
+		// else if we still don't have a template use default.
+		if ( ! $template ) {
+			$template = $_template;
+		}					
+		
+		// Return template.
+		return $template;
+	}	
+
+	public function completed_email_heading( $email_heading, $order ) {
+		$first_name = $order->get_billing_first_name();
+		$last_name = $order->get_billing_last_name();
+
+		$email_heading = str_replace( '{customer_first_name}', $first_name, $email_heading );
+		$email_heading = str_replace( '{customer_last_name}', $last_name, $email_heading );
+
+		return $email_heading;
+	}
+
+	public function completed_email_subject( $email_subject, $order ) {
+		$first_name = $order->get_billing_first_name();
+		$last_name = $order->get_billing_last_name();
+
+		$email_subject = str_replace( '{customer_first_name}', $first_name, $email_subject );
+		$email_subject = str_replace( '{customer_last_name}', $last_name, $email_subject );
+
+		return $email_subject;
+	}
 }
 
 /**

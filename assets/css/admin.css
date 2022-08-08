@@ -1732,22 +1732,22 @@ ul.csv_error_details_ul li:before{
 	margin: 20px 0;
 }
 .ast_pro_features_list li{
-	margin: 0 0 10px;
-    padding: 0 30px 0;
-	line-height: 22px;
+    margin: 0 0 15px;
+    padding: 0 5px 0 35px;
+    line-height: 23px;
     position: relative;
-	font-size: 14px;
+    font-size: 14px;
 }
 .ast_pro_features_list li:before{
-	content: "\f147";
-	font-family: dashicons;	    
-    font-size: 28px;
+    font-family: dashicons;
+    content: "\f12a";
+    font-size: 25px;
     vertical-align: middle;
     color: #3bc4e4;
-	padding-right: 5px;
-	position: absolute;
+    padding-right: 5px;
+    position: absolute;
     left: 0;
-    top: 3px;
+    top: 0px;    
 }
 #trackship_landing .ast_pro_features_list li:before{
 	color: #0ad3ac;
@@ -2075,22 +2075,58 @@ span.dashicons.dashicons-trash.remove {
 /** End CSS ***/
 
 .upgrade_to_pro_popup .popuprow{
-	max-width: 400px;
+	max-width: 900px;
+}
+.upgrade_to_pro_popup .popuprow .popup_body{
+    padding: 0;
 }
 .upgrade_title{
-	font-size: 26px;
+    font-size: 24px;
     font-weight: 700;
+    margin: 0;
+    color: #333333;
+    line-height: 37px;
+    height: 40px;
+}
+.ast_description {
+    max-width: 800px;
+    margin: 30px auto 0;
     text-align: center;
-    margin: 10px 0 30px;
-	color: #3c4758;
+    font-size: 18px;
+    color: #333333;
+}
+.ast_features_container{
+    display: flex;
+    flex-direction: row;
+    max-width: 800px;
+    margin: 10px auto;
+}
+.ast_features_inner{
+    width: 50%;
+}
+.call_to_action_section{
+    max-width: 800px;
+    margin: 0 auto 30px;
+}
+.upgrade_to_pro_popup .popuprow .popup_header .popup_close_icon{
+    line-height: 42px;
+    height: 71px;
 }
 .wp-core-ui .upgrade_to_pro_popup .btn_large{
-	 font-weight: 600;
+    font-weight: 700;
     font-size: 18px;
     width: 100%;
     text-align: center;
     height: 50px;
     line-height: 47px;
+    text-transform: uppercase;
+}
+.upgrade_to_pro_popup .dashicons{
+    vertical-align: text-bottom;
+    font-size: 24px;
+    height: 24px;
+    width: 24px;
+    line-height: 24px;
 }
 .ast-tgl-btn[for="enable_parcelforce_integration"]{
     pointer-events: none;

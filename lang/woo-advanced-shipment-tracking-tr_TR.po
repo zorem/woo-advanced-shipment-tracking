@@ -6,7 +6,7 @@ msgstr ""
 "Development (trunk)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-11 09:34+0000\n"
-"PO-Revision-Date: 2022-06-17 11:31+0000\n"
+"PO-Revision-Date: 2022-08-08 05:05+0000\n"
 "Last-Translator: John Doe\n"
 "Language-Team: Turkish\n"
 "Language: tr_TR\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Loco https://localise.biz/\n"
-"X-Loco-Version: 2.6.2; wp-6.0"
+"X-Loco-Version: 2.6.2; wp-6.0.1"
 
 #. %s: search WooCommerce plugin link
 #: includes/views/admin_options_shipping_provider.php:91
@@ -23,7 +23,7 @@ msgstr ""
 msgid "<a href=\"%s\" target=\"blank\">documentation</a>"
 msgstr "<a href=\"%s\" target=\"blank\">belgeler</a>"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:2391
+#: includes/class-wc-advanced-shipment-tracking-admin.php:2063
 msgid "Add API Name alias"
 msgstr "API Adı takma adı ekleyin"
 
@@ -36,8 +36,8 @@ msgstr ""
 "izleme API'sinde güncellenen sağlayıcı adlarıyla eşlemek için API adı takma "
 "adları ekleyin"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1880
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1992
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1552
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1664
 msgid "Add Custom Provider"
 msgstr "Özel Sağlayıcı Ekle"
 
@@ -53,11 +53,11 @@ msgstr ""
 "Bilgileri, müşterilerin hesaplarında (sipariş panelinde) ve WooCommerce "
 "siparişin tam e-postasında görünecektir."
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:837
+#: includes/class-wc-advanced-shipment-tracking-admin.php:509
 msgid "add the [wcast-track-order] shortcode in the selected page."
 msgstr "seçilen sayfaya [wcast-track-order] kısa kodunu ekleyin."
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1852
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1524
 msgid "Add Tracking"
 msgstr "İzleme Ekle"
 
@@ -69,205 +69,19 @@ msgstr "Takip Ekle - sipariş"
 msgid "Add Tracking Info"
 msgstr "Kargo takip kodu ekleyin"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:556
-msgid ""
-"Add Tracking Information in AST meta fields when you automatically sync "
-"tracking numbers from aliexpress orders"
-msgstr ""
-"Aliexpress siparişlerinden takip numaralarını otomatik olarak senkronize "
-"ettiğinizde AST meta alanlarına İzleme Bilgisi ekleyin"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:637
-msgid ""
-"Add tracking information in invoice PDF generate by WooCommerce PDF Invoices "
-"& Packing Slips plugin By Ewout Fernhout"
-msgstr ""
-"WooCommerce PDF Faturalar ve Paket Fişleri eklentisi tarafından oluşturulan "
-"fatura PDF'sine izleme bilgilerini ekleyin By Ewout Fernhout"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:647
-msgid ""
-"Add tracking information in invoice PDF generate by WooCommerce PDF Invoices "
-"plugin By Bas Elbers"
-msgstr ""
-"Bas Elbers tarafından WooCommerce PDF Faturalar eklentisi tarafından "
-"oluşturulan fatura PDF'sine izleme bilgilerini ekleyin"
-
 #: includes/views/admin_options_settings.php:14
 msgid "Add Tracking Options"
 msgstr "İzleme Seçenekleri Ekle"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:955
+#: includes/class-wc-advanced-shipment-tracking-admin.php:627
 msgid "Add Tracking Order action"
 msgstr "Takip Emri Ekle eylemi"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:512
-msgid ""
-"Adding tracking information to your orders shipped with 3plwinner and "
-"automate your workflow"
-msgstr ""
-"3plwinner ile gönderilen siparişlerinize takip bilgilerini ekleyerek iş "
-"akışınızı otomatikleştirin"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:468
-msgid ""
-"Adding tracking information to your orders shipped with CustomCat and "
-"automate your workflow"
-msgstr ""
-"CustomCat ile gönderilen siparişlerinize takip bilgilerini ekleyerek iş "
-"akışınızı otomatikleştirin"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:479
-msgid ""
-"Adding tracking information to your orders shipped with Dear Systems and "
-"automate your workflow"
-msgstr ""
-"Dear Systems ile gönderilen siparişlerinize takip bilgilerini ekleyerek iş "
-"akışınızı otomatikleştirin"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:523
-msgid ""
-"Adding tracking information to your orders shipped with Dianxiaomi and "
-"automate your workflow"
-msgstr ""
-"Dianxiaomi ile gönderilen siparişlerinize takip bilgilerini ekleyerek iş "
-"akışınızı otomatikleştirin"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:534
-msgid ""
-"Adding tracking information to your orders shipped with EIZ and automate "
-"your workflow"
-msgstr ""
-"EIZ ile sevk edilen siparişlerinize takip bilgilerini ekleyerek iş akışınızı "
-"otomatikleştirin"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:617
-msgid ""
-"Adding tracking information to your orders shipped with Inventory source and "
-"automate your workflow"
-msgstr ""
-"Envanter kaynağı ile gönderilen siparişlerinize takip bilgilerini ekleyerek "
-"iş akışınızı otomatikleştirin"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:501
-msgid ""
-"Adding tracking information to your orders shipped with Picqer and automate "
-"your workflow"
-msgstr ""
-"Picqer ile gönderilen siparişlerinize takip bilgilerini ekleyin ve iş "
-"akışınızı otomatikleştirin"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:567
-msgid ""
-"Adding tracking information to your orders shipped with pirate Ship and "
-"automate your workflow"
-msgstr ""
-"Korsan Gemisi ile sevk edilen siparişlerinize takip bilgisi ekleyerek iş "
-"akışınızı otomatikleştirin"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:435
-msgid ""
-"Adding tracking information to your orders shipped with QuickBooks Commerce "
-"and automate your workflow"
-msgstr ""
-"QuickBooks Commerce ile gönderilen siparişlerinize izleme bilgileri ekleme "
-"ve iş akışınızı otomatikleştirme"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:446
-msgid ""
-"Adding tracking information to your orders shipped with ReadyToShip and "
-"automate your workflow"
-msgstr ""
-"ReadyToShip ile gönderilen siparişlerinize takip bilgilerini ekleyin ve iş "
-"akışınızı otomatikleştirin"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:457
-msgid ""
-"Adding tracking information to your orders shipped with Royal Mail Click & "
-"Drop and automate your workflow"
-msgstr ""
-"Royal Mail Click & Drop ile gönderilen siparişlerinize takip bilgisi "
-"ekleyerek iş akışınızı otomatikleştirin"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:577
-msgid ""
-"Adding tracking information to your orders shipped with sendcloud and "
-"automate your workflow"
-msgstr ""
-"sendcloud ile gönderilen siparişlerinize takip bilgilerini ekleyerek iş "
-"akışınızı otomatikleştirin"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:607
-msgid ""
-"Adding tracking information to your orders shipped with Shippo and automate "
-"your workflow"
-msgstr ""
-"Shippo ile gönderilen siparişlerinize takip bilgisi ekleyerek iş akışınızı "
-"otomatikleştirin"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:545
-msgid ""
-"Adding tracking information to your orders shipped with shippypro and "
-"automate your workflow"
-msgstr ""
-"Shippypro ile gönderilen siparişlerinize takip bilgilerini ekleyerek iş "
-"akışınızı otomatikleştirin"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:402
-msgid ""
-"Adding tracking information to your orders shipped with ShipStation and "
-"automate your workflow"
-msgstr ""
-"ShipStation ile gönderilen siparişlerinize takip bilgilerini ekleyerek iş "
-"akışınızı otomatikleştirin"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:587
-msgid ""
-"Adding tracking information to your orders shipped with shiptheory and "
-"automate your workflow"
-msgstr ""
-"Shiptheory ile gönderilen siparişlerinize takip bilgisi ekleyerek iş "
-"akışınızı otomatikleştirin"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:597
-msgid ""
-"Adding tracking information to your orders shipped with stamps.com and "
-"automate your workflow"
-msgstr ""
-"Stamps.com ile gönderilen siparişlerinize takip bilgilerini ekleyerek iş "
-"akışınızı otomatikleştirin"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:627
-msgid ""
-"Adding tracking information to your orders shipped with WooCommerce Amazon "
-"Fulfillment and automate your workflow"
-msgstr ""
-"WooCommerce Amazon Fulfillment ile gönderilen siparişlerinize takip "
-"bilgileri ekleyin ve iş akışınızı otomatikleştirin"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:413
-msgid ""
-"Adding tracking information to your orders shipped with WooCommerce Shipping "
-"to the Shipment Tracking and automate your workflow"
-msgstr ""
-"WooCommerce Shipping ile gönderilen siparişlerinize Gönderi Takibi'ne takip "
-"bilgilerini ekleyin ve iş akışınızı otomatikleştirin"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:424
-msgid ""
-"Adding tracking information to your orders when generating shipping labels "
-"using the WooCommerce UPS Shipping Plugin with Print Label plugin by "
-"PluginHive"
-msgstr ""
-"PluginHive tarafından WooCommerce UPS Shipping Plugin with Print Label "
-"eklentisini kullanarak gönderi etiketleri oluştururken siparişlerinize "
-"izleme bilgileri ekleme"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1052
+#: includes/class-wc-advanced-shipment-tracking-admin.php:724
 msgid "Additional Order Emails Display"
 msgstr "Ek Sipariş E-postaları Ekranı"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:245
+#: includes/customizer/ast-customizer.php:475
 msgid "Additional text after header"
 msgstr "Başlıktan sonra ek metin"
 
@@ -275,15 +89,11 @@ msgstr "Başlıktan sonra ek metin"
 msgid "Advanced Shipment Tracking for WooCommerce"
 msgstr "WooCommerce için Gelişmiş Gönderi Takibi"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:187
-msgid "After Order Details"
-msgstr "Sipariş Detayları Sonra"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1929
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1601
 msgid "API aliases"
 msgstr "API takma adları"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1077
+#: includes/class-wc-advanced-shipment-tracking-admin.php:749
 msgid "API Date Format"
 msgstr "API Tarih Biçimi"
 
@@ -291,39 +101,47 @@ msgstr "API Tarih Biçimi"
 msgid "API Name"
 msgstr "API Adı"
 
-#: includes/customizer/class-wc-partial-shipped-email-customizer.php:191
-#: includes/customizer/class-wc-partial-shipped-email-customizer.php:215
-#: includes/customizer/class-wc-partial-shipped-email-customizer.php:240
-#: includes/customizer/class-wc-partial-shipped-email-customizer.php:260
-#: includes/customizer/class-wc-tracking-info-customizer.php:333
-msgid "Available variables:"
-msgstr "Mevcut değişkenler:"
+#: includes/customizer/ast-customizer.php:89
+msgid "AST Customizer"
+msgstr "AST Özelleştirici"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:186
-msgid "Before Order Details"
-msgstr "Sipariş Detayından Önce"
+#: includes/customizer/ast-customizer.php:671
+msgid "Available Placeholders:"
+msgstr "Mevcut Yer Tutucular:"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:537
+#: includes/customizer/ast-customizer.php:506
+msgid "Background color"
+msgstr "Arka plan rengi"
+
+#: includes/customizer/ast-customizer.php:514
 msgid "Border color"
 msgstr "Kenar çizgileri rengi"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:555
-msgid "Border size"
-msgstr "Kenarlık boyutu"
+#: includes/customizer/ast-customizer.php:522
+msgid "Border radius"
+msgstr "Sınır yarıçapı"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:407
-msgid "Bottom border color"
-msgstr "Alt kenarlık rengi"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:968
+#: includes/customizer/ast-customizer.php:579
 msgid "Button color"
 msgstr "Düğme rengi"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:986
+#: includes/customizer/ast-customizer.php:587
 msgid "Button font color"
 msgstr "Düğme yazı tipi rengi"
 
-#: includes/api/class-wc-advanced-shipment-tracking-rest-api-controller.php:225
+#: includes/customizer/ast-customizer.php:595
+msgid "Button radius"
+msgstr "Düğme yarıçapı"
+
+#: includes/customizer/ast-customizer.php:567
+msgid "Button size"
+msgstr "Düğme boyutu"
+
+#: includes/customizer/ast-customizer.php:557
+msgid "Button text"
+msgstr "Düğme metni"
+
+#: includes/api/class-wc-advanced-shipment-tracking-rest-api-controller.php:222
 msgid "Cannot create existing order shipment tracking."
 msgstr "Mevcut sipariş gönderi takibi oluşturulamıyor."
 
@@ -343,7 +161,7 @@ msgstr "Durumu %s olarak değiştir"
 msgid "Change status to shipped"
 msgstr "Durumu gönderildi olarak değiştir"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1078
+#: includes/class-wc-advanced-shipment-tracking-admin.php:750
 msgid "Choose for which Order status to display"
 msgstr "Hangi Sipariş durumunun görüntüleneceğini seçin"
 
@@ -355,32 +173,6 @@ msgstr "Sevk Tarihi biçimini seçin"
 msgid "Completed"
 msgstr "Tamamlandı"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:312
-msgid "Content"
-msgstr "İçerik"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:807
-msgid "Content Background color"
-msgstr "İçerik Arkaplan rengi"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:370
-#: includes/customizer/class-wc-tracking-info-customizer.php:825
-msgid "Content font color"
-msgstr "İçeriğin yazı rengi"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:351
-#: includes/customizer/class-wc-tracking-info-customizer.php:843
-msgid "Content font size"
-msgstr "İçeriğin yazı boyutu"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:885
-msgid "Content font weight"
-msgstr "İçerik yazı tipi ağırlığı"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:862
-msgid "Content line height"
-msgstr "İçerik satır yüksekliği"
-
 #: includes/views/admin_options_bulk_upload.php:55
 msgid "Continue"
 msgstr "Devam et"
@@ -389,8 +181,8 @@ msgstr "Devam et"
 msgid "Country"
 msgstr "ülke"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:295
-#: includes/class-wc-advanced-shipment-tracking-admin.php:299
+#: includes/class-wc-advanced-shipment-tracking-admin.php:274
+#: includes/class-wc-advanced-shipment-tracking-admin.php:278
 #: includes/views/admin_options_bulk_upload.php:8
 msgid "CSV Import"
 msgstr "CSV İçe Aktarma"
@@ -403,10 +195,6 @@ msgstr "Özel API adı"
 msgid "Custom display name"
 msgstr "Özel görünen ad"
 
-#: includes/customizer/class-wcast-customizer.php:44
-msgid "Custom order status email"
-msgstr "Özel sipariş durumu e-postası"
-
 #: includes/views/admin_options_shipping_provider.php:82
 msgid "Custom URL"
 msgstr "Özel URL"
@@ -415,12 +203,12 @@ msgstr "Özel URL"
 msgid "Customer View"
 msgstr "Müşteri Görünümü"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:734
-#: includes/class-wc-advanced-shipment-tracking-admin.php:854
+#: includes/class-wc-advanced-shipment-tracking-admin.php:406
+#: includes/class-wc-advanced-shipment-tracking-admin.php:526
 msgid "Customize"
 msgstr "Özelleştirmek"
 
-#: includes/views/admin_options_osm.php:66
+#: includes/views/admin_options_osm.php:63
 msgid "Dark Font"
 msgstr "Karanlık Font Rengi"
 
@@ -428,8 +216,8 @@ msgstr "Karanlık Font Rengi"
 msgid "Data saved successfully."
 msgstr "Veri başarıyla kaydedildi."
 
-#: includes/class-wc-advanced-shipment-tracking.php:369
 #: includes/class-wc-advanced-shipment-tracking-settings.php:544
+#: includes/class-wc-advanced-shipment-tracking.php:369
 msgid "Date shipped:"
 msgstr "Kargo gönderim tarihi:"
 
@@ -439,7 +227,7 @@ msgstr "Kargo gönderim tarihi:"
 msgid "Delivered"
 msgstr "Teslim Edildi"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1225
+#: includes/class-wc-advanced-shipment-tracking-admin.php:897
 msgid "delivered"
 msgstr "teslim edilmiş"
 
@@ -451,14 +239,6 @@ msgid_plural "Delivered <span class=\"count\">(%s)</span>"
 msgstr[0] "Teslim edildi <span class=\"count\">(%s)</span>"
 msgstr[1] "Teslim edildi <span class=\"count\">(%s)</span>"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:463
-msgid "Display shipping provider image"
-msgstr "Kargo firması logosunu göster"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:444
-msgid "Display shipping provider name"
-msgstr "Kargo Firmasının adını görüntüle"
-
 #: includes/views/admin_options_bulk_upload.php:117
 msgid "Download sample csv"
 msgstr "Örnek csv indir"
@@ -467,84 +247,45 @@ msgstr "Örnek csv indir"
 msgid "Edit Shipping Provider"
 msgstr "Gönderim Sağlayıcısını Düzenle"
 
-#: includes/customizer/class-wc-partial-shipped-email-customizer.php:239
+#: includes/customizer/ast-customizer.php:383
+#: includes/customizer/ast-customizer.php:384
+#: includes/customizer/ast-customizer.php:393
+#: includes/customizer/ast-customizer.php:437
+#: includes/customizer/ast-customizer.php:438
+#: includes/customizer/ast-customizer.php:615
+msgid "Email Content"
+msgstr "E-posta İçeriği"
+
+#: includes/customizer/ast-customizer.php:659
 msgid "Email content"
 msgstr "E-posta içeriği"
 
-#: includes/customizer/class-wc-partial-shipped-email-customizer.php:149
-msgid "Email Type"
+#: includes/customizer/ast-customizer.php:697
+msgid "Email Customizer"
+msgstr "E-posta Özelleştirici"
+
+#: includes/customizer/ast-customizer.php:647
+msgid "Email heading"
+msgstr "E-posta başlığı"
+
+#: includes/customizer/ast-customizer.php:636
+msgid "Email Subject"
+msgstr "E-posta konu"
+
+#: includes/customizer/ast-customizer.php:622
+#| msgid "Email Type"
+msgid "Email type"
 msgstr "E-posta Türü"
 
-#: includes/customizer/class-wc-partial-shipped-email-customizer.php:171
-msgid "Enable Partially Shipped order status email"
-msgstr "Kısmen Gönderilmiş sipariş durumu e-postasını etkinleştir"
+#: includes/customizer/ast-customizer.php:858
+msgid "Enable email"
+msgstr "E-postayı etkinleştir"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:511
-msgid "Enable the 3plwinner integration"
-msgstr "3plwinner entegrasyonunu etkinleştirin"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:555
-msgid "Enable the AliExpress Dropshipping integration"
-msgstr "AliExpress Dropshipping entegrasyonunu etkinleştirin"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:467
-msgid "Enable the CustomCat integration"
-msgstr "CustomCat entegrasyonunu etkinleştirin"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:478
-msgid "Enable the Dear Systems integration"
-msgstr "Dear Systems entegrasyonunu etkinleştirin"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:522
-msgid "Enable the Dianxiaomi integration"
-msgstr "Dianxiaomi entegrasyonunu etkinleştirin"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:533
-msgid "Enable the EIZ integration"
-msgstr "EIZ entegrasyonunu etkinleştirin"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:500
-msgid "Enable the Picqer integration"
-msgstr "Picqer entegrasyonunu etkinleştirin"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:434
-msgid "Enable the QuickBooks Commerce (formerly TradeGecko) Integrations"
-msgstr ""
-"QuickBooks Commerce (eski adıyla TradeGecko) Entegrasyonlarını Etkinleştirin"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:445
-msgid "Enable the ReadyToShip integration"
-msgstr "ReadyToShip entegrasyonunu etkinleştirin"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:456
-msgid "Enable the Royal Mail Click & Drop integration"
-msgstr "Royal Mail Tıkla ve Bırak entegrasyonunu etkinleştirin"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:544
-msgid "Enable the Shippypro integration"
-msgstr "Shippypro entegrasyonunu etkinleştirin"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:401
-msgid "Enable the ShipStation integration"
-msgstr "ShipStation entegrasyonunu etkinleştirin"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:412
-msgid "Enable the WC Shipping integration"
-msgstr "WC Shipping entegrasyonunu etkinleştirin"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:423
-msgid ""
-"Enable the WooCommerce UPS Shipping Plugin with Print Label plugin "
-"integration"
-msgstr ""
-"Etiket Yazdır eklenti entegrasyonu ile WooCommerce UPS Gönderi Eklentisini "
-"etkinleştirin"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1059
+#: includes/class-wc-advanced-shipment-tracking-admin.php:731
 msgid "Enable Track button in orders history (actions)"
 msgstr "Sipariş geçmişinde (işlemler) Takip Et düğmesini etkinleştir"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:2318
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1990
 msgid "Filter by shipping provider"
 msgstr "Gönderim sağlayıcısına göre filtrele"
 
@@ -556,8 +297,8 @@ msgstr "Siparişi Gerçekleştir"
 msgid "Fulfillement WorkFlow"
 msgstr "Yerine Getirme İş Akışı"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:339
-#: includes/class-wc-advanced-shipment-tracking-admin.php:343
+#: includes/class-wc-advanced-shipment-tracking-admin.php:310
+#: includes/class-wc-advanced-shipment-tracking-admin.php:314
 msgid "General Settings"
 msgstr "Genel Ayarlar"
 
@@ -565,27 +306,19 @@ msgstr "Genel Ayarlar"
 msgid "Global"
 msgstr "Global"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:269
+#: includes/class-wc-advanced-shipment-tracking-admin.php:248
 msgid "Go Pro"
 msgstr "Profesyonel Olun"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:731
-msgid "Headers background color"
-msgstr "Başlıklar arka plan rengi"
+#: templates/emails/customer-updated-tracking-order.php:24
+msgid ""
+"Hi there. we thought you'd like to know that the shipment tracking for your "
+"recent order from {site_title} has been updated."
+msgstr ""
+"Merhaba. {site_title} adresinden verdiğiniz son siparişin gönderi takibinin "
+"güncellendiğini bilmek isteyeceğinizi düşündük."
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:749
-msgid "Headers font color"
-msgstr "Başlıkların yazı rengi"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:712
-msgid "Headers font size"
-msgstr "Başlıkların yazı boyutu"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:767
-msgid "Headers font weight"
-msgstr "Başlıklar yazı tipi ağırlığı"
-
-#: includes/customizer/class-wc-partial-shipped-email-customizer.php:117
+#: includes/customizer/ast-customizer.php:330
 msgid ""
 "Hi there. we thought you'd like to know that your recent order from "
 "{site_title} has been partially shipped."
@@ -599,17 +332,19 @@ msgstr ""
 msgid "hide details"
 msgstr "detayları gizle"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:622
-msgid "Hide Table Headers"
-msgstr "Tablo Başlıklarını Gizle"
+#: includes/customizer/ast-customizer.php:532
+#| msgid "Display shipping provider image"
+msgid "Hide shipping provider image"
+msgstr "Kargo firması logosunu göster"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:482
-#| msgid "Hide the ship date"
-msgid "Hide the shipped date"
+#: includes/customizer/ast-customizer.php:541
+#| msgid "Hide the shipped date"
+msgid "Hide the shipping date"
 msgstr "Kargolanma tarihini gizle"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:203
-msgid "Hide Tracking Header"
+#: includes/customizer/ast-customizer.php:456
+#| msgid "Hide Tracking Header"
+msgid "Hide tracking header"
 msgstr "İzleme Üstbilgisini Gizle"
 
 #: includes/views/admin_options_bulk_upload.php:118
@@ -628,17 +363,9 @@ msgstr "https://www.zorem.com/products/woocommerce-advanced-shipment-tracking/"
 msgid "Import in Progress"
 msgstr "İçe Aktarma Devam Ediyor"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:304
-msgid "Integrations"
-msgstr "Entegrasyonlar"
-
-#: includes/api/class-wc-advanced-shipment-tracking-rest-api-controller.php:234
+#: includes/api/class-wc-advanced-shipment-tracking-rest-api-controller.php:231
 msgid "Invalid order ID."
 msgstr "Geçersiz sipariş ID."
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:616
-msgid "Inventory source"
-msgstr "Envanter kaynağı"
 
 #: includes/views/admin_options_bulk_upload.php:46
 msgid ""
@@ -648,11 +375,15 @@ msgstr ""
 "Siparişlere eklenen herhangi bir mevcut takip bilgisine eklenecek takip "
 "bilgisi için işaretlemeyiniz."
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:269
+#: includes/customizer/ast-customizer.php:573
+msgid "Large"
+msgstr "Büyük"
+
+#: includes/class-wc-advanced-shipment-tracking-admin.php:248
 msgid "License"
 msgstr "Lisans"
 
-#: includes/views/admin_options_osm.php:65
+#: includes/views/admin_options_osm.php:62
 msgid "Light Font"
 msgstr "Açık Font Rengi"
 
@@ -660,7 +391,7 @@ msgstr "Açık Font Rengi"
 msgid "Mark as Completed?"
 msgstr "Tamamlandı Olarak İşaretlensin mi?"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1861
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1533
 msgid "Mark as Shipped"
 msgstr "Sevk Edildi Olarak İşaretle"
 
@@ -676,30 +407,28 @@ msgstr "Siparişi teslim edildi olarak işaretle"
 msgid "Mark order as:"
 msgstr "Siparişi şu şekilde işaretle:"
 
-#: includes/customizer/class-wcast-customizer.php:260
+#: includes/customizer/ast-customizer.php:1074
 msgid "Mockup Order"
 msgstr "Maket Siparişi"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:838
+#: includes/class-wc-advanced-shipment-tracking-admin.php:510
 msgid "more info"
 msgstr "daha fazla bilgi"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:2391
+#: includes/class-wc-advanced-shipment-tracking-admin.php:2063
 msgid "Multiple API names mapping is a pro features"
 msgstr "Birden çok API adı eşlemesi profesyonel bir özelliktir"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1065
+#: includes/customizer/ast-customizer.php:572
+msgid "Normal"
+msgstr "Normal"
+
+#: includes/class-wc-advanced-shipment-tracking-admin.php:737
 msgid "Open the Track Button link in a new tab"
 msgstr "İzle Düğmesi bağlantısını yeni bir sekmede açın"
 
-#. %s: Order ID.
-#: templates/emails/wcast-email-order-details.php:55
-#, php-format
-msgid "Order number: %s"
-msgstr "Sipariş numarası: %s"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:348
-#: includes/class-wc-advanced-shipment-tracking-admin.php:352
+#: includes/class-wc-advanced-shipment-tracking-admin.php:319
+#: includes/class-wc-advanced-shipment-tracking-admin.php:323
 msgid "Order Statuses"
 msgstr "Sipariş Durumları"
 
@@ -716,7 +445,7 @@ msgstr "Sipariş %1$s ile gönderildi ve takip numarası: %2$s"
 msgid "Order was shipped with %s and tracking number is: %s"
 msgstr "Sipariş %s ile gönderildi ve takip numarası: %s"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:830
+#: includes/class-wc-advanced-shipment-tracking-admin.php:502
 msgid "Other"
 msgstr "Diğer"
 
@@ -724,10 +453,12 @@ msgstr "Diğer"
 msgid "Partial Shipped"
 msgstr "Kısmi Gönderildi"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1214
+#: includes/class-wc-advanced-shipment-tracking-admin.php:886
 #: includes/class-wc-advanced-shipment-tracking-settings.php:275
 #: includes/class-wc-advanced-shipment-tracking-settings.php:307
-#: includes/customizer/class-wc-partial-shipped-email-customizer.php:134
+#: includes/customizer/ast-customizer.php:129
+#: includes/customizer/ast-customizer.php:354
+#: includes/customizer/ast-customizer.php:609
 msgid "Partially Shipped"
 msgstr "Kısmen Gönderildi"
 
@@ -738,25 +469,6 @@ msgid "Partially Shipped <span class=\"count\">(%s)</span>"
 msgid_plural "Partially Shipped <span class=\"count\">(%s)</span>"
 msgstr[0] "Kısmen Gönderildi <span class=\"count\">(%s)</span>"
 msgstr[1] "Kısmen Gönderildi <span class=\"count\">(%s)</span>"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:636
-msgid ""
-"PDF invoices integration for WooCommerce PDF Invoices & Packing Slips plugin "
-"By Ewout Fernhout"
-msgstr ""
-"WooCommerce PDF Faturaları ve Paket Fişleri eklentisi için PDF fatura "
-"entegrasyonu Ewout Fernhout tarafından"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:646
-msgid ""
-"PDF invoices integration for WooCommerce PDF Invoices plugin By Bas Elbers"
-msgstr ""
-"Bas Elbers tarafından WooCommerce PDF Faturaları eklentisi için PDF fatura "
-"entegrasyonu"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:566
-msgid "Pirate Ship"
-msgstr "Korsan gemisi"
 
 #. %s: search WooCommerce plugin link
 #: woocommerce-advanced-shipment-tracking.php:181
@@ -776,21 +488,16 @@ msgstr "Lütfen geçerli bir CSV dosyası yükleyin."
 msgid "Preview:"
 msgstr "Ön İzleme:"
 
-#: includes/class-wc-advanced-shipment-tracking.php:361
 #: includes/class-wc-advanced-shipment-tracking-settings.php:540
+#: includes/class-wc-advanced-shipment-tracking.php:361
 msgid "Product Code:"
 msgstr "Ürün Kodu:"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:141
-#: includes/customizer/class-wc-tracking-info-customizer.php:648
-#: templates/emails/tracking-info.php:216
-#: templates/myaccount/tracking-info.php:192
+#: templates/emails/plain/tracking-info.php:32
 msgid "Provider"
 msgstr "Kargo Firması"
 
 #: includes/views/admin_options_shipping_provider.php:57
-#: templates/emails/tracking-info.php:222
-#: templates/myaccount/tracking-info.php:198
 msgid "Provider Name"
 msgstr "Sağlayıcı Adı"
 
@@ -810,7 +517,7 @@ msgstr "Firmalar Güncellendi"
 msgid "Really delete this entry? This will not be undo."
 msgstr "Bu giriş gerçekten silinsin mi? Bu geri alınmayacaktır."
 
-#: includes/views/admin_options_osm.php:14
+#: includes/views/admin_options_osm.php:11
 msgid "Rename the “Completed” Order status label to “Shipped”"
 msgstr ""
 "\"Tamamlandı\" Sipariş durumu etiketini \"Gönderildi\" olarak yeniden "
@@ -842,31 +549,23 @@ msgstr "Kaydet kapat"
 msgid "Save Tracking"
 msgstr "Takip Kodunu Kaydet"
 
+#: includes/customizer/ast-customizer.php:155
+msgid "Saved"
+msgstr "kaydedildi"
+
 #: includes/views/admin_options_shipping_provider.php:27
 msgid "Search by provider / country"
 msgstr "İsme / ülkeye göre ara"
-
-#: includes/customizer/class-wc-partial-shipped-email-customizer.php:153
-msgid "Select email type"
-msgstr "E-posta türünü seçin"
 
 #: includes/class-wc-advanced-shipment-tracking.php:323
 msgid "Select Provider"
 msgstr "Kargo firması seçin"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:259
-msgid "Select Template"
-msgstr "Şablon Seç"
-
-#: includes/views/admin_options_osm.php:75
+#: includes/views/admin_options_osm.php:72
 msgid "Send Email"
 msgstr "Eposta gönder"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:576
-msgid "Sendcloud"
-msgstr "Sendcloud"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:949
+#: includes/class-wc-advanced-shipment-tracking-admin.php:621
 msgid ""
 "Set the \"mark as shipped\" option checked  when adding tracking info to "
 "orders"
@@ -875,8 +574,8 @@ msgstr ""
 "işaretleyin"
 
 #: includes/class-wc-advanced-shipment-tracking-admin.php:214
-#: includes/class-wc-advanced-shipment-tracking-admin.php:277
-#: includes/class-wc-advanced-shipment-tracking-admin.php:281
+#: includes/class-wc-advanced-shipment-tracking-admin.php:256
+#: includes/class-wc-advanced-shipment-tracking-admin.php:260
 msgid "Settings"
 msgstr "Ayarlar"
 
@@ -885,7 +584,7 @@ msgid "Settings Saved."
 msgstr "Ayarlar Kaydedildi."
 
 #. %s: replace with status
-#: templates/emails/plain/tracking-info.php:36
+#: templates/emails/plain/tracking-info.php:28
 #, php-format
 msgid "Shipment status changed to %s"
 msgstr "Gönderi durumu %s olarak değiştirildi"
@@ -901,10 +600,12 @@ msgstr "Kargo Takibi"
 msgid "Shipment Tracking API"
 msgstr "Gönderi Takip API'sı"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:871
-#: includes/class-wc-advanced-shipment-tracking-admin.php:967
-#: includes/class-wc-advanced-shipment-tracking.php:467
+#: includes/class-wc-advanced-shipment-tracking-admin.php:543
+#: includes/class-wc-advanced-shipment-tracking-admin.php:639
 #: includes/class-wc-advanced-shipment-tracking-settings.php:431
+#: includes/class-wc-advanced-shipment-tracking.php:467
+#: includes/customizer/ast-customizer.php:125
+#: includes/customizer/ast-customizer.php:350
 msgid "Shipped"
 msgstr "Kargoya Verildi"
 
@@ -916,29 +617,13 @@ msgid_plural "Shipped <span class=\"count\">(%s)</span>"
 msgstr[0] "Gönderildi <span class=\"count\">(%s)</span>"
 msgstr[1] "Gönderildi <span class=\"count\">(%s)</span>"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:143
-#: includes/customizer/class-wc-tracking-info-customizer.php:695
-msgid "Shipped Date"
-msgstr "Kargolanma Tarihi"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:688
-#| msgid "Ship date header text"
-msgid "Shipped date header text"
-msgstr "Sevk tarihi başlık metni"
-
 #. 1: shipping date
 #: includes/class-wc-advanced-shipment-tracking.php:255
 #, php-format
 msgid "Shipped on %s"
 msgstr "%s tarihinde gönderildi"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:151
-msgid "Shipped on {ship_date} via {shipping_provider} - {tracking_number_link}"
-msgstr ""
-"Siparişiniz {Ship_date} tarihinde {shipping_provider} - "
-"{tracking_number_link} numarası ile kargolanmıştır"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1816
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1488
 msgid "Shipped Order"
 msgstr "Sevk Edilen Sipariş"
 
@@ -950,18 +635,14 @@ msgstr "Firma Ülkesi"
 msgid "Shipping Provider"
 msgstr "Nakliye Sağlayıcı"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:641
-msgid "Shipping provider header text"
-msgstr "Gönderim sağlayıcı başlık metni"
-
-#: includes/class-wc-advanced-shipment-tracking.php:321
 #: includes/class-wc-advanced-shipment-tracking-settings.php:518
 #: includes/class-wc-advanced-shipment-tracking-settings.php:520
+#: includes/class-wc-advanced-shipment-tracking.php:321
 msgid "Shipping Provider:"
 msgstr "Nakliye Sağlayıcı:"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:286
-#: includes/class-wc-advanced-shipment-tracking-admin.php:290
+#: includes/class-wc-advanced-shipment-tracking-admin.php:265
+#: includes/class-wc-advanced-shipment-tracking-admin.php:269
 msgid "Shipping Providers"
 msgstr "Nakliye Sağlayıcıları"
 
@@ -969,29 +650,9 @@ msgstr "Nakliye Sağlayıcıları"
 msgid "Shipping providers database reset successfully."
 msgstr "Gönderim sağlayıcıları veritabanı başarıyla sıfırlandı."
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:606
-msgid "Shippo"
-msgstr "gemi"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:586
-msgid "Shiptheory"
-msgstr "gemi teorisi"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:388
-msgid "Show bottom border"
-msgstr "Alt kenarlığı göster"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:295
-msgid "Simple Layout Design"
-msgstr "Basit Tasarım"
-
-#: includes/api/class-wc-advanced-shipment-tracking-rest-api-controller.php:238
+#: includes/api/class-wc-advanced-shipment-tracking-rest-api-controller.php:235
 msgid "Special character not allowd in tracking number"
 msgstr "Takip numarasında izin verilmeyen özel karakter"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:596
-msgid "Stamps.com"
-msgstr "Stamps.com"
 
 #: includes/views/admin_options_shipping_provider.php:110
 #: includes/views/admin_options_shipping_provider.php:124
@@ -1005,31 +666,6 @@ msgid ""
 msgstr ""
 "Kargo firmaları listesini senkronize etmek önceden hazır varsayılan "
 "firmaları ekler veya günceller ve sizin kendi ekledikleriniz etkilemez."
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:790
-msgid "Table Content"
-msgstr "Tablo içeriği"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:520
-msgid "Table Design Options"
-msgstr "Tablo Tasarım Seçenekleri"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:605
-#| msgid "Table Headers"
-msgid "Table Header"
-msgstr "Tablo Başlıkları"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:260
-msgid "Table Layout"
-msgstr "Tablo Şablonu"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:427
-msgid "Table Options"
-msgstr "Tablo Seçenekleri"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:581
-msgid "Text align"
-msgstr "Metin hizalama"
 
 #: includes/views/admin_options_shipping_provider.php:61
 msgid ""
@@ -1052,47 +688,33 @@ msgstr "Bu tarayıcı HTML5'i desteklemiyor."
 #: includes/class-wc-advanced-shipment-tracking.php:784
 #: includes/class-wc-advanced-shipment-tracking.php:817
 #: includes/class-wc-advanced-shipment-tracking.php:835
-#: includes/customizer/class-wc-tracking-info-customizer.php:144
-#: includes/customizer/class-wc-tracking-info-customizer.php:951
-#: templates/emails/tracking-info.php:264
-#: templates/myaccount/tracking-info.php:244
-#: templates/myaccount/tracking-info.php:246
+#: templates/emails/plain/tracking-info.php:34
 msgid "Track"
 msgstr "Kargom Nerede"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:908
-msgid "Track Button"
-msgstr "Parça Düğmesi"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:925
-msgid "Track Header"
-msgstr "Parça Başlığı"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:944
-msgid "Track header text"
-msgstr "Kargom nerede başlığı metni"
 
 #: includes/class-wc-advanced-shipment-tracking.php:242
 #: includes/class-wc-advanced-shipment-tracking.php:387
 msgid "Track Shipment"
 msgstr "Gönderi Takibi"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:274
-#: includes/customizer/class-wc-tracking-info-customizer.php:277
-msgid "Tracking display layout"
-msgstr "Düzen"
+#: includes/customizer/ast-customizer.php:318
+msgid "Track Your Order"
+msgstr "Siparişinizi takip edin"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:182
-msgid "Tracking Display Position"
-msgstr "Konum"
+#: includes/customizer/ast-customizer.php:492
+msgid "Tracker type"
+msgstr "izleyici türü"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:221
-msgid "Tracking Header text"
+#: includes/customizer/ast-customizer.php:428
+#: includes/customizer/ast-customizer.php:551
+#| msgid "Track Button"
+msgid "Tracking Button"
+msgstr "Parça Düğmesi"
+
+#: includes/customizer/ast-customizer.php:465
+#| msgid "Tracking Header text"
+msgid "Tracking header text"
 msgstr "Özel Başlık Belirle"
-
-#: includes/customizer/class-wcast-customizer.php:37
-msgid "Tracking info display"
-msgstr "Takip Bilgileri Alanı"
 
 #. %s: Reaplce with tracking provider, %s: Reaplce with tracking number
 #: includes/class-wc-advanced-shipment-tracking.php:741
@@ -1105,32 +727,29 @@ msgid ""
 msgstr ""
 "Takip numarası %s olan takip sağlayıcısı %s için takip bilgileri silindi"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:228
-msgid "Tracking Information"
-msgstr "Kargo Takip Bilgileri"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:142
-#: includes/customizer/class-wc-tracking-info-customizer.php:672
-#: templates/emails/tracking-info.php:235
-#: templates/myaccount/tracking-info.php:213
+#: templates/emails/plain/tracking-info.php:33
 msgid "Tracking Number"
 msgstr "Takip No"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:665
-#| msgid "Tracking Number header text"
-msgid "Tracking number header text"
-msgstr "Takip Numarası başlık metni"
-
-#: includes/class-wc-advanced-shipment-tracking.php:317
 #: includes/class-wc-advanced-shipment-tracking-settings.php:514
+#: includes/class-wc-advanced-shipment-tracking.php:317
 msgid "Tracking number:"
 msgstr "Kargo takip kodu:"
+
+#: includes/customizer/ast-customizer.php:374
+#: includes/customizer/ast-customizer.php:375
+#: includes/customizer/ast-customizer.php:401
+#: includes/customizer/ast-customizer.php:411
+#: includes/customizer/ast-customizer.php:420
+#: includes/customizer/ast-customizer.php:429
+msgid "Tracking Widget"
+msgstr "İzleme Widget'ı"
 
 #: includes/views/admin_options_shipping_provider.php:99
 msgid "Update"
 msgstr "Güncelleme"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1242
+#: includes/class-wc-advanced-shipment-tracking-admin.php:914
 #: includes/class-wc-advanced-shipment-tracking-settings.php:260
 #: includes/class-wc-advanced-shipment-tracking-settings.php:293
 #: includes/class-wc-advanced-shipment-tracking-settings.php:412
@@ -1161,10 +780,6 @@ msgstr ""
 "Bir CSV dosyasından siparişlere yönelik toplu İçe Aktarma izleme bilgileri "
 "için CSV İçe Aktarma Aracımızı kullanın"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:501
-msgid "Use tracking number as a link"
-msgstr "Kargo takip numarasını bağlantı olarak kullan"
-
 #: includes/class-wc-advanced-shipment-tracking-settings.php:804
 #: includes/class-wc-advanced-shipment-tracking-settings.php:821
 #: includes/class-wc-advanced-shipment-tracking-settings.php:838
@@ -1177,7 +792,7 @@ msgid "View Orders"
 msgstr "Siparişleri Görüntüle"
 
 #. %s: replace with Partially Shipped order count
-#: woocommerce-advanced-shipment-tracking.php:475
+#: woocommerce-advanced-shipment-tracking.php:478
 #, php-format
 msgid ""
 "We detected %s orders that use the Delivered order status, You can reassign "
@@ -1187,7 +802,7 @@ msgstr ""
 "siparişleri farklı bir duruma yeniden atayabilirsiniz"
 
 #. %s: replace with Partially Shipped order count
-#: woocommerce-advanced-shipment-tracking.php:457
+#: woocommerce-advanced-shipment-tracking.php:460
 #, php-format
 msgid ""
 "We detected %s orders that use the Partially Shipped order status, You can "
@@ -1200,16 +815,25 @@ msgstr ""
 msgid "White Label Provider Name"
 msgstr "Beyaz Etiket Sağlayıcı Adı"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:626
-msgid "WooCommerce Amazon Fulfillment"
-msgstr "WooCommerce Amazon Yerine Getirilmesi"
+#: includes/customizer/ast-customizer.php:410
+#: includes/customizer/ast-customizer.php:448
+msgid "Widget Header"
+msgstr "Widget Başlığı"
 
+#: includes/customizer/ast-customizer.php:419
+#: includes/customizer/ast-customizer.php:486
+msgid "Widget Style"
+msgstr "Widget Stili"
+
+#: includes/class-wc-advanced-shipment-tracking-settings.php:545
 #: includes/class-wc-advanced-shipment-tracking.php:370
 #: includes/class-wc-advanced-shipment-tracking.php:373
-#: includes/class-wc-advanced-shipment-tracking-settings.php:545
-#: includes/class-wc-advanced-shipment-tracking-settings.php:545
 msgid "Y-m-d"
 msgstr "y-m-d"
+
+#: includes/customizer/ast-customizer.php:695
+msgid "You are customizing"
+msgstr "özelleştiriyorsun"
 
 #: includes/class-wc-advanced-shipment-tracking-admin.php:168
 msgid "You can upload only csv file."
@@ -1225,22 +849,22 @@ msgstr ""
 "kullanabilirsiniz, daha fazla bilgi için"
 
 #. %s: replace with status
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1987
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1659
 #, php-format
 msgid "You did not create any %s shipping providers yet."
 msgstr "Henüz %s kargo sağlayıcısı oluşturmadınız."
 
 #. %s: replace with status
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1998
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1670
 #, php-format
 msgid "You don't have any %s shipping providers."
 msgstr "Herhangi bir %s kargo firması yok."
 
-#: includes/customizer/class-wc-partial-shipped-email-customizer.php:116
+#: includes/customizer/ast-customizer.php:329
 msgid "Your Order is Partially Shipped"
 msgstr "Siparişiniz Kısmen Gönderildi"
 
-#: includes/customizer/class-wc-partial-shipped-email-customizer.php:115
+#: includes/customizer/ast-customizer.php:328
 msgid "Your {site_title} order is now partially shipped"
 msgstr "{Site_title} siparişiniz artık kısmen gönderildi"
 

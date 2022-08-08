@@ -228,9 +228,7 @@ class WC_Advanced_Shipment_Tracking_Admin {
 						<?php
 						require_once( 'views/admin_options_shipping_provider.php' );
 						require_once( 'views/admin_options_settings.php' );
-						require_once( 'views/admin_options_bulk_upload.php' );
-						require_once( 'views/integrations_admin_options.php' );						
-						do_action( 'ast_paypal_settings_panel' );
+						require_once( 'views/admin_options_bulk_upload.php' );																		
 						require_once( 'views/admin_options_addons.php' ); 
 						include 'views/admin_options_trackship_integration.php';
 						?>
@@ -238,26 +236,7 @@ class WC_Advanced_Shipment_Tracking_Admin {
 				</div>				
 			</div>						
 		</div>
-		<div id="" class="popupwrapper upgrade_to_pro_popup" style="display:none;">
-			<div class="popuprow">
-				<div class="popup_body">	
-					<h2 class="upgrade_title">Upgrade to AST PRO</h2>
-					<ul class="ast_pro_features_list">
-						<li>Premium Support</li>
-						<li>Tracking per item</li>
-						<li>Fully customizable responsive tracking widget</li>
-						<li>Custom order status "Shipped"</li>
-						<li>Custom email templates</li>			
-						<li>PayPal tracking integration</li>
-						<li>Fulfillment dashboard</li>
-						<li>Auto-detect shipping providers</li>							
-						<li>Tracking automation - Built-in integrations with ShipStation, Ordoro, WooCommerce Shipping and more..</li>
-					</ul>
-					<a href="https://www.zorem.com/product/woocommerce-advanced-shipment-tracking/" class="button-primary btn_ast2 btn_large" target="_blank">UPGRADE TO PRO</a>
-				</div>
-			</div>	
-			<div class="popupclose"></div>
-		</div>   
+		<?php include 'views/admin_upgrade_to_pro_popup.php'; ?>		   
 	<?php 
 	}
 	
@@ -299,14 +278,6 @@ class WC_Advanced_Shipment_Tracking_Admin {
 				'data-label' => __( 'CSV Import', 'woo-advanced-shipment-tracking' ),
 				'name'  => 'tabs',
 				'position'  => 4,
-			),
-			'integrations_tab' => array(					
-				'title'		=> __( 'Integrations', 'woo-advanced-shipment-tracking' ),
-				'show'      => true,
-				'class'     => 'tab_label',
-				'data-tab'  => 'integrations',
-				'data-label' => 'Integrations',
-				'name'  => 'tabs',
 			),
 			'trackship' => array(					
 				'title'		=> 'TrackShip',
@@ -355,305 +326,6 @@ class WC_Advanced_Shipment_Tracking_Admin {
 			),				
 		);
 		return apply_filters( 'ast_general_settings_tab_options', $setting_data );
-	}
-	
-		/*
-	* functions for add integrations options in AST settings
-	*/
-	public function integrations_settings_options() {
-		
-		$form_data = array(		
-			'enable_ordoro_integration' => array(
-				'type'		=> 'tgl_checkbox',
-				'title'		=> __( 'Enable the Ordoro tracking integration', 'ast-pro' ),				
-				'desc'   	=> __( 'Adding tracking information to your orders when generating shipping labels using the Ordoro', 'ast-pro' ),
-				'img'		=> 'ordoro-icon.png',
-				'show'		=> true,
-				'default'   => 1, 
-				'disabled'  => true, 
-				'class'     => '',
-				'documentation' => 'https://docs.zorem.com/docs/ast-pro/ast-pro/integrations/ordoro/',
-			),
-			'enable_cartrover_integration' => array(
-				'type'		=> 'tgl_checkbox',
-				'title'		=> __( 'Enable the CartRover tracking integration', 'ast-pro' ),				
-				'desc'   	=> __( 'Adding tracking information to your orders when generating shipping labels using the CartRover', 'ast-pro' ),
-				'img'		=> 'cart-rover-icon.png',
-				'show'		=> true,
-				'default'   => 1, 
-				'disabled'  => true, 
-				'class'     => '',
-				'documentation' => 'https://docs.zorem.com/docs/ast-pro/ast-pro/integrations/cartrover/',
-			),
-			'enable_parcelforce_integration' => array(
-				'type'		=> 'tgl_checkbox',
-				'title'		=> __( 'Enable the ParcelForce tracking integration', 'ast-pro' ),				
-				'desc'   	=> __( 'Adding tracking information to your orders when generating shipping labels using the ParcelForce', 'ast-pro' ),
-				'img'		=> 'parcelfoce-icon.png',
-				'show'		=> true,
-				'default'   => 1, 
-				'disabled'  => false, 
-				'class'     => '',
-				'documentation' => 'https://docs.zorem.com/docs/ast-pro/ast-pro/integrations/parcelforce-integration/',
-			),
-			'enable_shipstation_integration' => array(
-				'type'		=> 'tgl_checkbox',
-				'title'		=> __( 'Enable the ShipStation integration', 'woo-advanced-shipment-tracking' ),				
-				'desc'	    => __( 'Adding tracking information to your orders shipped with ShipStation and automate your workflow', 'woo-advanced-shipment-tracking' ),
-				'img'		=> 'shipstation-icon.png',
-				'show'		=> true,
-				'default'  	=> 0,
-				'disabled'  => true, 
-				'class'     => '',
-				'documentation' => 'https://docs.zorem.com/docs/ast-pro/ast-pro/integrations/shipstation/',
-			),
-			'enable_wc_shipping_integration' => array(
-				'type'		=> 'tgl_checkbox',
-				'title'		=> __( 'Enable the WC Shipping integration', 'woo-advanced-shipment-tracking' ),				
-				'desc'   	=> __( 'Adding tracking information to your orders shipped with WooCommerce Shipping to the Shipment Tracking and automate your workflow', 'woo-advanced-shipment-tracking' ),
-				'img'		=> 'woo-shipping-icon.png',
-				'show'		=> true,
-				'default'   => 0, 
-				'disabled'  => true, 
-				'class'     => '',
-				'documentation' => 'https://docs.zorem.com/docs/ast-pro/ast-pro/integrations/woocommerce-shipping-tracking-add-on/',
-			),
-			'enable_ups_shipping_label_pluginhive' => array(
-				'type'		=> 'tgl_checkbox',
-				'title'		=> __( 'Enable the WooCommerce UPS Shipping Plugin with Print Label plugin integration', 'woo-advanced-shipment-tracking' ),				
-				'desc'   	=> __( 'Adding tracking information to your orders when generating shipping labels using the WooCommerce UPS Shipping Plugin with Print Label plugin by PluginHive', 'woo-advanced-shipment-tracking' ),
-				'img'		=> 'woo-ups-shipping-icon.png',
-				'show'		=> true,
-				'default'   => 0, 
-				'disabled'  => true, 
-				'class'     => '',
-				'documentation' => 'https://docs.zorem.com/docs/ast-pro/ast-pro/integrations/woocommerce-ups-shipping/',
-			),			
-			'enable_quickbooks_commerce_integration' => array(
-				'type'		=> 'tgl_checkbox',
-				'title'		=> __( 'Enable the QuickBooks Commerce (formerly TradeGecko) Integrations', 'woo-advanced-shipment-tracking' ),				
-				'desc'   	=> __( 'Adding tracking information to your orders shipped with QuickBooks Commerce and automate your workflow', 'woo-advanced-shipment-tracking' ),
-				'img'		=> 'quickbooks-icon.png',
-				'show'		=> true,
-				'default'   => 0, 
-				'disabled'  => true, 
-				'class'     => '',
-				'documentation' => 'https://docs.zorem.com/docs/ast-pro/ast-pro/integrations/quickbooks-commerce-tracking/',
-			),
-			'enable_readytoship_integration' => array(
-				'type'		=> 'tgl_checkbox',
-				'title'		=> __( 'Enable the ReadyToShip integration', 'woo-advanced-shipment-tracking' ),				
-				'desc'   	=> __( 'Adding tracking information to your orders shipped with ReadyToShip and automate your workflow', 'woo-advanced-shipment-tracking' ),
-				'img'		=> 'readytoship-icon.png',
-				'show'		=> true,
-				'default'   => 0, 
-				'disabled'  => true, 
-				'class'     => '',
-				'documentation' => 'https://docs.zorem.com/docs/ast-pro/ast-pro/integrations/readytoship/',
-			),
-			'enable_royalmail_integration' => array(
-				'type'		=> 'tgl_checkbox',
-				'title'		=> __( 'Enable the Royal Mail Click & Drop integration', 'woo-advanced-shipment-tracking' ),				
-				'desc'   	=> __( 'Adding tracking information to your orders shipped with Royal Mail Click & Drop and automate your workflow', 'woo-advanced-shipment-tracking' ),
-				'img'		=> 'royal-mail-icon.png',
-				'show'		=> true,
-				'default'   => 0, 
-				'disabled'  => true,
-				'class'     => '',
-				'documentation' => 'https://docs.zorem.com/docs/ast-pro/ast-pro/integrations/royal-mail-click-drop/',
-			),	
-			'enable_customcat_integration' => array(
-				'type'		=> 'tgl_checkbox',
-				'title'		=> __( 'Enable the CustomCat integration', 'woo-advanced-shipment-tracking' ),				
-				'desc'   	=> __( 'Adding tracking information to your orders shipped with CustomCat and automate your workflow', 'woo-advanced-shipment-tracking' ),
-				'img'		=> 'customcat-icon.png',
-				'show'		=> true,
-				'default'   => 0, 
-				'disabled'  => true,
-				'class'     => '',
-				'documentation' => 'https://docs.zorem.com/docs/ast-pro/ast-pro/integrations/customcat/',
-			),
-			'enable_dear_inventory_integration' => array(
-				'type'		=> 'tgl_checkbox',
-				'title'		=> __( 'Enable the Dear Systems integration', 'woo-advanced-shipment-tracking' ),				
-				'desc'   	=> __( 'Adding tracking information to your orders shipped with Dear Systems and automate your workflow', 'woo-advanced-shipment-tracking' ),
-				'img'		=> 'dear-system-icon.png',
-				'show'		=> true,
-				'default'   => 0, 
-				'disabled'  => true,
-				'class'     => '',
-				'documentation' => 'https://docs.zorem.com/docs/ast-pro/ast-pro/integrations/dear-systems/',
-			),		
-			/*'enable_printify_integration' => array(
-				'type'		=> 'tgl_checkbox',
-				'title'		=> __( 'Enable the Printify integration', 'woo-advanced-shipment-tracking' ),				
-				'desc'   	=> __( 'Adding tracking information to your orders shipped with Printify and automate your workflow', 'woo-advanced-shipment-tracking' ),
-				'img'		=> 'printify-icon.png',
-				'show'		=> true,
-				'default'   => 0, 
-				'disabled'  => true,
-				'class'     => '',
-				'documentation' => 'https://docs.zorem.com/docs/ast-pro/ast-pro/integrations/printify/',
-			),*/			
-			'enable_picqer_integration' => array(
-				'type'		=> 'tgl_checkbox',
-				'title'		=> __( 'Enable the Picqer integration', 'woo-advanced-shipment-tracking' ),				
-				'desc'   	=> __( 'Adding tracking information to your orders shipped with Picqer and automate your workflow', 'woo-advanced-shipment-tracking' ),
-				'img'		=> 'picqer-icon.png',
-				'show'		=> true,
-				'default'   => 0, 
-				'disabled'  => true,
-				'class'     => '',
-				'documentation' => 'https://docs.zorem.com/docs/ast-pro/ast-pro/integrations/picqer/',
-			),
-			'enable_3plwinner_integration' => array(
-				'type'		=> 'tgl_checkbox',
-				'title'		=> __( 'Enable the 3plwinner integration', 'woo-advanced-shipment-tracking' ),				
-				'desc'   	=> __( 'Adding tracking information to your orders shipped with 3plwinner and automate your workflow', 'woo-advanced-shipment-tracking' ),
-				'img'		=> '3plwinner-icon.png',
-				'show'		=> true,
-				'default'   => 0, 
-				'disabled'  => true,
-				'class'     => '',
-				'documentation' => 'https://docs.zorem.com/docs/ast-pro/ast-pro/integrations/3plwinner/',
-			),	
-			'enable_dianxiaomi_integration' => array(
-				'type'		=> 'tgl_checkbox',
-				'title'		=> __( 'Enable the Dianxiaomi integration', 'woo-advanced-shipment-tracking' ),				
-				'desc'   	=> __( 'Adding tracking information to your orders shipped with Dianxiaomi and automate your workflow', 'woo-advanced-shipment-tracking' ),
-				'img'		=> 'dianxiaomi-icon.png',
-				'show'		=> true,
-				'default'   => 0, 
-				'disabled'  => true,
-				'class'     => '',
-				'documentation' => 'https://docs.zorem.com/docs/ast-pro/ast-pro/integrations/dianxiaomi/',
-			),		
-			'enable_eiz_integration' => array(
-				'type'		=> 'tgl_checkbox',
-				'title'		=> __( 'Enable the EIZ integration', 'woo-advanced-shipment-tracking' ),				
-				'desc'   	=> __( 'Adding tracking information to your orders shipped with EIZ and automate your workflow', 'woo-advanced-shipment-tracking' ),
-				'img'		=> 'eiz-icon.png',
-				'show'		=> true,
-				'default'   => 0, 
-				'disabled'  => true,
-				'class'     => '',
-				'documentation' => 'https://docs.zorem.com/docs/ast-pro/ast-pro/integrations/ebiz/',
-			),	
-			'enable_shippypro_integration' => array(
-				'type'		=> 'tgl_checkbox',
-				'title'		=> __( 'Enable the Shippypro integration', 'woo-advanced-shipment-tracking' ),				
-				'desc'   	=> __( 'Adding tracking information to your orders shipped with shippypro and automate your workflow', 'woo-advanced-shipment-tracking' ),
-				'img'		=> 'shippypro-icon.png',
-				'show'		=> true,
-				'default'   => 0, 
-				'disabled'  => true,
-				'class'     => '',
-				'documentation' => 'https://docs.zorem.com/docs/ast-pro/ast-pro/integrations/shippypro/',
-			),		
-			'enable_ali2woo_integration' => array(
-				'type'		=> 'tgl_checkbox',
-				'title'		=> __( 'Enable the AliExpress Dropshipping integration', 'woo-advanced-shipment-tracking' ),				
-				'desc'   	=> __( 'Add Tracking Information in AST meta fields when you automatically sync tracking numbers from aliexpress orders', 'woo-advanced-shipment-tracking' ),
-				'img'		=> 'aliexpress-icon.png',
-				'show'		=> true,
-				'default'   => 0,
-				'disabled'	=> true,
-				'class'     => '',
-				'documentation' => 'https://docs.zorem.com/docs/ast-pro/ast-pro/integrations/ali2woo/',
-			),	
-			'enable_pirateship_integration' => array(
-				'type'		=> 'tgl_checkbox',
-				'title'		=> __( 'Pirate Ship', 'woo-advanced-shipment-tracking' ),				
-				'desc'   	=> __( 'Adding tracking information to your orders shipped with pirate Ship and automate your workflow', 'woo-advanced-shipment-tracking' ),
-				'img'		=> 'pirateship-icon.png',				
-				'default'   => 0,
-				'disabled'	=> true,
-				'class'     => '',
-				'documentation' => 'https://docs.zorem.com/docs/ast-pro/ast-pro/integrations/pirate-ship/',
-			),	
-			'enable_sendcloud_integration' => array(
-				'type'		=> 'tgl_checkbox',
-				'title'		=> __( 'Sendcloud', 'woo-advanced-shipment-tracking' ),				
-				'desc'   	=> __( 'Adding tracking information to your orders shipped with sendcloud and automate your workflow', 'woo-advanced-shipment-tracking' ),
-				'img'		=> 'sendcloud-icon.png',							
-				'default'   => 0,
-				'disabled'	=> true,
-				'class'     => '',
-				'documentation' => 'https://docs.zorem.com/docs/ast-pro/ast-pro/integrations/sendcloud/',
-			),
-			'enable_shiptheory_integration' => array(
-				'type'		=> 'tgl_checkbox',
-				'title'		=> __( 'Shiptheory', 'woo-advanced-shipment-tracking' ),				
-				'desc'   	=> __( 'Adding tracking information to your orders shipped with shiptheory and automate your workflow', 'woo-advanced-shipment-tracking' ),
-				'img'		=> 'shiptheory-icon.png',					
-				'default'   => 0,
-				'disabled'	=> true,
-				'class'     => '',
-				'documentation' => 'https://docs.zorem.com/docs/ast-pro/ast-pro/integrations/shiptheory/',
-			),
-			'enable_stamps_com_integration' => array(
-				'type'		=> 'tgl_checkbox',
-				'title'		=> __( 'Stamps.com', 'woo-advanced-shipment-tracking' ),				
-				'desc'   	=> __( 'Adding tracking information to your orders shipped with stamps.com and automate your workflow', 'woo-advanced-shipment-tracking' ),
-				'img'		=> 'stamps-com-icon.png',						
-				'default'   => 0,
-				'disabled'	=> true,
-				'class'     => '',
-				'documentation' => 'https://docs.zorem.com/docs/ast-pro/integrations/stamps-com/',
-			),
-			'enable_shippo_integration' => array(
-				'type'		=> 'tgl_checkbox',
-				'title'		=> __( 'Shippo', 'woo-advanced-shipment-tracking' ),				
-				'desc'   	=> __( 'Adding tracking information to your orders shipped with Shippo and automate your workflow', 'woo-advanced-shipment-tracking' ),
-				'img'		=> 'shippo-icon.png',							
-				'default'   => 0,
-				'disabled'	=> true,
-				'class'     => '',
-				'documentation' => 'https://docs.zorem.com/docs/ast-pro/integrations/shippo/',
-			),
-			'enable_inventory_source_integration' => array(
-				'type'		=> 'tgl_checkbox',
-				'title'		=> __( 'Inventory source', 'woo-advanced-shipment-tracking' ),				
-				'desc'   	=> __( 'Adding tracking information to your orders shipped with Inventory source and automate your workflow', 'woo-advanced-shipment-tracking' ),
-				'img'		=> 'inventory-source-icon.png',							
-				'default'   => 0,
-				'disabled'	=> true,
-				'class'     => '',
-				'documentation' => 'https://docs.zorem.com/docs/ast-pro/ast-pro/integrations/inventory-source/',
-			),
-			'enable_wc_amazon_fulfillment_integration' => array(
-				'type'		=> 'tgl_checkbox',
-				'title'		=> __( 'WooCommerce Amazon Fulfillment', 'woo-advanced-shipment-tracking' ),				
-				'desc'   	=> __( 'Adding tracking information to your orders shipped with WooCommerce Amazon Fulfillment and automate your workflow', 'woo-advanced-shipment-tracking' ),
-				'img'		=> 'wc-amazon-ulfillment.png',								
-				'default'   => 0,
-				'disabled'	=> true,
-				'class'     => '',
-				'documentation' => 'https://docs.zorem.com/docs/ast-pro/integrations/woocommerce-amazon-fulfillment',
-			),	
-			'enable_pdf_invoice_integration_ewout' => array(
-				'type'		=> 'tgl_checkbox',
-				'title'		=> __( 'PDF invoices integration for WooCommerce PDF Invoices & Packing Slips plugin By Ewout Fernhout', 'woo-advanced-shipment-tracking' ),				
-				'desc'   	=> __( 'Add tracking information in invoice PDF generate by WooCommerce PDF Invoices & Packing Slips plugin By Ewout Fernhout', 'woo-advanced-shipment-tracking' ),
-				'img'		=> 'woocommerce-pdf-invoices-packing-slips-icon.png',
-				'show'		=> true,
-				'default'   => 0,
-				'disabled'	=> true,
-				'class'     => '',
-			),
-			'enable_pdf_invoice_integration_bas' => array(
-				'type'		=> 'tgl_checkbox',
-				'title'		=> __( 'PDF invoices integration for WooCommerce PDF Invoices plugin By Bas Elbers', 'woo-advanced-shipment-tracking' ),				
-				'desc'   	=> __( 'Add tracking information in invoice PDF generate by WooCommerce PDF Invoices plugin By Bas Elbers', 'woo-advanced-shipment-tracking' ),
-				'img'		=> 'woocommerce-pdf-invoices-icon.png',
-				'show'		=> true,
-				'default'   => 0,
-				'disabled'	=> true,
-				'class'     => '',
-			),
-		);
-		
-		return $form_data;
 	}
 	
 	/*
@@ -1120,7 +792,7 @@ class WC_Advanced_Shipment_Tracking_Admin {
 			'wcast_enable_updated_tracking_email' => array(
 				'type'		=> 'checkbox',
 				'title'		=> __( 'Enable the Updated Tracking order status email', '' ),
-				'title_link'=> "<a class='settings_edit' href='" . ps_customizer()->get_customizer_url( 'custom_order_status_email' , 'updated_tracking' ) . "'>" . __( 'Edit', 'woocommerce' ) . '</a>',
+				'title_link'=> '',
 				'class'		=> 'updated_tracking_status_label_color_th',
 				'show'		=> true,
 			),			
@@ -1214,7 +886,7 @@ class WC_Advanced_Shipment_Tracking_Admin {
 				'label'		=> __( 'Partially Shipped', 'woo-advanced-shipment-tracking' ),				
 				'label_class' => 'wc-partially-shipped',
 				'option_id'	=> 'woocommerce_customer_partial_shipped_order_settings',				
-				'edit_email'=> ps_customizer()->get_customizer_url( 'custom_order_status_email', 'partially_shipped' ),
+				'edit_email'=> admin_url( 'admin.php?page=ast_customizer&email_type=partial_shipped' ),
 				'label_color_field' => 'wc_ast_status_partial_shipped_label_color',	
 				'font_color_field' => 'wc_ast_status_partial_shipped_label_font_color',	
 				'email_field' => 'wcast_enable_partial_shipped_email',					

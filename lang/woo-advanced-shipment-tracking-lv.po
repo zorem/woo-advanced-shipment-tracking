@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: WooCommerce Advanced Shipment Tracking\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-11 09:34+0000\n"
-"PO-Revision-Date: 2022-06-17 11:29+0000\n"
+"PO-Revision-Date: 2022-08-08 05:16+0000\n"
 "Last-Translator: John Doe\n"
 "Language-Team: Latvian\n"
 "Language: lv\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco https://localise.biz/\n"
-"X-Loco-Version: 2.6.2; wp-6.0"
+"X-Loco-Version: 2.6.2; wp-6.0.1"
 
 #. %s: search WooCommerce plugin link
 #: includes/views/admin_options_shipping_provider.php:91
@@ -21,7 +21,7 @@ msgstr ""
 msgid "<a href=\"%s\" target=\"blank\">documentation</a>"
 msgstr "<a href=\"%s\" target=\"blank\">dokumentācija</a>"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:2391
+#: includes/class-wc-advanced-shipment-tracking-admin.php:2063
 msgid "Add API Name alias"
 msgstr "Pievienojiet API nosaukuma aizstājvārdu"
 
@@ -34,8 +34,8 @@ msgstr ""
 "sniedzēju nosaukumus ar pakalpojumu sniedzēju nosaukumiem, kurus sūtījumu "
 "izsekošanas API atjaunina ārējie piegādes pakalpojumi"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1880
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1992
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1552
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1664
 msgid "Add Custom Provider"
 msgstr "Pievienojiet pielāgoto pakalpojumu sniedzēju"
 
@@ -51,11 +51,11 @@ msgstr ""
 "pasūtījumiem. Informācija par sūtījumu izsekošanu tiks parādīta klientu "
 "kontos (pasūtījumu panelī) un WooCommerce pasūtījuma pabeigšanas e-pastā."
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:837
+#: includes/class-wc-advanced-shipment-tracking-admin.php:509
 msgid "add the [wcast-track-order] shortcode in the selected page."
 msgstr "pievienot [wcast-track-order] īso kodu atlasītajā lapā."
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1852
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1524
 msgid "Add Tracking"
 msgstr "Pievienot izsekošanu"
 
@@ -67,205 +67,19 @@ msgstr "Pievienot izsekošanu - pasūtīt"
 msgid "Add Tracking Info"
 msgstr "Pievienot izsekošanas informāciju"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:556
-msgid ""
-"Add Tracking Information in AST meta fields when you automatically sync "
-"tracking numbers from aliexpress orders"
-msgstr ""
-"Pievienojiet izsekošanas informāciju AST meta laukos, kad automātiski "
-"sinhronizējat izsekošanas numurus no aliexpress pasūtījumiem"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:637
-msgid ""
-"Add tracking information in invoice PDF generate by WooCommerce PDF Invoices "
-"& Packing Slips plugin By Ewout Fernhout"
-msgstr ""
-"Pievienojiet izsekošanas informāciju rēķinā PDF, ko ģenerē WooCommerce PDF "
-"rēķinu un pavadzīmju spraudnis Ewout Fernhout"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:647
-msgid ""
-"Add tracking information in invoice PDF generate by WooCommerce PDF Invoices "
-"plugin By Bas Elbers"
-msgstr ""
-"Pievienojiet izsekošanas informāciju rēķina PDF formātā, ko ģenerē "
-"WooCommerce PDF rēķinu spraudnis. Bass Elbers"
-
 #: includes/views/admin_options_settings.php:14
 msgid "Add Tracking Options"
 msgstr "Pievienot izsekošanas opcijas"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:955
+#: includes/class-wc-advanced-shipment-tracking-admin.php:627
 msgid "Add Tracking Order action"
 msgstr "Pievienojiet darbību Izsekošanas pasūtījums"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:512
-msgid ""
-"Adding tracking information to your orders shipped with 3plwinner and "
-"automate your workflow"
-msgstr ""
-"Izsekošanas informācijas pievienošana pasūtījumiem, kas tiek piegādāti kopā "
-"ar 3plwinner, un automatizē jūsu darbplūsmu"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:468
-msgid ""
-"Adding tracking information to your orders shipped with CustomCat and "
-"automate your workflow"
-msgstr ""
-"Izsekošanas informācijas pievienošana pasūtījumiem, kas tiek piegādāti kopā "
-"ar CustomCat, un automatizē jūsu darbplūsmu"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:479
-msgid ""
-"Adding tracking information to your orders shipped with Dear Systems and "
-"automate your workflow"
-msgstr ""
-"Izsekošanas informācijas pievienošana pasūtījumiem, kas piegādāti kopā ar "
-"Dear Systems, un automatizēt jūsu darbplūsmu"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:523
-msgid ""
-"Adding tracking information to your orders shipped with Dianxiaomi and "
-"automate your workflow"
-msgstr ""
-"Izsekošanas informācijas pievienošana pasūtījumiem, kas tiek piegādāti kopā "
-"ar Dianxiaomi, un automatizē jūsu darbplūsmu"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:534
-msgid ""
-"Adding tracking information to your orders shipped with EIZ and automate "
-"your workflow"
-msgstr ""
-"Pievienojiet izsekošanas informāciju pasūtījumiem, kas tiek piegādāti kopā "
-"ar EIZ, un automatizējiet savu darbplūsmu"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:617
-msgid ""
-"Adding tracking information to your orders shipped with Inventory source and "
-"automate your workflow"
-msgstr ""
-"Pievienojiet izsekošanas informāciju saviem pasūtījumiem, kas tiek piegādāti "
-"kopā ar krājumu avotu, un automatizējiet savu darbplūsmu"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:501
-msgid ""
-"Adding tracking information to your orders shipped with Picqer and automate "
-"your workflow"
-msgstr ""
-"Izsekošanas informācijas pievienošana pasūtījumiem, kas tiek piegādāti kopā "
-"ar Picqer, un automatizē jūsu darbplūsmu"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:567
-msgid ""
-"Adding tracking information to your orders shipped with pirate Ship and "
-"automate your workflow"
-msgstr ""
-"Izsekošanas informācijas pievienošana pasūtījumiem, kas nosūtīti ar pirātu "
-"piegādi, un automatizējiet savu darbplūsmu"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:435
-msgid ""
-"Adding tracking information to your orders shipped with QuickBooks Commerce "
-"and automate your workflow"
-msgstr ""
-"Izsekošanas informācijas pievienošana pasūtījumiem, kas tiek piegādāti kopā "
-"ar QuickBooks Commerce, un automatizē jūsu darbplūsmu"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:446
-msgid ""
-"Adding tracking information to your orders shipped with ReadyToShip and "
-"automate your workflow"
-msgstr ""
-"Izsekošanas informācijas pievienošana pasūtījumiem, kas piegādāti kopā ar "
-"ReadyToShip, un automatizēt jūsu darbplūsmu"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:457
-msgid ""
-"Adding tracking information to your orders shipped with Royal Mail Click & "
-"Drop and automate your workflow"
-msgstr ""
-"Izsekošanas informācijas pievienošana pasūtījumiem, kas piegādāti kopā ar "
-"Royal Mail Click & Drop, un automatizē savu darbplūsmu"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:577
-msgid ""
-"Adding tracking information to your orders shipped with sendcloud and "
-"automate your workflow"
-msgstr ""
-"Pievienojiet izsekošanas informāciju pasūtījumiem, kas nosūtīti, izmantojot "
-"sendcloud, un automatizējiet savu darbplūsmu"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:607
-msgid ""
-"Adding tracking information to your orders shipped with Shippo and automate "
-"your workflow"
-msgstr ""
-"Pievienojiet izsekošanas informāciju saviem pasūtījumiem, kas tiek piegādāti "
-"kopā ar Shippo, un automatizējiet savu darbplūsmu"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:545
-msgid ""
-"Adding tracking information to your orders shipped with shippypro and "
-"automate your workflow"
-msgstr ""
-"Pievienojiet izsekošanas informāciju pasūtījumiem, kas tiek piegādāti kopā "
-"ar shippypro, un automatizējiet savu darbplūsmu"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:402
-msgid ""
-"Adding tracking information to your orders shipped with ShipStation and "
-"automate your workflow"
-msgstr ""
-"Izsekošanas informācijas pievienošana pasūtījumiem, kas tiek piegādāti kopā "
-"ar ShipStation, un automatizē jūsu darbplūsmu"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:587
-msgid ""
-"Adding tracking information to your orders shipped with shiptheory and "
-"automate your workflow"
-msgstr ""
-"Izsekošanas informācijas pievienošana pasūtījumiem, kas tiek piegādāti kopā "
-"ar shiptheory, un automatizējiet savu darbplūsmu"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:597
-msgid ""
-"Adding tracking information to your orders shipped with stamps.com and "
-"automate your workflow"
-msgstr ""
-"Pievienojiet izsekošanas informāciju saviem pasūtījumiem, kas nosūtīti, "
-"izmantojot vietni stamps.com, un automatizējiet savu darbplūsmu"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:627
-msgid ""
-"Adding tracking information to your orders shipped with WooCommerce Amazon "
-"Fulfillment and automate your workflow"
-msgstr ""
-"Izsekošanas informācijas pievienošana pasūtījumiem, kas nosūtīti, izmantojot "
-"WooCommerce Amazon Fulfillment, un automatizējiet savu darbplūsmu"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:413
-msgid ""
-"Adding tracking information to your orders shipped with WooCommerce Shipping "
-"to the Shipment Tracking and automate your workflow"
-msgstr ""
-"Izsekošanas informācijas pievienošana pasūtījumiem, kas piegādāti kopā ar "
-"WooCommerce Shipping, sūtījumu izsekošanai un automatizēt jūsu darbplūsmu"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:424
-msgid ""
-"Adding tracking information to your orders when generating shipping labels "
-"using the WooCommerce UPS Shipping Plugin with Print Label plugin by "
-"PluginHive"
-msgstr ""
-"Izsekošanas informācijas pievienošana pasūtījumiem, veidojot piegādes "
-"etiķetes, izmantojot WooCommerce UPS piegādes spraudni ar PluginHive "
-"spraudni Print Label"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1052
+#: includes/class-wc-advanced-shipment-tracking-admin.php:724
 msgid "Additional Order Emails Display"
 msgstr "Papildu pasūtījuma e-pasta displejs"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:245
+#: includes/customizer/ast-customizer.php:475
 msgid "Additional text after header"
 msgstr "Papildu teksts pēc galvenes"
 
@@ -273,15 +87,11 @@ msgstr "Papildu teksts pēc galvenes"
 msgid "Advanced Shipment Tracking for WooCommerce"
 msgstr "Uzlabota sūtījumu izsekošana WooCommerce"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:187
-msgid "After Order Details"
-msgstr "Pēc pasūtījuma detaļas"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1929
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1601
 msgid "API aliases"
 msgstr "API aizstājvārdi"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1077
+#: includes/class-wc-advanced-shipment-tracking-admin.php:749
 msgid "API Date Format"
 msgstr "API datuma formāts"
 
@@ -289,39 +99,47 @@ msgstr "API datuma formāts"
 msgid "API Name"
 msgstr "API nosaukums"
 
-#: includes/customizer/class-wc-partial-shipped-email-customizer.php:191
-#: includes/customizer/class-wc-partial-shipped-email-customizer.php:215
-#: includes/customizer/class-wc-partial-shipped-email-customizer.php:240
-#: includes/customizer/class-wc-partial-shipped-email-customizer.php:260
-#: includes/customizer/class-wc-tracking-info-customizer.php:333
-msgid "Available variables:"
-msgstr "Pieejamie mainīgie:"
+#: includes/customizer/ast-customizer.php:89
+msgid "AST Customizer"
+msgstr "AST pielāgotājs"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:186
-msgid "Before Order Details"
-msgstr "Pirms pasūtījuma detaļas"
+#: includes/customizer/ast-customizer.php:671
+msgid "Available Placeholders:"
+msgstr "Pieejamie vietturi:"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:537
+#: includes/customizer/ast-customizer.php:506
+msgid "Background color"
+msgstr "Fona krāsa"
+
+#: includes/customizer/ast-customizer.php:514
 msgid "Border color"
 msgstr "Apmales krāsa"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:555
-msgid "Border size"
-msgstr "Robežu izmērs"
+#: includes/customizer/ast-customizer.php:522
+msgid "Border radius"
+msgstr "Robežas rādiuss"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:407
-msgid "Bottom border color"
-msgstr "Apakšējā apmales krāsa"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:968
+#: includes/customizer/ast-customizer.php:579
 msgid "Button color"
 msgstr "Pogas krāsa"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:986
+#: includes/customizer/ast-customizer.php:587
 msgid "Button font color"
 msgstr "Pogas fonta krāsa"
 
-#: includes/api/class-wc-advanced-shipment-tracking-rest-api-controller.php:225
+#: includes/customizer/ast-customizer.php:595
+msgid "Button radius"
+msgstr "Pogas rādiuss"
+
+#: includes/customizer/ast-customizer.php:567
+msgid "Button size"
+msgstr "Pogas izmērs"
+
+#: includes/customizer/ast-customizer.php:557
+msgid "Button text"
+msgstr "Pogas teksts"
+
+#: includes/api/class-wc-advanced-shipment-tracking-rest-api-controller.php:222
 msgid "Cannot create existing order shipment tracking."
 msgstr "Nevar izveidot esošu pasūtījumu sūtījumu izsekošanu."
 
@@ -341,7 +159,7 @@ msgstr "Mainīt statusu uz %s"
 msgid "Change status to shipped"
 msgstr "Mainīt statusu uz nosūtīts"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1078
+#: includes/class-wc-advanced-shipment-tracking-admin.php:750
 msgid "Choose for which Order status to display"
 msgstr "Izvēlieties, kuru pasūtījuma statusu parādīt"
 
@@ -353,32 +171,6 @@ msgstr "Izvēlieties nosūtīšanas datuma formātu"
 msgid "Completed"
 msgstr "Pabeigts"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:312
-msgid "Content"
-msgstr "Saturs"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:807
-msgid "Content Background color"
-msgstr "Satura fona krāsa"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:370
-#: includes/customizer/class-wc-tracking-info-customizer.php:825
-msgid "Content font color"
-msgstr "Satura fonta krāsa"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:351
-#: includes/customizer/class-wc-tracking-info-customizer.php:843
-msgid "Content font size"
-msgstr "Satura fonta lielums"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:885
-msgid "Content font weight"
-msgstr "Satura fonta svars"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:862
-msgid "Content line height"
-msgstr "Satura līnijas augstums"
-
 #: includes/views/admin_options_bulk_upload.php:55
 msgid "Continue"
 msgstr "Turpināt"
@@ -387,8 +179,8 @@ msgstr "Turpināt"
 msgid "Country"
 msgstr "Valsts"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:295
-#: includes/class-wc-advanced-shipment-tracking-admin.php:299
+#: includes/class-wc-advanced-shipment-tracking-admin.php:274
+#: includes/class-wc-advanced-shipment-tracking-admin.php:278
 #: includes/views/admin_options_bulk_upload.php:8
 msgid "CSV Import"
 msgstr "CSV importēšana"
@@ -401,10 +193,6 @@ msgstr "Pielāgotas API nosaukums"
 msgid "Custom display name"
 msgstr "Pielāgots redzamais nosaukums"
 
-#: includes/customizer/class-wcast-customizer.php:44
-msgid "Custom order status email"
-msgstr "Pielāgota pasūtījuma statusa e-pasts"
-
 #: includes/views/admin_options_shipping_provider.php:82
 msgid "Custom URL"
 msgstr "Pielāgots URL"
@@ -413,12 +201,12 @@ msgstr "Pielāgots URL"
 msgid "Customer View"
 msgstr "Klienta skats"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:734
-#: includes/class-wc-advanced-shipment-tracking-admin.php:854
+#: includes/class-wc-advanced-shipment-tracking-admin.php:406
+#: includes/class-wc-advanced-shipment-tracking-admin.php:526
 msgid "Customize"
 msgstr "Pielāgot"
 
-#: includes/views/admin_options_osm.php:66
+#: includes/views/admin_options_osm.php:63
 msgid "Dark Font"
 msgstr "Tumšais fonts"
 
@@ -426,8 +214,8 @@ msgstr "Tumšais fonts"
 msgid "Data saved successfully."
 msgstr "Dati veiksmīgi saglabāti."
 
-#: includes/class-wc-advanced-shipment-tracking.php:369
 #: includes/class-wc-advanced-shipment-tracking-settings.php:544
+#: includes/class-wc-advanced-shipment-tracking.php:369
 msgid "Date shipped:"
 msgstr "Nosūtīšanas datums:"
 
@@ -437,7 +225,7 @@ msgstr "Nosūtīšanas datums:"
 msgid "Delivered"
 msgstr "Piegādāts"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1225
+#: includes/class-wc-advanced-shipment-tracking-admin.php:897
 msgid "delivered"
 msgstr "piegādāts"
 
@@ -450,14 +238,6 @@ msgstr[0] "Piegādāts <span class=\"count\">(%s)</span>"
 msgstr[1] "Piegādāts <span class=\"count\">(%s)</span>"
 msgstr[2] ""
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:463
-msgid "Display shipping provider image"
-msgstr "Parādīt piegādes pakalpojumu sniedzēja attēlu"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:444
-msgid "Display shipping provider name"
-msgstr "Parādīt piegādes pakalpojumu sniedzēja nosaukumu"
-
 #: includes/views/admin_options_bulk_upload.php:117
 msgid "Download sample csv"
 msgstr "Lejupielādēt CSV paraugu"
@@ -466,83 +246,45 @@ msgstr "Lejupielādēt CSV paraugu"
 msgid "Edit Shipping Provider"
 msgstr "Rediģēt piegādes pakalpojumu sniedzēju"
 
-#: includes/customizer/class-wc-partial-shipped-email-customizer.php:239
+#: includes/customizer/ast-customizer.php:383
+#: includes/customizer/ast-customizer.php:384
+#: includes/customizer/ast-customizer.php:393
+#: includes/customizer/ast-customizer.php:437
+#: includes/customizer/ast-customizer.php:438
+#: includes/customizer/ast-customizer.php:615
+msgid "Email Content"
+msgstr "E-pasta saturs"
+
+#: includes/customizer/ast-customizer.php:659
 msgid "Email content"
 msgstr "E-pasta saturs"
 
-#: includes/customizer/class-wc-partial-shipped-email-customizer.php:149
-msgid "Email Type"
+#: includes/customizer/ast-customizer.php:697
+msgid "Email Customizer"
+msgstr "E-pasta pielāgotājs"
+
+#: includes/customizer/ast-customizer.php:647
+msgid "Email heading"
+msgstr "E-pasta virsraksts"
+
+#: includes/customizer/ast-customizer.php:636
+msgid "Email Subject"
+msgstr "E-pasta tēma"
+
+#: includes/customizer/ast-customizer.php:622
+#| msgid "Email Type"
+msgid "Email type"
 msgstr "E-pasta tips"
 
-#: includes/customizer/class-wc-partial-shipped-email-customizer.php:171
-msgid "Enable Partially Shipped order status email"
-msgstr "Iespējot daļēji nosūtītu pasūtījuma statusa e-pastu"
+#: includes/customizer/ast-customizer.php:858
+msgid "Enable email"
+msgstr "Iespējot e-pastu"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:511
-msgid "Enable the 3plwinner integration"
-msgstr "Iespējot 3plwinner integrāciju"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:555
-msgid "Enable the AliExpress Dropshipping integration"
-msgstr "Iespējojiet AliExpress Dropshipping integrāciju"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:467
-msgid "Enable the CustomCat integration"
-msgstr "Iespējot CustomCat integrāciju"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:478
-msgid "Enable the Dear Systems integration"
-msgstr "Iespējojiet dārgo sistēmu integrāciju"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:522
-msgid "Enable the Dianxiaomi integration"
-msgstr "Iespējot Dianxiaomi integrāciju"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:533
-msgid "Enable the EIZ integration"
-msgstr "Iespējot EIZ integrāciju"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:500
-msgid "Enable the Picqer integration"
-msgstr "Iespējojiet Picqer integrāciju"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:434
-msgid "Enable the QuickBooks Commerce (formerly TradeGecko) Integrations"
-msgstr "Iespējot QuickBooks Commerce (agrāk TradeGecko) integrāciju"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:445
-msgid "Enable the ReadyToShip integration"
-msgstr "Iespējojiet ReadyToShip integrāciju"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:456
-msgid "Enable the Royal Mail Click & Drop integration"
-msgstr "Iespējojiet Royal Mail Click & Drop integrāciju"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:544
-msgid "Enable the Shippypro integration"
-msgstr "Iespējojiet Shippypro integrāciju"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:401
-msgid "Enable the ShipStation integration"
-msgstr "Iespējot ShipStation integrāciju"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:412
-msgid "Enable the WC Shipping integration"
-msgstr "Iespējojiet WC piegādes integrāciju"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:423
-msgid ""
-"Enable the WooCommerce UPS Shipping Plugin with Print Label plugin "
-"integration"
-msgstr ""
-"Iespējojiet WooCommerce UPS piegādes spraudni ar spraudņa Print Label "
-"integrāciju"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1059
+#: includes/class-wc-advanced-shipment-tracking-admin.php:731
 msgid "Enable Track button in orders history (actions)"
 msgstr "Iespējot izsekošanas pogu pasūtījumu vēsturē (darbības)"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:2318
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1990
 msgid "Filter by shipping provider"
 msgstr "Filtrēt pēc piegādes nodrošinātāja"
 
@@ -554,8 +296,8 @@ msgstr "Izpildīt pasūtījumu"
 msgid "Fulfillement WorkFlow"
 msgstr "Darbplūsmas izpilde"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:339
-#: includes/class-wc-advanced-shipment-tracking-admin.php:343
+#: includes/class-wc-advanced-shipment-tracking-admin.php:310
+#: includes/class-wc-advanced-shipment-tracking-admin.php:314
 msgid "General Settings"
 msgstr "Vispārīgie iestatījumi"
 
@@ -563,27 +305,19 @@ msgstr "Vispārīgie iestatījumi"
 msgid "Global"
 msgstr "Globāls"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:269
+#: includes/class-wc-advanced-shipment-tracking-admin.php:248
 msgid "Go Pro"
 msgstr "Go Pro"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:731
-msgid "Headers background color"
-msgstr "Galvenes fona krāsa"
+#: templates/emails/customer-updated-tracking-order.php:24
+msgid ""
+"Hi there. we thought you'd like to know that the shipment tracking for your "
+"recent order from {site_title} has been updated."
+msgstr ""
+"Sveiki. mēs domājām, ka vēlaties uzzināt, ka ir atjaunināta sūtījuma "
+"izsekošana jūsu nesenajam pasūtījumam no {site_title}."
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:749
-msgid "Headers font color"
-msgstr "Galvenes fonta krāsa"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:712
-msgid "Headers font size"
-msgstr "Galvenes fonta lielums"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:767
-msgid "Headers font weight"
-msgstr "Galvenes fonta svars"
-
-#: includes/customizer/class-wc-partial-shipped-email-customizer.php:117
+#: includes/customizer/ast-customizer.php:330
 msgid ""
 "Hi there. we thought you'd like to know that your recent order from "
 "{site_title} has been partially shipped."
@@ -597,16 +331,19 @@ msgstr ""
 msgid "hide details"
 msgstr "paslēpt detaļas"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:622
-msgid "Hide Table Headers"
-msgstr "Slēpt tabulas galvenes"
+#: includes/customizer/ast-customizer.php:532
+#| msgid "Display shipping provider image"
+msgid "Hide shipping provider image"
+msgstr "Parādīt piegādes pakalpojumu sniedzēja attēlu"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:482
-msgid "Hide the shipped date"
+#: includes/customizer/ast-customizer.php:541
+#| msgid "Hide the shipped date"
+msgid "Hide the shipping date"
 msgstr "Paslēpt nosūtīšanas datumu"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:203
-msgid "Hide Tracking Header"
+#: includes/customizer/ast-customizer.php:456
+#| msgid "Hide Tracking Header"
+msgid "Hide tracking header"
 msgstr "Slēpt izsekošanas galveni"
 
 #: includes/views/admin_options_bulk_upload.php:118
@@ -625,17 +362,9 @@ msgstr "https://www.zorem.com/products/woocommerce-advanced-shipment-tracking/"
 msgid "Import in Progress"
 msgstr "Notiek importēšana"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:304
-msgid "Integrations"
-msgstr "Integrācijas"
-
-#: includes/api/class-wc-advanced-shipment-tracking-rest-api-controller.php:234
+#: includes/api/class-wc-advanced-shipment-tracking-rest-api-controller.php:231
 msgid "Invalid order ID."
 msgstr "Nederīgs pasūtījuma ID."
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:616
-msgid "Inventory source"
-msgstr "Inventāra avots"
 
 #: includes/views/admin_options_bulk_upload.php:46
 msgid ""
@@ -645,11 +374,15 @@ msgstr ""
 "Turiet neatzīmētu, vai izsekošanas informācija tiek pievienota jebkurai "
 "esošajai izsekošanas informācijai, kas pievienota pasūtījumiem."
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:269
+#: includes/customizer/ast-customizer.php:573
+msgid "Large"
+msgstr "Liels"
+
+#: includes/class-wc-advanced-shipment-tracking-admin.php:248
 msgid "License"
 msgstr "Licence"
 
-#: includes/views/admin_options_osm.php:65
+#: includes/views/admin_options_osm.php:62
 msgid "Light Font"
 msgstr "Gaišs fonts"
 
@@ -657,7 +390,7 @@ msgstr "Gaišs fonts"
 msgid "Mark as Completed?"
 msgstr "Vai atzīmēt kā pabeigtu?"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1861
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1533
 msgid "Mark as Shipped"
 msgstr "Atzīmēt kā nosūtītu"
 
@@ -673,30 +406,28 @@ msgstr "Atzīmēt pasūtījumu kā piegādātu"
 msgid "Mark order as:"
 msgstr "Atzīmēt pasūtījumu kā:"
 
-#: includes/customizer/class-wcast-customizer.php:260
+#: includes/customizer/ast-customizer.php:1074
 msgid "Mockup Order"
 msgstr "Maketa rīkojums"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:838
+#: includes/class-wc-advanced-shipment-tracking-admin.php:510
 msgid "more info"
 msgstr "vairāk informācijas"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:2391
+#: includes/class-wc-advanced-shipment-tracking-admin.php:2063
 msgid "Multiple API names mapping is a pro features"
 msgstr "Vairāku API vārdu kartēšana ir pro funkcijas"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1065
+#: includes/customizer/ast-customizer.php:572
+msgid "Normal"
+msgstr "Normāls"
+
+#: includes/class-wc-advanced-shipment-tracking-admin.php:737
 msgid "Open the Track Button link in a new tab"
 msgstr "Jaunā cilnē atveriet saiti Track Button"
 
-#. %s: Order ID.
-#: templates/emails/wcast-email-order-details.php:55
-#, php-format
-msgid "Order number: %s"
-msgstr "Pasūtījuma numurs:% s"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:348
-#: includes/class-wc-advanced-shipment-tracking-admin.php:352
+#: includes/class-wc-advanced-shipment-tracking-admin.php:319
+#: includes/class-wc-advanced-shipment-tracking-admin.php:323
 msgid "Order Statuses"
 msgstr "Pasūtījumu statusi"
 
@@ -713,7 +444,7 @@ msgstr "Pasūtījums tika piegādāts ar %1 $ s, un izsekošanas numurs ir: %2 $
 msgid "Order was shipped with %s and tracking number is: %s"
 msgstr "Pasūtījums tika nosūtīts ar %s, un izsekošanas numurs ir: %s"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:830
+#: includes/class-wc-advanced-shipment-tracking-admin.php:502
 msgid "Other"
 msgstr "Cits"
 
@@ -721,10 +452,12 @@ msgstr "Cits"
 msgid "Partial Shipped"
 msgstr "Daļēji nosūtīts"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1214
+#: includes/class-wc-advanced-shipment-tracking-admin.php:886
 #: includes/class-wc-advanced-shipment-tracking-settings.php:275
 #: includes/class-wc-advanced-shipment-tracking-settings.php:307
-#: includes/customizer/class-wc-partial-shipped-email-customizer.php:134
+#: includes/customizer/ast-customizer.php:129
+#: includes/customizer/ast-customizer.php:354
+#: includes/customizer/ast-customizer.php:609
 msgid "Partially Shipped"
 msgstr "Daļēji nosūtīts"
 
@@ -736,23 +469,6 @@ msgid_plural "Partially Shipped <span class=\"count\">(%s)</span>"
 msgstr[0] "Daļēji nosūtīts <span class=\"count\">(% s)</span>"
 msgstr[1] "Daļēji nosūtīts <span class=\"count\">(% s)</span>"
 msgstr[2] "Daļēji nosūtīts <span class=\"count\">(% s)</span>"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:636
-msgid ""
-"PDF invoices integration for WooCommerce PDF Invoices & Packing Slips plugin "
-"By Ewout Fernhout"
-msgstr ""
-"PDF rēķinu integrācija WooCommerce PDF rēķinu un pavadzīmju spraudnim Ewout "
-"Fernhout"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:646
-msgid ""
-"PDF invoices integration for WooCommerce PDF Invoices plugin By Bas Elbers"
-msgstr "PDF rēķinu integrācija WooCommerce PDF rēķinu spraudnim Bas Elbers"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:566
-msgid "Pirate Ship"
-msgstr "Pirātu kuģis"
 
 #. %s: search WooCommerce plugin link
 #: woocommerce-advanced-shipment-tracking.php:181
@@ -772,21 +488,16 @@ msgstr "Lūdzu, augšupielādējiet derīgu CSV failu."
 msgid "Preview:"
 msgstr "Priekšskatījums:"
 
-#: includes/class-wc-advanced-shipment-tracking.php:361
 #: includes/class-wc-advanced-shipment-tracking-settings.php:540
+#: includes/class-wc-advanced-shipment-tracking.php:361
 msgid "Product Code:"
 msgstr "Produkta kods:"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:141
-#: includes/customizer/class-wc-tracking-info-customizer.php:648
-#: templates/emails/tracking-info.php:216
-#: templates/myaccount/tracking-info.php:192
+#: templates/emails/plain/tracking-info.php:32
 msgid "Provider"
 msgstr "Nodrošinātājs"
 
 #: includes/views/admin_options_shipping_provider.php:57
-#: templates/emails/tracking-info.php:222
-#: templates/myaccount/tracking-info.php:198
 msgid "Provider Name"
 msgstr "Pakalpojuma sniedzēja vārds"
 
@@ -806,7 +517,7 @@ msgstr "Pakalpojumu sniedzēji atjaunināti"
 msgid "Really delete this entry? This will not be undo."
 msgstr "Vai tiešām izdzēst šo ierakstu? Tas netiks atsaukts."
 
-#: includes/views/admin_options_osm.php:14
+#: includes/views/admin_options_osm.php:11
 msgid "Rename the “Completed” Order status label to “Shipped”"
 msgstr "Pārdēvējiet pasūtījuma statusa etiķeti “Pabeigts” uz “Nosūtīts”"
 
@@ -836,31 +547,23 @@ msgstr "Saglabāt un aizvērt"
 msgid "Save Tracking"
 msgstr "Saglabāt izsekošanu"
 
+#: includes/customizer/ast-customizer.php:155
+msgid "Saved"
+msgstr "Saglabāts"
+
 #: includes/views/admin_options_shipping_provider.php:27
 msgid "Search by provider / country"
 msgstr "Meklēt pēc pakalpojumu sniedzēja / valsts"
-
-#: includes/customizer/class-wc-partial-shipped-email-customizer.php:153
-msgid "Select email type"
-msgstr "Atlasiet e-pasta veidu"
 
 #: includes/class-wc-advanced-shipment-tracking.php:323
 msgid "Select Provider"
 msgstr "Atlasiet Pakalpojuma sniedzējs"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:259
-msgid "Select Template"
-msgstr "Atlasiet Veidne"
-
-#: includes/views/admin_options_osm.php:75
+#: includes/views/admin_options_osm.php:72
 msgid "Send Email"
 msgstr "Sūtīt e-pastu"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:576
-msgid "Sendcloud"
-msgstr "Sendcloud"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:949
+#: includes/class-wc-advanced-shipment-tracking-admin.php:621
 msgid ""
 "Set the \"mark as shipped\" option checked  when adding tracking info to "
 "orders"
@@ -869,8 +572,8 @@ msgstr ""
 "izsekošanas informāciju"
 
 #: includes/class-wc-advanced-shipment-tracking-admin.php:214
-#: includes/class-wc-advanced-shipment-tracking-admin.php:277
-#: includes/class-wc-advanced-shipment-tracking-admin.php:281
+#: includes/class-wc-advanced-shipment-tracking-admin.php:256
+#: includes/class-wc-advanced-shipment-tracking-admin.php:260
 msgid "Settings"
 msgstr "Iestatījumi"
 
@@ -879,7 +582,7 @@ msgid "Settings Saved."
 msgstr "Iestatījumi ir saglabāti."
 
 #. %s: replace with status
-#: templates/emails/plain/tracking-info.php:36
+#: templates/emails/plain/tracking-info.php:28
 #, php-format
 msgid "Shipment status changed to %s"
 msgstr "Sūtījuma statuss mainīts uz% s"
@@ -895,10 +598,12 @@ msgstr "Sūtījumu izsekošana"
 msgid "Shipment Tracking API"
 msgstr "Sūtījumu izsekošanas API"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:871
-#: includes/class-wc-advanced-shipment-tracking-admin.php:967
-#: includes/class-wc-advanced-shipment-tracking.php:467
+#: includes/class-wc-advanced-shipment-tracking-admin.php:543
+#: includes/class-wc-advanced-shipment-tracking-admin.php:639
 #: includes/class-wc-advanced-shipment-tracking-settings.php:431
+#: includes/class-wc-advanced-shipment-tracking.php:467
+#: includes/customizer/ast-customizer.php:125
+#: includes/customizer/ast-customizer.php:350
 msgid "Shipped"
 msgstr "Nosūtīts"
 
@@ -911,27 +616,13 @@ msgstr[0] "Nosūtīts <span class=\"count\">(% s)</span>"
 msgstr[1] "Nosūtīts <span class=\"count\">(% s)</span>"
 msgstr[2] "Nosūtīts <span class=\"count\">(% s)</span>"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:143
-#: includes/customizer/class-wc-tracking-info-customizer.php:695
-msgid "Shipped Date"
-msgstr "Nosūtīšanas datums"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:688
-msgid "Shipped date header text"
-msgstr "Nosūtīšanas datuma galvenes teksts"
-
 #. 1: shipping date
 #: includes/class-wc-advanced-shipment-tracking.php:255
 #, php-format
 msgid "Shipped on %s"
 msgstr "Nosūtīts% s"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:151
-msgid "Shipped on {ship_date} via {shipping_provider} - {tracking_number_link}"
-msgstr ""
-"Nosūtīts {ship_date}, izmantojot {shipping_provider} - {tracking_number_link}"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1816
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1488
 msgid "Shipped Order"
 msgstr "Nosūtīts pasūtījums"
 
@@ -943,18 +634,14 @@ msgstr "Piegādes valsts"
 msgid "Shipping Provider"
 msgstr "Piegādes pakalpojumu sniedzējs"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:641
-msgid "Shipping provider header text"
-msgstr "Piegādes pakalpojumu sniedzēja galvenes teksts"
-
-#: includes/class-wc-advanced-shipment-tracking.php:321
 #: includes/class-wc-advanced-shipment-tracking-settings.php:518
 #: includes/class-wc-advanced-shipment-tracking-settings.php:520
+#: includes/class-wc-advanced-shipment-tracking.php:321
 msgid "Shipping Provider:"
 msgstr "Piegādes pakalpojumu sniedzējs:"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:286
-#: includes/class-wc-advanced-shipment-tracking-admin.php:290
+#: includes/class-wc-advanced-shipment-tracking-admin.php:265
+#: includes/class-wc-advanced-shipment-tracking-admin.php:269
 msgid "Shipping Providers"
 msgstr "Piegādes pakalpojumu sniedzēji"
 
@@ -962,29 +649,9 @@ msgstr "Piegādes pakalpojumu sniedzēji"
 msgid "Shipping providers database reset successfully."
 msgstr "Piegādes pakalpojumu sniedzēju datu bāzes veiksmīga atiestatīšana"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:606
-msgid "Shippo"
-msgstr "Shippo"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:586
-msgid "Shiptheory"
-msgstr "Kuģu teorija"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:388
-msgid "Show bottom border"
-msgstr "Rādīt apakšējo robežu"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:295
-msgid "Simple Layout Design"
-msgstr "Vienkāršs izkārtojuma dizains"
-
-#: includes/api/class-wc-advanced-shipment-tracking-rest-api-controller.php:238
+#: includes/api/class-wc-advanced-shipment-tracking-rest-api-controller.php:235
 msgid "Special character not allowd in tracking number"
 msgstr "Īpašais raksturs nav atļauts izsekošanas numurā"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:596
-msgid "Stamps.com"
-msgstr "Stamps.com"
 
 #: includes/views/admin_options_shipping_provider.php:110
 #: includes/views/admin_options_shipping_provider.php:124
@@ -999,30 +666,6 @@ msgstr ""
 "Sinhronizējot piegādes pakalpojumu sniedzēju sarakstu, tiek pievienoti vai "
 "atjaunināti iepriekš iestatītie piegādes pakalpojumu sniedzēji, un tas "
 "neietekmēs pielāgotus piegādes pakalpojumu sniedzējus."
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:790
-msgid "Table Content"
-msgstr "Tabulas saturs"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:520
-msgid "Table Design Options"
-msgstr "Galda noformēšanas opcijas"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:605
-msgid "Table Header"
-msgstr "Tabulas galvene"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:260
-msgid "Table Layout"
-msgstr "Galda izkārtojums"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:427
-msgid "Table Options"
-msgstr "Tabulas opcijas"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:581
-msgid "Text align"
-msgstr "Teksta izlīdzināšana"
 
 #: includes/views/admin_options_shipping_provider.php:61
 msgid ""
@@ -1045,47 +688,33 @@ msgstr "Šis pārlūks neatbalsta HTML5."
 #: includes/class-wc-advanced-shipment-tracking.php:784
 #: includes/class-wc-advanced-shipment-tracking.php:817
 #: includes/class-wc-advanced-shipment-tracking.php:835
-#: includes/customizer/class-wc-tracking-info-customizer.php:144
-#: includes/customizer/class-wc-tracking-info-customizer.php:951
-#: templates/emails/tracking-info.php:264
-#: templates/myaccount/tracking-info.php:244
-#: templates/myaccount/tracking-info.php:246
+#: templates/emails/plain/tracking-info.php:34
 msgid "Track"
 msgstr "Trase"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:908
-msgid "Track Button"
-msgstr "Dziesmas poga"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:925
-msgid "Track Header"
-msgstr "Trases galvene"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:944
-msgid "Track header text"
-msgstr "Izsekot galvenes tekstu"
 
 #: includes/class-wc-advanced-shipment-tracking.php:242
 #: includes/class-wc-advanced-shipment-tracking.php:387
 msgid "Track Shipment"
 msgstr "Izsekot sūtījumu"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:274
-#: includes/customizer/class-wc-tracking-info-customizer.php:277
-msgid "Tracking display layout"
-msgstr "Izsekošanas displeja izkārtojums"
+#: includes/customizer/ast-customizer.php:318
+msgid "Track Your Order"
+msgstr "Izseko savu pasūtījumu"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:182
-msgid "Tracking Display Position"
-msgstr "Displeja pozīcijas izsekošana"
+#: includes/customizer/ast-customizer.php:492
+msgid "Tracker type"
+msgstr "Tracker tips"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:221
-msgid "Tracking Header text"
+#: includes/customizer/ast-customizer.php:428
+#: includes/customizer/ast-customizer.php:551
+#| msgid "Track Button"
+msgid "Tracking Button"
+msgstr "Dziesmas poga"
+
+#: includes/customizer/ast-customizer.php:465
+#| msgid "Tracking Header text"
+msgid "Tracking header text"
 msgstr "Izsekošanas galvenes teksts"
-
-#: includes/customizer/class-wcast-customizer.php:37
-msgid "Tracking info display"
-msgstr "Izsekošanas informācijas displejs"
 
 #. %s: Reaplce with tracking provider, %s: Reaplce with tracking number
 #: includes/class-wc-advanced-shipment-tracking.php:741
@@ -1099,31 +728,29 @@ msgstr ""
 "Izsekošanas nodrošinātājam %s ar izsekošanas numuru %s tika dzēsta "
 "izsekošanas informācija"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:228
-msgid "Tracking Information"
-msgstr "Izsekošanas informācija"
-
-#: includes/customizer/class-wc-tracking-info-customizer.php:142
-#: includes/customizer/class-wc-tracking-info-customizer.php:672
-#: templates/emails/tracking-info.php:235
-#: templates/myaccount/tracking-info.php:213
+#: templates/emails/plain/tracking-info.php:33
 msgid "Tracking Number"
 msgstr "Izsekošanas numurs"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:665
-msgid "Tracking number header text"
-msgstr "Izsekošanas numura galvenes teksts"
-
-#: includes/class-wc-advanced-shipment-tracking.php:317
 #: includes/class-wc-advanced-shipment-tracking-settings.php:514
+#: includes/class-wc-advanced-shipment-tracking.php:317
 msgid "Tracking number:"
 msgstr "Izsekošanas numurs:"
+
+#: includes/customizer/ast-customizer.php:374
+#: includes/customizer/ast-customizer.php:375
+#: includes/customizer/ast-customizer.php:401
+#: includes/customizer/ast-customizer.php:411
+#: includes/customizer/ast-customizer.php:420
+#: includes/customizer/ast-customizer.php:429
+msgid "Tracking Widget"
+msgstr "Izsekošanas logrīks"
 
 #: includes/views/admin_options_shipping_provider.php:99
 msgid "Update"
 msgstr "Atjaunināt"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1242
+#: includes/class-wc-advanced-shipment-tracking-admin.php:914
 #: includes/class-wc-advanced-shipment-tracking-settings.php:260
 #: includes/class-wc-advanced-shipment-tracking-settings.php:293
 #: includes/class-wc-advanced-shipment-tracking-settings.php:412
@@ -1155,10 +782,6 @@ msgstr ""
 "Izmantojiet mūsu CSV importēšanas rīku, lai kopīgi importētu izsekošanas "
 "informāciju pasūtījumiem no CSV faila"
 
-#: includes/customizer/class-wc-tracking-info-customizer.php:501
-msgid "Use tracking number as a link"
-msgstr "Izmantojiet izsekošanas numuru kā saiti"
-
 #: includes/class-wc-advanced-shipment-tracking-settings.php:804
 #: includes/class-wc-advanced-shipment-tracking-settings.php:821
 #: includes/class-wc-advanced-shipment-tracking-settings.php:838
@@ -1171,7 +794,7 @@ msgid "View Orders"
 msgstr "Skatīt pasūtījumus"
 
 #. %s: replace with Partially Shipped order count
-#: woocommerce-advanced-shipment-tracking.php:475
+#: woocommerce-advanced-shipment-tracking.php:478
 #, php-format
 msgid ""
 "We detected %s orders that use the Delivered order status, You can reassign "
@@ -1181,7 +804,7 @@ msgstr ""
 "šiem pasūtījumiem citu statusu"
 
 #. %s: replace with Partially Shipped order count
-#: woocommerce-advanced-shipment-tracking.php:457
+#: woocommerce-advanced-shipment-tracking.php:460
 #, php-format
 msgid ""
 "We detected %s orders that use the Partially Shipped order status, You can "
@@ -1194,16 +817,25 @@ msgstr ""
 msgid "White Label Provider Name"
 msgstr "Baltās etiķetes nodrošinātāja nosaukums"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:626
-msgid "WooCommerce Amazon Fulfillment"
-msgstr "WooCommerce Amazon izpilde"
+#: includes/customizer/ast-customizer.php:410
+#: includes/customizer/ast-customizer.php:448
+msgid "Widget Header"
+msgstr "Logrīka galvene"
 
+#: includes/customizer/ast-customizer.php:419
+#: includes/customizer/ast-customizer.php:486
+msgid "Widget Style"
+msgstr "Logrīku stils"
+
+#: includes/class-wc-advanced-shipment-tracking-settings.php:545
 #: includes/class-wc-advanced-shipment-tracking.php:370
 #: includes/class-wc-advanced-shipment-tracking.php:373
-#: includes/class-wc-advanced-shipment-tracking-settings.php:545
-#: includes/class-wc-advanced-shipment-tracking-settings.php:545
 msgid "Y-m-d"
 msgstr "Y-m-d"
+
+#: includes/customizer/ast-customizer.php:695
+msgid "You are customizing"
+msgstr "Jūs veicat pielāgošanu"
 
 #: includes/class-wc-advanced-shipment-tracking-admin.php:168
 msgid "You can upload only csv file."
@@ -1219,22 +851,22 @@ msgstr ""
 "iegūtu vairāk informācijas, pārbaudiet mūsu"
 
 #. %s: replace with status
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1987
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1659
 #, php-format
 msgid "You did not create any %s shipping providers yet."
 msgstr "Jūs vēl neesat izveidojis nevienu% s piegādes pakalpojumu sniedzēju."
 
 #. %s: replace with status
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1998
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1670
 #, php-format
 msgid "You don't have any %s shipping providers."
 msgstr "Jums nav neviena% s piegādes pakalpojumu sniedzēja."
 
-#: includes/customizer/class-wc-partial-shipped-email-customizer.php:116
+#: includes/customizer/ast-customizer.php:329
 msgid "Your Order is Partially Shipped"
 msgstr "Jūsu pasūtījums ir daļēji nosūtīts"
 
-#: includes/customizer/class-wc-partial-shipped-email-customizer.php:115
+#: includes/customizer/ast-customizer.php:328
 msgid "Your {site_title} order is now partially shipped"
 msgstr "Jūsu pasūtījums vietnē {site_title} tagad ir daļēji nosūtīts"
 
