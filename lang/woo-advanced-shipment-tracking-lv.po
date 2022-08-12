@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: WooCommerce Advanced Shipment Tracking\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-11 09:34+0000\n"
-"PO-Revision-Date: 2022-08-08 05:16+0000\n"
+"PO-Revision-Date: 2022-08-12 09:34+0000\n"
 "Last-Translator: John Doe\n"
 "Language-Team: Latvian\n"
 "Language: lv\n"
@@ -67,7 +67,7 @@ msgstr "Pievienot izsekošanu - pasūtīt"
 msgid "Add Tracking Info"
 msgstr "Pievienot izsekošanas informāciju"
 
-#: includes/views/admin_options_settings.php:14
+#: includes/views/admin_options_settings.php:30
 msgid "Add Tracking Options"
 msgstr "Pievienot izsekošanas opcijas"
 
@@ -79,7 +79,7 @@ msgstr "Pievienojiet darbību Izsekošanas pasūtījums"
 msgid "Additional Order Emails Display"
 msgstr "Papildu pasūtījuma e-pasta displejs"
 
-#: includes/customizer/ast-customizer.php:475
+#: includes/customizer/ast-customizer.php:482
 msgid "Additional text after header"
 msgstr "Papildu teksts pēc galvenes"
 
@@ -103,39 +103,39 @@ msgstr "API nosaukums"
 msgid "AST Customizer"
 msgstr "AST pielāgotājs"
 
-#: includes/customizer/ast-customizer.php:671
+#: includes/customizer/ast-customizer.php:678
 msgid "Available Placeholders:"
 msgstr "Pieejamie vietturi:"
 
-#: includes/customizer/ast-customizer.php:506
+#: includes/customizer/ast-customizer.php:522
 msgid "Background color"
 msgstr "Fona krāsa"
 
-#: includes/customizer/ast-customizer.php:514
+#: includes/customizer/ast-customizer.php:530
 msgid "Border color"
 msgstr "Apmales krāsa"
 
-#: includes/customizer/ast-customizer.php:522
+#: includes/customizer/ast-customizer.php:538
 msgid "Border radius"
 msgstr "Robežas rādiuss"
 
-#: includes/customizer/ast-customizer.php:579
+#: includes/customizer/ast-customizer.php:586
 msgid "Button color"
 msgstr "Pogas krāsa"
 
-#: includes/customizer/ast-customizer.php:587
+#: includes/customizer/ast-customizer.php:594
 msgid "Button font color"
 msgstr "Pogas fonta krāsa"
 
-#: includes/customizer/ast-customizer.php:595
+#: includes/customizer/ast-customizer.php:602
 msgid "Button radius"
 msgstr "Pogas rādiuss"
 
-#: includes/customizer/ast-customizer.php:567
+#: includes/customizer/ast-customizer.php:574
 msgid "Button size"
 msgstr "Pogas izmērs"
 
-#: includes/customizer/ast-customizer.php:557
+#: includes/customizer/ast-customizer.php:564
 msgid "Button text"
 msgstr "Pogas teksts"
 
@@ -197,7 +197,7 @@ msgstr "Pielāgots redzamais nosaukums"
 msgid "Custom URL"
 msgstr "Pielāgots URL"
 
-#: includes/views/admin_options_settings.php:30
+#: includes/views/admin_options_settings.php:46
 msgid "Customer View"
 msgstr "Klienta skats"
 
@@ -219,15 +219,12 @@ msgstr "Dati veiksmīgi saglabāti."
 msgid "Date shipped:"
 msgstr "Nosūtīšanas datums:"
 
+#: includes/class-wc-advanced-shipment-tracking-admin.php:897
 #: includes/class-wc-advanced-shipment-tracking-settings.php:136
 #: includes/class-wc-advanced-shipment-tracking-settings.php:154
 #: includes/class-wc-advanced-shipment-tracking-settings.php:208
 msgid "Delivered"
 msgstr "Piegādāts"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:897
-msgid "delivered"
-msgstr "piegādāts"
 
 #. %s: search number of order
 #: includes/class-wc-advanced-shipment-tracking-settings.php:142
@@ -238,6 +235,10 @@ msgstr[0] "Piegādāts <span class=\"count\">(%s)</span>"
 msgstr[1] "Piegādāts <span class=\"count\">(%s)</span>"
 msgstr[2] ""
 
+#: includes/customizer/ast-customizer.php:499
+msgid "Display shipment status section"
+msgstr "Parādīt sūtījuma statusa sadaļu"
+
 #: includes/views/admin_options_bulk_upload.php:117
 msgid "Download sample csv"
 msgstr "Lejupielādēt CSV paraugu"
@@ -246,37 +247,37 @@ msgstr "Lejupielādēt CSV paraugu"
 msgid "Edit Shipping Provider"
 msgstr "Rediģēt piegādes pakalpojumu sniedzēju"
 
-#: includes/customizer/ast-customizer.php:383
-#: includes/customizer/ast-customizer.php:384
-#: includes/customizer/ast-customizer.php:393
-#: includes/customizer/ast-customizer.php:437
-#: includes/customizer/ast-customizer.php:438
-#: includes/customizer/ast-customizer.php:615
+#: includes/customizer/ast-customizer.php:390
+#: includes/customizer/ast-customizer.php:391
+#: includes/customizer/ast-customizer.php:400
+#: includes/customizer/ast-customizer.php:444
+#: includes/customizer/ast-customizer.php:445
+#: includes/customizer/ast-customizer.php:622
 msgid "Email Content"
 msgstr "E-pasta saturs"
 
-#: includes/customizer/ast-customizer.php:659
+#: includes/customizer/ast-customizer.php:666
 msgid "Email content"
 msgstr "E-pasta saturs"
 
-#: includes/customizer/ast-customizer.php:697
+#: includes/customizer/ast-customizer.php:704
 msgid "Email Customizer"
 msgstr "E-pasta pielāgotājs"
 
-#: includes/customizer/ast-customizer.php:647
+#: includes/customizer/ast-customizer.php:654
 msgid "Email heading"
 msgstr "E-pasta virsraksts"
 
-#: includes/customizer/ast-customizer.php:636
+#: includes/customizer/ast-customizer.php:643
 msgid "Email Subject"
 msgstr "E-pasta tēma"
 
-#: includes/customizer/ast-customizer.php:622
+#: includes/customizer/ast-customizer.php:629
 #| msgid "Email Type"
 msgid "Email type"
 msgstr "E-pasta tips"
 
-#: includes/customizer/ast-customizer.php:858
+#: includes/customizer/ast-customizer.php:865
 msgid "Enable email"
 msgstr "Iespējot e-pastu"
 
@@ -292,8 +293,9 @@ msgstr "Filtrēt pēc piegādes nodrošinātāja"
 msgid "Fulfill Order"
 msgstr "Izpildīt pasūtījumu"
 
-#: includes/views/admin_options_settings.php:62
-msgid "Fulfillement WorkFlow"
+#: includes/views/admin_options_settings.php:14
+#| msgid "Fulfillement WorkFlow"
+msgid "Fulfillment WorkFlow"
 msgstr "Darbplūsmas izpilde"
 
 #: includes/class-wc-advanced-shipment-tracking-admin.php:310
@@ -317,7 +319,7 @@ msgstr ""
 "Sveiki. mēs domājām, ka vēlaties uzzināt, ka ir atjaunināta sūtījuma "
 "izsekošana jūsu nesenajam pasūtījumam no {site_title}."
 
-#: includes/customizer/ast-customizer.php:330
+#: includes/customizer/ast-customizer.php:331
 msgid ""
 "Hi there. we thought you'd like to know that your recent order from "
 "{site_title} has been partially shipped."
@@ -331,17 +333,12 @@ msgstr ""
 msgid "hide details"
 msgstr "paslēpt detaļas"
 
-#: includes/customizer/ast-customizer.php:532
+#: includes/customizer/ast-customizer.php:548
 #| msgid "Display shipping provider image"
 msgid "Hide shipping provider image"
 msgstr "Parādīt piegādes pakalpojumu sniedzēja attēlu"
 
-#: includes/customizer/ast-customizer.php:541
-#| msgid "Hide the shipped date"
-msgid "Hide the shipping date"
-msgstr "Paslēpt nosūtīšanas datumu"
-
-#: includes/customizer/ast-customizer.php:456
+#: includes/customizer/ast-customizer.php:463
 #| msgid "Hide Tracking Header"
 msgid "Hide tracking header"
 msgstr "Slēpt izsekošanas galveni"
@@ -374,7 +371,7 @@ msgstr ""
 "Turiet neatzīmētu, vai izsekošanas informācija tiek pievienota jebkurai "
 "esošajai izsekošanas informācijai, kas pievienota pasūtījumiem."
 
-#: includes/customizer/ast-customizer.php:573
+#: includes/customizer/ast-customizer.php:580
 msgid "Large"
 msgstr "Liels"
 
@@ -406,7 +403,7 @@ msgstr "Atzīmēt pasūtījumu kā piegādātu"
 msgid "Mark order as:"
 msgstr "Atzīmēt pasūtījumu kā:"
 
-#: includes/customizer/ast-customizer.php:1074
+#: includes/customizer/ast-customizer.php:1081
 msgid "Mockup Order"
 msgstr "Maketa rīkojums"
 
@@ -418,7 +415,7 @@ msgstr "vairāk informācijas"
 msgid "Multiple API names mapping is a pro features"
 msgstr "Vairāku API vārdu kartēšana ir pro funkcijas"
 
-#: includes/customizer/ast-customizer.php:572
+#: includes/customizer/ast-customizer.php:579
 msgid "Normal"
 msgstr "Normāls"
 
@@ -432,14 +429,14 @@ msgid "Order Statuses"
 msgstr "Pasūtījumu statusi"
 
 #. %1$s: Reaplce with tracking provider, %2$s: Reaplce with tracking number
-#: includes/class-wc-advanced-shipment-tracking.php:1270
+#: includes/class-wc-advanced-shipment-tracking.php:1303
 #, php-format
 #| msgid "Order was shipped with %s and tracking number is: %s"
 msgid "Order was shipped with %1$s and tracking number is: %2$s"
 msgstr "Pasūtījums tika piegādāts ar %1 $ s, un izsekošanas numurs ir: %2 $ s"
 
 #. %s: Reaplce with tracking provider, %s: Reaplce with tracking number
-#: includes/class-wc-advanced-shipment-tracking.php:1194
+#: includes/class-wc-advanced-shipment-tracking.php:1227
 #, php-format
 msgid "Order was shipped with %s and tracking number is: %s"
 msgstr "Pasūtījums tika nosūtīts ar %s, un izsekošanas numurs ir: %s"
@@ -456,8 +453,8 @@ msgstr "Daļēji nosūtīts"
 #: includes/class-wc-advanced-shipment-tracking-settings.php:275
 #: includes/class-wc-advanced-shipment-tracking-settings.php:307
 #: includes/customizer/ast-customizer.php:129
-#: includes/customizer/ast-customizer.php:354
-#: includes/customizer/ast-customizer.php:609
+#: includes/customizer/ast-customizer.php:361
+#: includes/customizer/ast-customizer.php:616
 msgid "Partially Shipped"
 msgstr "Daļēji nosūtīts"
 
@@ -594,7 +591,7 @@ msgstr "Sūtījuma statuss mainīts uz% s"
 msgid "Shipment Tracking"
 msgstr "Sūtījumu izsekošana"
 
-#: includes/views/admin_options_settings.php:46
+#: includes/views/admin_options_settings.php:62
 msgid "Shipment Tracking API"
 msgstr "Sūtījumu izsekošanas API"
 
@@ -603,7 +600,9 @@ msgstr "Sūtījumu izsekošanas API"
 #: includes/class-wc-advanced-shipment-tracking-settings.php:431
 #: includes/class-wc-advanced-shipment-tracking.php:467
 #: includes/customizer/ast-customizer.php:125
-#: includes/customizer/ast-customizer.php:350
+#: includes/customizer/ast-customizer.php:351
+#: templates/emails/fluid-tracking-info.php:92
+#: templates/emails/fluid-tracking-info.php:113
 msgid "Shipped"
 msgstr "Nosūtīts"
 
@@ -615,6 +614,11 @@ msgid_plural "Shipped <span class=\"count\">(%s)</span>"
 msgstr[0] "Nosūtīts <span class=\"count\">(% s)</span>"
 msgstr[1] "Nosūtīts <span class=\"count\">(% s)</span>"
 msgstr[2] "Nosūtīts <span class=\"count\">(% s)</span>"
+
+#: templates/emails/fluid-tracking-info.php:95
+#: templates/emails/fluid-tracking-info.php:116
+msgid "Shipped on"
+msgstr "Nosūtīts"
 
 #. 1: shipping date
 #: includes/class-wc-advanced-shipment-tracking.php:255
@@ -697,21 +701,21 @@ msgstr "Trase"
 msgid "Track Shipment"
 msgstr "Izsekot sūtījumu"
 
-#: includes/customizer/ast-customizer.php:318
+#: includes/customizer/ast-customizer.php:319
 msgid "Track Your Order"
 msgstr "Izseko savu pasūtījumu"
 
-#: includes/customizer/ast-customizer.php:492
+#: includes/customizer/ast-customizer.php:508
 msgid "Tracker type"
 msgstr "Tracker tips"
 
-#: includes/customizer/ast-customizer.php:428
-#: includes/customizer/ast-customizer.php:551
+#: includes/customizer/ast-customizer.php:435
+#: includes/customizer/ast-customizer.php:558
 #| msgid "Track Button"
 msgid "Tracking Button"
 msgstr "Dziesmas poga"
 
-#: includes/customizer/ast-customizer.php:465
+#: includes/customizer/ast-customizer.php:472
 #| msgid "Tracking Header text"
 msgid "Tracking header text"
 msgstr "Izsekošanas galvenes teksts"
@@ -737,12 +741,12 @@ msgstr "Izsekošanas numurs"
 msgid "Tracking number:"
 msgstr "Izsekošanas numurs:"
 
-#: includes/customizer/ast-customizer.php:374
-#: includes/customizer/ast-customizer.php:375
-#: includes/customizer/ast-customizer.php:401
-#: includes/customizer/ast-customizer.php:411
-#: includes/customizer/ast-customizer.php:420
-#: includes/customizer/ast-customizer.php:429
+#: includes/customizer/ast-customizer.php:381
+#: includes/customizer/ast-customizer.php:382
+#: includes/customizer/ast-customizer.php:408
+#: includes/customizer/ast-customizer.php:418
+#: includes/customizer/ast-customizer.php:427
+#: includes/customizer/ast-customizer.php:436
 msgid "Tracking Widget"
 msgstr "Izsekošanas logrīks"
 
@@ -817,13 +821,13 @@ msgstr ""
 msgid "White Label Provider Name"
 msgstr "Baltās etiķetes nodrošinātāja nosaukums"
 
-#: includes/customizer/ast-customizer.php:410
-#: includes/customizer/ast-customizer.php:448
+#: includes/customizer/ast-customizer.php:417
+#: includes/customizer/ast-customizer.php:455
 msgid "Widget Header"
 msgstr "Logrīka galvene"
 
-#: includes/customizer/ast-customizer.php:419
-#: includes/customizer/ast-customizer.php:486
+#: includes/customizer/ast-customizer.php:426
+#: includes/customizer/ast-customizer.php:493
 msgid "Widget Style"
 msgstr "Logrīku stils"
 
@@ -833,7 +837,7 @@ msgstr "Logrīku stils"
 msgid "Y-m-d"
 msgstr "Y-m-d"
 
-#: includes/customizer/ast-customizer.php:695
+#: includes/customizer/ast-customizer.php:702
 msgid "You are customizing"
 msgstr "Jūs veicat pielāgošanu"
 
@@ -862,11 +866,11 @@ msgstr "Jūs vēl neesat izveidojis nevienu% s piegādes pakalpojumu sniedzēju.
 msgid "You don't have any %s shipping providers."
 msgstr "Jums nav neviena% s piegādes pakalpojumu sniedzēja."
 
-#: includes/customizer/ast-customizer.php:329
+#: includes/customizer/ast-customizer.php:330
 msgid "Your Order is Partially Shipped"
 msgstr "Jūsu pasūtījums ir daļēji nosūtīts"
 
-#: includes/customizer/ast-customizer.php:328
+#: includes/customizer/ast-customizer.php:329
 msgid "Your {site_title} order is now partially shipped"
 msgstr "Jūsu pasūtījums vietnē {site_title} tagad ir daļēji nosūtīts"
 

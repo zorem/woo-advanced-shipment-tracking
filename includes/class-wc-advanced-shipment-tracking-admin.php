@@ -894,7 +894,7 @@ class WC_Advanced_Shipment_Tracking_Admin {
 			'delivered' => array(
 				'id'		=> 'wc_ast_status_delivered',
 				'slug'   	=> 'delivered',
-				'label'		=> __( 'delivered', 'woo-advanced-shipment-tracking' ),				
+				'label'		=> __( 'Delivered', 'woo-advanced-shipment-tracking' ),				
 				'label_class' => 'wc-delivered',
 				'option_id'	=> 'woocommerce_customer_delivered_order_settings',				
 				'edit_email'=> '',

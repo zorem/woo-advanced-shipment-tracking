@@ -1,27 +1,37 @@
-<?php 
+<?php
+/**
+ * Tracking Widget template
+ *
+ * This template can be overridden by copying it to yourtheme/woocommerce/emails/fluid-tracking-info.php.
+ *
+ */
 
 if ( $tracking_items ) : 
 
 $ast = new WC_Advanced_Shipment_Tracking_Actions();
 $ast_customizer = Ast_Customizer::get_instance();
 
+//Widget header option
 $hide_trackig_header = $ast->get_checkbox_option_value_from_array( 'tracking_info_settings', 'hide_trackig_header', '' );
 $shipment_tracking_header = $ast->get_option_value_from_array( 'tracking_info_settings', 'header_text_change', 'Tracking Information' );
 $shipment_tracking_header_text = $ast->get_option_value_from_array( 'tracking_info_settings', 'additional_header_text', '' );
-$fluid_table_layout = $ast->get_option_value_from_array( 'tracking_info_settings', 'fluid_table_layout', $ast_customizer->defaults['fluid_table_layout'] );
+
+// Tracking widget background/border color and radius option
 $border_color = $ast->get_option_value_from_array( 'tracking_info_settings', 'fluid_table_border_color', $ast_customizer->defaults['fluid_table_border_color'] );
 $border_radius = $ast->get_option_value_from_array( 'tracking_info_settings', 'fluid_table_border_radius', $ast_customizer->defaults['fluid_table_border_radius'] );
 $background_color = $ast->get_option_value_from_array( 'tracking_info_settings', 'fluid_table_background_color', $ast_customizer->defaults['fluid_table_background_color'] );
-$table_padding = $ast->get_option_value_from_array( 'tracking_info_settings', 'fluid_table_padding', $ast_customizer->defaults['fluid_table_padding'] );
+
+//Hide Shipped/Tracker type header option
+$fluid_display_shipped_header = $ast->get_checkbox_option_value_from_array( 'tracking_info_settings', 'fluid_display_shipped_header', $ast_customizer->defaults['fluid_display_shipped_header'] );
+
+//Hide shipping provider image
 $fluid_hide_provider_image = $ast->get_checkbox_option_value_from_array( 'tracking_info_settings', 'fluid_hide_provider_image', $ast_customizer->defaults['fluid_hide_provider_image'] );
-$fluid_hide_shipping_date = $ast->get_checkbox_option_value_from_array( 'tracking_info_settings', 'fluid_hide_shipping_date', $ast_customizer->defaults['fluid_hide_shipping_date'] );
+
+// Button option
 $button_background_color = $ast->get_option_value_from_array( 'tracking_info_settings', 'fluid_button_background_color', $ast_customizer->defaults['fluid_button_background_color'] );
 $button_font_color = $ast->get_option_value_from_array( 'tracking_info_settings', 'fluid_button_font_color', $ast_customizer->defaults['fluid_button_font_color'] );
-
 $button_radius = $ast->get_option_value_from_array( 'tracking_info_settings', 'fluid_button_radius', $ast_customizer->defaults['fluid_button_radius'] );
-$button_expand = $ast->get_checkbox_option_value_from_array( 'tracking_info_settings', 'fluid_button_expand', $ast_customizer->defaults['fluid_button_expand'] );
 $fluid_button_text = $ast->get_option_value_from_array( 'tracking_info_settings', 'fluid_button_text', $ast_customizer->defaults['fluid_button_text'] );
-
 $fluid_button_size = $ast->get_checkbox_option_value_from_array( 'tracking_info_settings', 'fluid_button_size', $ast_customizer->defaults['fluid_button_size'] );
 $fluid_tracker_type = $ast->get_option_value_from_array( 'tracking_info_settings', 'fluid_tracker_type', $ast_customizer->defaults['fluid_tracker_type'] );
 $button_font_size = ( 'large' == $fluid_button_size ) ? 16 : 14 ;
@@ -29,7 +39,7 @@ $button_padding = ( 'large' == $fluid_button_size ) ? '12px 25px' : '10px 15px' 
 
 $order_details = wc_get_order( $order_id );
 
-$ast_preview = ( isset( $_REQUEST['action'] ) && 'email_preview' === $_REQUEST['action'] ) ? true : false;
+$ast_preview = ( isset( $_REQUEST['action'] ) && 'ast_email_preview' === $_REQUEST['action'] ) ? true : false;
 $text_align = is_rtl() ? 'right' : 'left'; 
 
 $shipment_status = get_post_meta( $order_id, 'shipment_status', true);
@@ -71,55 +81,55 @@ $shipment_status = get_post_meta( $order_id, 'shipment_status', true);
 		?>
 		<table class="fluid_table fluid_table_2cl">
 			<tbody class="fluid_tbody_2cl">
-				<tr>
-					<td>
-						<div class="order_status <?php esc_html_e( $order_status ); ?>">
-							<h2 class="shipped_label"><?php esc_html_e( 'Shipped', 'ast-pro' ); ?></h2>
-							<?php 
-							if ( $ast_preview ) {
-								$hide_shipping_date_class = ( $fluid_hide_shipping_date ) ? 'hide' : '' ;
-								echo '<p style="margin: 0;"><span class="shipped_on ' . esc_html( $hide_shipping_date_class ) . '">';
-								esc_html_e( 'Shipped on', 'ast-pro' );
-								echo ': <b>';
-								echo esc_html( date_i18n( get_option( 'date_format' ), $tracking_item['date_shipped'] ) );
-								echo '</b>';
-								echo '</span></p>';
-							} elseif ( !$fluid_hide_shipping_date ) { 
-								echo '<p style="margin: 0;"><span class="shipped_on">';
-								esc_html_e( 'Shipped on', 'ast-pro' );
-								echo ': <b>';
-								echo esc_html( date_i18n( get_option( 'date_format' ), $tracking_item['date_shipped'] ) );
-								echo '</b>';
-								echo '</span></p>';
-							} 
-							?>
-						</div>		
-					</td>						
-				</tr>
-
+				
 				<?php 
 				if ( $ast_preview ) { 
-					$fluid_tracker_class = ( 'hide' == $fluid_tracker_type ) ? 'hide' : '' ;
-					?>
-					<tr class="tracker_tr <?php esc_html_e( $fluid_tracker_class ); ?>">
-						<td class="fluid_2cl_td_image" style="padding-top:5px !important;">
-							<img class="tracker_image " style="width:100%;" src="<?php echo esc_url( wc_advanced_shipment_tracking()->plugin_dir_url() ); ?>assets/images/<?php esc_html_e( $fluid_tracker_type ); ?>.png"></img>
-						</td>	
-					</tr>	
-				<?php
-				} else {
-					if ( 'hide' != $fluid_tracker_type ) {
-						?>
-						<tr class="tracker_tr">
-							<td class="fluid_2cl_td_image <?php esc_html_e( $fluid_tracker_type ); ?>" style="padding-top:5px !important;">
-								<img class="tracker_image" style="width:100%;" src="<?php echo esc_url( wc_advanced_shipment_tracking()->plugin_dir_url() ); ?>assets/images/<?php esc_html_e( $fluid_tracker_type ); ?>.png"></img>
-							</td>					
-						</tr>						
-					<?php 
-					}	
-				}
-
+				$fluid_display_shipped_header = ( 0 == $fluid_display_shipped_header ) ? 'hide' : '' ;
 				?>
+					<tr class="fluid_header_tr <?php esc_html_e( $fluid_display_shipped_header ); ?>">
+						<td>
+							<div class="order_status <?php esc_html_e( $order_status ); ?>">
+								<h2 class="shipped_label"><?php esc_html_e( 'Shipped', 'woo-advanced-shipment-tracking' ); ?></h2>	
+								<?php
+								echo '<p style="margin: 0;"><span class="shipped_on">';
+								esc_html_e( 'Shipped on', 'woo-advanced-shipment-tracking' );
+								echo ': <b>';
+								echo esc_html( date_i18n( get_option( 'date_format' ), $tracking_item['date_shipped'] ) );
+								echo '</b>';
+								echo '</span></p>';
+								?>	
+							</div>
+						</td>
+					</tr>
+					<tr class="fluid_header_tr tracker_tr <?php esc_html_e( $fluid_display_shipped_header ); ?>">
+						<td class="fluid_2cl_td_image" style="padding-top:5px !important;">
+						<img class="tracker_image" style="width:100%;" src="<?php echo esc_url( wc_advanced_shipment_tracking()->plugin_dir_url() ); ?>assets/images/<?php esc_html_e( $fluid_tracker_type ); ?>.png"></img>
+						</td>	
+					</tr>			
+				<?php } else if( $fluid_display_shipped_header ) { ?>
+					<tr class="<?php esc_html_e( $fluid_display_shipped_header ); ?>">
+						<td>
+							<div class="order_status <?php esc_html_e( $order_status ); ?>">
+								<h2 class="shipped_label"><?php esc_html_e( 'Shipped', 'woo-advanced-shipment-tracking' ); ?></h2>	
+								<?php
+								echo '<p style="margin: 0;"><span class="shipped_on">';
+								esc_html_e( 'Shipped on', 'woo-advanced-shipment-tracking' );
+								echo ': <b>';
+								echo esc_html( date_i18n( get_option( 'date_format' ), $tracking_item['date_shipped'] ) );
+								echo '</b>';
+								echo '</span></p>';
+								?>	
+							</div>
+						</td>
+					</tr>
+					<tr class="tracker_tr <?php esc_html_e( $fluid_display_shipped_header ); ?>">
+						<td class="fluid_2cl_td_image" style="padding-top:5px !important;">
+						<img class="tracker_image" style="width:100%;" src="<?php echo esc_url( wc_advanced_shipment_tracking()->plugin_dir_url() ); ?>assets/images/<?php esc_html_e( $fluid_tracker_type ); ?>.png"></img>
+						</td>	
+					</tr>
+				<?php } ?>
+				
+				
 				<tr class="fluid_2cl_tr">
 					<td class="fluid_2cl_td_image" style="vertical-align: middle;">
 						<div class="fluid_provider">
@@ -191,7 +201,7 @@ $shipment_status = get_post_meta( $order_id, 'shipment_status', true);
 }
 
 .fluid_table td{
-	padding: <?php esc_html_e( $table_padding ); ?>px !important;
+	padding: 15px !important;
 }
 
 .fluid_provider_img {    
@@ -250,7 +260,7 @@ a.track-button {
 	text-decoration: none;
 	display: inline-block;
 	border-radius: <?php esc_html_e( $button_radius ); ?>px;
-	margin-top: 0;
+	margin-top: 2px;
 	font-size: <?php esc_html_e( $button_font_size ); ?>px !important;
 	text-align: center;
 	min-height: 10px;
@@ -264,6 +274,9 @@ a.track-button {
 	.track-button-div{
 		float: none !important;
     	margin-top: 15px !important;
+	}
+	.track-button{
+		display: block !important;
 	}
 }
 

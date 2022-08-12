@@ -267,7 +267,7 @@ class Ast_Customizer {
 				if ( isset( $_POST[ $key ] ) ) {
 					if ( isset( $val['type'] ) && 'textarea' == $val['type'] && !isset( $val['option_key'] ) ) {
 						$option_data = get_option( $val['option_name'], array() );
-						$option_data[$key] = htmlentities( sanitize_textarea_field( $_POST[$key] ) );
+						$option_data[$key] = htmlentities( wp_unslash( $_POST[$key] ) );
 						update_option( $val['option_name'], $option_data );
 					} elseif ( isset( $val['option_type'] ) && 'key' == $val['option_type'] ) {
 						update_option( $key, wc_clean( $_POST[$key] ) );					
@@ -275,7 +275,7 @@ class Ast_Customizer {
 						if ( isset( $val['option_key'] ) ) {
 							if ( isset( $val['type'] ) && 'textarea' == $val['type'] ) {
 								$option_data = get_option( $val['option_name'], array() );
-								$option_data[$val['option_key']] = htmlentities( sanitize_textarea_field( $_POST[ $key ] ) );	
+								$option_data[$val['option_key']] = htmlentities( wp_unslash( $_POST[ $key ] ) );	
 								update_option( $val['option_name'], $option_data );
 							} else {	
 								$option_data = get_option( $val['option_name'], array() );
@@ -308,6 +308,7 @@ class Ast_Customizer {
 			'header_text_change' => '',
 			'additional_header_text' => '',
 			'fluid_table_layout' => 2,
+			'fluid_display_shipped_header' => 1,
 			'fluid_tracker_type' => 'progress_bar',
 			'fluid_table_border_color' => '#e0e0e0',
 			'fluid_table_border_radius' => 3,
@@ -347,12 +348,18 @@ class Ast_Customizer {
 		
 		$rename_shipped_status = get_option( 'wc_ast_status_shipped', 1 );		
 		
-		$completed_label = ( $rename_shipped_status ) ? esc_html__( 'Shipped', 'woo-advanced-shipment-tracking' ) : esc_html__( 'Completed', 'woocommerce' );		
+		$completed_label = ( $rename_shipped_status ) ? esc_html__( 'Shipped', 'woo-advanced-shipment-tracking' ) : esc_html__( 'Completed', 'woocommerce' );	
+		
+		$fluid_display_shipped_header_default = ( ( isset( $tracking_info_settings['fluid_display_shipped_header'] ) )  && ( !empty($tracking_info_settings['fluid_display_shipped_header']) || 0 == $tracking_info_settings['fluid_display_shipped_header'] ) ) ? $tracking_info_settings['fluid_display_shipped_header'] : $this->defaults['fluid_display_shipped_header'];
 		
 		$email_types = array(
-			'completed'		  => $completed_label,
-			'partial_shipped' => esc_html__( 'Partially Shipped', 'woo-advanced-shipment-tracking' ),		
+			'completed'		  => $completed_label,					
 		);
+		
+		$wc_ast_status_partial_shipped = get_option( 'wc_ast_status_partial_shipped', 0 );
+		if ( $wc_ast_status_partial_shipped ) {
+			$email_types['partial_shipped'] = esc_html__( 'Partially Shipped', 'woo-advanced-shipment-tracking' );
+		}
 
 		$settings = array(
 			
@@ -488,17 +495,26 @@ class Ast_Customizer {
 				'parent'	=> 'widget_style',
 				'show'     => true,				
 			),
+			'fluid_display_shipped_header' => array(
+				'title'    => esc_html__( 'Display shipment status section', 'woo-advanced-shipment-tracking' ),
+				'default'  => $fluid_display_shipped_header_default,
+				'type'     => 'checkbox',
+				'show'     => true,
+				'class'	   => 'fluid_display_shipped_header',
+				'option_name' => 'tracking_info_settings',
+				'option_type' => 'array',
+			),
 			'fluid_tracker_type' => array(
 				'title'    => esc_html__( 'Tracker type', 'woo-advanced-shipment-tracking' ),
 				'type'     => 'select',
 				'default'  => !empty($tracking_info_settings['fluid_tracker_type']) ? $tracking_info_settings['fluid_tracker_type'] : $this->defaults['fluid_tracker_type'],
 				'show'     => true,
-				'options'  => array(	
-					'hide'				=>  'Hide',				
+				'options'  => array(								
 					'progress_bar'		=> 'Progress bar',
 					'icons'				=> 'Icons',
 					'single_icons'		=> 'Single icon',	
 				),
+				'class'		  => 'fluid_tracker_type',	
 				'option_name' => 'tracking_info_settings',
 				'option_type' => 'array',
 			),				
@@ -534,15 +550,6 @@ class Ast_Customizer {
 				'type'     => 'checkbox',
 				'show'     => true,
 				'class'	   => 'fluid_hide_provider_image',
-				'option_name' => 'tracking_info_settings',
-				'option_type' => 'array',
-			),
-			'fluid_hide_shipping_date' => array(
-				'title'    => esc_html__( 'Hide the shipping date', 'woo-advanced-shipment-tracking' ),
-				'default'  => !empty($tracking_info_settings['fluid_hide_shipping_date']) ? $tracking_info_settings['fluid_hide_shipping_date'] : $this->defaults['fluid_hide_shipping_date'],
-				'type'     => 'checkbox',
-				'show'     => true,
-				'class'	   => 'fluid_hide_shipping_date',
 				'option_name' => 'tracking_info_settings',
 				'option_type' => 'array',
 			),
@@ -824,7 +831,7 @@ class Ast_Customizer {
 									<span class="menu-sub-tooltip"><?php isset($array['desc']) ? esc_html_e($array['desc']) : ''; ?></span>
 								</div>
 							<?php } else if ( isset($array['type']) && $array['type'] == 'checkbox' ) { ?>
-								<?php //echo '<pre>';print_r($array);echo '</pre>'; ?>
+								<?php //echo '<pre>';print_r($array['default']);echo '</pre>'; ?>
 								<div class="menu-sub-field">
 									<label class="menu-sub-title">
 										<input type="hidden" name="<?php esc_attr_e( $id ); ?>" value="0"/>
@@ -1075,6 +1082,7 @@ class Ast_Customizer {
 		
 		$orders = wc_get_orders( array(
 			'limit'        => 20,
+			'status' => array( 'wc-processing', 'wc-completed', 'wc-shipped', 'wc-partial-shipped' ),
 			'orderby'      => 'date',
 			'order'        => 'DESC',
 			'meta_key'     => '_wc_shipment_tracking_items', // The postmeta key field

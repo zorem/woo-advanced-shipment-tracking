@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: WooCommerce Advanced Shipment Tracking\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-11 09:34+0000\n"
-"PO-Revision-Date: 2022-08-08 05:03+0000\n"
+"PO-Revision-Date: 2022-08-12 09:30+0000\n"
 "Last-Translator: John Doe\n"
 "Language-Team: Danish\n"
 "Language: da_DK\n"
@@ -65,7 +65,7 @@ msgstr "Tilføj sporing - ordre"
 msgid "Add Tracking Info"
 msgstr "Tilføj sporingsinfo"
 
-#: includes/views/admin_options_settings.php:14
+#: includes/views/admin_options_settings.php:30
 msgid "Add Tracking Options"
 msgstr "Tilføj sporingsindstillinger"
 
@@ -77,7 +77,7 @@ msgstr "Tilføj handling for sporingsordre"
 msgid "Additional Order Emails Display"
 msgstr "Visning af yderligere ordre-e-mails"
 
-#: includes/customizer/ast-customizer.php:475
+#: includes/customizer/ast-customizer.php:482
 msgid "Additional text after header"
 msgstr "Yderligere tekst efter overskrift"
 
@@ -101,40 +101,40 @@ msgstr "API-navn"
 msgid "AST Customizer"
 msgstr "AST Customizer"
 
-#: includes/customizer/ast-customizer.php:671
+#: includes/customizer/ast-customizer.php:678
 msgid "Available Placeholders:"
 msgstr "Tilgængelige pladsholdere:"
 
-#: includes/customizer/ast-customizer.php:506
+#: includes/customizer/ast-customizer.php:522
 msgid "Background color"
 msgstr "Baggrundsfarve"
 
-#: includes/customizer/ast-customizer.php:514
+#: includes/customizer/ast-customizer.php:530
 msgid "Border color"
 msgstr ""
 "Border farve\n"
 
-#: includes/customizer/ast-customizer.php:522
+#: includes/customizer/ast-customizer.php:538
 msgid "Border radius"
 msgstr "Grænseradius"
 
-#: includes/customizer/ast-customizer.php:579
+#: includes/customizer/ast-customizer.php:586
 msgid "Button color"
 msgstr "Knapfarve"
 
-#: includes/customizer/ast-customizer.php:587
+#: includes/customizer/ast-customizer.php:594
 msgid "Button font color"
 msgstr "Knappens skrifttypefarve"
 
-#: includes/customizer/ast-customizer.php:595
+#: includes/customizer/ast-customizer.php:602
 msgid "Button radius"
 msgstr "Knap radius"
 
-#: includes/customizer/ast-customizer.php:567
+#: includes/customizer/ast-customizer.php:574
 msgid "Button size"
 msgstr "Knap størrelse"
 
-#: includes/customizer/ast-customizer.php:557
+#: includes/customizer/ast-customizer.php:564
 msgid "Button text"
 msgstr "Knap tekst"
 
@@ -196,7 +196,7 @@ msgstr "Brugerdefineret displaynavn"
 msgid "Custom URL"
 msgstr "Brugerdefineret URL"
 
-#: includes/views/admin_options_settings.php:30
+#: includes/views/admin_options_settings.php:46
 msgid "Customer View"
 msgstr "Kundevisning"
 
@@ -219,15 +219,12 @@ msgstr "Data gemt med succes."
 msgid "Date shipped:"
 msgstr "Dato afsendt:"
 
+#: includes/class-wc-advanced-shipment-tracking-admin.php:897
 #: includes/class-wc-advanced-shipment-tracking-settings.php:136
 #: includes/class-wc-advanced-shipment-tracking-settings.php:154
 #: includes/class-wc-advanced-shipment-tracking-settings.php:208
 msgid "Delivered"
 msgstr "leveres"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:897
-msgid "delivered"
-msgstr "leveret"
 
 #. %s: search number of order
 #: includes/class-wc-advanced-shipment-tracking-settings.php:142
@@ -237,6 +234,10 @@ msgid_plural "Delivered <span class=\"count\">(%s)</span>"
 msgstr[0] "Leveret <span class=\"count\">(%s)</span>"
 msgstr[1] "Leveret <span class=\"count\">(%s)</span>"
 
+#: includes/customizer/ast-customizer.php:499
+msgid "Display shipment status section"
+msgstr "Vis afsnittet om forsendelsesstatus"
+
 #: includes/views/admin_options_bulk_upload.php:117
 msgid "Download sample csv"
 msgstr "Download prøve csv"
@@ -245,37 +246,37 @@ msgstr "Download prøve csv"
 msgid "Edit Shipping Provider"
 msgstr "Rediger forsendelsesudbyder"
 
-#: includes/customizer/ast-customizer.php:383
-#: includes/customizer/ast-customizer.php:384
-#: includes/customizer/ast-customizer.php:393
-#: includes/customizer/ast-customizer.php:437
-#: includes/customizer/ast-customizer.php:438
-#: includes/customizer/ast-customizer.php:615
+#: includes/customizer/ast-customizer.php:390
+#: includes/customizer/ast-customizer.php:391
+#: includes/customizer/ast-customizer.php:400
+#: includes/customizer/ast-customizer.php:444
+#: includes/customizer/ast-customizer.php:445
+#: includes/customizer/ast-customizer.php:622
 msgid "Email Content"
 msgstr "E-mail indhold"
 
-#: includes/customizer/ast-customizer.php:659
+#: includes/customizer/ast-customizer.php:666
 msgid "Email content"
 msgstr "Email indhold"
 
-#: includes/customizer/ast-customizer.php:697
+#: includes/customizer/ast-customizer.php:704
 msgid "Email Customizer"
 msgstr "Email Customizer"
 
-#: includes/customizer/ast-customizer.php:647
+#: includes/customizer/ast-customizer.php:654
 msgid "Email heading"
 msgstr "E-mail overskrift"
 
-#: includes/customizer/ast-customizer.php:636
+#: includes/customizer/ast-customizer.php:643
 msgid "Email Subject"
 msgstr "Email emne"
 
-#: includes/customizer/ast-customizer.php:622
+#: includes/customizer/ast-customizer.php:629
 #| msgid "Email Type"
 msgid "Email type"
 msgstr "E-mail type"
 
-#: includes/customizer/ast-customizer.php:858
+#: includes/customizer/ast-customizer.php:865
 msgid "Enable email"
 msgstr "Aktiver e-mail"
 
@@ -291,9 +292,10 @@ msgstr "Filter by shipping provider"
 msgid "Fulfill Order"
 msgstr "Opfyld ordren"
 
-#: includes/views/admin_options_settings.php:62
-msgid "Fulfillement WorkFlow"
-msgstr "Opfyld WorkFlow"
+#: includes/views/admin_options_settings.php:14
+#| msgid "Fulfillement WorkFlow"
+msgid "Fulfillment WorkFlow"
+msgstr "Fulfillment WorkFlow"
 
 #: includes/class-wc-advanced-shipment-tracking-admin.php:310
 #: includes/class-wc-advanced-shipment-tracking-admin.php:314
@@ -316,7 +318,7 @@ msgstr ""
 "Hej. vi tænkte, at du gerne ville vide, at forsendelsessporingen for din "
 "seneste ordre fra {site_title} er blevet opdateret."
 
-#: includes/customizer/ast-customizer.php:330
+#: includes/customizer/ast-customizer.php:331
 msgid ""
 "Hi there. we thought you'd like to know that your recent order from "
 "{site_title} has been partially shipped."
@@ -330,17 +332,12 @@ msgstr ""
 msgid "hide details"
 msgstr "Gem detaljer"
 
-#: includes/customizer/ast-customizer.php:532
+#: includes/customizer/ast-customizer.php:548
 #| msgid "Display shipping provider image"
 msgid "Hide shipping provider image"
 msgstr "Skjul billede fra forsendelsesudbyder"
 
-#: includes/customizer/ast-customizer.php:541
-#| msgid "Hide the shipped date"
-msgid "Hide the shipping date"
-msgstr "Skjul forsendelsesdatoen"
-
-#: includes/customizer/ast-customizer.php:456
+#: includes/customizer/ast-customizer.php:463
 #| msgid "Hide Tracking Header"
 msgid "Hide tracking header"
 msgstr "Skjul sporingsoverskrift"
@@ -373,7 +370,7 @@ msgstr ""
 "Sørg for, at sporingsoplysningerne ikke føjes til eksisterende "
 "sporingsoplysninger, der føjes til ordrene."
 
-#: includes/customizer/ast-customizer.php:573
+#: includes/customizer/ast-customizer.php:580
 msgid "Large"
 msgstr "Stor"
 
@@ -406,7 +403,7 @@ msgstr "Marker ordre som leveret"
 msgid "Mark order as:"
 msgstr "Marker ordre som:"
 
-#: includes/customizer/ast-customizer.php:1074
+#: includes/customizer/ast-customizer.php:1081
 msgid "Mockup Order"
 msgstr "Mockup-ordre"
 
@@ -419,7 +416,7 @@ msgstr ""
 msgid "Multiple API names mapping is a pro features"
 msgstr "Kortlægning af flere API-navne er en pro-funktion"
 
-#: includes/customizer/ast-customizer.php:572
+#: includes/customizer/ast-customizer.php:579
 msgid "Normal"
 msgstr "Normal"
 
@@ -434,14 +431,14 @@ msgid "Order Statuses"
 msgstr "Bestil statusser"
 
 #. %1$s: Reaplce with tracking provider, %2$s: Reaplce with tracking number
-#: includes/class-wc-advanced-shipment-tracking.php:1270
+#: includes/class-wc-advanced-shipment-tracking.php:1303
 #, php-format
 #| msgid "Order was shipped with %s and tracking number is: %s"
 msgid "Order was shipped with %1$s and tracking number is: %2$s"
 msgstr "Ordren blev afsendt med %1 $ s og sporingsnummer er: %2 $ s"
 
 #. %s: Reaplce with tracking provider, %s: Reaplce with tracking number
-#: includes/class-wc-advanced-shipment-tracking.php:1194
+#: includes/class-wc-advanced-shipment-tracking.php:1227
 #, php-format
 msgid "Order was shipped with %s and tracking number is: %s"
 msgstr "Ordren blev afsendt med %s og sporingsnummeret er: %s"
@@ -458,8 +455,8 @@ msgstr "Delvis afsendt"
 #: includes/class-wc-advanced-shipment-tracking-settings.php:275
 #: includes/class-wc-advanced-shipment-tracking-settings.php:307
 #: includes/customizer/ast-customizer.php:129
-#: includes/customizer/ast-customizer.php:354
-#: includes/customizer/ast-customizer.php:609
+#: includes/customizer/ast-customizer.php:361
+#: includes/customizer/ast-customizer.php:616
 msgid "Partially Shipped"
 msgstr "Delvist afsendt"
 
@@ -594,7 +591,7 @@ msgstr "Forsendelsesstatus ændret til% s"
 msgid "Shipment Tracking"
 msgstr "Forsendelsessporing"
 
-#: includes/views/admin_options_settings.php:46
+#: includes/views/admin_options_settings.php:62
 msgid "Shipment Tracking API"
 msgstr "API til forsendelsessporing"
 
@@ -603,7 +600,9 @@ msgstr "API til forsendelsessporing"
 #: includes/class-wc-advanced-shipment-tracking-settings.php:431
 #: includes/class-wc-advanced-shipment-tracking.php:467
 #: includes/customizer/ast-customizer.php:125
-#: includes/customizer/ast-customizer.php:350
+#: includes/customizer/ast-customizer.php:351
+#: templates/emails/fluid-tracking-info.php:92
+#: templates/emails/fluid-tracking-info.php:113
 msgid "Shipped"
 msgstr "afsendt"
 
@@ -614,6 +613,11 @@ msgid "Shipped <span class=\"count\">(%s)</span>"
 msgid_plural "Shipped <span class=\"count\">(%s)</span>"
 msgstr[0] "Afsendt <span class = \"count\"> (% s) </span>"
 msgstr[1] "Afsendt <span class = \"count\"> (% s) </span>"
+
+#: templates/emails/fluid-tracking-info.php:95
+#: templates/emails/fluid-tracking-info.php:116
+msgid "Shipped on"
+msgstr "Sendes videre"
 
 #. 1: shipping date
 #: includes/class-wc-advanced-shipment-tracking.php:255
@@ -696,21 +700,21 @@ msgstr "Spor pakke"
 msgid "Track Shipment"
 msgstr "Spor forsendelse"
 
-#: includes/customizer/ast-customizer.php:318
+#: includes/customizer/ast-customizer.php:319
 msgid "Track Your Order"
 msgstr "Spor din ordre"
 
-#: includes/customizer/ast-customizer.php:492
+#: includes/customizer/ast-customizer.php:508
 msgid "Tracker type"
 msgstr "Tracker type"
 
-#: includes/customizer/ast-customizer.php:428
-#: includes/customizer/ast-customizer.php:551
+#: includes/customizer/ast-customizer.php:435
+#: includes/customizer/ast-customizer.php:558
 #| msgid "Track Button"
 msgid "Tracking Button"
 msgstr "Sporingsknap"
 
-#: includes/customizer/ast-customizer.php:465
+#: includes/customizer/ast-customizer.php:472
 #| msgid "Tracking Header text"
 msgid "Tracking header text"
 msgstr ""
@@ -736,12 +740,12 @@ msgstr "Tracking nummer"
 msgid "Tracking number:"
 msgstr "Tracking nummer:"
 
-#: includes/customizer/ast-customizer.php:374
-#: includes/customizer/ast-customizer.php:375
-#: includes/customizer/ast-customizer.php:401
-#: includes/customizer/ast-customizer.php:411
-#: includes/customizer/ast-customizer.php:420
-#: includes/customizer/ast-customizer.php:429
+#: includes/customizer/ast-customizer.php:381
+#: includes/customizer/ast-customizer.php:382
+#: includes/customizer/ast-customizer.php:408
+#: includes/customizer/ast-customizer.php:418
+#: includes/customizer/ast-customizer.php:427
+#: includes/customizer/ast-customizer.php:436
 msgid "Tracking Widget"
 msgstr "Sporingswidget"
 
@@ -815,13 +819,13 @@ msgstr ""
 msgid "White Label Provider Name"
 msgstr "White Label-udbyderens navn"
 
-#: includes/customizer/ast-customizer.php:410
-#: includes/customizer/ast-customizer.php:448
+#: includes/customizer/ast-customizer.php:417
+#: includes/customizer/ast-customizer.php:455
 msgid "Widget Header"
 msgstr "Widget Header"
 
-#: includes/customizer/ast-customizer.php:419
-#: includes/customizer/ast-customizer.php:486
+#: includes/customizer/ast-customizer.php:426
+#: includes/customizer/ast-customizer.php:493
 msgid "Widget Style"
 msgstr "Widget stil"
 
@@ -831,7 +835,7 @@ msgstr "Widget stil"
 msgid "Y-m-d"
 msgstr "Y-m-d"
 
-#: includes/customizer/ast-customizer.php:695
+#: includes/customizer/ast-customizer.php:702
 msgid "You are customizing"
 msgstr "Du tilpasser"
 
@@ -860,11 +864,11 @@ msgstr "Du har ikke oprettet nogen% s forsendelsesudbydere endnu."
 msgid "You don't have any %s shipping providers."
 msgstr "Du har ikke% s forsendelsesudbydere."
 
-#: includes/customizer/ast-customizer.php:329
+#: includes/customizer/ast-customizer.php:330
 msgid "Your Order is Partially Shipped"
 msgstr "Din ordre er delvist afsendt"
 
-#: includes/customizer/ast-customizer.php:328
+#: includes/customizer/ast-customizer.php:329
 msgid "Your {site_title} order is now partially shipped"
 msgstr "Din {site_title} ordre er nu delvist sendt"
 

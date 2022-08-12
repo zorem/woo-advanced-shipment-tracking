@@ -105,6 +105,12 @@ Yes, if you use external shipping services that work with the WooCommerce REST A
 
 == Changelog ==
 
+= 3.4.6 =
+* Enhancement - Move the fulfillment workflow panel on top in the settings page and updated the design of it
+* Enhancement - Added "Display shipped/tracker section" option in the Tracking Widget customizer
+* Fix - Translation issue in Tracking Widget
+* Dev - tested with WooCommerce 6.8.0
+
 = 3.4.5 =
 * Enhancement - Added completed email in the AST customizer so you can customizer Completed email subject, heading and content
 * Enhancement - Implement the new customizer for tracking widget and custom order status

@@ -19,7 +19,6 @@ $button_radius = $ast->get_option_value_from_array( 'tracking_info_settings', 'f
 $button_expand = $ast->get_checkbox_option_value_from_array( 'tracking_info_settings', 'fluid_button_expand', $ast_customizer->defaults['fluid_button_expand'] );
 $fluid_button_text = $ast->get_option_value_from_array( 'tracking_info_settings', 'fluid_button_text', $ast_customizer->defaults['fluid_button_text'] );
 $fluid_hide_provider_image = $ast->get_checkbox_option_value_from_array( 'tracking_info_settings', 'fluid_hide_provider_image', $ast_customizer->defaults['fluid_hide_provider_image'] );
-$fluid_hide_shipping_date = $ast->get_checkbox_option_value_from_array( 'tracking_info_settings', 'fluid_hide_shipping_date', $ast_customizer->defaults['fluid_hide_shipping_date'] );
 
 $fluid_button_size = $ast->get_checkbox_option_value_from_array( 'tracking_info_settings', 'fluid_button_size', $ast_customizer->defaults['fluid_button_size'] );
 $button_font_size = ( 'large' == $fluid_button_size ) ? 16 : 14 ;
@@ -76,16 +75,14 @@ $shipment_status = get_post_meta( $order_id, 'shipment_status', true );
 						<div>
 							<strong class="tracking_provider"><?php esc_html_e( $ast_provider_title ); ?></strong>
 							<a class="tracking_number" href="<?php echo esc_url( $tracking_item['ast_tracking_link'] ); ?>"><?php esc_html_e( $tracking_item['tracking_number'] ); ?></a>
-						</div>						
-					</div>
-					<?php if ( !$fluid_hide_shipping_date ) { ?>
+						</div>
 						<div class="order_status <?php esc_html_e( $order_status ); ?>">
 						<?php 
 							esc_html_e( 'Shipped on:', 'ast-pro' ); 
 							echo '<strong> ' . esc_html( date_i18n( get_option( 'date_format' ), $tracking_item['date_shipped'] ) ) . '</strong>'; 
 						?>
-						</div>
-					<?php } ?>	
+						</div>	
+					</div>									
 					
 				<?php do_action( 'ast_fluid_left_cl_end', $tracking_item, $order_id ); ?>	
 			</div>
@@ -138,10 +135,10 @@ $shipment_status = get_post_meta( $order_id, 'shipment_status', true );
 	font-size: 14px;
 }
 .fluid_provider_img{
-	margin-right: 5px;
+	margin-right: 10px;
 	width: 40px;
 	display: inline-block;
-	vertical-align: middle;
+	vertical-align: text-bottom;
 }
 .fluid_provider_img img{
 	border-radius: 5px;
@@ -177,7 +174,8 @@ a.button.track-button {
 	margin-top: 0;
 	font-size: <?php esc_html_e( $button_font_size ); ?>px;
 	text-align: center;
-	margin-bottom: 0;    
+	margin-bottom: 0;   
+	margin-right: 0; 
 	line-height: 20px;
 	text-transform: none;
 }
