@@ -1024,10 +1024,18 @@ a.reset_default_provider {
 }
 .woocommerce.zorem_admin_layout table.form-table.order-status-table td{
 	padding: 10px 0 10px 15px;
+    border-bottom: 1px solid #e0e0e0;
 }
 .woocommerce.zorem_admin_layout table.form-table.order-status-table td:first-child{
 	padding:10px 0 10px;
 	width: 37px;    
+}
+.woocommerce.zorem_admin_layout table.form-table.order-status-table tr:first-child td {
+    padding-top: 0;
+}
+.woocommerce.zorem_admin_layout table.form-table.order-status-table tr:last-child td{
+    border-bottom: 0;
+    padding-bottom: 0;
 }
 .woocommerce.zorem_admin_layout table.form-table th label{
 	font-weight: 600;
@@ -1705,8 +1713,8 @@ ul.csv_error_details_ul li:before{
     flex-basis: 80%;
 }
 .ast_pro_landing_header {
-    font-size: 30px;
-    line-height: 30px;
+    font-size: 24px;
+    line-height: 37px;
     margin: 0;
     font-weight: 500;
 	color: #444;
@@ -1717,8 +1725,11 @@ ul.csv_error_details_ul li:before{
 	border: 1px solid #e0e0e0;	
 	padding: 25px 20px;
 }
+.ast_ts_landing_banner{
+    text-align: center;
+}
 .ast_ts_landing_banner img{
-	max-width: 500px;
+	max-width: 440px;
 	width: 100%;
 }
 .paid_plugin_description p{
@@ -1748,6 +1759,13 @@ ul.csv_error_details_ul li:before{
     position: absolute;
     left: 0;
     top: 0px;    
+}
+.upgrade_to_pro_btn .dashicons{
+    vertical-align: middle;
+    font-size: 24px;
+    height: 24px;
+    width: 24px;
+    line-height: 22px;
 }
 #trackship_landing .ast_pro_features_list li:before{
 	color: #0ad3ac;
@@ -2073,7 +2091,9 @@ span.dashicons.dashicons-trash.remove {
     font-size: 60px;
 }
 /** End CSS ***/
-
+.upgrade_to_pro_popup.popupwrapper{
+    background: rgb(250 250 250 / 0.99);
+}
 .upgrade_to_pro_popup .popuprow{
 	max-width: 900px;
 }
@@ -2100,6 +2120,9 @@ span.dashicons.dashicons-trash.remove {
     flex-direction: row;
     max-width: 800px;
     margin: 10px auto;
+}
+.ast_pro_addon_section .ast_features_container{
+    margin: 0;
 }
 .ast_features_inner{
     width: 50%;

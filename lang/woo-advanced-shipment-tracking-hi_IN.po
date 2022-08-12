@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: WooCommerce Advanced Shipment Tracking\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-11 09:34+0000\n"
-"PO-Revision-Date: 2022-08-08 05:21+0000\n"
+"PO-Revision-Date: 2022-08-12 09:32+0000\n"
 "Last-Translator: John Doe\n"
 "Language-Team: Hindi\n"
 "Language: hi_IN\n"
@@ -66,7 +66,7 @@ msgstr "ट्रैकिंग जोड़ें - आदेश"
 msgid "Add Tracking Info"
 msgstr "ट्रैकिंग जानकारी जोड़ें"
 
-#: includes/views/admin_options_settings.php:14
+#: includes/views/admin_options_settings.php:30
 msgid "Add Tracking Options"
 msgstr "ट्रैकिंग विकल्प जोड़ें"
 
@@ -78,7 +78,7 @@ msgstr "ट्रैकिंग आदेश क्रिया जोड़े
 msgid "Additional Order Emails Display"
 msgstr "अतिरिक्त आदेश ईमेल प्रदर्शन"
 
-#: includes/customizer/ast-customizer.php:475
+#: includes/customizer/ast-customizer.php:482
 msgid "Additional text after header"
 msgstr "हेडर के बाद अतिरिक्त पाठ"
 
@@ -102,40 +102,40 @@ msgstr "एपीआई का नाम"
 msgid "AST Customizer"
 msgstr "एएसटी अनुकूलक"
 
-#: includes/customizer/ast-customizer.php:671
+#: includes/customizer/ast-customizer.php:678
 msgid "Available Placeholders:"
 msgstr "उपलब्ध प्लेसहोल्डर:"
 
-#: includes/customizer/ast-customizer.php:506
+#: includes/customizer/ast-customizer.php:522
 msgid "Background color"
 msgstr "पीछे का रंग"
 
-#: includes/customizer/ast-customizer.php:514
+#: includes/customizer/ast-customizer.php:530
 msgid "Border color"
 msgstr ""
 "किनारे का रंग\n"
 
-#: includes/customizer/ast-customizer.php:522
+#: includes/customizer/ast-customizer.php:538
 msgid "Border radius"
 msgstr "सीमा त्रिज्या"
 
-#: includes/customizer/ast-customizer.php:579
+#: includes/customizer/ast-customizer.php:586
 msgid "Button color"
 msgstr "बटन का रंग"
 
-#: includes/customizer/ast-customizer.php:587
+#: includes/customizer/ast-customizer.php:594
 msgid "Button font color"
 msgstr "बटन फ़ॉन्ट रंग"
 
-#: includes/customizer/ast-customizer.php:595
+#: includes/customizer/ast-customizer.php:602
 msgid "Button radius"
 msgstr "बटन त्रिज्या"
 
-#: includes/customizer/ast-customizer.php:567
+#: includes/customizer/ast-customizer.php:574
 msgid "Button size"
 msgstr "बटन के आकार"
 
-#: includes/customizer/ast-customizer.php:557
+#: includes/customizer/ast-customizer.php:564
 msgid "Button text"
 msgstr "टेक्स्ट बटन"
 
@@ -197,7 +197,7 @@ msgstr "कस्टम प्रदर्शन नाम"
 msgid "Custom URL"
 msgstr "कस्टम यूआरएल"
 
-#: includes/views/admin_options_settings.php:30
+#: includes/views/admin_options_settings.php:46
 msgid "Customer View"
 msgstr "ग्राहक दृश्य"
 
@@ -220,14 +220,11 @@ msgstr "डेटा सफलतापूर्वक सहेजा गया
 msgid "Date shipped:"
 msgstr "जिस तारीख पर भेजा गया:"
 
+#: includes/class-wc-advanced-shipment-tracking-admin.php:897
 #: includes/class-wc-advanced-shipment-tracking-settings.php:136
 #: includes/class-wc-advanced-shipment-tracking-settings.php:154
 #: includes/class-wc-advanced-shipment-tracking-settings.php:208
 msgid "Delivered"
-msgstr "पहुंचा दिया"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:897
-msgid "delivered"
 msgstr "पहुंचा दिया"
 
 #. %s: search number of order
@@ -238,6 +235,10 @@ msgid_plural "Delivered <span class=\"count\">(%s)</span>"
 msgstr[0] "वितरित <span class=\"count\">(%s)</span>"
 msgstr[1] "वितरित <span class=\"count\">(%s)</span>"
 
+#: includes/customizer/ast-customizer.php:499
+msgid "Display shipment status section"
+msgstr "शिपमेंट स्थिति अनुभाग प्रदर्शित करें"
+
 #: includes/views/admin_options_bulk_upload.php:117
 msgid "Download sample csv"
 msgstr "नमूना CSV डाउनलोड करें"
@@ -246,37 +247,37 @@ msgstr "नमूना CSV डाउनलोड करें"
 msgid "Edit Shipping Provider"
 msgstr "शिपिंग प्रदाता संपादित करें"
 
-#: includes/customizer/ast-customizer.php:383
-#: includes/customizer/ast-customizer.php:384
-#: includes/customizer/ast-customizer.php:393
-#: includes/customizer/ast-customizer.php:437
-#: includes/customizer/ast-customizer.php:438
-#: includes/customizer/ast-customizer.php:615
+#: includes/customizer/ast-customizer.php:390
+#: includes/customizer/ast-customizer.php:391
+#: includes/customizer/ast-customizer.php:400
+#: includes/customizer/ast-customizer.php:444
+#: includes/customizer/ast-customizer.php:445
+#: includes/customizer/ast-customizer.php:622
 msgid "Email Content"
 msgstr "ईमेल सामग्री"
 
-#: includes/customizer/ast-customizer.php:659
+#: includes/customizer/ast-customizer.php:666
 msgid "Email content"
 msgstr "ईमेल सामग्री"
 
-#: includes/customizer/ast-customizer.php:697
+#: includes/customizer/ast-customizer.php:704
 msgid "Email Customizer"
 msgstr "ईमेल अनुकूलक"
 
-#: includes/customizer/ast-customizer.php:647
+#: includes/customizer/ast-customizer.php:654
 msgid "Email heading"
 msgstr "ईमेल शीर्षक"
 
-#: includes/customizer/ast-customizer.php:636
+#: includes/customizer/ast-customizer.php:643
 msgid "Email Subject"
 msgstr "ईमेल विषय"
 
-#: includes/customizer/ast-customizer.php:622
+#: includes/customizer/ast-customizer.php:629
 #| msgid "Email Type"
 msgid "Email type"
 msgstr "ईमेल प्रकार"
 
-#: includes/customizer/ast-customizer.php:858
+#: includes/customizer/ast-customizer.php:865
 msgid "Enable email"
 msgstr "ईमेल सक्षम करें"
 
@@ -292,8 +293,9 @@ msgstr "शिपिंग प्रदाता द्वारा फ़िल
 msgid "Fulfill Order"
 msgstr "आदेश पूरा करें"
 
-#: includes/views/admin_options_settings.php:62
-msgid "Fulfillement WorkFlow"
+#: includes/views/admin_options_settings.php:14
+#| msgid "Fulfillement WorkFlow"
+msgid "Fulfillment WorkFlow"
 msgstr "पूर्ति कार्यप्रवाह"
 
 #: includes/class-wc-advanced-shipment-tracking-admin.php:310
@@ -317,7 +319,7 @@ msgstr ""
 "नमस्ते। हमने सोचा था कि आप जानना चाहेंगे कि {site_title} से आपके हाल के आदेश "
 "की शिपमेंट ट्रैकिंग अपडेट कर दी गई है."
 
-#: includes/customizer/ast-customizer.php:330
+#: includes/customizer/ast-customizer.php:331
 msgid ""
 "Hi there. we thought you'd like to know that your recent order from "
 "{site_title} has been partially shipped."
@@ -331,17 +333,12 @@ msgstr ""
 msgid "hide details"
 msgstr "जानकारी छिपाएँ"
 
-#: includes/customizer/ast-customizer.php:532
+#: includes/customizer/ast-customizer.php:548
 #| msgid "Display shipping provider image"
 msgid "Hide shipping provider image"
 msgstr "शिपिंग प्रदाता छवि प्रदर्शित करें"
 
-#: includes/customizer/ast-customizer.php:541
-#| msgid "Hide the shipped date"
-msgid "Hide the shipping date"
-msgstr "जहाज की तारीख छिपाएं"
-
-#: includes/customizer/ast-customizer.php:456
+#: includes/customizer/ast-customizer.php:463
 #| msgid "Hide Tracking Header"
 msgid "Hide tracking header"
 msgstr "ट्रैकिंग हैडर छिपाएँ"
@@ -374,7 +371,7 @@ msgstr ""
 "आदेश में जोड़े गए किसी भी मौजूदा ट्रैकिंग जानकारी में ट्रैकिंग जानकारी "
 "जोड़ने के लिए अनियंत्रित रखें।"
 
-#: includes/customizer/ast-customizer.php:573
+#: includes/customizer/ast-customizer.php:580
 msgid "Large"
 msgstr "विशाल"
 
@@ -407,7 +404,7 @@ msgstr "वितरित के रूप में मार्क आदे�
 msgid "Mark order as:"
 msgstr "आदेश के रूप में चिह्नित करें:"
 
-#: includes/customizer/ast-customizer.php:1074
+#: includes/customizer/ast-customizer.php:1081
 msgid "Mockup Order"
 msgstr "नकली आदेश"
 
@@ -420,7 +417,7 @@ msgstr ""
 msgid "Multiple API names mapping is a pro features"
 msgstr "एकाधिक एपीआई नाम मानचित्रण एक समर्थक विशेषताएं हैं"
 
-#: includes/customizer/ast-customizer.php:572
+#: includes/customizer/ast-customizer.php:579
 msgid "Normal"
 msgstr "सामान्य"
 
@@ -434,14 +431,14 @@ msgid "Order Statuses"
 msgstr "आदेश की स्थिति"
 
 #. %1$s: Reaplce with tracking provider, %2$s: Reaplce with tracking number
-#: includes/class-wc-advanced-shipment-tracking.php:1270
+#: includes/class-wc-advanced-shipment-tracking.php:1303
 #, php-format
 #| msgid "Order was shipped with %s and tracking number is: %s"
 msgid "Order was shipped with %1$s and tracking number is: %2$s"
 msgstr "ऑर्डर %1$s के साथ शिप किया गया था और ट्रैकिंग नंबर है: %2$s"
 
 #. %s: Reaplce with tracking provider, %s: Reaplce with tracking number
-#: includes/class-wc-advanced-shipment-tracking.php:1194
+#: includes/class-wc-advanced-shipment-tracking.php:1227
 #, php-format
 msgid "Order was shipped with %s and tracking number is: %s"
 msgstr "ऑर्डर %s के साथ शिप किया गया था और ट्रैकिंग नंबर है: %s"
@@ -458,8 +455,8 @@ msgstr "आंशिक भेज दिया"
 #: includes/class-wc-advanced-shipment-tracking-settings.php:275
 #: includes/class-wc-advanced-shipment-tracking-settings.php:307
 #: includes/customizer/ast-customizer.php:129
-#: includes/customizer/ast-customizer.php:354
-#: includes/customizer/ast-customizer.php:609
+#: includes/customizer/ast-customizer.php:361
+#: includes/customizer/ast-customizer.php:616
 msgid "Partially Shipped"
 msgstr "आंशिक रूप से भेजा गया"
 
@@ -598,7 +595,7 @@ msgstr "शिपमेंट स्थिति% s में बदल गई"
 msgid "Shipment Tracking"
 msgstr "नौवहन पर नज़र रखना"
 
-#: includes/views/admin_options_settings.php:46
+#: includes/views/admin_options_settings.php:62
 msgid "Shipment Tracking API"
 msgstr "शिपमेंट ट्रैकिंग एपीआई"
 
@@ -607,7 +604,9 @@ msgstr "शिपमेंट ट्रैकिंग एपीआई"
 #: includes/class-wc-advanced-shipment-tracking-settings.php:431
 #: includes/class-wc-advanced-shipment-tracking.php:467
 #: includes/customizer/ast-customizer.php:125
-#: includes/customizer/ast-customizer.php:350
+#: includes/customizer/ast-customizer.php:351
+#: templates/emails/fluid-tracking-info.php:92
+#: templates/emails/fluid-tracking-info.php:113
 msgid "Shipped"
 msgstr "भेज दिया"
 
@@ -619,6 +618,11 @@ msgid_plural "Shipped <span class=\"count\">(%s)</span>"
 msgstr[0] "भेज दिया गया <span class=\"count\">(%s)</span>"
 msgstr[1] ""
 "भेज दिया गया <span class=\"count\">(%s)</span>\n"
+
+#: templates/emails/fluid-tracking-info.php:95
+#: templates/emails/fluid-tracking-info.php:116
+msgid "Shipped on"
+msgstr "पर भेज दिया गया"
 
 #. 1: shipping date
 #: includes/class-wc-advanced-shipment-tracking.php:255
@@ -699,21 +703,21 @@ msgstr "धावन पथ"
 msgid "Track Shipment"
 msgstr "शिपमेंट ट्रैक करना"
 
-#: includes/customizer/ast-customizer.php:318
+#: includes/customizer/ast-customizer.php:319
 msgid "Track Your Order"
 msgstr "अपने आदेश को देखो"
 
-#: includes/customizer/ast-customizer.php:492
+#: includes/customizer/ast-customizer.php:508
 msgid "Tracker type"
 msgstr "ट्रैकर प्रकार"
 
-#: includes/customizer/ast-customizer.php:428
-#: includes/customizer/ast-customizer.php:551
+#: includes/customizer/ast-customizer.php:435
+#: includes/customizer/ast-customizer.php:558
 #| msgid "Track Button"
 msgid "Tracking Button"
 msgstr "ट्रैक बटन"
 
-#: includes/customizer/ast-customizer.php:465
+#: includes/customizer/ast-customizer.php:472
 #| msgid "Tracking Header text"
 msgid "Tracking header text"
 msgstr ""
@@ -739,12 +743,12 @@ msgstr "खोज संख्या"
 msgid "Tracking number:"
 msgstr "खोज संख्या:"
 
-#: includes/customizer/ast-customizer.php:374
-#: includes/customizer/ast-customizer.php:375
-#: includes/customizer/ast-customizer.php:401
-#: includes/customizer/ast-customizer.php:411
-#: includes/customizer/ast-customizer.php:420
-#: includes/customizer/ast-customizer.php:429
+#: includes/customizer/ast-customizer.php:381
+#: includes/customizer/ast-customizer.php:382
+#: includes/customizer/ast-customizer.php:408
+#: includes/customizer/ast-customizer.php:418
+#: includes/customizer/ast-customizer.php:427
+#: includes/customizer/ast-customizer.php:436
 msgid "Tracking Widget"
 msgstr "ट्रैकिंग विजेट"
 
@@ -820,13 +824,13 @@ msgstr ""
 msgid "White Label Provider Name"
 msgstr "व्हाइट लेबल प्रदाता का नाम"
 
-#: includes/customizer/ast-customizer.php:410
-#: includes/customizer/ast-customizer.php:448
+#: includes/customizer/ast-customizer.php:417
+#: includes/customizer/ast-customizer.php:455
 msgid "Widget Header"
 msgstr "विजेट हैडर"
 
-#: includes/customizer/ast-customizer.php:419
-#: includes/customizer/ast-customizer.php:486
+#: includes/customizer/ast-customizer.php:426
+#: includes/customizer/ast-customizer.php:493
 msgid "Widget Style"
 msgstr "विजेट शैली"
 
@@ -836,7 +840,7 @@ msgstr "विजेट शैली"
 msgid "Y-m-d"
 msgstr "वाई-एम-डी"
 
-#: includes/customizer/ast-customizer.php:695
+#: includes/customizer/ast-customizer.php:702
 msgid "You are customizing"
 msgstr "आप अनुकूलित कर रहे हैं"
 
@@ -865,11 +869,11 @@ msgstr "आपने अभी तक कोई% s शिपिंग प्र�
 msgid "You don't have any %s shipping providers."
 msgstr "आपके पास कोई% s शिपिंग प्रदाता नहीं हैं।"
 
-#: includes/customizer/ast-customizer.php:329
+#: includes/customizer/ast-customizer.php:330
 msgid "Your Order is Partially Shipped"
 msgstr "आपका आदेश आंशिक रूप से भेज दिया गया है"
 
-#: includes/customizer/ast-customizer.php:328
+#: includes/customizer/ast-customizer.php:329
 msgid "Your {site_title} order is now partially shipped"
 msgstr "आपका {site_title} आदेश अब आंशिक रूप से शिप किया गया है"
 

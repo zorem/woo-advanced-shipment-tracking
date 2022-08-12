@@ -55,10 +55,10 @@ function save_customizer_email_setting(){
 		data: form.serialize(),
 		type: 'POST',
 		dataType:"json",		
-		success: function(response) {
-			//console.log(response);
+		success: function(response) {			
 			if( response.success === "true" ){
 				jQuery('iframe').attr('src', jQuery('iframe').attr('src'));
+				jQuery('.zoremmail-back-wordpress-link').removeClass('back_to_notice');
 			}
 		},
 		error: function(response) {
@@ -140,6 +140,7 @@ jQuery(document).on("click", "#zoremmail_email_options .button-trackship", funct
 			if( response.success === "true" ){
 				btn.prop('disabled', true).html('Saved');
 				jQuery(document).efc_snackbar( "Settings Successfully Saved." );
+				jQuery('.zoremmail-back-wordpress-link').removeClass('back_to_notice');
 			} else {
 				if( response.permission === "false" ){
 					btn.prop('disabled', false).html('Save Changes');
@@ -151,43 +152,6 @@ jQuery(document).on("click", "#zoremmail_email_options .button-trackship", funct
 			console.log(response);			
 		}
 	});
-});
-
-jQuery(document).on("submit", "#send_to_email_options", function(){
-	
-	"use strict";
-	var form = jQuery('#send_to_email_options');
-	var btn = jQuery('.button-trackship.send-top-email');
-	var validation = jQuery("#send_to_email").val();
-
-	if ( validation == '' ) {
-		jQuery("#send_to_email").css('border-color', 'red');
-		return false;
-	}
-	
-	jQuery.ajax({
-		url: ajaxurl,//csv_workflow_update,		
-		data: form.serialize(),
-		type: 'POST',
-		dataType:"json",
-		beforeSend: function(){
-			btn.prop('disabled', true).html('...');
-		},		
-		success: function(response) {
-			
-			if( response.success === "true" ){
-				btn.prop('disabled', false).html('Sent');
-			} else {
-				if( response.permission === "false" ){
-					btn.prop('disabled', false).html('Send');
-				}
-			}
-		},
-		error: function(response) {
-			console.log(response);			
-		}
-	});
-	return false;
 });
 
 function change_submenu_item() {
@@ -272,9 +236,20 @@ jQuery(document).ready(function(){
 		minimumResultsForSearch: Infinity,
 		width: '250px'
 	});	
+});
+
+jQuery(window).on("load",function(){
 	
 	jQuery("#email_preview").contents().find('.hide').hide();
+
+	var display_shipped_header = jQuery('#fluid_display_shipped_header').is(':checked');	
+	if ( display_shipped_header ){
+		jQuery(".fluid_tracker_type").show();	
+	} else {
+		jQuery(".fluid_tracker_type").hide();		
+	}
 });
+
 
 jQuery('#hide_trackig_header').on("change", function() {
 	setting_change_trigger();
@@ -299,6 +274,18 @@ jQuery('#additional_header_text').on("keyup", function() {
 	var addition_header = jQuery(this).val();
 	jQuery("#email_preview").contents().find('.addition_header').text(addition_header);
 });	
+
+jQuery('#fluid_display_shipped_header').on("click", function(){
+	setting_change_trigger();
+	var display_shipped_header = jQuery(this).is(':checked');	
+	if ( display_shipped_header ){
+		jQuery(".fluid_tracker_type").show();
+		jQuery("#email_preview").contents().find('.fluid_header_tr').show();
+	} else {
+		jQuery(".fluid_tracker_type").hide();
+		jQuery("#email_preview").contents().find('.fluid_header_tr').hide();
+	}	
+});
 
 jQuery('#fluid_tracker_type').on("change", function(){
 	setting_change_trigger();
@@ -339,11 +326,11 @@ jQuery('#fluid_table_border_radius').on("change", function() {
 	jQuery("#email_preview").contents().find('.fluid_table').css( 'border-radius', border_radius+'px' );	
 });
 
-jQuery('#fluid_table_padding').on("change", function() {
+/*jQuery('#fluid_table_padding').on("change", function() {
 	setting_change_trigger();
 	var padding = jQuery(this).val();
 	jQuery("#email_preview").contents().find('.fluid_table tr td').css( 'padding', padding+'px' );		
-});
+});*/
 
 jQuery('#fluid_hide_provider_image').on("click", function(){
 	setting_change_trigger();
@@ -355,7 +342,7 @@ jQuery('#fluid_hide_provider_image').on("click", function(){
 	}	
 });
 
-jQuery('#fluid_hide_shipping_date').on("click", function(){
+/*jQuery('#fluid_hide_shipping_date').on("click", function(){
 	setting_change_trigger();
 	var hide_date = jQuery(this).is(':checked');	
 	if ( hide_date ){
@@ -363,7 +350,7 @@ jQuery('#fluid_hide_shipping_date').on("click", function(){
 	} else {
 		jQuery("#email_preview").contents().find('.shipped_on').show();
 	}	
-});
+});*/
 
 jQuery('#fluid_button_text').on("keyup", function(){
 	setting_change_trigger();
@@ -481,7 +468,7 @@ jQuery(document).on("change", "#orderStatus,#order_status", function(){
 	}
 
 });
-
+	
 jQuery(document).on("click", ".zoremmail-panel-title", function(){
 	
 	var lable = jQuery(this).data('label');

@@ -6,6 +6,12 @@
 			<key name="wcast_partial_shipped_email_content" />
 			<key name="shipping_items_heading" />
 		</key>
+		<key name="woocommerce_customer_completed_order_settings">
+			<key name="heading" />
+			<key name="subject" />
+			<key name="wcast_completed_email_content" />
+			<key name="shipping_items_heading" />
+		</key>
 		<key name="woocommerce_customer_updated_tracking_order_settings">
 			<key name="heading" />
 			<key name="subject" />
@@ -18,6 +24,7 @@
 			<key name="tracking_number_header_text" />
 			<key name="shipped_date_header_text" />
 			<key name="track_header_text" />
+			<key name="fluid_button_text" />
 		</key>		
 	</admin-texts>		
 </wpml-config>

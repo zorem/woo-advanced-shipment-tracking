@@ -853,13 +853,13 @@ class WC_Advanced_Shipment_Tracking_Actions {
 		
 		$order_id = is_callable( array( $order, 'get_id' ) ) ? $order->get_id() : $order->id;
 		
-		$preview = ( ( isset( $_REQUEST['wcast-tracking-preview'] ) && '1' === $_REQUEST['wcast-tracking-preview'] ) || ( isset( $_REQUEST['wcast-partial-shipped-email-customizer-preview'] ) && '1' === $_REQUEST['wcast-partial-shipped-email-customizer-preview'] ) ) ? true : false;
+		$ast_preview = ( isset( $_REQUEST['action'] ) && 'ast_email_preview' === $_REQUEST['action'] ) ? true : false;
 		
-		$local_template	= get_stylesheet_directory() . '/woocommerce/emails/tracking-info.php';
+		$local_template	= get_stylesheet_directory() . '/woocommerce/emails/fluid-tracking-info.php';
 		
 		$order = wc_get_order( $order_id );
 		
-		if ( $preview && 1 == $order_id ) {
+		if ( $ast_preview && 1 == $order_id ) {
 			
 			$upload_dir   = wp_upload_dir();	
 			$ast_directory = $upload_dir['baseurl'] . '/ast-shipping-providers/';
@@ -905,15 +905,48 @@ class WC_Advanced_Shipment_Tracking_Actions {
 			if ( true === $plain_text ) {
 				
 				if ( file_exists( $local_template ) && is_writable( $local_template ) ) {
-					wc_get_template( 'emails/plain/fluid-tracking-info.php', array( 'tracking_items' => $this->get_tracking_items( $order_id, true ), 'order_id'=> $order_id ), 'woocommerce-advanced-shipment-tracking/', get_stylesheet_directory() . '/woocommerce/' );
+					wc_get_template( 
+						'emails/plain/fluid-tracking-info.php', 
+						array( 
+							'tracking_items' => $this->get_tracking_items( $order_id, true ), 
+							'order_id'=> $order_id 
+						), 
+						//'woocommerce-advanced-shipment-tracking/', 
+						//get_stylesheet_directory() . '/woocommerce/' 
+					);
 				} else {
-					wc_get_template( 'emails/plain/fluid-tracking-info.php', array( 'tracking_items' => $this->get_tracking_items( $order_id, true ), 'order_id'=> $order_id ), 'woocommerce-advanced-shipment-tracking/', wc_advanced_shipment_tracking()->get_plugin_path() . '/templates/' );
+					wc_get_template( 
+						'emails/plain/fluid-tracking-info.php', 
+						array( 
+							'tracking_items' => $this->get_tracking_items( $order_id, true ), 
+							'order_id'=> $order_id 
+						), 
+						'woocommerce-advanced-shipment-tracking/', 
+						wc_advanced_shipment_tracking()->get_plugin_path() . '/templates/' 
+					);
 				}					
 			} else {
+				
 				if ( file_exists( $local_template ) && is_writable( $local_template ) ) {
-					wc_get_template( 'emails/fluid-tracking-info.php', array( 'tracking_items' => $this->get_tracking_items( $order_id, true ), 'order_id'=> $order_id ), 'woocommerce-advanced-shipment-tracking/', get_stylesheet_directory() . '/woocommerce/' );
+					wc_get_template( 
+						'emails/fluid-tracking-info.php', 
+						array( 
+							'tracking_items' => $this->get_tracking_items( $order_id, true ), 
+							'order_id'=> $order_id 
+						), 
+						//'woocommerce-advanced-shipment-tracking/', 
+						//get_stylesheet_directory() . '/woocommerce/' 
+					);
 				} else {
-					wc_get_template( 'emails/fluid-tracking-info.php', array( 'tracking_items' => $this->get_tracking_items( $order_id, true ), 'order_id'=> $order_id ), 'woocommerce-advanced-shipment-tracking/', wc_advanced_shipment_tracking()->get_plugin_path() . '/templates/' );	
+					wc_get_template( 
+						'emails/fluid-tracking-info.php', 
+						array( 
+							'tracking_items' => $this->get_tracking_items( $order_id, true ), 
+							'order_id'=> $order_id 
+						), 
+						'woocommerce-advanced-shipment-tracking/', 
+						wc_advanced_shipment_tracking()->get_plugin_path() . '/templates/' 
+					);	
 				}				
 			}
 		}	

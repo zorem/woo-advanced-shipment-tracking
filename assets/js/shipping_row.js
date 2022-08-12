@@ -394,7 +394,8 @@ jQuery(document).on("click", ".popupclose", function(){
 });
 jQuery(document).on("click", ".popup_close_icon", function(){	
 	jQuery('.edit_provider_popup').hide();
-	jQuery('.sync_provider_popup').hide();	
+	jQuery('.sync_provider_popup').hide();
+	jQuery('.upgrade_to_pro_popup').hide();
 });
 jQuery(document).on("click", ".popupclose_btn", function(){	
 	jQuery('.edit_provider_popup').hide();

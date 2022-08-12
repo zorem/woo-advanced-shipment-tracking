@@ -269,6 +269,19 @@ class WC_Advanced_Shipment_Tracking_Install {
 				update_option( 'wc_ast_unclude_tracking_info', $data_array );
 				update_option( 'wc_advanced_shipment_tracking', '3.23' );
 			}
+
+			if ( version_compare( get_option( 'wc_advanced_shipment_tracking', '1.0' ), '3.24', '<' ) ) {
+				$tracking_info_settings = get_option( 'tracking_info_settings', array() );
+				$fluid_tracker_type = !empty($tracking_info_settings['fluid_tracker_type']) ? $tracking_info_settings['fluid_tracker_type'] : 'progress_bar';
+				
+				if ( 'hide' == $fluid_tracker_type ) {
+					$tracking_info_settings['fluid_display_shipped_header'] = 0;
+					$tracking_info_settings['fluid_tracker_type'] = 'progress_bar';					
+					update_option( 'tracking_info_settings', $tracking_info_settings );					
+				}				
+				update_option( 'wc_advanced_shipment_tracking', '3.24' );
+			}
+			
 		}
 	}
 	
