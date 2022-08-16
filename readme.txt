@@ -4,7 +4,7 @@ Tags: WooCommerce, delivery, shipping, shipment tracking, tracking
 Requires at least: 5.3
 Tested up to: 6.0.1
 Requires PHP: 7.2
-Stable tag: 3.4.5
+Stable tag: 3.4.7
 License: GPLv2 
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -104,6 +104,9 @@ Yes, if you use external shipping services that work with the WooCommerce REST A
 3. Select default shipping provider from setting page and add tracking number in order page.
 
 == Changelog ==
+
+= 3.4.7 =
+* Fix - “syntax error, unexpected ‘)’ in class-wc-advanced-shipment-tracking.php on line 916” with PHP 7.2
 
 = 3.4.6 =
 * Enhancement - Move the fulfillment workflow panel on top in the settings page and updated the design of it

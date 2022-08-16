@@ -78,7 +78,7 @@ $shipment_status = get_post_meta( $order_id, 'shipment_status', true );
 						</div>
 						<div class="order_status <?php esc_html_e( $order_status ); ?>">
 						<?php 
-							esc_html_e( 'Shipped on:', 'ast-pro' ); 
+							esc_html_e( 'Shipped on:', 'woo-advanced-shipment-tracking' ); 
 							echo '<strong> ' . esc_html( date_i18n( get_option( 'date_format' ), $tracking_item['date_shipped'] ) ) . '</strong>'; 
 						?>
 						</div>	

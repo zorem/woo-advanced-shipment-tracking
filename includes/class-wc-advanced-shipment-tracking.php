@@ -909,17 +909,15 @@ class WC_Advanced_Shipment_Tracking_Actions {
 						'emails/plain/fluid-tracking-info.php', 
 						array( 
 							'tracking_items' => $this->get_tracking_items( $order_id, true ), 
-							'order_id'=> $order_id 
-						), 
-						//'woocommerce-advanced-shipment-tracking/', 
-						//get_stylesheet_directory() . '/woocommerce/' 
+							'order_id'=> $order_id
+						)
 					);
 				} else {
 					wc_get_template( 
-						'emails/plain/fluid-tracking-info.php', 
+						'emails/plain/fluid-tracking-info.php',
 						array( 
 							'tracking_items' => $this->get_tracking_items( $order_id, true ), 
-							'order_id'=> $order_id 
+							'order_id'=> $order_id
 						), 
 						'woocommerce-advanced-shipment-tracking/', 
 						wc_advanced_shipment_tracking()->get_plugin_path() . '/templates/' 
@@ -932,17 +930,15 @@ class WC_Advanced_Shipment_Tracking_Actions {
 						'emails/fluid-tracking-info.php', 
 						array( 
 							'tracking_items' => $this->get_tracking_items( $order_id, true ), 
-							'order_id'=> $order_id 
-						), 
-						//'woocommerce-advanced-shipment-tracking/', 
-						//get_stylesheet_directory() . '/woocommerce/' 
+							'order_id'=> $order_id
+						)
 					);
 				} else {
 					wc_get_template( 
 						'emails/fluid-tracking-info.php', 
 						array( 
 							'tracking_items' => $this->get_tracking_items( $order_id, true ), 
-							'order_id'=> $order_id 
+							'order_id'=> $order_id
 						), 
 						'woocommerce-advanced-shipment-tracking/', 
 						wc_advanced_shipment_tracking()->get_plugin_path() . '/templates/' 
