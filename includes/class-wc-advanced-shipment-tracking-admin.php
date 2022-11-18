@@ -215,7 +215,7 @@ class WC_Advanced_Shipment_Tracking_Admin {
 				</h1>				
 				<img class="zorem-layout__header-logo" src="<?php echo esc_url( wc_advanced_shipment_tracking()->plugin_dir_url() ); ?>assets/images/ast-logo.png">								
 			</div>
-			<?php do_action( 'ast_settings_admin_notice' ); ?>
+			<?php //do_action( 'ast_settings_admin_notice' ); ?>
 			<div class="woocommerce zorem_admin_layout">
 				<div class="ast_admin_content zorem_admin_settings">
 					
@@ -228,7 +228,8 @@ class WC_Advanced_Shipment_Tracking_Admin {
 						<?php
 						require_once( 'views/admin_options_shipping_provider.php' );
 						require_once( 'views/admin_options_settings.php' );
-						require_once( 'views/admin_options_bulk_upload.php' );																		
+						require_once( 'views/admin_options_bulk_upload.php' );
+						require_once( 'views/admin_options_integrations.php' );																		
 						require_once( 'views/admin_options_addons.php' ); 
 						include 'views/admin_options_trackship_integration.php';
 						?>
@@ -249,7 +250,8 @@ class WC_Advanced_Shipment_Tracking_Admin {
 		
 		$wc_ast_api_key = get_option('wc_ast_api_key');
 		$ts4wc_installed = ( function_exists( 'trackship_for_woocommerce' ) ) ? true : false;
-		$trackship_display = ( !$wc_ast_api_key && !$ts4wc_installed ) ? true : false ;
+		$trackship_type = ( $ts4wc_installed ) ? 'link' : '' ;
+		$trackship_link = ( $ts4wc_installed ) ? admin_url( 'admin.php?page=trackship-dashboard' ) : '' ;
 		
 		$setting_data = array(
 			'tab2' => array(					
@@ -259,7 +261,6 @@ class WC_Advanced_Shipment_Tracking_Admin {
 				'data-tab'  => 'settings',
 				'data-label' => __( 'Settings', 'woo-advanced-shipment-tracking' ),
 				'name'  => 'tabs',
-				'position'  => 1,	
 			),					
 			'tab1' => array(					
 				'title'		=> __( 'Shipping Providers', 'woo-advanced-shipment-tracking' ),
@@ -267,8 +268,7 @@ class WC_Advanced_Shipment_Tracking_Admin {
 				'class'     => 'tab_label',
 				'data-tab'  => 'shipping-providers',
 				'data-label' => __( 'Shipping Providers', 'woo-advanced-shipment-tracking' ),
-				'name'  => 'tabs',
-				'position'  => 2,
+				'name'  => 'tabs',				
 			),
 			'tab4' => array(					
 				'title'		=> __( 'CSV Import', 'woo-advanced-shipment-tracking' ),
@@ -276,26 +276,33 @@ class WC_Advanced_Shipment_Tracking_Admin {
 				'class'     => 'tab_label',
 				'data-tab'  => 'bulk-upload',
 				'data-label' => __( 'CSV Import', 'woo-advanced-shipment-tracking' ),
-				'name'  => 'tabs',
-				'position'  => 4,
+				'name'  => 'tabs',				
 			),
-			'trackship' => array(					
-				'title'		=> 'TrackShip',
-				'show'      => $trackship_display,
-				'class'     => 'tab_label',
-				'data-tab'  => 'trackship',
-				'data-label' => 'TrackShip',
-				'name'  => 'tabs',
-				'position'  => 4,
-			),
-			'tab6' => array(					
+			'integrations_tab' => array(					
+				'title'		=> __( 'Integrations', 'woo-advanced-shipment-tracking' ),
+				'show'      => true,
+				'data-tab'  => 'integrations',
+				'data-label' => __( 'Integrations', 'woo-advanced-shipment-tracking' ),
+				'class'     => 'tab_label ast_premium_menu',
+				'name'  => 'tabs',				
+			),			
+			/*'tab6' => array(					
 				'title'		=> $go_pro_label,
 				'show'      => true,
 				'class'     => 'tab_label',
 				'data-tab'  => 'addons',
 				'data-label' => $go_pro_label,
-				'name'  => 'tabs',
-				'position'  => 5,
+				'name'  => 'tabs',				
+			),*/
+			'trackship' => array(					
+				'title'		=> 'TrackShip',
+				'show'      => true,
+				'type'		=> $trackship_type,
+				'link'		=> $trackship_link,
+				'class'     => 'tab_label',
+				'data-tab'  => 'trackship',
+				'data-label' => 'TrackShip',
+				'name'  => 'tabs',				
 			),	
 		);
 		return apply_filters( 'ast_menu_tab_options', $setting_data );		
@@ -336,14 +343,14 @@ class WC_Advanced_Shipment_Tracking_Admin {
 		$tab = isset( $_GET['tab'] ) ? sanitize_text_field( $_GET['tab'] ) : 'settings';
 		$settings = isset( $_GET['settings'] ) ? sanitize_text_field( $_GET['settings'] ) : 'general-settings';		
 		
-		foreach ( (array) $arrays as $id => $array ) {
-			$checked = ( $tab == $array['data-tab'] || $settings == $array['data-tab'] ) ? 'checked' : '';		
+		foreach ( (array) $arrays as $id => $array ) {					
 			if ( $array['show'] ) {	
 				if ( isset( $array['type'] ) && 'link' == $array['type'] ) {
 					?>
-					<a class="menu_link" href="<?php esc_html_e( esc_url( $array['link'] ) ); ?>"><?php esc_html_e( $array['title'] ); ?></a>
+					<a class="menu_link <?php esc_html_e( $array['class'] ); ?>" href="<?php esc_html_e( esc_url( $array['link'] ) ); ?>"><?php esc_html_e( $array['title'] ); ?></a>
 				<?php 
 				} else { 
+					$checked = ( $tab == $array['data-tab'] || $settings == $array['data-tab'] ) ? 'checked' : '';
 					?>
 					<input class="<?php esc_html_e( $tab_class ); ?>" id="<?php esc_html_e( $id ); ?>" name="<?php esc_html_e( $array['name'] ); ?>" type="radio"  data-tab="<?php esc_html_e( $array['data-tab'] ); ?>" data-label="<?php esc_html_e( $array['data-label'] ); ?>"  <?php esc_html_e( $checked ); ?>/>
 					<label class="<?php esc_html_e( $array['class'] ); ?>" for="<?php esc_html_e( $id ); ?>"><?php esc_html_e( $array['title'] ); ?></label>

@@ -26,7 +26,7 @@ $button_padding = ( 'large' == $fluid_button_size ) ? '12px 20px' : '10px 15px' 
 
 $order_data = wc_get_order( $order_id );
 
-$shipment_status = get_post_meta( $order_id, 'shipment_status', true );
+$shipment_status = $order_data->get_meta( 'shipment_status', true );
 
 	if ( !empty( $order_data ) ) {
 	$order_status = $order_data->get_status();
@@ -74,7 +74,7 @@ $shipment_status = get_post_meta( $order_id, 'shipment_status', true );
 					<div class="provider_name">
 						<div>
 							<strong class="tracking_provider"><?php esc_html_e( $ast_provider_title ); ?></strong>
-							<a class="tracking_number" href="<?php echo esc_url( $tracking_item['ast_tracking_link'] ); ?>"><?php esc_html_e( $tracking_item['tracking_number'] ); ?></a>
+							<a class="tracking_number" href="<?php echo esc_url( $tracking_item['ast_tracking_link'] ); ?>" target="_blank"><?php esc_html_e( $tracking_item['tracking_number'] ); ?></a>
 						</div>
 						<div class="order_status <?php esc_html_e( $order_status ); ?>">
 						<?php 
@@ -91,7 +91,7 @@ $shipment_status = get_post_meta( $order_id, 'shipment_status', true );
 					<?php if ( $ts_tracking_page ) { ?>
 						<a href="javascript:void(0)" class="button track-button open_tracking_lightbox" data-order="<?php esc_html_e( $order_id ); ?>" data-tracking="<?php echo esc_html( $tracking_item['tracking_number'] ); ?>"><?php esc_html_e( $fluid_button_text ); ?></a>
 					<?php } else { ?>
-						<a target="blank" href="<?php echo esc_url( $tracking_item['ast_tracking_link'] ); ?>" class="button track-button" data-order="<?php esc_html_e( $order_id ); ?>" data-tracking="<?php echo esc_html( $tracking_item['tracking_number'] ); ?>"><?php esc_html_e( $fluid_button_text ); ?></a>
+						<a target="blank" href="<?php echo esc_url( $tracking_item['ast_tracking_link'] ); ?>" class="button track-button" data-order="<?php esc_html_e( $order_id ); ?>" data-tracking="<?php echo esc_html( $tracking_item['tracking_number'] ); ?>" target="_blank"><?php esc_html_e( $fluid_button_text ); ?></a>
 					<?php } ?>
 				</div>
 			</div>

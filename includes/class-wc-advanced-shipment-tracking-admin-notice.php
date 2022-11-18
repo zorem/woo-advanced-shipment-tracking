@@ -42,6 +42,7 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 		//add_action( 'admin_init', array( $this, 'ast_pro_v_3_4_admin_notice_ignore' ) );
 
 		add_action( 'ast_settings_admin_notice', array( $this, 'ast_settings_admin_notice' ) );
+		add_action( 'admin_init', array( $this, 'ast_settings_admin_notice_ignore' ) );
 		
 		//add_action( 'before_shipping_provider_list', array( $this, 'ast_db_update_notice' ) );	
 		//add_action( 'admin_init', array( $this, 'ast_db_update_notice_ignore' ) );	
@@ -61,7 +62,19 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 	}
 	
 	public function ast_settings_admin_notice() {
+
+		$ignore = get_transient( 'ast_settings_admin_notice_ignore' );
+		if ( 'yes' == $ignore ) {
+			return;
+		}
+
 		include 'views/admin_message_panel.php';
+	}
+
+	public function ast_settings_admin_notice_ignore() {
+		if ( isset( $_GET['ast-pro-settings-ignore-notice'] ) ) {
+			set_transient( 'ast_settings_admin_notice_ignore', 'yes', 518400 );
+		}
 	}
 	
 	/*

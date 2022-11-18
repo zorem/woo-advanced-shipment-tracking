@@ -267,7 +267,7 @@ class Ast_Customizer {
 				if ( isset( $_POST[ $key ] ) ) {
 					if ( isset( $val['type'] ) && 'textarea' == $val['type'] && !isset( $val['option_key'] ) ) {
 						$option_data = get_option( $val['option_name'], array() );
-						$option_data[$key] = htmlentities( wp_unslash( $_POST[$key] ) );
+						$option_data[$key] = wp_kses_post( wp_unslash( $_POST[$key] ) );
 						update_option( $val['option_name'], $option_data );
 					} elseif ( isset( $val['option_type'] ) && 'key' == $val['option_type'] ) {
 						update_option( $key, wc_clean( $_POST[$key] ) );					
@@ -275,7 +275,7 @@ class Ast_Customizer {
 						if ( isset( $val['option_key'] ) ) {
 							if ( isset( $val['type'] ) && 'textarea' == $val['type'] ) {
 								$option_data = get_option( $val['option_name'], array() );
-								$option_data[$val['option_key']] = htmlentities( wp_unslash( $_POST[ $key ] ) );	
+								$option_data[$val['option_key']] = wp_kses_post( wp_unslash( $_POST[ $key ] ) );	
 								update_option( $val['option_name'], $option_data );
 							} else {	
 								$option_data = get_option( $val['option_name'], array() );
@@ -707,11 +707,11 @@ class Ast_Customizer {
 		<?php
 		foreach ( (array) $arrays as $id => $array ) {
 			
-			if ( isset($array['show']) && $array['show'] != true ) {
+			if ( isset($array['show']) && true != $array['show'] ) {
 				continue; 
 			}
 
-			if ( isset($array['type']) && $array['type'] == 'panel' ) {
+			if ( isset($array['type']) && 'panel' == $array['type'] ) {
 				?>
 				<li id="<?php isset($array['id']) ? esc_attr_e($array['id']) : ''; ?>" data-label="<?php isset($array['label']) ? esc_attr_e($array['label']) : ''; ?>" data-iframe_url="<?php isset($array['iframe_url']) ? esc_attr_e($array['iframe_url']) : ''; ?>" class="zoremmail-panel-title <?php isset($array['class']) ? esc_attr_e($array['class']) : ''; ?>">
 					<span><?php isset($array['title']) ? esc_html_e($array['title']) : ''; ?></span>
@@ -762,11 +762,11 @@ class Ast_Customizer {
 
 		foreach ( (array) $arrays as $id => $array ) {
 
-			if ( isset($array['show']) && $array['show'] != true ) {
+			if ( isset($array['show']) && true != $array['show'] ) {
 				continue; 
 			}
 
-			if ( isset($array['type']) && $array['type'] == 'panel' ) {
+			if ( isset($array['type']) && 'panel' == $array['type'] ) {
 				continue; 
 			}
 			
@@ -779,7 +779,7 @@ class Ast_Customizer {
 			}
 			
 			if ( isset($array['type']) && 'section' == $array['type'] ) {
-				echo $id != 'heading' ? '</div>' : '';
+				echo 'heading' != $id ? '</div>' : '';
 				?>
 				<div data-id="<?php isset($array['parent']) ? esc_attr_e($array['parent']) : ''; ?>" class="zoremmail-menu-submenu-title <?php isset($array['class']) ? esc_attr_e($array['class']) : ''; ?>">
 					<span><?php esc_html_e( $array['title'] ); ?></span>
@@ -793,10 +793,10 @@ class Ast_Customizer {
 				<div class="zoremmail-menu zoremmail-menu-inline zoremmail-menu-sub <?php isset($array['class']) ? esc_attr_e($array['class']) : ''; ?>">
 					<div class="zoremmail-menu-item">
 						<div class="<?php esc_attr_e( $id ); ?> <?php esc_attr_e( $array['type'] ); ?>">
-							<?php if ( isset($array['title']) && $array['type'] != 'checkbox' ) { ?>
+							<?php if ( isset($array['title']) && 'checkbox' != $array['type'] ) { ?>
 								<div class="menu-sub-title"><?php esc_html_e( $array['title'] ); ?></div>
 							<?php } ?>
-							<?php if ( isset($array['type']) && $array['type'] == 'text' ) { ?>
+							<?php if ( isset($array['type']) && 'text' == $array['type'] ) { ?>
 								<?php //echo '<pre>';print_r($array);echo '</pre>'; ?>
 								<?php $field_name = isset( $array['option_type'] ) && 'key' == $array['option_type'] ? $array['option_name'] : $id; ?>
 								<div class="menu-sub-field">
@@ -804,17 +804,17 @@ class Ast_Customizer {
 									<br>
 									<span class="menu-sub-tooltip"><?php isset($array['desc']) ? esc_html_e($array['desc']) : ''; ?></span>
 								</div>
-							<?php } else if ( isset($array['type']) && $array['type'] == 'textarea' ) { ?>
+							<?php } else if ( isset($array['type']) && 'textarea' == $array['type'] ) { ?>
 								<div class="menu-sub-field">
 									<textarea id="<?php esc_attr_e( $id ); ?>" rows="4" name="<?php esc_attr_e( $id ); ?>" placeholder="<?php isset($array['placeholder']) ? esc_attr_e($array['placeholder']) : ''; ?>" class="zoremmail-input <?php esc_html_e($array['type']); ?> <?php isset($array['class']) ? esc_attr_e($array['class']) : ''; ?>"><?php echo esc_html( $array_default ); ?></textarea>
 									<br>
 									<span class="menu-sub-tooltip"><?php isset($array['desc']) ? esc_html_e($array['desc']) : ''; ?></span>
 								</div>
-							<?php } else if ( isset($array['type']) && $array['type'] == 'codeinfo' ) { ?>
+							<?php } else if ( isset($array['type']) && 'codeinfo' == $array['type'] ) { ?>
 								<div class="menu-sub-field">
 									<span class="menu-sub-codeinfo <?php esc_html_e($array['type']); ?>"><?php echo isset($array['default']) ? wp_kses_post($array['default']) : ''; ?></span>
 								</div>
-							<?php } else if ( isset($array['type']) && $array['type'] == 'select' ) { ?>
+							<?php } else if ( isset($array['type']) && 'select' == $array['type'] ) { ?>
 								<div class="menu-sub-field">
 									<select name="<?php esc_attr_e( $id ); ?>" id="<?php esc_attr_e( $id ); ?>" class="zoremmail-input <?php esc_html_e($array['type']); ?> <?php isset($array['class']) ? esc_attr_e($array['class']) : ''; ?>">
 										<?php foreach ( (array) $array['options'] as $key => $val ) { ?>
@@ -824,13 +824,13 @@ class Ast_Customizer {
 									<br>
 									<span class="menu-sub-tooltip"><?php isset($array['desc']) ? esc_html_e($array['desc']) : ''; ?></span>
 								</div>
-							<?php } else if ( isset($array['type']) && $array['type'] == 'color' ) { ?>
+							<?php } else if ( isset($array['type']) && 'color' == $array['type'] ) { ?>
 								<div class="menu-sub-field">
 									<input type="text" name="<?php esc_attr_e( $id ); ?>" id="<?php esc_attr_e( $id ); ?>" class="input-text regular-input zoremmail-input <?php esc_html_e($array['type']); ?> <?php isset($array['class']) ? esc_attr_e($array['class']) : ''; ?>" value="<?php echo esc_html( $array_default ); ?>" placeholder="<?php isset($array['placeholder']) ? esc_attr_e($array['placeholder']) : ''; ?>">
 									<br>
 									<span class="menu-sub-tooltip"><?php isset($array['desc']) ? esc_html_e($array['desc']) : ''; ?></span>
 								</div>
-							<?php } else if ( isset($array['type']) && $array['type'] == 'checkbox' ) { ?>
+							<?php } else if ( isset($array['type']) && 'checkbox' == $array['type'] ) { ?>
 								<?php //echo '<pre>';print_r($array['default']);echo '</pre>'; ?>
 								<div class="menu-sub-field">
 									<label class="menu-sub-title">
@@ -842,7 +842,7 @@ class Ast_Customizer {
 										<?php } ?>
 									</label>
 								</div>
-							<?php } else if ( isset($array['type']) && $array['type'] == 'radio_butoon' ) { ?>
+							<?php } else if ( isset($array['type']) && 'radio_butoon' == $array['type'] ) { ?>
 								<div class="menu-sub-field">
 									<label class="menu-sub-title">
 										<?php foreach ( $array['choices'] as $key => $value ) { ?>
@@ -853,7 +853,7 @@ class Ast_Customizer {
 										<?php } ?>
 									</label>
 								</div>
-							<?php } else if ( isset($array['type']) && $array['type'] == 'tgl-btn' ) { ?>
+							<?php } else if ( isset($array['type']) && 'tgl-btn' == $array['type'] ) { ?>
 								<div class="menu-sub-field">
 									<?php //echo $array_default; ?>
 									<label class="menu-sub-title">
@@ -865,7 +865,7 @@ class Ast_Customizer {
 										<label for="<?php esc_attr_e( $id ); ?>" class="shipment_email_label"><?php esc_html_e( 'Enable email', 'woo-advanced-shipment-tracking' ); ?></label>
 									</label>
 								</div>
-							<?php } else if ( isset($array['type']) && $array['type'] == 'range' ) { ?>
+							<?php } else if ( isset($array['type']) && 'range' == $array['type'] ) { ?>
 								<div class="menu-sub-field">
 									<label class="menu-sub-title">
 										<input type="range" class="zoremmail-range" id="<?php esc_attr_e( $id ); ?>" name="<?php esc_attr_e( $id ); ?>" value="<?php echo esc_html( $array_default ); ?>" min="<?php esc_html_e( $array['min'] ); ?>" max="<?php esc_html_e( $array['max'] ); ?>" oninput="this.nextElementSibling.value = this.value">
@@ -947,7 +947,7 @@ class Ast_Customizer {
 
 		if ( is_object( $order ) ) {
 			// Get user ID from order, if guest get current user ID.
-			$user_id = (int) get_post_meta( $order->get_id(), '_customer_user', true );
+			$user_id = $order->get_meta( '_customer_user', true );
 			if ( 0 === ( $user_id ) ) {
 				$user_id = get_current_user_id();
 			}
@@ -964,7 +964,7 @@ class Ast_Customizer {
 			WC()->shipping();
 			
 			$email->object               = $order;
-			$user_id = get_post_meta( $email->object->get_order_number(), '_customer_user', true );
+			$user_id = $order->get_meta( '_customer_user', true );
 			if ( is_object( $order ) ) {
 				$email->find['order-date']   = '{order_date}';
 				$email->find['order-number'] = '{order_number}';

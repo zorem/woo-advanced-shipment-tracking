@@ -401,10 +401,11 @@ jQuery('#completed_heading,#partial_shipped_heading,#shipped_heading').on("keyup
 
 });	
 
-jQuery('#completed_email_content,#partial_shipped_email_content,#shipped_email_content').on("keyup", function(){
+jQuery('#completed_email_content,#partial_shipped_email_content,#shipped_email_content').on("blur", function(){
 	setting_change_trigger();
-	var email_content = jQuery(this).val();
-	jQuery("#email_preview").contents().find('.email_content p').text(email_content);
+	//var email_content = jQuery(this).val();
+	//jQuery("#email_preview").contents().find('.email_content p').text(email_content);
+	save_customizer_email_setting();
 });	
 
 jQuery('#display_tracking_info_at,#fluid_table_layout,#fluid_tracker_type,#fluid_table_border_radius,#fluid_table_padding,#fluid_button_radius,.fluid_button_size input').on("change", function(){

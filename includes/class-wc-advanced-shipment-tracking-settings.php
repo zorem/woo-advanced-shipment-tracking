@@ -59,8 +59,10 @@ class WC_Advanced_Shipment_Tracking_Settings {
 		//rename order status +  rename bulk action + rename filter
 		add_filter( 'wc_order_statuses', array( $this, 'wc_renaming_order_status' ) );		
 		add_filter( 'woocommerce_register_shop_order_post_statuses', array( $this, 'filter_woocommerce_register_shop_order_post_statuses' ), 10, 1 );
+		
 		add_filter( 'bulk_actions-edit-shop_order', array( $this, 'modify_bulk_actions' ), 50, 1 );
-				
+		add_filter( 'bulk_actions-woocommerce_page_wc-orders', array( $this, 'modify_bulk_actions' ), 50, 1 );
+
 		add_action( 'woocommerce_update_options_email_customer_partial_shipped_order', array( $this, 'save_partial_shipped_email' ), 100, 1); 
 		add_action( 'wp_ajax_sync_providers', array( $this, 'sync_providers_fun' ) );
 		
@@ -76,6 +78,7 @@ class WC_Advanced_Shipment_Tracking_Settings {
 			add_filter( 'woocommerce_order_is_paid_statuses', array( $this, 'delivered_woocommerce_order_is_paid_statuses' ) );
 			//add bulk action
 			add_filter( 'bulk_actions-edit-shop_order', array( $this, 'add_bulk_actions'), 50, 1 );
+			add_filter( 'bulk_actions-woocommerce_page_wc-orders', array( $this, 'add_bulk_actions' ), 50, 1 );
 			//add reorder button
 			add_filter( 'woocommerce_valid_order_statuses_for_order_again', array( $this, 'add_reorder_button_delivered'), 50, 1 );
 			//add button in preview
@@ -98,6 +101,7 @@ class WC_Advanced_Shipment_Tracking_Settings {
 			add_filter('woocommerce_order_is_download_permitted', array( $this, 'add_updated_tracking_to_download_permission' ), 10, 2);
 			//add bulk action
 			add_filter( 'bulk_actions-edit-shop_order', array( $this, 'add_bulk_actions_updated_tracking' ), 50, 1 );
+			add_filter( 'bulk_actions-woocommerce_page_wc-orders', array( $this, 'add_bulk_actions_updated_tracking' ), 50, 1 );
 			//add reorder button
 			add_filter( 'woocommerce_valid_order_statuses_for_order_again', array( $this, 'add_reorder_button_updated_tracking' ), 50, 1 );
 			add_filter( 'wcast_order_status_email_type', array( $this, 'wcast_order_status_email_type' ), 50, 1 );
@@ -117,6 +121,7 @@ class WC_Advanced_Shipment_Tracking_Settings {
 			add_filter('woocommerce_order_is_download_permitted', array( $this, 'add_partial_shipped_to_download_permission' ), 10, 2);
 			//add bulk action
 			add_filter( 'bulk_actions-edit-shop_order', array( $this, 'add_bulk_actions_partial_shipped' ), 50, 1 );
+			add_filter( 'bulk_actions-woocommerce_page_wc-orders', array( $this, 'add_bulk_actions_partial_shipped' ), 50, 1 );
 			//add reorder button
 			add_filter( 'woocommerce_valid_order_statuses_for_order_again', array( $this, 'add_reorder_button_partial_shipped' ), 50, 1 );
 		}				

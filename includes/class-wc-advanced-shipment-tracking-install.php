@@ -95,8 +95,13 @@ class WC_Advanced_Shipment_Tracking_Install {
 			$data_array = array( 'processing' => 1, 'completed' => 1, 'partial-shipped' => 1, 'updated-tracking' => 1 );
 			update_option( 'wc_ast_show_orders_actions', $data_array );	
 		}		
-		update_option( 'wc_advanced_shipment_tracking', '3.21' );	
-	}	
+
+		if ( ! wp_next_scheduled ( 'zorem_usage_tracker_send' ) ) {
+			wp_schedule_event( time() + 10, 'daily', 'zorem_usage_tracker_send' );
+		}
+
+		update_option( 'wc_advanced_shipment_tracking', '3.21' );
+	}
 	
 	/*
 	* function for create shipping provider table
@@ -304,7 +309,8 @@ class WC_Advanced_Shipment_Tracking_Install {
 		$orders = wc_get_orders( $args );
 		
 		foreach ( $orders as $order_id ) {
-			$shipment_status = get_post_meta( $order_id, 'shipment_status', true );
+			$order = wc_get_order( $order_id );
+			$shipment_status = $order->get_meta( 'shipment_status', true );
 			if ( !empty( $shipment_status ) ) {
 				foreach ( $shipment_status as $key => $shipment ) {
 					$ts_shipment_status[ $key ][ 'status' ] = $shipment[ 'status' ];			

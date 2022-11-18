@@ -277,6 +277,17 @@ label.inner_tab_label {
     outline: none;
     vertical-align: middle;
 }
+.ast_premium_menu::after {
+    content: "Premium";
+    background: #3bc4e4;
+    border-radius: 20px;
+    color: #fff;
+    font-size: 12px;
+    font-style: italic;
+    font-weight: normal;
+    padding: 3px 10px;
+    margin-left: 5px;
+}
 label.tab_label:hover {
 	color: #005b9a;
 	cursor: pointer;
@@ -1692,6 +1703,11 @@ ul.csv_error_details_ul li:before{
     -ms-flex-preferred-size: 20%;
     flex-basis: 20%;	
 }
+.as-col-3{
+    max-width: 25%;
+    -ms-flex-preferred-size: 25%;
+    flex-basis: 25%;
+}
 .as-col-4 {
     max-width: 33.33%;
     -ms-flex-preferred-size: 33.33%;
@@ -1707,19 +1723,27 @@ ul.csv_error_details_ul li:before{
     -ms-flex-preferred-size: 66%;
     flex-basis: 66%;
 }
+.as-col-9{
+    max-width: 75%;
+    -ms-flex-preferred-size: 75%;
+    flex-basis: 75%;
+}
 .as-col-10 {
     max-width: 80%;
     -ms-flex-preferred-size: 80%;
     flex-basis: 80%;
 }
 .ast_pro_landing_header {
-    font-size: 24px;
-    line-height: 37px;
+    font-size: 22px;
+    line-height: 27px;
     margin: 0;
-    font-weight: 500;
-	color: #444;
+    font-weight: 700;
+    color: #005b9a;
 }
-
+.ast_footer_promotion {
+    margin: 20px;
+    max-width: 830px;
+}
 .trackship_addon_section{
     background: #fff;
 	border: 1px solid #e0e0e0;	
@@ -1793,9 +1817,50 @@ ul.csv_error_details_ul li:before{
 	z-index: 1000000 !important;
 }
 
+.ast_container_with_sidebar{
+    display: flex;
+    flex-wrap: wrap;
+}
+.ast_admin_sidebar{
+    width: 25%;
+    -ms-flex-preferred-size: 25%;
+    flex-basis: 25%;
+    min-width: 435px;
+}
+.ast_admin_sidebar .ast_sidebar_inner{
+    background: #D4EFF6;
+    text-align: center;
+    margin: 70px 20px 0;
+    padding: 25px;
+    border-radius: 5px;    
+}
+.ast_admin_sidebar .ast_sidebar_inner h1{
+    font-size: 22px;
+    color: #005b9a;
+    font-weight: 700;    
+}
+.ast_admin_sidebar .ast_sidebar_inner p{
+    font-size: 16px;
+    color: #3c4758;
+}
+.ast_admin_sidebar .ast_sidebar_inner .ast_sidebar_logo{
+    width: 110px;
+    margin-top: -85px;
+}
+.shipping_provider_container{
+    margin: 10px 0 10px 20px;
+    flex: 1;
+}
+.csv_import_container{
+    margin: 10px 0 0 20px;
+    flex: 1;
+}
 /** Accordion Design **/
 .accordion_container{
-	margin: 20px;	
+    flex: 1;
+}
+.accordion_set {
+    padding-left: 20px;
 }
 .tab_section .accordion{
     padding: 15px;
@@ -1826,6 +1891,20 @@ ul.csv_error_details_ul li:before{
     pointer-events: none;
     color: #005B9A;
 }
+.tab_section .accordion.ast_premium{
+    pointer-events: none;
+}
+.tab_section .accordion.heading label .ast_premium_badge{
+    background: #3bc4e4;
+    border-radius: 20px;
+    color: #fff;
+    font-size: 13px;    
+    font-style: italic;        
+    font-weight: normal;
+    padding: 3px 15px;
+    margin-left: 10px;    
+}
+
 .tab_section .accordion.heading.active label{
 	color: #3c4758;
 }
@@ -1886,10 +1965,10 @@ ul.csv_error_details_ul li:before{
 /** Provider Grid **/
 .grid-row{
 	display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
 }
 .provider-grid-row{
-    margin-top: 25px;
+    margin-top: 16px;
 }
 .provider-grid-row .grid-item{
     padding: 10px;
@@ -1903,7 +1982,7 @@ ul.csv_error_details_ul li:before{
 }
 
 @media(min-width: 1550px) {
-	.provider-grid-row .grid-item:nth-child(5n){
+	.provider-grid-row .grid-item:nth-child(4n){
 		margin: 0 0 10px 0;
 	}
 }
@@ -1911,9 +1990,9 @@ ul.csv_error_details_ul li:before{
 @media(min-width: 1301px) and (max-width: 1500px){
 	.grid-row{
 		display: grid;
-		grid-template-columns: repeat(4, 1fr);
+		grid-template-columns: repeat(3, 1fr);
 	}
-	.provider-grid-row .grid-item:nth-child(4n){
+	.provider-grid-row .grid-item:nth-child(3n){
 		margin: 0 0 10px 0;
 	}	
 }
@@ -1923,25 +2002,25 @@ ul.csv_error_details_ul li:before{
 @media(min-width: 768px) and (max-width: 1300px) {
 	.grid-row{
 		display: grid;
-		grid-template-columns: repeat(3, 1fr);
+		grid-template-columns: repeat(2, 1fr);
 	}
-	.provider-grid-row .grid-item:nth-child(3n){
+	.provider-grid-row .grid-item:nth-child(2n){
 		margin: 0 0 10px 0;
 	}	
 }
 @media (min-width: 1100px) and (max-width: 1300px) {
 	.integration-grid-row.grid-row {
 		display: grid;
-		grid-template-columns: repeat(4, 1fr);
+		grid-template-columns: repeat(3, 1fr);
 	}
 }
 
 @media(min-width: 500px) and (max-width: 767px) {
 	.grid-row{
 		display: grid;
-		grid-template-columns: repeat(2, 1fr);
+		grid-template-columns: repeat(1, 1fr);
 	}
-	.provider-grid-row .grid-item:nth-child(2n){
+	.provider-grid-row .grid-item:nth-child(1n){
 		margin: 0 0 10px 0;
 	}	
 }
@@ -2174,9 +2253,56 @@ span.dashicons.dashicons-trash.remove {
     border: 1px solid #e0e0e0;
     border-radius: 3px;
     margin: 0 20px 20px;
+    position: relative;
 }
 .admin-message-panel p{
     color: #212121;
+}
+.ast-notice-dismiss{
+    position: absolute;
+    top: 0;
+    right: 1px;
+    border: none;
+    margin: 0;
+    padding: 9px;
+    background: 0 0;
+    color: #005B9A;
+    cursor: pointer;
+    text-decoration: none;
+}
+.ast-notice-dismiss::before{
+    background: 0 0;
+    color: #005B9A;
+    content: "\f153";
+    display: block;
+    font: normal 16px/20px dashicons;
+    speak: never;
+    height: 20px;
+    text-align: center;
+    width: 20px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.integration_inner{
+    margin: 20px;
+    position: relative;
+}
+.integration_background{
+    width: 100%;
+    opacity: 0.5;
+}
+.integration_overlay{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(#ffffffcf 20%, #ffffff00 50%);
 }
 /*** RTL CSS ***/
 .rtl .tab_section .accordion span.dashicons {
@@ -2415,8 +2541,15 @@ span.dashicons.dashicons-trash.remove {
 		padding: 0 10px;
 	}
 }
+
 @media screen and (min-width: 1300px){
 	content .woocommerce-progress-form-wrapper {
 		max-width: 60%;
 	}
+}
+
+@media screen and (max-width: 1300px){
+    .ast_admin_sidebar{
+        min-width: 400px;
+    }
 }

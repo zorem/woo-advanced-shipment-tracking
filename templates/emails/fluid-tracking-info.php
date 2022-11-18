@@ -42,8 +42,6 @@ $order_details = wc_get_order( $order_id );
 $ast_preview = ( isset( $_REQUEST['action'] ) && 'ast_email_preview' === $_REQUEST['action'] ) ? true : false;
 $text_align = is_rtl() ? 'right' : 'left'; 
 
-$shipment_status = get_post_meta( $order_id, 'shipment_status', true);
-
 	if ( !empty( $order_details ) ) {
 		$order_status = $order_details->get_status();
 	} else {
@@ -85,7 +83,7 @@ $shipment_status = get_post_meta( $order_id, 'shipment_status', true);
 				<?php 
 				if ( $ast_preview ) { 
 				$fluid_display_shipped_header = ( 0 == $fluid_display_shipped_header ) ? 'hide' : '' ;
-				?>
+					?>
 					<tr class="fluid_header_tr <?php esc_html_e( $fluid_display_shipped_header ); ?>">
 						<td>
 							<div class="order_status <?php esc_html_e( $order_status ); ?>">
@@ -97,7 +95,7 @@ $shipment_status = get_post_meta( $order_id, 'shipment_status', true);
 								echo esc_html( date_i18n( get_option( 'date_format' ), $tracking_item['date_shipped'] ) );
 								echo '</b>';
 								echo '</span></p>';
-								?>	
+								?>
 							</div>
 						</td>
 					</tr>
@@ -106,7 +104,7 @@ $shipment_status = get_post_meta( $order_id, 'shipment_status', true);
 						<img class="tracker_image" style="width:100%;" src="<?php echo esc_url( wc_advanced_shipment_tracking()->plugin_dir_url() ); ?>assets/images/<?php esc_html_e( $fluid_tracker_type ); ?>.png"></img>
 						</td>	
 					</tr>			
-				<?php } else if( $fluid_display_shipped_header ) { ?>
+				<?php } else if ( $fluid_display_shipped_header ) { ?>
 					<tr class="<?php esc_html_e( $fluid_display_shipped_header ); ?>">
 						<td>
 							<div class="order_status <?php esc_html_e( $order_status ); ?>">
@@ -118,7 +116,7 @@ $shipment_status = get_post_meta( $order_id, 'shipment_status', true);
 								echo esc_html( date_i18n( get_option( 'date_format' ), $tracking_item['date_shipped'] ) );
 								echo '</b>';
 								echo '</span></p>';
-								?>	
+								?>
 							</div>
 						</td>
 					</tr>
@@ -152,12 +150,12 @@ $shipment_status = get_post_meta( $order_id, 'shipment_status', true);
 							<div class="provider_name">
 								<div>
 									<span class="tracking_provider"><?php esc_html_e( $ast_provider_title ); ?></span>
-									<a class="tracking_number" href="<?php echo esc_url( $tracking_item['ast_tracking_link'] ); ?>"><?php esc_html_e( $tracking_item['tracking_number'] ); ?></a>
+									<a class="tracking_number" href="<?php echo esc_url( $tracking_item['ast_tracking_link'] ); ?>" target="_blank"><?php esc_html_e( $tracking_item['tracking_number'] ); ?></a>
 								</div>								
 							</div>		
 
 							<div class="track-button-div">
-								<a href="<?php echo esc_url( $tracking_item['ast_tracking_link'] ); ?>" class="track-button"><?php esc_html_e( $fluid_button_text ); ?></a>
+								<a href="<?php echo esc_url( $tracking_item['ast_tracking_link'] ); ?>" class="track-button" target="_blank"><?php esc_html_e( $fluid_button_text ); ?></a>
 							</div>
 							<div class="clearfix"></div>
 							<?php do_action( 'ast_fluid_left_cl_end', $tracking_item, $order_id ); ?>
@@ -273,7 +271,7 @@ a.track-button {
 @media screen and (max-width: 460px) {
 	.track-button-div{
 		float: none !important;
-    	margin-top: 15px !important;
+		margin-top: 15px !important;
 	}
 	.track-button{
 		display: block !important;

@@ -4,13 +4,13 @@
  * Plugin Name: Advanced Shipment Tracking for WooCommerce 
  * Plugin URI: https://www.zorem.com/products/woocommerce-advanced-shipment-tracking/ 
  * Description: Add shipment tracking information to your WooCommerce orders and provide customers with an easy way to track their orders. Shipment tracking Info will appear in customers accounts (in the order panel) and in WooCommerce order complete email. 
- * Version: 3.4.7
+ * Version: 3.5
  * Author: zorem
  * Author URI: https://www.zorem.com 
  * License: GPL-2.0+
  * License URI: 
  * Text Domain: woo-advanced-shipment-tracking 
- * WC tested up to: 6.8.0
+ * WC tested up to: 7.1.0
 */
 
 class Zorem_Woocommerce_Advanced_Shipment_Tracking {
@@ -20,7 +20,7 @@ class Zorem_Woocommerce_Advanced_Shipment_Tracking {
 	 *
 	 * @var string
 	 */
-	public $version = '3.4.7';
+	public $version = '3.5';
 	
 	/**
 	 * Initialize the main plugin function
@@ -102,7 +102,7 @@ class Zorem_Woocommerce_Advanced_Shipment_Tracking {
 			//admin notice for not allow activate plugin
 			wp_redirect( admin_url() . 'plugins.php?ast-not-allow=true' );
 			exit;
-		}
+		}	
 	}
 	
 	/**
@@ -193,6 +193,7 @@ class Zorem_Woocommerce_Advanced_Shipment_Tracking {
 		add_action( 'init', array( $this, 'wst_load_textdomain') );
 		register_activation_hook( __FILE__, array( $this->install, 'woo_shippment_tracking_install' ) );
 		
+		
 		add_action( 'add_meta_boxes', array( $this->actions, 'add_meta_box' ) );		
 		add_action( 'woocommerce_view_order', array( $this->actions, 'show_tracking_info_order' ) );			
 				
@@ -216,7 +217,9 @@ class Zorem_Woocommerce_Advanced_Shipment_Tracking {
 		
 		// Custom tracking column in admin orders list.
 		add_filter( 'manage_shop_order_posts_columns', array( $this->actions, 'shop_order_columns' ), 99 );
+		add_filter( 'manage_woocommerce_page_wc-orders_columns', array( $this->actions, 'shop_order_columns' ), 5 );
 		add_action( 'manage_shop_order_posts_custom_column', array( $this->actions, 'render_shop_order_columns' ) );
+		add_action( 'manage_woocommerce_page_wc-orders_custom_column', array( $this->actions, 'render_woocommerce_page_orders_columns' ), 10, 2 );
 		
 		add_action( 'admin_footer', array( $this->actions, 'custom_validation_js') );
 				
@@ -311,7 +314,10 @@ class Zorem_Woocommerce_Advanced_Shipment_Tracking {
 		$this->admin = WC_Advanced_Shipment_Tracking_Admin::get_instance();	
 
 		require_once $this->get_plugin_path() . '/includes/class-wc-advanced-shipment-tracking-settings.php';
-		$this->settings = WC_Advanced_Shipment_Tracking_Settings::get_instance();		
+		$this->settings = WC_Advanced_Shipment_Tracking_Settings::get_instance();
+
+		//require_once $this->get_plugin_path() . '/includes/class-wc-advanced-shipment-tracking-tracker.php';
+		//$this->ast_tracker = WC_AST_Tracker::get_instance();
 		
 		require_once $this->get_plugin_path() . '/includes/email-manager.php';				
 	}
