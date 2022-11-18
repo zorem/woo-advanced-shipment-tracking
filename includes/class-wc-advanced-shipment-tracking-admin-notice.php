@@ -122,9 +122,9 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 		<div class="notice updated notice-success ast-dismissable-notice">			
 			<a href="<?php esc_html_e( $dismissable_url ); ?>" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></a>			
 			
-			<p>Get 20% when you upgrade to <a target="blank" href="https://www.zorem.com/product/woocommerce-advanced-shipment-tracking/">Advanced Shipment Tracking Pro</a> by 05/31! AST PRO will automate your fulfillment workflow, will save you time on your daily tasks and will keep your customers happy and informed on their shipped orders. Use code <strong>ASTPRO20</strong> to redeem your discount (valid by May 31st, 2022).</p>			
+			<p>Get 20% when you upgrade to <a target="blank" href="https://www.zorem.com/ast-pro/">Advanced Shipment Tracking Pro</a> by 05/31! AST PRO will automate your fulfillment workflow, will save you time on your daily tasks and will keep your customers happy and informed on their shipped orders. Use code <strong>ASTPRO20</strong> to redeem your discount (valid by May 31st, 2022).</p>			
 			
-			<a class="button-primary ast_notice_btn" target="blank" href="https://www.zorem.com/product/woocommerce-advanced-shipment-tracking/">Upgrade Now</a>
+			<a class="button-primary ast_notice_btn" target="blank" href="https://www.zorem.com/ast-pro/">Upgrade Now</a>
 			<a class="button-primary ast_notice_btn" href="<?php esc_html_e( $dismissable_url ); ?>">Dismiss</a>				
 		</div>	
 		<?php 				
