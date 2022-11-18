@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div class="call_to_action_section">			
-			    <a href="https://www.zorem.com/product/woocommerce-advanced-shipment-tracking/" class="button-primary btn_ast2 btn_large" target="_blank">Upgrade To AST PRO <span class="dashicons dashicons-arrow-right-alt2"></span></a>
+			    <a href="https://www.zorem.com/ast-pro/" class="button-primary btn_ast2 btn_large" target="_blank">Upgrade To AST PRO <span class="dashicons dashicons-arrow-right-alt2"></span></a>
             </div>
 		</div>
 	</div>	

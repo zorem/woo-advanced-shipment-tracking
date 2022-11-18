@@ -48,7 +48,7 @@
 					</li>
 					<?php if ( !class_exists( 'ast_pro' ) ) { ?>
 						<li class="woocommerce-list__item has-action">
-							<a href="https://www.zorem.com/product/woocommerce-advanced-shipment-tracking/" class="woocommerce-list__item-inner" target="_blank">
+							<a href="https://www.zorem.com/ast-pro/" class="woocommerce-list__item-inner" target="_blank">
 								<div class="woocommerce-list__item-before">
 									<span class="dashicons dashicons-media-document"></span>
 								</div>
