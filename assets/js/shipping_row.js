@@ -294,8 +294,8 @@ jQuery(document).on("click", ".status_slide", function(){
 provider_grid_row();
 function provider_grid_row() {
 	jQuery(".provider-grid-row").hip({
-		itemsPerPage:50,
-		itemsPerRow:5,
+		itemsPerPage:52,
+		itemsPerRow:4,
 		itemGaps:10,
 		filter:false,		
 		paginationPos:'right'

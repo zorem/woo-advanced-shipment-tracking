@@ -358,7 +358,8 @@ class WC_Advanced_Shipment_Tracking_REST_API_Controller extends WC_REST_Controll
 	public function prepare_item_for_response( $tracking_item, $request ) {
 		$date_shipped = gmdate('Y-m-d');
 		if ( isset( $tracking_item['date_shipped'] ) ) {
-			$date_shipped = gmdate( 'Y-m-d', $tracking_item['date_shipped'] );
+			$date_format = get_option( 'date_format', 'Y-m-d' );
+			$date_shipped = gmdate( $date_format, $tracking_item['date_shipped'] );
 		}
 		$data = array(
 			'tracking_id'       => $tracking_item['tracking_id'],

@@ -1,7 +1,11 @@
 <?php
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
-}		
+}
+
+use Automattic\WooCommerce\Internal\DataStores\Orders\CustomOrdersTableController;
+
 class WC_Advanced_Shipment_Tracking_Actions {
 
 	/**
@@ -153,6 +157,12 @@ class WC_Advanced_Shipment_Tracking_Actions {
 		}
 	}
 
+	public function render_woocommerce_page_orders_columns( $column_name, $order ) {
+		if ( 'woocommerce-advanced-shipment-tracking' === $column_name ) {
+			echo wp_kses_post( $this->get_shipment_tracking_column( $order->get_id() ) );
+		}
+	}
+
 	/**
 	 * Get content for shipment tracking column.
 	 *
@@ -215,8 +225,9 @@ class WC_Advanced_Shipment_Tracking_Actions {
 	/**
 	 * Add the meta box for shipment info on the order page
 	 */
-	public function add_meta_box() {			
-		add_meta_box( 'woocommerce-advanced-shipment-tracking', __( 'Shipment Tracking', 'woo-advanced-shipment-tracking' ), array( $this, 'meta_box' ), 'shop_order', 'side', 'high' );
+	public function add_meta_box() {
+		$screen = wc_get_container()->get( CustomOrdersTableController::class )->custom_orders_table_usage_is_enabled() ? wc_get_page_screen_id( 'shop-order' ) : 'shop_order';		
+		add_meta_box( 'woocommerce-advanced-shipment-tracking', __( 'Shipment Tracking', 'woo-advanced-shipment-tracking' ), array( $this, 'meta_box' ), $screen, 'side', 'high' );
 	}
 
 	/**
@@ -262,16 +273,18 @@ class WC_Advanced_Shipment_Tracking_Actions {
 	/**
 	 * Show the meta box for shipment info on the order page
 	 */
-	public function meta_box() {
-		global $post,$wpdb;			
+	public function meta_box( $post_or_order_object ) {
+		global $wpdb;			
 		
-		$order = wc_get_order( $post->ID );
+		$order = ( $post_or_order_object instanceof WP_Post ) ? wc_get_order( $post_or_order_object->ID ) : $post_or_order_object;
+		$order_id = $order->get_id();
+
 		$order_status = $order->get_status();
 		
 		$WC_Countries = new WC_Countries();
 		$countries = $WC_Countries->get_countries();
 		
-		$tracking_items = $this->get_tracking_items( $post->ID );
+		$tracking_items = $this->get_tracking_items( $order_id );
 		
 		$shippment_countries = $wpdb->get_results( $wpdb->prepare( 'SELECT shipping_country FROM %1s WHERE display_in_order = 1 GROUP BY shipping_country', $this->table ) );
 		
@@ -304,7 +317,7 @@ class WC_Advanced_Shipment_Tracking_Actions {
 		echo '<div id="tracking-items">';
 		if ( count( $tracking_items ) > 0 ) {
 			foreach ( $tracking_items as $tracking_item ) {				
-				$this->display_html_tracking_item_for_meta_box( $post->ID, $tracking_item );
+				$this->display_html_tracking_item_for_meta_box( $order_id, $tracking_item );
 			}
 		}
 		echo '</div>';
@@ -373,8 +386,8 @@ class WC_Advanced_Shipment_Tracking_Actions {
 			'value'       => date_i18n( __( 'Y-m-d', 'woo-advanced-shipment-tracking' ), current_time( 'timestamp' ) ),
 		) );	
 		
-		do_action( 'ast_after_tracking_field', $post->ID);	
-		do_action( 'ast_tracking_form_between_form', $post->ID, 'single_order' );
+		do_action( 'ast_after_tracking_field', $order_id );	
+		do_action( 'ast_tracking_form_between_form', $order_id, 'single_order' );
 		
 			if ( 'auto-draft' != $order_status ) {
 				wc_advanced_shipment_tracking()->actions->mark_order_as_fields_html(); 
@@ -970,24 +983,15 @@ class WC_Advanced_Shipment_Tracking_Actions {
 				$shipmet_key = $key;
 			}		
 		}
-		
-		$shipment_status = get_post_meta( $order_id, 'shipment_status', true );
+		$order = wc_get_order( $order_id );
+		$shipment_status = $order->get_meta( 'shipment_status', true );
 		
 		$status = isset( $shipment_status[ $shipmet_key ][ 'status' ] ) ? $shipment_status[ $shipmet_key ][ 'status' ] : '';
 		
-		if ( version_compare( WC_VERSION, '3.0', '<' ) ) {
-			$postcode = get_post_meta( $order_id, '_shipping_postcode', true );
-		} else {
-			$order    = new WC_Order( $order_id );
-			$postcode = $order->get_shipping_postcode();
-		}
+		$postcode = $order->get_shipping_postcode();
 
 		$formatted['formatted_tracking_provider'] = '';
-		$formatted['formatted_tracking_link']     = '';
-
-		if ( empty( $postcode ) ) {
-			$postcode = get_post_meta( $order_id, '_shipping_postcode', true );
-		}		
+		$formatted['formatted_tracking_link']     = '';				
 		
 		$tracking_provider = isset( $tracking_item['tracking_provider'] ) ? $tracking_item['tracking_provider'] : $tracking_item['custom_tracking_provider'];
 		$tracking_provider = apply_filters( 'convert_provider_name_to_slug', $tracking_provider );
@@ -1076,13 +1080,15 @@ class WC_Advanced_Shipment_Tracking_Actions {
 			if ( 'other' == $tracking_page ) {
 				$trackship_other_page = get_option( 'wc_ast_trackship_other_page' );
 				$ts_tracking_link = add_query_arg( array(
-					'order_id' => $order_id,
-					'order_key' => $order_key,
+					//'order_id' => $order_id,
+					//'order_key' => $order_key,
+					'tracking'	=> $tracking_number
 				), $trackship_other_page );				
 			} else {
 				$ts_tracking_link = add_query_arg( array(
-					'order_id' => $order_id,
-					'order_key' => $order_key,
+					//'order_id' => $order_id,
+					//'order_key' => $order_key,
+					'tracking'	=> $tracking_number
 				), get_permalink( $tracking_page ) );					
 			}
 			
@@ -1099,11 +1105,18 @@ class WC_Advanced_Shipment_Tracking_Actions {
 	}
 	
 	public function check_ts_tracking_page_for_tracking_item( $order_id, $tracking_item, $status ) {
+
 		$wc_ast_api_key = get_option( 'wc_ast_api_key' );
 		$use_tracking_page = get_option( 'wc_ast_use_tracking_page' );
 		
-		$shipment_status = get_post_meta( $order_id, 'shipment_status', true );
-		if ( empty( $shipment_status ) ) {
+		if ( !function_exists( 'trackship_for_woocommerce' ) ||  !$wc_ast_api_key || !$use_tracking_page ) {
+			return false;
+		}		
+		
+		global $wpdb;
+		$shipment_table = $wpdb->prefix . 'trackship_shipment';		
+		$shipment_status = $wpdb->get_var( $wpdb->prepare( "SELECT shipment_status FROM $shipment_table WHERE order_id = %s", $order_id ) );		
+		if ( null == $shipment_status ) {
 			return false;
 		}		
 		
@@ -1116,7 +1129,7 @@ class WC_Advanced_Shipment_Tracking_Actions {
 			}
 		}
 		
-		if ( $wc_ast_api_key && $use_tracking_page && 1 == $trackship_supported && 'carrier_unsupported' != $status && function_exists( 'trackship_for_woocommerce' ) ) { 
+		if ( 1 == $trackship_supported && 'carrier_unsupported' != $status ) { 
 			return true;
 		}
 		return false;
@@ -1132,7 +1145,7 @@ class WC_Advanced_Shipment_Tracking_Actions {
 	 */
 	public function delete_tracking_item( $order_id, $tracking_id ) {
 		$tracking_items = $this->get_tracking_items( $order_id );
-
+		$order = wc_get_order( $order_id );
 		$is_deleted = false;
 
 		if ( count( $tracking_items ) > 0 ) {
@@ -1150,7 +1163,8 @@ class WC_Advanced_Shipment_Tracking_Actions {
 		$tracking_items = $this->get_tracking_items( $order_id );
 		
 		if ( !$tracking_items ) {
-			delete_post_meta( $order_id, '_wc_shipment_tracking_items' );
+			$order->delete_meta_data( '_wc_shipment_tracking_items' );
+			$order->save();
 		}	
 		
 		return $is_deleted;
@@ -1314,13 +1328,11 @@ class WC_Advanced_Shipment_Tracking_Actions {
 	 * @param array $tracking_items List of tracking item
 	 */
 	public function save_tracking_items( $order_id, $tracking_items ) {
-		if ( version_compare( WC_VERSION, '3.0', '<' ) ) {
-			update_post_meta( $order_id, '_wc_shipment_tracking_items', $tracking_items );
-		} else {			
-			$order = new WC_Order( $order_id );			
-			$order->update_meta_data( '_wc_shipment_tracking_items', $tracking_items );
-			$order->save_meta_data();
-		}
+		$order = wc_get_order( $order_id );
+		// Always re-index the array
+		$tracking_items = array_values( $tracking_items );			
+		$order->update_meta_data( '_wc_shipment_tracking_items', $tracking_items );
+		$order->save();
 	}
 
 	/**
@@ -1362,13 +1374,9 @@ class WC_Advanced_Shipment_Tracking_Actions {
 		global $wpdb;
 		$order = wc_get_order( $order_id );			
 		if ( $order ) {	
-			if ( version_compare( WC_VERSION, '3.0', '<' ) ) {			
-				$tracking_items = get_post_meta( $order_id, '_wc_shipment_tracking_items', true );
-			} else {
-				$order          = new WC_Order( $order_id );		
-				$tracking_items = $order->get_meta( '_wc_shipment_tracking_items', true );			
-			}
 			
+			$tracking_items = $order->get_meta( '_wc_shipment_tracking_items', true );
+
 			if ( is_array( $tracking_items ) ) {
 				if ( $formatted ) {
 					foreach ( $tracking_items as &$item ) {

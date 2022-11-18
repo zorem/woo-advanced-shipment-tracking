@@ -2,9 +2,9 @@
 Contributors: zorem
 Tags: WooCommerce, delivery, shipping, shipment tracking, tracking
 Requires at least: 5.3
-Tested up to: 6.0.1
+Tested up to: 6.1
 Requires PHP: 7.2
-Stable tag: 3.4.7
+Stable tag: 3.5
 License: GPLv2 
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -41,7 +41,7 @@ Easily add tracking information and fulfill orders, keep your customers informed
 
 == TrackShip Integration ==
 
-[TrackShip](https://trackship.info/) auto-tracks all your shipments with 400+ shipping providers and brings a fully branded tracking experience to your WooCommerce store. TrackShip allows you to build a relationship with your customers, reduce time spent on customer service, further engage customers after shipping and provide a superior post-purchase experience to increase customer satisfaction and repeat purchases.
+[TrackShip](https://trackship.co/) auto-tracks all your shipments with 400+ shipping providers and brings a fully branded tracking experience to your WooCommerce store. TrackShip allows you to build a relationship with your customers, reduce time spent on customer service, further engage customers after shipping and provide a superior post-purchase experience to increase customer satisfaction and repeat purchases.
 
 AST is fully compatible with [TrackShip for WooCommerce](https://wordpress.org/plugins/trackship-for-woocommerce/) and the shipment tracking information that you add to orders will automatically be sent to TrackShip when you fulfill your orders.
 
@@ -104,6 +104,14 @@ Yes, if you use external shipping services that work with the WooCommerce REST A
 3. Select default shipping provider from setting page and add tracking number in order page.
 
 == Changelog ==
+
+= 3.5 =
+* Dev - Added compatibility with High-Performance Order Storage(HPOS)
+* Dev - Change TrackShip tracking page link
+* Dev - In Shipment tracking REST API response use store date format for shipped date
+* Enhancement - Upgrade the settings page design
+* Enhancement - Open tracking link on new tab in My Account page
+* Fix - Order status Email content formating issue
 
 = 3.4.7 =
 * Fix - “syntax error, unexpected ‘)’ in class-wc-advanced-shipment-tracking.php on line 916” with PHP 7.2
