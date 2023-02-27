@@ -231,10 +231,6 @@ class WC_Advanced_Shipment_Tracking_REST_API_Controller extends WC_REST_Controll
 			return new WP_Error( 'woocommerce_rest_order_invalid_id', __( 'Invalid order ID.', 'woo-advanced-shipment-tracking' ), array( 'status' => 404 ) );
 		}
 		
-		if ( preg_match( '/[^a-z0-9- \b]+/i', $request['tracking_number'] ) ) {
-			return new WP_Error( 'woocommerce_rest_order_invalid_id', __( 'Special character not allowd in tracking number', 'woo-advanced-shipment-tracking' ), array( 'status' => 404 ) );			
-		}
-				
 		$ast_admin = WC_Advanced_Shipment_Tracking_Admin::get_instance();		
 
 		$tracking_provider_name = ( isset( $request['custom_tracking_provider'] ) && !empty( $request['custom_tracking_provider'] ) )  ? $request['custom_tracking_provider'] : $request['tracking_provider'];	

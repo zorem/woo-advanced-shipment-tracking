@@ -43,22 +43,12 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 
 		add_action( 'ast_settings_admin_notice', array( $this, 'ast_settings_admin_notice' ) );
 		add_action( 'admin_init', array( $this, 'ast_settings_admin_notice_ignore' ) );
+
+		add_action( 'admin_notices', array( $this, 'ast_fulfillment_survay' ) );	
+		add_action( 'admin_init', array( $this, 'ast_fulfillment_survay_ignore' ) );
 		
 		//add_action( 'before_shipping_provider_list', array( $this, 'ast_db_update_notice' ) );	
-		//add_action( 'admin_init', array( $this, 'ast_db_update_notice_ignore' ) );	
-		
-		add_action( 'plugins_loaded', array( $this, 'on_plugins_loaded' ) );
-	}
-
-	/*
-	* init on plugin loaded
-	*/
-	public function on_plugins_loaded() {
-		
-		$wc_ast_api_key = get_option( 'wc_ast_api_key' ); 
-		if ( $wc_ast_api_key && !function_exists( 'trackship_for_woocommerce' ) ) {			
-			add_action( 'admin_notices', array( $this, 'ast_install_ts4wc' ) );
-		}
+		//add_action( 'admin_init', array( $this, 'ast_db_update_notice_ignore' ) );
 	}
 	
 	public function ast_settings_admin_notice() {
@@ -77,6 +67,58 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 		}
 	}
 	
+	public function ast_fulfillment_survay() {
+		
+		if ( get_option('ast_fulfillment_survay_notice_ignore') ) {
+			return;
+		}	
+		
+		$current_user = wp_get_current_user();
+		$display_name = $current_user->display_name;
+
+		$dismissable_url = esc_url( add_query_arg( 'ast-fulfillment-survay-notice-ignore', 'true' ) );
+		?>		
+		<style>		
+		.wp-core-ui .notice.ast-dismissable-notice{
+			position: relative;
+			padding-right: 38px;
+			border-left-color: #005B9A;
+			padding-bottom:10px;
+		}
+		.wp-core-ui .notice.ast-dismissable-notice h3{
+			margin-bottom: 5px;
+		} 
+		.wp-core-ui .notice.ast-dismissable-notice a.notice-dismiss{
+			padding: 9px;
+			text-decoration: none;
+		} 
+		.wp-core-ui .button-primary.ast_notice_btn {
+			background: #005B9A;
+			color: #fff;
+			border-color: #005B9A;
+			text-transform: uppercase;
+			padding: 0 11px;
+			font-size: 12px;
+			height: 30px;
+			line-height: 28px;
+			margin: 5px 0 15px;
+		}
+		</style>
+		<div class="notice updated notice-success ast-dismissable-notice">			
+			<a href="<?php esc_html_e( $dismissable_url ); ?>" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></a>			
+			
+			<h2>Help us improve AST - Take our 2023 fulfillment operations survey</h2>
+			<p>Dear <?php esc_html_e( $display_name )?>, help us improve our plugins by taking our quick survey on WooCommerce fulfillment operations. <a href="https://forms.gle/frPAoYEMK2LCpjcVA" target="blank">Your feedback matters!</a></p>
+			<p>Thank you, zorem Team.</p>			
+		</div>	
+		<?php	
+	}
+
+	public function ast_fulfillment_survay_ignore() {
+		if ( isset( $_GET['ast-fulfillment-survay-notice-ignore'] ) ) {
+			update_option( 'ast_fulfillment_survay_notice_ignore', 'true' );
+		}
+	}
 	/*
 	* Display admin notice on plugin install or update
 	*/
@@ -201,16 +243,5 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 		if ( isset( $_GET['open'] ) && 'synch_providers' == $_GET['open'] ) {
 			update_option( 'ast_db_update_notice_updated_ignore', 'true' );
 		}
-	}	
-
-	/*
-	* Display admin notice on if Store is connected to TrackShip and TrackShip For WooCommerce plugin is not activate
-	*/
-	public function ast_install_ts4wc() {
-		?>
-		<div class="notice notice-error">			
-			<p><strong>Please note:</strong> TrackShip's functionality was moved and now you need to also install <a href="<?php echo esc_url( admin_url( 'plugin-install.php?tab=search&s=TrackShip+For+WooCommerce&plugin-search-input=Search+Plugins' ) ); ?>" target="blank">TrackShip for WooCommerce</a> plugin. To avoid any interruptions with the service and keep tracking orders with TrackShip, please install <a href="<?php echo esc_url( admin_url( 'plugin-install.php?tab=search&s=TrackShip+For+WooCommerce&plugin-search-input=Search+Plugins' ) ); ?>" target="blank">TrackShip for WooCommerce</a> before updating to this version of the Advanced Shipment Tracking plugin.</p>	
-		</div>		
-		<?php 		
 	}	
 }

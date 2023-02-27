@@ -2,9 +2,9 @@
 Contributors: zorem
 Tags: WooCommerce, delivery, shipping, shipment tracking, tracking
 Requires at least: 5.3
-Tested up to: 6.1
+Tested up to: 6.1.1
 Requires PHP: 7.2
-Stable tag: 3.5
+Stable tag: 3.5.2
 License: GPLv2 
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,7 +37,7 @@ Easily add tracking information and fulfill orders, keep your customers informed
 * **Export Tracking info to PayPal** - Automatically export the shipment tracking information to the PayPal transaction
 * **Premium Support**
 
-[Get the AST PRO >](https://www.zorem.com/product/woocommerce-advanced-shipment-tracking/)
+[Get the AST PRO >](https://www.zorem.com/ast-pro/)
 
 == TrackShip Integration ==
 
@@ -77,13 +77,13 @@ Yes, you have full control over the design and display of the tracking info, you
 Yes, absolutely you can add as many tracking numbers to orders and they will all be displayed to your customers on the order email and their my-account area.
 
 =Can I attach a tracking number to a specific product?
-Yes, you can upgrade to the [AST PRO](https://www.zorem.com/product/woocommerce-advanced-shipment-tracking/) to split orders to a few shipments and attach tracking numbers to line items (products) and to product quantities.
+Yes, you can upgrade to the [AST PRO](https://www.zorem.com/ast-pro/) to split orders to a few shipments and attach tracking numbers to line items (products) and to product quantities.
 
 =Does AST auto-track my orders and send delivery notifications to my customers?
 AST provides ways to manage the fulfillment and add tracking information to orders and communicate this info to your customers, if you want to have tracking automation, you can install [TrackShip for WooCommerce](https://wordpress.org/plugins/trackship-for-woocommerce/). TrackShip is a Multi-Carrier Shipment Tracking API which integrates into the WooCommerce ecosystem, once you connect TrackShip to your store, it will auto-track your Shipped orders and will poractivally update your orders with shipment status, delivery events and delivery confirmation. With TrackShip you can automate the last mile, have a tracking page on your store and enable proactive shipment status & delivery notifications by email/SMS to your customers.
 
 =Can I add a shipping provider that is not on your list?
-We provide a list of more than 400+ shipping providers and carriers with a predefined tracking link. If you can’t find your shipping provider on the list, you can suggest a shipping provider on our [features board](https://feedback.zorem.com/ast) or on the [support forum](https://wordpress.org/support/plugin/woo-advanced-shipment-tracking/), If you need to add your own custom provider, this feature is only available in the [AST PRO](https://www.zorem.com/products/woocommerce-advanced-shipment-tracking/). 
+We provide a list of more than 400+ shipping providers and carriers with a predefined tracking link. If you can’t find your shipping provider on the list, you can suggest a shipping provider on our [features board](https://feedback.zorem.com/ast) or on the [support forum](https://wordpress.org/support/plugin/woo-advanced-shipment-tracking/), If you need to add your own custom provider, this feature is only available in the [AST PRO](https://www.zorem.com/ast-pro/). 
 
 =Can I Import tracking information from CSV files?
 Yes, you can use our [CSV import tool](https://docs.zorem.com/docs/ast-free/add-tracking-to-orders/csv-import/) to import multiple tracking numbers to orders, you need to add each tracking number in one row.
@@ -105,8 +105,20 @@ Yes, if you use external shipping services that work with the WooCommerce REST A
 
 == Changelog ==
 
+= 3.5.2 =
+* Enhancement - Added admin message for Survey
+* Dev - Add validation in CSV Import when added short tracking number
+* Dev - Remove the TrackSip message for TrackShip connected but TrackShip For WooCommerce is not installed
+* Dev - Add Plain Fluid Tracking Info template
+* Dev - Delete old tracking from TrackShip while Replace tracking information in CSV Import
+* Dev - Change tracking info email template structure from Div to Table
+* Fix - Customizer save issue in Firefox
+
+= 3.5.1 =
+* Fix - Fatal Error - Error message: Uncaught Automaic\WooCommerce\Vendor\League\Container\Excep@on\NotFoundExcep@on: Alias (Automaic\WooCommerce\Internal\DataStores\Orders\CustomOrdersTableController) is not being managed by the container
+
 = 3.5 =
-* Dev - Added compatibility with High-Performance Order Storage(HPOS)
+* Add - Declared HPOS compatibility.
 * Dev - Change TrackShip tracking page link
 * Dev - In Shipment tracking REST API response use store date format for shipped date
 * Enhancement - Upgrade the settings page design

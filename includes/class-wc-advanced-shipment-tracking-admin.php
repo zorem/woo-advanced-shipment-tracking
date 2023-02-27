@@ -54,7 +54,9 @@ class WC_Advanced_Shipment_Tracking_Admin {
 	/*
 	* init from parent mail class
 	*/
-	public function init() {									
+	public function init() {
+		
+		add_action( 'admin_head', array( $this, 'hide_admin_notices_from_settings' ) );
 		
 		// add bulk order tracking number filter for exported / non-exported orders			
 		add_filter( 'woocommerce_shop_order_search_fields', array( $this, 'filter_orders_by_tracking_number_query' ) );			
@@ -182,6 +184,15 @@ class WC_Advanced_Shipment_Tracking_Admin {
 		add_submenu_page( 'woocommerce', 'Shipment Tracking', __( 'Shipment Tracking', 'woo-advanced-shipment-tracking' ), 'manage_woocommerce', 'woocommerce-advanced-shipment-tracking', array( $this, 'woocommerce_advanced_shipment_tracking_page_callback' ) ); 
 	}		
 	
+	public function hide_admin_notices_from_settings() {
+		$screen = get_current_screen();
+		if ( 'woocommerce_page_woocommerce-advanced-shipment-tracking' === $screen->id && null == get_option( 'ast_usage_data_selector' ) ) {
+			remove_all_actions( 'admin_notices' );
+			remove_all_actions( 'network_admin_notices' );
+			remove_all_actions( 'all_admin_notices' );
+			remove_all_actions( 'user_admin_notices' );
+		}
+	}
 	/*
 	* callback for Shipment Tracking page
 	*/
@@ -205,17 +216,23 @@ class WC_Advanced_Shipment_Tracking_Admin {
 			}
 		}				
 		
-		wp_enqueue_script( 'shipment_tracking_table_rows' ); 
+		wp_enqueue_script( 'shipment_tracking_table_rows' );
+		
 		?>		
 		
-		<div class="zorem-layout">					
+		<div class="zorem-layout">
+			<?php 
+			if ( null == get_option( 'ast_usage_data_selector' ) ) {
+				do_action( 'before_ast_settings' );				
+			} else {
+			?>	
 			<div class="zorem-layout__header">
 				<h1 class="page_heading">
 					<a href="javascript:void(0)"><?php esc_html_e( 'Shipment Tracking', 'woo-advanced-shipment-tracking' ); ?></a> <span class="dashicons dashicons-arrow-right-alt2"></span> <span class="breadcums_page_heading"><?php esc_html_e( 'Settings', 'woo-advanced-shipment-tracking' ); ?></span>
 				</h1>				
 				<img class="zorem-layout__header-logo" src="<?php echo esc_url( wc_advanced_shipment_tracking()->plugin_dir_url() ); ?>assets/images/ast-logo.png">								
 			</div>
-			<?php //do_action( 'ast_settings_admin_notice' ); ?>
+			
 			<div class="woocommerce zorem_admin_layout">
 				<div class="ast_admin_content zorem_admin_settings">
 					
@@ -235,7 +252,8 @@ class WC_Advanced_Shipment_Tracking_Admin {
 						?>
 					</div>                   					
 				</div>				
-			</div>						
+			</div>
+			<?php } ?>						
 		</div>
 		<?php include 'views/admin_upgrade_to_pro_popup.php'; ?>		   
 	<?php 
@@ -1172,6 +1190,11 @@ class WC_Advanced_Shipment_Tracking_Admin {
 			echo '<li class="tracking_number_error">Failed - Empty Tracking Number - Order ' . esc_html( $order_number ) . '</li>';
 			exit;
 		}
+
+		if ( preg_match( '/^[+-]?[0-9]+(\.[0-9]+)?E[+-][0-9]+$/', $tracking_number ) ) {
+			echo '<li class="tracking_number_error">Failed - Invalid Tracking Number - Order ' . esc_html( $order_number ) . '</li>';
+			exit;
+		}
 		
 		if ( empty( $date_shipped ) ) {
 			echo '<li class="empty_date_shipped_error">Failed - Empty Date Shipped - Order ' . esc_html( $order_number ) . '</li>';
@@ -1197,18 +1220,10 @@ class WC_Advanced_Shipment_Tracking_Admin {
 			if ( $order ) {	
 						
 				if ( count( $tracking_items ) > 0 ) {
+					
 					foreach ( $tracking_items as $key => $item ) {								
-						
-						$tracking_exist = false;
-						
-						if ( class_exists( 'ast_woo_advanced_shipment_tracking_by_products' ) ) {
-							$item_tracking_number = $item['tracking_number'];
-							$tracking_exist = in_array( $item_tracking_number, array_column( $trackings, 'tracking_number' ) );
-						}
-						
-						if ( false == $tracking_exist ) {
-							unset( $tracking_items[ $key ] );		
-						}
+						do_action( 'delete_tracking_number_from_trackship', $tracking_items, $item['tracking_id'], $order_id );
+						unset( $tracking_items[ $key ] );												
 					}
 					$wast->save_tracking_items( $order_id, $tracking_items );
 				}
@@ -1343,10 +1358,6 @@ class WC_Advanced_Shipment_Tracking_Admin {
 		foreach ( $items as $item ) {																
 			$checked = 0;
 			$qty = $item->get_quantity();
-			
-			if ( 1 == $items_count && 1 == $qty ) {
-				return $status_shipped;
-			}	
 			
 			$variation_id = $item->get_variation_id();
 			$product_id = $item->get_product_id();					

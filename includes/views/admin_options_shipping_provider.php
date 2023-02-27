@@ -130,7 +130,7 @@ if ( isset( $_GET['open'] ) && 'synch_providers' == $_GET['open'] ) {
 				<div class="popupclose"></div>
 			</div>			
 		</div>	
-		<?php include 'admin_sidebar.php'; ?>
+		<?php //include 'admin_sidebar.php'; ?>
 	</div>
 	<?php include 'admin_footer_promotion.php'; ?>
 </section>
