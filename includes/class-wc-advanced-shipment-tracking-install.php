@@ -96,10 +96,6 @@ class WC_Advanced_Shipment_Tracking_Install {
 			update_option( 'wc_ast_show_orders_actions', $data_array );	
 		}		
 
-		if ( ! wp_next_scheduled ( 'zorem_usage_tracker_send' ) ) {
-			wp_schedule_event( time() + 10, 'daily', 'zorem_usage_tracker_send' );
-		}
-
 		update_option( 'wc_advanced_shipment_tracking', '3.21' );
 	}
 	

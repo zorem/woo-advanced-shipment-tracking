@@ -226,7 +226,13 @@ class WC_Advanced_Shipment_Tracking_Actions {
 	 * Add the meta box for shipment info on the order page
 	 */
 	public function add_meta_box() {
-		$screen = wc_get_container()->get( CustomOrdersTableController::class )->custom_orders_table_usage_is_enabled() ? wc_get_page_screen_id( 'shop-order' ) : 'shop_order';		
+		
+		if ( class_exists( 'Automattic\WooCommerce\Internal\DataStores\Orders\CustomOrdersTableController' ) ) {
+			$screen = wc_get_container()->get( CustomOrdersTableController::class )->custom_orders_table_usage_is_enabled() ? wc_get_page_screen_id( 'shop-order' ) : 'shop_order';	
+		} else {
+			$screen = 'shop_order';
+		}
+		
 		add_meta_box( 'woocommerce-advanced-shipment-tracking', __( 'Shipment Tracking', 'woo-advanced-shipment-tracking' ), array( $this, 'meta_box' ), $screen, 'side', 'high' );
 	}
 
@@ -646,7 +652,7 @@ class WC_Advanced_Shipment_Tracking_Actions {
 		
 		$tracking_provider = isset( $_POST['tracking_provider'] ) ? wc_clean( $_POST['tracking_provider'] ) : '';
 		$tracking_number = isset( $_POST['tracking_number'] ) ? wc_clean( $_POST['tracking_number'] ) : '';
-		$tracking_number = str_replace( ' ', '', $tracking_number );				
+		//$tracking_number = str_replace( ' ', '', $tracking_number );				
 		
 		if ( strlen( $tracking_number ) > 0 && '' != $tracking_provider ) {	
 	
@@ -1014,7 +1020,7 @@ class WC_Advanced_Shipment_Tracking_Actions {
 			
 		if ( $link_format ) {
 			$searchVal = array( '%number%', str_replace( ' ', '', '%2 $ s' ) );
-			$tracking_number = str_replace( ' ', '', $tracking_item['tracking_number'] );
+			$tracking_number = $tracking_item['tracking_number'];
 			$replaceVal = array( $tracking_number, urlencode( $postcode ) );
 			$link_format = str_replace( $searchVal, $replaceVal, $link_format );
 			

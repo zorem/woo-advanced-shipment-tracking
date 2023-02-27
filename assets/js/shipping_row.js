@@ -944,6 +944,69 @@ jQuery('#wc_ast_unclude_tracking_info').on('select2:unselecting', function(e){
 	}
 });
 
+jQuery( ".ud-checkbox li" ).on("click", function (e) { 
+	var ast_optin_email_notification = jQuery("#ast_optin_email_notification").prop("checked");
+	var ast_enable_usage_data = jQuery("#ast_enable_usage_data").prop("checked");
+	if ( false == ast_optin_email_notification && false == ast_enable_usage_data ) {
+		jQuery('.submit_usage_data').prop("disabled", true);
+	} else {
+		jQuery('.submit_usage_data').prop("disabled", false);
+	}
+});
+
+jQuery(document).on("click", ".submit_usage_data", function(e){	
+	
+	var form = jQuery('#ast_usage_data_form');
+	jQuery(".ud-box-container").block({
+		message: null,
+		overlayCSS: {
+			background: "#fff",
+			opacity: .6
+		}	
+    });
+
+	jQuery.ajax({
+		url: ajaxurl,		
+		data: form.serialize(),		
+		type: 'POST',		
+		success: function(response) {	
+			jQuery(".ud-box-container").unblock();	
+			location.reload(true);
+		},
+		error: function(response) {
+			console.log(response);			
+		}
+	});
+	return false;
+});
+
+jQuery(document).on("click", ".skip_usage_data", function(e){	
+	
+	var form = jQuery('#ast_skip_usage_data_form');
+	jQuery(".ud-box-container").block({
+		message: null,
+		overlayCSS: {
+			background: "#fff",
+			opacity: .6
+		}	
+    });
+	
+	jQuery.ajax({
+		url: ajaxurl,		
+		data: form.serialize(),		
+		type: 'POST',		
+		success: function(response) {	
+			jQuery(".ud-box-container").unblock();
+			location.reload(true);
+		},
+		error: function(response) {
+			console.log(response);			
+		}
+	});
+	return false;
+});
+
+
 /* zorem_snackbar jquery */
 (function( $ ){
 	$.fn.ast_snackbar = function(msg) {

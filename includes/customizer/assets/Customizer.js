@@ -124,7 +124,7 @@ jQuery(document).on("click", ".zoremmail-sub-panel-title", function(){
 	
 });
 
-jQuery(document).on("click", "#zoremmail_email_options .button-trackship", function(){
+jQuery(document).on("click", "#zoremmail_email_options .button-trackship", function( e ){
 	"use strict";
 	var form = jQuery('#zoremmail_email_options');
 	var btn = jQuery('#zoremmail_email_options .button-trackship');
@@ -152,6 +152,7 @@ jQuery(document).on("click", "#zoremmail_email_options .button-trackship", funct
 			console.log(response);			
 		}
 	});
+	e.preventDefault();
 });
 
 function change_submenu_item() {

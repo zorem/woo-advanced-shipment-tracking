@@ -1848,7 +1848,7 @@ ul.csv_error_details_ul li:before{
     margin-top: -85px;
 }
 .shipping_provider_container{
-    margin: 10px 0 10px 20px;
+    margin: 25px 20px;
     flex: 1;
 }
 .csv_import_container{
@@ -1990,9 +1990,9 @@ ul.csv_error_details_ul li:before{
 @media(min-width: 1301px) and (max-width: 1500px){
 	.grid-row{
 		display: grid;
-		grid-template-columns: repeat(3, 1fr);
+		grid-template-columns: repeat(4, 1fr);
 	}
-	.provider-grid-row .grid-item:nth-child(3n){
+	.provider-grid-row .grid-item:nth-child(4n){
 		margin: 0 0 10px 0;
 	}	
 }
@@ -2304,6 +2304,47 @@ span.dashicons.dashicons-trash.remove {
     align-items: center;
     background: radial-gradient(#ffffffcf 20%, #ffffff00 50%);
 }
+
+/*** Usage Data Signup Box CSS ***/
+.ud-box-container{
+    width: 484px;
+    background: #fff;
+    margin: 60px auto 20px auto;    
+    border-radius: 3px;
+    overflow: hidden;
+}
+.ud-content{
+    padding: 5px 20px 15px;
+}
+.ud-content h2 {
+    line-height: 1.5em;
+}
+.ud-box-container .ud-content p {
+    margin: 0;
+    padding: 0;
+    font-size: 1.2em;
+}
+.ud-box-container .ud-actions {
+    padding: 10px 20px;
+    background: #fff;
+    border-top: 1px solid #f1f1f1;
+}
+.ud-box-container .ud-checkbox {
+    padding: 5px 20px;
+    margin: 0;
+}
+.ud-box-container .ud-actions .button {
+    padding: 0 10px 1px;
+    line-height: 35px;
+    height: 37px;
+    font-size: 16px;
+    margin-bottom: 0;
+}
+#ast_skip_usage_data_form{
+    float: right;
+}
+/** End CSS ***/
+
 /*** RTL CSS ***/
 .rtl .tab_section .accordion span.dashicons {
     float: left;
