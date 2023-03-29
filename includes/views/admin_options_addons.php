@@ -2,7 +2,6 @@
 /**
  * Html code for tools tab
  */
-$wc_ast_api_key = get_option('wc_ast_api_key'); 
 ?>
 <section id="content6" class="tab_section">
 	<div class="tab_container_without_bg">

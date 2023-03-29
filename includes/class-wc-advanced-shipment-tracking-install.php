@@ -57,9 +57,7 @@ class WC_Advanced_Shipment_Tracking_Install {
 	* init from parent mail class
 	*/
 	public function init() {				
-		add_action( 'init', array( $this, 'update_database_check' ) );		
-		add_action( 'update_ts_shipment_status_order_mete', array( $this, 'update_ts_shipment_status_order_mete' ) );
-		add_action( 'wp_ajax_update_ts_shipment_status_order_mete', array( $this, 'update_ts_shipment_status_order_mete' ) );		
+		add_action( 'init', array( $this, 'update_database_check' ) );	
 		add_action( 'ast_insert_shipping_provider', array( $this, 'ast_insert_shipping_provider' ), 10, 1 );
 	}	
 
@@ -222,21 +220,7 @@ class WC_Advanced_Shipment_Tracking_Install {
 			if ( version_compare( get_option( 'wc_advanced_shipment_tracking' ), '3.14', '<' ) ) {				
 				$this->add_provider_image_in_upload_directory();							
 				update_option( 'wc_advanced_shipment_tracking', '3.14');		
-			}
-			
-			if ( version_compare( get_option( 'wc_advanced_shipment_tracking' ), '3.20', '<' ) ) {				
-				as_schedule_single_action( time(), 'update_ts_shipment_status_order_mete' , array( 'order_page' => 1 ), '' );
-				as_schedule_single_action( time(), 'update_ts_shipment_status_order_mete' , array( 'order_page' => 2 ), '' );
-				as_schedule_single_action( time(), 'update_ts_shipment_status_order_mete' , array( 'order_page' => 3 ), '' );
-				as_schedule_single_action( time(), 'update_ts_shipment_status_order_mete' , array( 'order_page' => 4 ), '' );
-				as_schedule_single_action( time(), 'update_ts_shipment_status_order_mete' , array( 'order_page' => 5 ), '' );
-				as_schedule_single_action( time(), 'update_ts_shipment_status_order_mete' , array( 'order_page' => 6 ), '' );
-				as_schedule_single_action( time(), 'update_ts_shipment_status_order_mete' , array( 'order_page' => 7 ), '' );
-				as_schedule_single_action( time(), 'update_ts_shipment_status_order_mete' , array( 'order_page' => 8 ), '' );
-				as_schedule_single_action( time(), 'update_ts_shipment_status_order_mete' , array( 'order_page' => 9 ), '' );
-				as_schedule_single_action( time(), 'update_ts_shipment_status_order_mete' , array( 'order_page' => 10 ), '' );
-				update_option( 'wc_advanced_shipment_tracking', '3.20');				
-			}	
+			}				
 			
 			if ( version_compare( get_option( 'wc_advanced_shipment_tracking' ), '3.21', '<') ) {	
 				$this->check_all_column_exist();
@@ -284,36 +268,6 @@ class WC_Advanced_Shipment_Tracking_Install {
 			}
 			
 		}
-	}
-	
-	/*
-	* function for update order meta from shipment_status to ts_shipment_status for filter order by shipment status
-	*/
-	public function update_ts_shipment_status_order_mete( $page ) {
-		
-		$wc_ast_api_key = get_option( 'wc_ast_api_key' ); 
-		if ( !$wc_ast_api_key ) {
-			return;
-		}	
-		
-		$args = array(			
-			'limit' => 100,
-			'paged' => $page,
-			'return' => 'ids',
-		);
-		
-		$orders = wc_get_orders( $args );
-		
-		foreach ( $orders as $order_id ) {
-			$order = wc_get_order( $order_id );
-			$shipment_status = $order->get_meta( 'shipment_status', true );
-			if ( !empty( $shipment_status ) ) {
-				foreach ( $shipment_status as $key => $shipment ) {
-					$ts_shipment_status[ $key ][ 'status' ] = $shipment[ 'status' ];			
-					update_post_meta( $order_id, 'ts_shipment_status', $ts_shipment_status );						
-				}
-			}			
-		}		
 	}
 	
 	/**

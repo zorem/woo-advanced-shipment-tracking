@@ -254,6 +254,17 @@ jQuery(document).on("click", ".csv_upload_again", function(){
 	jQuery('.csv_error_details_ul li').remove();
 });
 
+jQuery(document).click(function(event){
+	var $trigger = jQuery(".provider_settings");
+    if($trigger !== event.target && !$trigger.has(event.target).length){
+		jQuery(".provider-settings-ul").hide();
+    }   
+});
+
+jQuery(document).on("click", "#provider-settings", function(){	
+	jQuery('.provider-settings-ul').show();
+});
+
 jQuery(document).on("click", ".status_slide", function(){
 	var id = jQuery(this).val();
 	if(jQuery(this).prop("checked") == true){
@@ -291,16 +302,67 @@ jQuery(document).on("click", ".status_slide", function(){
 	});
 });
 
-provider_grid_row();
-function provider_grid_row() {
-	jQuery(".provider-grid-row").hip({
-		itemsPerPage:52,
-		itemsPerRow:4,
-		itemGaps:10,
-		filter:false,		
-		paginationPos:'right'
+jQuery(document).on("click", ".pagination_link", function(){
+	var page = jQuery(this).attr('id');
+	var nonce = jQuery( '#nonce_shipping_provider' ).val();
+	var ajax_data = {
+		action: 'paginate_shipping_provider_list',
+		page: page,
+		security: nonce,	
+	};
+
+	jQuery(".provider_list ").block({
+		message: null,
+		overlayCSS: {
+			background: "#fff",
+			opacity: .6
+		}	
+    });
+
+	jQuery.ajax({
+		url: ajaxurl,		
+		data: ajax_data,
+		type: 'POST',
+		success: function(response) {	
+			jQuery(".provider_list").replaceWith(response);
+			jQuery(".provider_list").unblock();							
+		},
+		error: function(response) {	
+			console.log(response);				
+		}
 	});	
-}
+});
+
+jQuery(document).on( "click", ".search-icon", function(){	
+	var search_term = jQuery('#search_provider').val();
+	var nonce = jQuery( '#nonce_shipping_provider' ).val();
+	var ajax_data = {
+		action: 'filter_shipping_provider_list',
+		search_term: search_term,
+		security: nonce,	
+	};
+
+	jQuery(".provider_list ").block({
+		message: null,
+		overlayCSS: {
+			background: "#fff",
+			opacity: .6
+		}	
+    });
+
+	jQuery.ajax({
+		url: ajaxurl,		
+		data: ajax_data,
+		type: 'POST',
+		success: function(response) {	
+			jQuery(".provider_list").replaceWith(response);
+			jQuery(".provider_list").unblock();							
+		},
+		error: function(response) {	
+			console.log(response);				
+		}
+	});	
+});
 
 jQuery(document).on("change", ".make_provider_default", function(){	
 	jQuery("#content1 ").block({
@@ -339,51 +401,6 @@ jQuery(document).on("change", ".make_provider_default", function(){
 			console.log(response);			
 		}
 	});
-});
-
-jQuery(document).on( "input", "#search_provider", function(){	
-	
-	var nonce = jQuery( '#nonce_shipping_provider' ).val();
-	
-	var ajax_data = {
-		action: 'filter_shipiing_provider_by_status',
-		status: 'all',
-		security: nonce,		
-	};
-	jQuery.ajax({
-		url: ajaxurl,		
-		data: ajax_data,
-		type: 'POST',
-		success: function(response) {	
-			jQuery(".provider_list").replaceWith(response);								
-			var provider_found = false;	
-			var searchvalue = jQuery("#search_provider").val().toLowerCase().replace(/\s+/g, '');
-			
-			jQuery('.provider_list .provider-grid-row .grid-item').each(function() {
-				var provider = jQuery(this).find('.provider_name').text().toLowerCase().replace(/\s+/g, '');		
-				var country = jQuery(this).find('.provider_country').text().toLowerCase().replace(/\s+/g, '');
-				
-				var hasprovider = provider.indexOf(searchvalue)!==-1;
-				var hascountry= country.indexOf(searchvalue)!==-1;
-				
-				if (hasprovider || hascountry) {						
-					jQuery(this).show();					
-					provider_found = true;	
-				} else {					
-					jQuery(this).remove();									
-				}
-			});	
-			
-			if(provider_found == false){
-				jQuery(".provider_list").append('<h3 class="not_found_label">No Shipping Providers Found.</h3>');
-			} else{
-				jQuery(".not_found_label").remove();
-			}
-			provider_grid_row();					
-		},
-		error: function(response) {					
-		}
-	});	
 });
 
 jQuery(document).on("click", ".popupclose", function(){	
@@ -447,8 +464,7 @@ jQuery(document).on("click", ".remove", function(){
 		type: 'POST',
 		success: function(response) {
 			jQuery(".provider_list").replaceWith(response);						
-			jQuery("#content1").unblock();				
-			provider_grid_row();			
+			jQuery("#content1").unblock();						
 		},
 		error: function(response) {
 			console.log(response);			
@@ -583,8 +599,7 @@ jQuery(document).on("click", ".reset_default_provider", function(){
 			jQuery(".provider_list").replaceWith(response);	
 			form[0].reset();												
 			jQuery('.edit_provider_popup').hide();			
-			jQuery(".edit_provider_popup").unblock();	
-			provider_grid_row();		
+			jQuery(".edit_provider_popup").unblock();		
 		},
 		error: function(response) {
 			console.log(response);			
@@ -653,7 +668,6 @@ jQuery(document).on("submit", "#edit_provider_form", function(){
 			form[0].reset();												
 			jQuery('.edit_provider_popup').hide();			
 			jQuery(".edit_provider_popup").unblock();	
-			provider_grid_row();		
 		},
 		error: function(response) {
 			console.log(response);			
@@ -669,7 +683,7 @@ jQuery( ".thumb_url" ).blur(function() {
   }
 });
 
-jQuery(document).on("click", "#reset_providers", function(){	
+jQuery(document).on("click", ".reset_providers", function(){	
 	jQuery("#content1 ").block({
 		message: null,
 		overlayCSS: {
@@ -685,27 +699,24 @@ jQuery(document).on("click", "#reset_providers", function(){
 	}
 	
 	jQuery('#search_provider').removeAttr('value');	
-	
-	var reset_checked = 0;
-	if(jQuery(this).prop("checked") == true){
-		reset_checked = 1;
-	}
-	
+	jQuery(".provider-settings-ul").hide();
+	var reset_checked = jQuery(this).data('reset');
 	var error;
 	var nonce = jQuery( '#nonce_shipping_provider' ).val();	
+	
 	var ajax_data = {
 		action: 'update_provider_status',
 		status: reset_checked,
 		security: nonce,		
 	};
+	
 	jQuery.ajax({
 		url: ajaxurl,		
 		data: ajax_data,		
 		type: 'POST',
 		success: function(response) {
 			jQuery(".provider_list").replaceWith(response);					
-			jQuery("#content1").unblock();
-			provider_grid_row();			
+			jQuery("#content1").unblock();		
 		},
 		error: function(response) {
 			console.log(response);			
@@ -718,6 +729,7 @@ jQuery(document).on("click", ".upgrade_to_ast_pro", function(){
 });
 
 jQuery(document).on("click", ".sync_providers", function(){		
+	jQuery(".provider-settings-ul").hide();
 	jQuery('.sync_provider_popup').show();
 	jQuery("#reset_tracking_providers").prop("checked", false);	
 });
@@ -783,7 +795,6 @@ jQuery(document).on("click", ".sync_providers_btn", function(){
 			jQuery( '.tipTip' ).tipTip( {
 				'attribute': 'data-tip'		
 			} );
-			provider_grid_row();	
 		},
 		error: function(response) {
 			console.log(response);			

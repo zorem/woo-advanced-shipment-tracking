@@ -26,8 +26,6 @@ $button_padding = ( 'large' == $fluid_button_size ) ? '12px 20px' : '10px 15px' 
 
 $order_data = wc_get_order( $order_id );
 
-$shipment_status = $order_data->get_meta( 'shipment_status', true );
-
 	if ( !empty( $order_data ) ) {
 	$order_status = $order_data->get_status();
 	} else {
@@ -49,15 +47,6 @@ $shipment_status = $order_data->get_meta( 'shipment_status', true );
 	<?php 
 	foreach ( $tracking_items as $key => $tracking_item ) { 
 	
-		$ts_status = '';
-		if ( isset( $shipment_status[$key] ) ) {
-			if ( isset( $shipment_status[$key]['status'] ) ) {
-				$ts_status = $shipment_status[$key]['status'];	
-			}			
-		}
-							
-		$ts_tracking_page = $ast->check_ts_tracking_page_for_tracking_item( $order_id, $tracking_item, $ts_status );
-		
 		if ( '' != $tracking_item[ 'formatted_tracking_provider' ] ) {
 			$ast_provider_title = apply_filters( 'ast_provider_title', esc_html( $tracking_item[ 'formatted_tracking_provider' ] )); 
 		} else {
@@ -88,22 +77,13 @@ $shipment_status = $order_data->get_meta( 'shipment_status', true );
 			</div>
 			<div class="fluid_cl fluid_right_cl">
 				<div>
-					<?php if ( $ts_tracking_page ) { ?>
-						<a href="javascript:void(0)" class="button track-button open_tracking_lightbox" data-order="<?php esc_html_e( $order_id ); ?>" data-tracking="<?php echo esc_html( $tracking_item['tracking_number'] ); ?>"><?php esc_html_e( $fluid_button_text ); ?></a>
-					<?php } else { ?>
-						<a target="blank" href="<?php echo esc_url( $tracking_item['ast_tracking_link'] ); ?>" class="button track-button" data-order="<?php esc_html_e( $order_id ); ?>" data-tracking="<?php echo esc_html( $tracking_item['tracking_number'] ); ?>" target="_blank"><?php esc_html_e( $fluid_button_text ); ?></a>
-					<?php } ?>
+					<a target="blank" href="<?php echo esc_url( $tracking_item['ast_tracking_link'] ); ?>" class="button track-button" data-order="<?php esc_html_e( $order_id ); ?>" data-tracking="<?php echo esc_html( $tracking_item['tracking_number'] ); ?>" target="_blank"><?php esc_html_e( $fluid_button_text ); ?></a>
 				</div>
 			</div>
 		</div>
 	<?php } ?>
 </div>
-<div id="" class="popupwrapper ts_tracking_popup" style="display:none;">
-	<div class="popuprow">
-		
-	</div>	
-	<div class="popupclose"></div>
-</div> 
+
 <style>
 .fluid_section{
 	margin-bottom: 10px;

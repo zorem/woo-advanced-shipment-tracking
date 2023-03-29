@@ -50,9 +50,7 @@ class WC_AST_Tracker {
 		add_action( 'before_ast_settings', array( $this, 'usage_data_signup_box' ) );
 		add_action( 'wp_ajax_ast_activate_usage_data', array( $this, 'ast_activate_usage_data_fun') );
 		add_action( 'wp_ajax_ast_skip_usage_data', array( $this, 'ast_skip_usage_data_fun') );	
-		add_action( 'zorem_usage_tracker_send', array( $this, 'send_tracking_data' ) );
-		add_action( 'wp_ajax_zorem_usage_tracker_send', array($this, 'send_tracking_data') );
-		add_action( 'wp_ajax_nopriv_zorem_usage_tracker_send', array($this, 'send_tracking_data') );		
+		add_action( 'zorem_usage_tracker_send', array( $this, 'send_tracking_data' ) );		
 	}
 
 	public function usage_data_signup_box() {
@@ -60,11 +58,17 @@ class WC_AST_Tracker {
 	}
 
 	public function ast_activate_usage_data_fun() {
+		
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
 			exit( 'You are not allowed' );
 		}
 		
 		check_ajax_referer( 'ast_usage_data_form', 'ast_usage_data_form_nonce' );
+
+		if ( isset( $_POST[ 'ast_optin_email_notification' ] ) && 0 == $_POST[ 'ast_optin_email_notification' ] && isset( $_POST[ 'ast_enable_usage_data' ] ) && 0 == $_POST[ 'ast_enable_usage_data' ] ) {
+			update_option( 'ast_usage_data_selector', true );
+			die();
+		}
 
 		if ( isset( $_POST[ 'ast_optin_email_notification' ] ) ) {						
 			update_option( 'ast_optin_email_notification', wc_clean( $_POST[ 'ast_optin_email_notification' ] ) );
@@ -74,9 +78,7 @@ class WC_AST_Tracker {
 			update_option( 'ast_enable_usage_data', wc_clean( $_POST[ 'ast_enable_usage_data' ] ) );			
 		}
 
-		if ( ! wp_next_scheduled ( 'zorem_usage_tracker_send' ) ) {
-			wp_schedule_event( time() + 10, 'daily', 'zorem_usage_tracker_send' );
-		}
+		$this->set_unset_usage_data_cron();
 
 		update_option( 'ast_usage_data_selector', true );		
 	}
@@ -89,9 +91,22 @@ class WC_AST_Tracker {
 
 		check_ajax_referer( 'ast_usage_skip_form', 'ast_usage_skip_form_nonce' );
 
-		wp_clear_scheduled_hook( 'zorem_usage_tracker_send' );
-
 		update_option( 'ast_usage_data_selector', true );
+		update_option( 'ast_optin_email_notification', 0 );
+		update_option( 'ast_enable_usage_data', 0 );
+
+		$this->set_unset_usage_data_cron();
+	}
+
+	public function set_unset_usage_data_cron() {
+		$ast_enable_usage_data = get_option( 'ast_enable_usage_data', 0 );
+		$ast_optin_email_notification = get_option( 'ast_optin_email_notification', 0 );
+
+		if ( 0 == $ast_enable_usage_data && 0 == $ast_optin_email_notification ) {
+			wp_clear_scheduled_hook( 'zorem_usage_tracker_send' );
+		} else if ( ! wp_next_scheduled ( 'zorem_usage_tracker_send' ) ) {
+			wp_schedule_event( time() + 10, 'weekly', 'zorem_usage_tracker_send' );
+		}
 	}
 
 	public function send_tracking_data() {
@@ -100,6 +115,13 @@ class WC_AST_Tracker {
 			return;
 		}
 		
+		$ast_enable_usage_data = get_option( 'ast_enable_usage_data', 0 );
+		$ast_optin_email_notification = get_option( 'ast_optin_email_notification', 0 );
+
+		if ( 0 == $ast_enable_usage_data && 0 == $ast_optin_email_notification ) {
+			return;
+		}
+
 		// Update time first before sending to ensure it is set.
 		update_option( 'ast_usage_tracker_last_send', time() );
 

@@ -2,9 +2,6 @@
 /**
  * Html code for shipping providers tab
  */
-
-$wc_ast_api_key = get_option('wc_ast_api_key'); 
-
 $upload_dir   = wp_upload_dir();	
 $ast_directory = $upload_dir['baseurl'] . '/ast-shipping-providers/';
 
@@ -29,17 +26,19 @@ if ( isset( $_GET['open'] ) && 'synch_providers' == $_GET['open'] ) {
 				</div>
 
 				<div class="provider_settings">
-					<a href="javaScript:void(0);" class="provider_settings_icon upgrade_to_ast_pro"><span class="dashicons dashicons-plus-alt"></span></a>	
-					<a href="javaScript:void(0);" class="sync_providers provider_settings_icon"><span class="dashicons dashicons-update"></span></a>
-					<input class="ast-tgl ast-tgl-flat" id="reset_providers" name="reset_providers" type="checkbox" value="1"/>
-					<label class="ast-tgl-btn" for="reset_providers"></label>
+					<a href="javaScript:void(0);" class="provider_settings_icon" id="provider-settings"><span class="dashicons dashicons-ellipsis"></span></a>
+					<ul class="provider-settings-ul">
+						<li><a href="javaScript:void(0);" class="sync_providers"><?php esc_html_e('Sync Providers', 'woo-advanced-shipment-tracking'); ?></a></li>
+						<li><a href="javaScript:void(0);" class="reset_providers" data-reset="1"><?php esc_html_e('Enable All Providers', 'woo-advanced-shipment-tracking'); ?></a></li>
+						<li><a href="javaScript:void(0);" class="reset_providers" data-reset="0"><?php esc_html_e('Disable All Providers', 'woo-advanced-shipment-tracking'); ?></a></li>
+					</ul>
 				</div>
 			</div>		
 
 			<div class="provider_list">	
 				<?php
 				if ( $default_shippment_providers ) {
-					echo wp_kses_post( $this->get_provider_html( $default_shippment_providers, 'all' ) );
+					echo wp_kses_post( $this->get_provider_html( 1 ) );
 				}
 				?>
 			</div>	
