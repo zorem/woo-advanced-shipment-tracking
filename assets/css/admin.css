@@ -306,7 +306,7 @@ input.inner_tab_input:checked + label.ts_tabs_label{
 }
 .menu_devider {
     border-top: 1px solid #e0e0e0;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 .tab_inner_container {
 	padding: 0;
@@ -316,13 +316,50 @@ input.inner_tab_input:checked + label.ts_tabs_label{
 .provider_settings_icon {
     text-decoration: none;
     margin: 5px;
-	line-height: 30px;
+    line-height: 30px;
+    color: #005B9A;
 }
 .provider_settings_icon span{
-    width: 26px;
-    height: 26px;
-    font-size: 26px;
+    width: 22px;
+    height: 22px;
+    font-size: 22px;
     vertical-align: middle;
+    transform: rotate(90deg);
+}
+.provider_settings_icon:focus{
+	outline: none;
+	box-shadow: none;
+}
+.provider-settings-ul {
+    position: absolute;
+    right: 32px;
+    background: #fff;
+    padding: 15px;
+    margin: 0;
+    border-radius: 5px;
+    border: 1px solid #e0e0e0;
+    display: none;
+}
+.provider-settings-ul li:last-child{
+	margin-bottom: 0;
+}
+.provider-settings-ul:before {
+    content: '';
+    width: 0.75rem;
+    height: 0.75rem;
+    position: absolute;
+    z-index: 1;
+    top: 16px;
+    right: -8px;
+    background-color: #fff;
+    transform: rotate(135deg);
+    border: 1px solid #e0e0e0;
+    border-width: 1px 0 0 1px;
+}
+.provider-settings-ul li a {
+    text-decoration: none;
+    color: #424242;
+    line-height: 20px;
 }
 .provider_settings .tgl-btn{
 	margin-left: 5px;
@@ -657,35 +694,35 @@ span.provider_name {
 }
 
 #search_provider{
-	width: 460px;
+    width: 100%;
     min-width: 250px;
     font-size: 13px;
     border: 1px solid #e0e0e0;
-    background: #fafafa;
+    background: #fff;
     padding: 0 10px 0;
     line-height: 2;
     min-height: 45px;
     border-radius: 0;
 }
 .search_section .search-icon{
-	position: absolute; 
-	right: 0;
-	padding: 12px;
-	color: #005b9a;
-	border-left: 1px solid #e0e0e0;
+    position: absolute;
+    right: 0;
+    padding: 12px;
+    color: #005b9a;
+    border-left: 1px solid #e0e0e0;
+    cursor: pointer;
 }
-.provider_top:after{
-	content:'';
-	clear:both;
-	display:block;
+.provider_top {
+    display: flex;
+    position: relative;
 }
 .search_section{
-	float: left;
-	position: relative;
+    display: flex;
+    flex: auto;
+    position: relative;
 }
 .provider_settings{
-	float: right;
-	margin-top: 7px;
+    display: flex;
 }
 .popupwrapper {
 	position: fixed;
@@ -1848,7 +1885,7 @@ ul.csv_error_details_ul li:before{
     margin-top: -85px;
 }
 .shipping_provider_container{
-    margin: 25px 20px;
+    margin: 10px 20px;
     flex: 1;
 }
 .csv_import_container{
@@ -1965,10 +2002,10 @@ ul.csv_error_details_ul li:before{
 /** Provider Grid **/
 .grid-row{
 	display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
 }
 .provider-grid-row{
-    margin-top: 16px;
+    margin-top: 15px;
 }
 .provider-grid-row .grid-item{
     padding: 10px;
@@ -1982,7 +2019,7 @@ ul.csv_error_details_ul li:before{
 }
 
 @media(min-width: 1550px) {
-	.provider-grid-row .grid-item:nth-child(4n){
+	.provider-grid-row .grid-item:nth-child(5n){
 		margin: 0 0 10px 0;
 	}
 }
@@ -2002,25 +2039,19 @@ ul.csv_error_details_ul li:before{
 @media(min-width: 768px) and (max-width: 1300px) {
 	.grid-row{
 		display: grid;
-		grid-template-columns: repeat(2, 1fr);
-	}
-	.provider-grid-row .grid-item:nth-child(2n){
-		margin: 0 0 10px 0;
-	}	
-}
-@media (min-width: 1100px) and (max-width: 1300px) {
-	.integration-grid-row.grid-row {
-		display: grid;
 		grid-template-columns: repeat(3, 1fr);
 	}
+	.provider-grid-row .grid-item:nth-child(3n){
+		margin: 0 0 10px 0;
+	}	
 }
 
 @media(min-width: 500px) and (max-width: 767px) {
 	.grid-row{
 		display: grid;
-		grid-template-columns: repeat(1, 1fr);
+		grid-template-columns: repeat(2, 1fr);
 	}
-	.provider-grid-row .grid-item:nth-child(1n){
+	.provider-grid-row .grid-item:nth-child(2n){
 		margin: 0 0 10px 0;
 	}	
 }
@@ -2075,22 +2106,24 @@ span.dashicons.dashicons-trash.remove {
     margin-left: auto;
 }
 .hip-pagination {
-    margin-top: 10px;
+    margin-top: 5px;
+    text-align: right;
 }
 .hip-pagination a{
-	line-height: 35px;
+    line-height: 35px;
     padding: 8px 12px;
     color: #005b9a;
     text-decoration: none;
     background-color: #fff;
     border: 1px solid #e0e0e0;
     border-radius: 3px;
-    margin-left: 5px;    
+    margin-left: 5px;
+    cursor: pointer;  
 }
 .hip-pagination a.active{
-	cursor: default;
+    cursor: default;
     background-color: transparent;
-	font-weight: normal;
+    font-weight: normal;
 }
 /** End Provider CSS **/
 
@@ -2307,7 +2340,7 @@ span.dashicons.dashicons-trash.remove {
 
 /*** Usage Data Signup Box CSS ***/
 .ud-box-container{
-    width: 484px;
+    width: 600px;
     background: #fff;
     margin: 60px auto 20px auto;    
     border-radius: 3px;
@@ -2320,7 +2353,6 @@ span.dashicons.dashicons-trash.remove {
     line-height: 1.5em;
 }
 .ud-box-container .ud-content p {
-    margin: 0;
     padding: 0;
     font-size: 1.2em;
 }
@@ -2328,6 +2360,7 @@ span.dashicons.dashicons-trash.remove {
     padding: 10px 20px;
     background: #fff;
     border-top: 1px solid #f1f1f1;
+    display: flex;
 }
 .ud-box-container .ud-checkbox {
     padding: 5px 20px;
@@ -2340,8 +2373,8 @@ span.dashicons.dashicons-trash.remove {
     font-size: 16px;
     margin-bottom: 0;
 }
-#ast_skip_usage_data_form{
-    float: right;
+.button.skip_usage_data{
+    margin-left: auto;
 }
 /** End CSS ***/
 

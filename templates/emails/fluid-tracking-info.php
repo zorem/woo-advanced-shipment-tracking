@@ -27,11 +27,11 @@ $fluid_display_shipped_header = $ast->get_checkbox_option_value_from_array( 'tra
 //Hide shipping provider image
 $fluid_hide_provider_image = $ast->get_checkbox_option_value_from_array( 'tracking_info_settings', 'fluid_hide_provider_image', $ast_customizer->defaults['fluid_hide_provider_image'] );
 
-if ( $fluid_hide_provider_image ) {
-	$colspan = '2';
-} else {
-	$colspan = '3';
-}
+	if ( $fluid_hide_provider_image ) {
+		$colspan = '2';
+	} else {
+		$colspan = '3';
+	}
 $fluid_provider_img_class = ( $fluid_hide_provider_image ) ? 'hide' : '' ;
 
 // Button option

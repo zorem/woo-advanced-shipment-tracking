@@ -643,11 +643,10 @@ class WC_Advanced_Shipment_Tracking_Settings {
 					$result = $wpdb->insert( $this->table, $data_array );
 				}
 				
-				$status = 'active';
-				$default_shippment_providers = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %1s ORDER BY shipping_default ASC, display_in_order DESC, trackship_supported DESC, id ASC', $this->table ) );
+				
 				ob_start();
 				$admin = new WC_Advanced_Shipment_Tracking_Admin();
-				$html = $admin->get_provider_html( $default_shippment_providers, $status );
+				$html = $admin->get_provider_html( 1 );
 				$html = ob_get_clean();	
 				
 				echo json_encode( array( 'html' => $html ) );
@@ -778,11 +777,9 @@ class WC_Advanced_Shipment_Tracking_Settings {
 					$deleted_html = ob_get_clean();	
 				}
 				
-				$status = 'active';
-				$default_shippment_providers = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %1s ORDER BY shipping_default ASC, display_in_order DESC, trackship_supported DESC, id ASC', $this->table ) );
 				ob_start();
 				$admin = new WC_Advanced_Shipment_Tracking_Admin();
-				$html = $admin->get_provider_html( $default_shippment_providers, $status );
+				$html = $admin->get_provider_html( 1 );
 				$html = ob_get_clean();										
 				
 				echo json_encode( array( 'added' => $added, 'added_html' => $added_html, 'updated' => $updated, 'updated_html' => $updated_html, 'deleted' => $deleted, 'deleted_html' => $deleted_html,'html' => $html ) );

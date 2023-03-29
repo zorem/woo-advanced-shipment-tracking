@@ -44,8 +44,8 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 		add_action( 'ast_settings_admin_notice', array( $this, 'ast_settings_admin_notice' ) );
 		add_action( 'admin_init', array( $this, 'ast_settings_admin_notice_ignore' ) );
 
-		add_action( 'admin_notices', array( $this, 'ast_fulfillment_survay' ) );	
-		add_action( 'admin_init', array( $this, 'ast_fulfillment_survay_ignore' ) );
+		//add_action( 'admin_notices', array( $this, 'ast_fulfillment_survay' ) );	
+		//add_action( 'admin_init', array( $this, 'ast_fulfillment_survay_ignore' ) );
 		
 		//add_action( 'before_shipping_provider_list', array( $this, 'ast_db_update_notice' ) );	
 		//add_action( 'admin_init', array( $this, 'ast_db_update_notice_ignore' ) );
@@ -108,7 +108,7 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 			<a href="<?php esc_html_e( $dismissable_url ); ?>" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></a>			
 			
 			<h2>Help us improve AST - Take our 2023 fulfillment operations survey</h2>
-			<p>Dear <?php esc_html_e( $display_name )?>, help us improve our plugins by taking our quick survey on WooCommerce fulfillment operations. <a href="https://forms.gle/frPAoYEMK2LCpjcVA" target="blank">Your feedback matters!</a></p>
+			<p>Dear <?php esc_html_e( $display_name ); ?>, help us improve our plugins by taking our quick survey on WooCommerce fulfillment operations. <a href="https://forms.gle/frPAoYEMK2LCpjcVA" target="blank">Your feedback matters!</a></p>
 			<p>Thank you, zorem Team.</p>			
 		</div>	
 		<?php	
@@ -135,7 +135,7 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 		}	
 		
 		$dismissable_url = esc_url(  add_query_arg( 'ast-pro-v-3-4-ignore-notice', 'true' ) );
-		?>		
+		?>
 		<style>		
 		.wp-core-ui .notice.ast-dismissable-notice{
 			position: relative;

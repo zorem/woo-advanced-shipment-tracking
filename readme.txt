@@ -4,7 +4,7 @@ Tags: WooCommerce, delivery, shipping, shipment tracking, tracking
 Requires at least: 5.3
 Tested up to: 6.1.1
 Requires PHP: 7.2
-Stable tag: 3.5.2
+Stable tag: 3.5.3
 License: GPLv2 
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -104,6 +104,13 @@ Yes, if you use external shipping services that work with the WooCommerce REST A
 3. Select default shipping provider from setting page and add tracking number in order page.
 
 == Changelog ==
+
+= 3.5.3 =
+* Enhancement - Improve the Shipping providers list page header design
+* Enhancement - Add an option in the settings for Usage Tracking
+* Enhancement - Update the Usage data sign-up box content
+* Dev - Remove the trackship tracking page funtinality and add a filter on ast_tracking_link for TrackShip to use
+* Fix - Vulnerable to Cross Site Request Forgery (CSRF)
 
 = 3.5.2 =
 * Enhancement - Added admin message for Survey

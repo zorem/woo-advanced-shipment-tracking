@@ -815,9 +815,7 @@ class WC_Advanced_Shipment_Tracking_Actions {
 	public function add_column_my_account_orders_ast_track_column( $actions, $order ) {
 	
 		$order_id = $order->get_id();
-		$tracking_items = $this->get_tracking_items( $order_id, true );	
-		$wc_ast_api_key = get_option( 'wc_ast_api_key' );
-		$use_tracking_page = get_option( 'wc_ast_use_tracking_page' );
+		$tracking_items = $this->get_tracking_items( $order_id, true );			
 		$display_track_in_my_account = get_option( 'display_track_in_my_account', 0 );
 		$open_track_in_new_tab = get_option( 'open_track_in_new_tab', 0 );
 		
@@ -829,7 +827,7 @@ class WC_Advanced_Shipment_Tracking_Actions {
 			return $actions;
 		}
 		
-		if ( count( $tracking_items ) > 1 && ( !$wc_ast_api_key || !$use_tracking_page ) && is_plugin_active( 'trackship-for-woocommerce/trackship-for-woocommerce.php' ) ) {
+		if ( count( $tracking_items ) > 1 ) {
 			$actions['ast_multi_track'] = array(
 				// adjust URL as needed
 				'url'  => $order->get_view_order_url(),
@@ -980,6 +978,7 @@ class WC_Advanced_Shipment_Tracking_Actions {
 	 *
 	*/
 	public function get_formatted_tracking_item( $order_id, $tracking_item ) {
+		
 		$formatted = array();
 		$tracking_items = $this->get_tracking_items( $order_id );
 		$trackship_supported = '';	
@@ -989,11 +988,8 @@ class WC_Advanced_Shipment_Tracking_Actions {
 				$shipmet_key = $key;
 			}		
 		}
-		$order = wc_get_order( $order_id );
-		$shipment_status = $order->get_meta( 'shipment_status', true );
-		
-		$status = isset( $shipment_status[ $shipmet_key ][ 'status' ] ) ? $shipment_status[ $shipmet_key ][ 'status' ] : '';
-		
+
+		$order = wc_get_order( $order_id );		
 		$postcode = $order->get_shipping_postcode();
 
 		$formatted['formatted_tracking_provider'] = '';
@@ -1076,32 +1072,8 @@ class WC_Advanced_Shipment_Tracking_Actions {
 			$formatted['formatted_tracking_link'] = $formatted_tracking_link;
 		}
 		
-		$ts_tracking_page = $this->check_ts_tracking_page_for_tracking_item( $order_id, $tracking_item, $status );			
-		
-		if ( $ts_tracking_page ) {
-			
-			$tracking_page = get_option( 'wc_ast_trackship_page_id' );			
-			$order_key = $order->get_order_key();	
-			
-			if ( 'other' == $tracking_page ) {
-				$trackship_other_page = get_option( 'wc_ast_trackship_other_page' );
-				$ts_tracking_link = add_query_arg( array(
-					//'order_id' => $order_id,
-					//'order_key' => $order_key,
-					'tracking'	=> $tracking_number
-				), $trackship_other_page );				
-			} else {
-				$ts_tracking_link = add_query_arg( array(
-					//'order_id' => $order_id,
-					//'order_key' => $order_key,
-					'tracking'	=> $tracking_number
-				), get_permalink( $tracking_page ) );					
-			}
-			
-			$formatted['ast_tracking_link'] = $ts_tracking_link;
-		} else {
-			$formatted['ast_tracking_link'] = $formatted_tracking_link;
-		}
+		$trackship_supported = $this->check_provider_trackship_supported( $tracking_provider );
+		$formatted['ast_tracking_link'] = apply_filters( 'ast_tracking_link', $formatted_tracking_link, $tracking_number, $order_id, $trackship_supported );
 		
 		global $wpdb;
 		$results = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM %1s WHERE ts_slug = %s', $this->table, $tracking_item['tracking_provider'] ) );
@@ -1110,35 +1082,10 @@ class WC_Advanced_Shipment_Tracking_Actions {
 		return $formatted;
 	}
 	
-	public function check_ts_tracking_page_for_tracking_item( $order_id, $tracking_item, $status ) {
-
-		$wc_ast_api_key = get_option( 'wc_ast_api_key' );
-		$use_tracking_page = get_option( 'wc_ast_use_tracking_page' );
-		
-		if ( !function_exists( 'trackship_for_woocommerce' ) ||  !$wc_ast_api_key || !$use_tracking_page ) {
-			return false;
-		}		
-		
-		global $wpdb;
-		$shipment_table = $wpdb->prefix . 'trackship_shipment';		
-		$shipment_status = $wpdb->get_var( $wpdb->prepare( "SELECT shipment_status FROM $shipment_table WHERE order_id = %s", $order_id ) );		
-		if ( null == $shipment_status ) {
-			return false;
-		}		
-		
-		$trackship_supported = 0;
-		
-		foreach ( $this->get_providers() as $provider => $format ) {									
-			if (  $provider  === $tracking_item['tracking_provider'] || $format['provider_name']  == $tracking_item['tracking_provider'] ) {	
-				$trackship_supported = isset( $format['trackship_supported'] ) ? $format['trackship_supported'] : 0; 		
-				break;
-			}
-		}
-		
-		if ( 1 == $trackship_supported && 'carrier_unsupported' != $status ) { 
-			return true;
-		}
-		return false;
+	public function check_provider_trackship_supported( $tracking_provider ) {
+		global $wpdb;		
+		$trackship_supported = $wpdb->get_var( $wpdb->prepare( 'SELECT trackship_supported FROM %1s WHERE ts_slug = %s', $this->table, $tracking_provider ) );
+		return $trackship_supported;
 	}
 
 	/**
