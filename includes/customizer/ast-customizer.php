@@ -5,6 +5,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Ast_Customizer {
 
+	public $defaults;
+
 	// WooCommerce email classes.
 	public static $email_types_class_names  = array(		
 		'completed'          => 'WC_Email_Customer_Completed_Order',		

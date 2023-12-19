@@ -5,6 +5,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class WC_Advanced_Shipment_Tracking_Settings {		
 	
+	public $table;
+	
 	/**
 	 * Initialize the main plugin function
 	*/
@@ -501,68 +503,84 @@ class WC_Advanced_Shipment_Tracking_Settings {
 		$WC_Countries = new WC_Countries();
 		$countries = $WC_Countries->get_countries();
 		
-		$shippment_countries = $wpdb->get_results( $wpdb->prepare( 'SELECT shipping_country FROM %1s WHERE display_in_order = 1 GROUP BY shipping_country', $this->table ) );			
-		
+		$shippment_countries = $wpdb->get_results( $wpdb->prepare( 'SELECT shipping_country FROM %1s WHERE display_in_order = 1 GROUP BY shipping_country', $this->table ) );		
 		$default_provider = get_option( 'wc_ast_default_provider' );
 		ob_start();
 		?>
-		<div id="" class="trackingpopup_wrapper add_tracking_popup" style="display:none;">
-			<div class="trackingpopup_row">
-				<div class="popup_header">
-					<h3 class="popup_title"><?php esc_html_e( 'Add Tracking - order	', 'woo-advanced-shipment-tracking'); ?> - #<?php esc_html_e( $order_number ); ?></h2>					
-					<span class="dashicons dashicons-no-alt popup_close_icon"></span>
-				</div>
-				<div class="popup_body">
-					<form id="add_tracking_number_form" method="POST" class="add_tracking_number_form">	
-						<?php do_action( 'ast_tracking_form_between_form', $order_id, 'inline' ); ?>
-						<p class="form-field tracking_number_field form-50">
-							<label for="tracking_number"><?php esc_html_e( 'Tracking number:', 'woo-advanced-shipment-tracking'); ?></label>
-							<input type="text" class="short" name="tracking_number" id="tracking_number" value="" autocomplete="off"> 
-						</p>
-						<p class="form-field form-50">
-							<label for="tracking_number"><?php esc_html_e( 'Shipping Provider:', 'woo-advanced-shipment-tracking'); ?></label>
-							<select class="chosen_select tracking_provider_dropdown" id="tracking_provider" name="tracking_provider">
-								<option value=""><?php esc_html_e( 'Shipping Provider:', 'woo-advanced-shipment-tracking' ); ?></option>
-								<?php 
-								foreach ( $shippment_countries as $s_c ) {
-									if ( 'Global' != $s_c->shipping_country ) {
-										$country_name = esc_attr( $WC_Countries->countries[ $s_c->shipping_country ] );
-									} else {
-										$country_name = 'Global';
-									}
-									echo '<optgroup label="' . esc_html( $country_name ) . '">';
-									$country = $s_c->shipping_country;				
-									$shippment_providers_by_country = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %1s WHERE shipping_country = %s AND display_in_order = 1', $this->table, $country ) );			foreach ( $shippment_providers_by_country as $providers ) {											
-										$selected = ( esc_attr( $providers->provider_name ) == $default_provider ) ? 'selected' : '';
-										echo '<option value="' . esc_attr( $providers->ts_slug ) . '" ' . esc_html( $selected ) . '>' . esc_html( $providers->provider_name ) . '</option>';
-									}
-									echo '</optgroup>';	
-								}
-								?>
-							</select>
-						</p>					
-						<p class="form-field tracking_product_code_field form-50">
-							<label for="tracking_product_code"><?php esc_html_e( 'Product Code:', 'woo-advanced-shipment-tracking'); ?></label>
-							<input type="text" class="short" name="tracking_product_code" id="tracking_product_code" value=""> 
-						</p>
-						<p class="form-field date_shipped_field form-50">
-							<label for="date_shipped"><?php esc_html_e( 'Date shipped:', 'woo-advanced-shipment-tracking'); ?></label>
-							<input type="text" class="ast-date-picker-field" name="date_shipped" id="date_shipped" value="<?php echo esc_html( date_i18n( __( 'Y-m-d', 'woo-advanced-shipment-tracking' ), current_time( 'timestamp' ) ) ); ?>" placeholder="<?php echo esc_html( date_i18n( esc_html_e( 'Y-m-d', 'woo-advanced-shipment-tracking' ), time() ) ); ?>">						
-						</p>								
-						<?php do_action( 'ast_after_tracking_field', $order_id ); ?>
-						<hr>
-						<?php wc_advanced_shipment_tracking()->actions->mark_order_as_fields_html(); ?>
-						<hr>
-						<p>		
-							<?php wp_nonce_field( 'wc_ast_inline_tracking_form', 'wc_ast_inline_tracking_form_nonce' ); ?>
-							<input type="hidden" name="action" value="add_inline_tracking_number">
-							<input type="hidden" name="order_id" id="order_id" value="<?php esc_html_e( $order_id ); ?>">
-							<input type="submit" name="Submit" value="<?php esc_html_e( 'Fulfill Order', 'woo-advanced-shipment-tracking' ); ?>" class="button-primary btn_green">        
-						</p>			
-					</form>
-				</div>								
+		<div id="" class="slidout_container add_tracking_popup">
+			<div class="slidout_header">
+				<div class="slidout_header_title">
+					<h3 class="slidout_title"><?php esc_html_e( 'Add Tracking - order	', 'woo-advanced-shipment-tracking'); ?> - #<?php esc_html_e( $order_number ); ?></h3>
+				</div>	
+				<div class="slidout_header_action">
+					<span class="dashicons dashicons-no-alt popup_close_icon slidout_close"></span>
+				</div>	
 			</div>
-			<div class="popupclose"></div>
+			<div class="slidout_body">
+				<form id="add_tracking_number_form" method="POST" class="add_tracking_number_form">	
+					<?php do_action( 'ast_tracking_form_between_form', $order_id, 'inline' ); ?>
+					<p class="form-field tracking_number_field">
+						<label for="tracking_number"><?php esc_html_e( 'Tracking number:', 'woo-advanced-shipment-tracking'); ?></label>
+						<input type="text" class="short" name="tracking_number" id="tracking_number" value="" autocomplete="off"> 
+					</p>
+					<p class="form-field">
+						<label for="tracking_number"><?php esc_html_e( 'Shipping Provider:', 'woo-advanced-shipment-tracking'); ?></label>
+						<select class="chosen_select tracking_provider_dropdown" id="tracking_provider" name="tracking_provider">
+							<option value=""><?php esc_html_e( 'Shipping Provider:', 'woo-advanced-shipment-tracking' ); ?></option>
+							<?php 
+							foreach ( $shippment_countries as $s_c ) {
+								if ( 'Global' != $s_c->shipping_country ) {
+									$country_name = esc_attr( $WC_Countries->countries[ $s_c->shipping_country ] );
+								} else {
+									$country_name = 'Global';
+								}
+								echo '<optgroup label="' . esc_html( $country_name ) . '">';
+								$country = $s_c->shipping_country;				
+								$shippment_providers_by_country = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %1s WHERE shipping_country = %s AND display_in_order = 1', $this->table, $country ) );
+								
+								foreach ( $shippment_providers_by_country as $providers ) {											
+									$selected = ( esc_attr( $providers->provider_name ) == $default_provider ) ? 'selected' : '';
+									echo '<option value="' . esc_attr( $providers->ts_slug ) . '" ' . esc_html( $selected ) . '>' . esc_html( $providers->provider_name ) . '</option>';
+								}
+								echo '</optgroup>';
+							}
+							?>
+						</select>
+						<?php
+						if ( empty( $shippment_countries ) ) {
+							?>
+							<span>
+								<?php
+								echo sprintf(
+									// translators: Please add shipping carriers from <a>here</a> (link to shipping providers page)
+									wp_kses( __( 'Please add shipping carriers from <a href="%s">here</a>', 'woo-advanced-shipment-tracking' ), array( 'a' => array( 'href' => array() ) ) ),
+									esc_url( admin_url( 'admin.php?page=woocommerce-advanced-shipment-tracking&tab=shipping-providers' ) )
+								);
+								?>
+							</span>
+							<?php
+						}
+						?>
+					</p>					
+					<p class="form-field tracking_product_code_field">
+						<label for="tracking_product_code"><?php esc_html_e( 'Product Code:', 'woo-advanced-shipment-tracking'); ?></label>
+						<input type="text" class="short" name="tracking_product_code" id="tracking_product_code" value=""> 
+					</p>
+					<p class="form-field date_shipped_field">
+						<label for="date_shipped"><?php esc_html_e( 'Date shipped:', 'woo-advanced-shipment-tracking'); ?></label>
+						<input type="text" class="ast-date-picker-field" name="date_shipped" id="date_shipped" value="<?php echo esc_html( date_i18n( __( 'Y-m-d', 'woo-advanced-shipment-tracking' ), current_time( 'timestamp' ) ) ); ?>" placeholder="<?php echo esc_html( date_i18n( esc_html_e( 'Y-m-d', 'woo-advanced-shipment-tracking' ), time() ) ); ?>">						
+					</p>								
+					<?php do_action( 'ast_after_tracking_field', $order_id ); ?>					
+					<?php wc_advanced_shipment_tracking()->actions->mark_order_as_fields_html(); ?>
+					<hr>
+					<p>		
+						<?php wp_nonce_field( 'wc_ast_inline_tracking_form', 'wc_ast_inline_tracking_form_nonce' ); ?>
+						<input type="hidden" name="action" value="add_inline_tracking_number">
+						<input type="hidden" name="order_id" id="order_id" value="<?php esc_html_e( $order_id ); ?>">
+						<input type="submit" name="Submit" value="<?php esc_html_e( 'Fulfill Order', 'woo-advanced-shipment-tracking' ); ?>" class="button-primary btn_green btn_ast2">        
+					</p>			
+				</form>
+			</div>			
 		</div>
 		<?php		
 		$html = ob_get_clean();
@@ -592,7 +610,7 @@ class WC_Advanced_Shipment_Tracking_Settings {
 		$reset_checked = isset( $_POST[ 'reset_checked' ] ) ? wc_clean( $_POST[ 'reset_checked' ] ) : '';
 		global $wpdb;		
 		
-		$url =	apply_filters( 'ast_sync_provider_url', 'https://trackship.info/wp-json/WCAST/v1/Provider' );
+		$url =	apply_filters( 'ast_sync_provider_url', 'http://trackship.info/wp-json/WCAST/v1/Provider?paypal_slug' );
 		$resp = wp_remote_get( $url );
 
 		$upload_dir   = wp_upload_dir();	
@@ -601,6 +619,9 @@ class WC_Advanced_Shipment_Tracking_Settings {
 		if ( !is_dir( $ast_directory ) ) {
 			wp_mkdir_p( $ast_directory );	
 		}
+		
+		$WC_Countries = new WC_Countries();
+		$countries = $WC_Countries->get_countries();
 		
 		if ( is_array( $resp ) && ! is_wp_error( $resp ) ) {
 			$providers = json_decode( $resp['body'], true );
@@ -616,6 +637,13 @@ class WC_Advanced_Shipment_Tracking_Settings {
 					$provider_name = $provider['shipping_provider'];
 					$provider_url = $provider['provider_url'];
 					$shipping_country = $provider['shipping_country'];
+
+					if ( 'Global' == $provider['shipping_country'] ) {
+						$shipping_country_name = $provider['shipping_country'];
+					} else {
+						$shipping_country_name = $countries[ $provider['shipping_country'] ];
+					}
+
 					$ts_slug = $provider['shipping_provider_slug'];	
 					$img_url = $provider['img_url'];			
 					$trackship_supported = $provider['trackship_supported'];							
@@ -630,6 +658,7 @@ class WC_Advanced_Shipment_Tracking_Settings {
 								
 					$data_array = array(
 						'shipping_country' => sanitize_text_field( $shipping_country ),
+						'shipping_country_name' => sanitize_text_field( $shipping_country_name ),
 						'provider_name' => sanitize_text_field( $provider_name ),
 						'ts_slug' => $ts_slug,
 						'provider_url' => sanitize_text_field( $provider_url ),			
@@ -675,6 +704,13 @@ class WC_Advanced_Shipment_Tracking_Settings {
 					$provider_name = $provider['shipping_provider'];
 					$provider_url = $provider['provider_url'];
 					$shipping_country = $provider['shipping_country'];
+					
+					if ( 'Global' == $provider['shipping_country'] ) {
+						$shipping_country_name = $provider['shipping_country'];
+					} else {
+						$shipping_country_name = $countries[ $provider['shipping_country'] ];
+					}
+					
 					$ts_slug = $provider['shipping_provider_slug'];
 					$trackship_supported = $provider['trackship_supported'];
 					
@@ -683,6 +719,7 @@ class WC_Advanced_Shipment_Tracking_Settings {
 						$db_provider_name = $shippment_providers[ $ts_slug ]->provider_name;
 						$db_provider_url = $shippment_providers[ $ts_slug ]->provider_url;
 						$db_shipping_country = $shippment_providers[ $ts_slug ]->shipping_country;
+						$db_shipping_country_name = $shippment_providers[$ts_slug]->shipping_country_name;
 						$db_ts_slug = $shippment_providers[ $ts_slug ]->ts_slug;
 						$db_trackship_supported = $shippment_providers[ $ts_slug ]->trackship_supported;
 						
@@ -693,6 +730,8 @@ class WC_Advanced_Shipment_Tracking_Settings {
 						} elseif ( $db_provider_url != $provider_url ) {
 							$update_needed = true;
 						} elseif ( $db_shipping_country != $shipping_country ) {
+							$update_needed = true;
+						} elseif ( $db_shipping_country_name != $shipping_country_name ) {
 							$update_needed = true;
 						} elseif ( $db_ts_slug != $ts_slug ) {
 							$update_needed = true;
@@ -707,6 +746,7 @@ class WC_Advanced_Shipment_Tracking_Settings {
 								'ts_slug' => $ts_slug,
 								'provider_url' => $provider_url,
 								'shipping_country' => $shipping_country,
+								'shipping_country_name' => $shipping_country_name,
 								'trackship_supported' => $trackship_supported,								
 							);
 							
@@ -728,9 +768,16 @@ class WC_Advanced_Shipment_Tracking_Settings {
 						$data = wp_remote_retrieve_body( $response );
 						
 						file_put_contents( $img, $data );
+
+						if ( 'Global' == $shipping_country ) {
+							$shipping_country_name = $shipping_country;
+						} else {
+							$shipping_country_name = $countries[ $shipping_country ];
+						}
 																		
 						$data_array = array(
 							'shipping_country' => sanitize_text_field( $shipping_country ),
+							'shipping_country_name' => $shipping_country_name,
 							'provider_name' => sanitize_text_field( $provider_name ),
 							'ts_slug' => $ts_slug,
 							'provider_url' => sanitize_text_field( $provider_url ),

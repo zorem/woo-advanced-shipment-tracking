@@ -1,10 +1,10 @@
 === Advanced Shipment Tracking for WooCommerce  ===
-Contributors: zorem
+Contributors: zorem,gaurav1092
 Tags: WooCommerce, delivery, shipping, shipment tracking, tracking
 Requires at least: 5.3
-Tested up to: 6.1.1
+Tested up to: 6.4.2
 Requires PHP: 7.2
-Stable tag: 3.5.3
+Stable tag: 3.6.3
 License: GPLv2 
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -104,6 +104,34 @@ Yes, if you use external shipping services that work with the WooCommerce REST A
 3. Select default shipping provider from setting page and add tracking number in order page.
 
 == Changelog ==
+
+= 3.6.3 =
+* Enhancement - Update the settings page design
+* Enhancement - Updated the Shipping Carriers design
+* Dev - Test plugin with WordPress 6.4
+* Dev - Compatibility with PHP 8.2
+* Improve - the add tracking in edit order details page
+* Fix - Undefined property: stdClass::$custom_tracking_url
+* Fix - Undefined variable $fluid_hide_shipping_date
+* Fix - Remove Mark as Shipped from actions column when the order status is Shipped
+
+= 3.6.2 =
+* Fix - Shipping carrier not showing on add tracking sidebar
+
+= 3.6.1 =
+* Fix - Shipping carrier not found in Shipping Carriers list
+* Dev - added a filter "wc_ast_default_mark_shipped" to unchecked the uncheck the Mark order as: Shipped checkbox
+
+= 3.6 =
+* Enhancement - Update the design of the Add tracking popup
+* Enhancement - Updated the design of Shipping Carriers list
+* Enhancement - Change the terminology - Shipping providers" to "Shipping Carriers"
+* Dev - Add script in footer for Open the Track Button link in a new tab option
+* Dev - Tested plugin with WordPress 6.3.1
+* Dev - Tested with WooCommerce 8.2
+* Improve - Duplicate Queries on orders list
+* Fix - search by country name not working in shipping providers list
+* Fix - Undefined variable $tracking_number on woo-advanced-shipment-tracking/includes/class-wc-advanced-shipment-tracking.php on line 1076
 
 = 3.5.3 =
 * Enhancement - Improve the Shipping providers list page header design

@@ -113,17 +113,17 @@
 			<div class="single_plugin as-col-4">
 				<div class="free_plugin_inner">
 					<div class="paid_plugin_image">
-						<img src="<?php echo esc_url( wc_advanced_shipment_tracking()->plugin_dir_url() ); ?>assets/images/aosm.png">
-						<h3 class="plugin_title">Order Status Manager</h3>
+						<img src="<?php echo esc_url( wc_advanced_shipment_tracking()->plugin_dir_url() ); ?>assets/images/cev.png">
+						<h3 class="plugin_title">Customer Email Verification</h3>
 					</div>
-					<div class="paid_plugin_description">						
-						<p>The Advanced Order Status Manager allows store owners to manage the WooCommerce orders statuses, create, edit, and delete custom Custom Order Statuses and integrate them into the WooCommerce orders flow.</p>
+					<div class="paid_plugin_description">
+						<p>The Customer Email Verification helps WooCommerce store owners to reduce registration and spam orders by requiring customers to verify their email address when they register an account or before they can place an order on your store.</p>
 						<?php 
-						if ( is_plugin_active('advanced-order-status-manager/advanced-order-status-manager.php' ) ) {
+						if ( is_plugin_active('customer-email-verification-pro/customer-email-verification-pro.php' ) ) {
 							?>
 							<button type="button" class="button button button-primary btn_green2">Active</button>
 						<?php } else { ?>
-							<a href="https://www.zorem.com/product/advanced-order-status-manager/" class="button button-primary btn_ast2" target="blank"><?php esc_html_e('More Info', 'ast-pro'); ?></a>
+							<a href="https://www.zorem.com/product/customer-email-verification/" class="button button-primary btn_ast2" target="blank"><?php esc_html_e('More Info', 'ast-pro'); ?></a>
 						<?php } ?>	
 					</div>
 				</div>

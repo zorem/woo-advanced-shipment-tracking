@@ -11,6 +11,7 @@ class WC_Advanced_Shipment_Tracking_Install {
 	 * @var object Class Instance
 	 */
 	private static $instance;
+	public $table;
 	
 	/**
 	 * Initialize the main plugin function
@@ -75,12 +76,7 @@ class WC_Advanced_Shipment_Tracking_Install {
 		// Add transient to trigger redirect.
 		set_transient( '_ast_activation_redirect', 1, 30 );		
 		
-		$this->ast_insert_shipping_providers();								
-		
-		$wc_ast_default_mark_shipped = get_option( 'wc_ast_default_mark_shipped' );
-		if ( '' == $wc_ast_default_mark_shipped ) {
-			update_option( 'wc_ast_default_mark_shipped', 1 );
-		}
+		$this->ast_insert_shipping_providers();		
 		
 		$wc_ast_unclude_tracking_info = get_option( 'wc_ast_unclude_tracking_info' );
 		if ( empty( $wc_ast_unclude_tracking_info ) ) {	
@@ -108,9 +104,11 @@ class WC_Advanced_Shipment_Tracking_Install {
 			provider_name varchar(500) DEFAULT '' NOT NULL,
 			api_provider_name text NULL DEFAULT NULL,
 			custom_provider_name text NULL DEFAULT NULL,
+			paypal_slug text NULL DEFAULT NULL,
 			ts_slug text NULL DEFAULT NULL,
 			provider_url varchar(500) DEFAULT '' NULL,
 			shipping_country varchar(45) DEFAULT '' NULL,
+			shipping_country_name varchar(45) DEFAULT '' NULL,
 			shipping_default tinyint(4) NULL DEFAULT '0',
 			custom_thumb_id int(11) NOT NULL DEFAULT '0',
 			display_in_order tinyint(4) NOT NULL DEFAULT '1',
@@ -158,9 +156,15 @@ class WC_Advanced_Shipment_Tracking_Install {
 			$db_update_need = true;
 		}
 
+		$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '%1s' AND COLUMN_NAME = 'paypal_slug' ", $this->table ), ARRAY_A );
+		if ( ! $row ) {
+			$wpdb->query( $wpdb->prepare( 'ALTER TABLE %1s ADD paypal_slug text NULL DEFAULT NULL AFTER custom_provider_name', $this->table ) );
+			$db_update_need = true;
+		}
+
 		$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '%1s' AND COLUMN_NAME = 'ts_slug' ", $this->table ), ARRAY_A );
 		if ( ! $row ) {
-			$wpdb->query( $wpdb->prepare( 'ALTER TABLE %1s ADD ts_slug text NULL DEFAULT NULL AFTER custom_provider_name', $this->table ) );
+			$wpdb->query( $wpdb->prepare( 'ALTER TABLE %1s ADD ts_slug text NULL DEFAULT NULL AFTER paypal_slug', $this->table ) );
 			$db_update_need = true;
 		}
 
@@ -176,9 +180,15 @@ class WC_Advanced_Shipment_Tracking_Install {
 			$db_update_need = true;
 		}
 
+		$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '%1s' AND COLUMN_NAME = 'shipping_country_name' ", $this->table ), ARRAY_A );
+		if ( ! $row ) {			
+			$wpdb->query( $wpdb->prepare( "ALTER TABLE %1s ADD shipping_country_name varchar(45) DEFAULT '' NULL AFTER shipping_country", $this->table ) );
+			$db_update_need = true;
+		}
+
 		$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '%1s' AND COLUMN_NAME = 'shipping_default' ", $this->table ), ARRAY_A );
 		if ( ! $row ) {
-			$wpdb->query( $wpdb->prepare( "ALTER TABLE %1s ADD shipping_default tinyint(4) NOT NULL DEFAULT '0' AFTER shipping_country", $this->table ) );
+			$wpdb->query( $wpdb->prepare( "ALTER TABLE %1s ADD shipping_default tinyint(4) NOT NULL DEFAULT '0' AFTER shipping_country_name", $this->table ) );
 			$db_update_need = true;
 		}
 
@@ -267,6 +277,10 @@ class WC_Advanced_Shipment_Tracking_Install {
 				update_option( 'wc_advanced_shipment_tracking', '3.24' );
 			}
 			
+			if ( version_compare( get_option( 'wc_advanced_shipment_tracking', '1.0' ), '4.0', '<' ) ) {				
+				$this->ast_insert_shipping_providers();				
+				update_option( 'wc_advanced_shipment_tracking', '4.0' );
+			}
 		}
 	}
 	
@@ -312,62 +326,83 @@ class WC_Advanced_Shipment_Tracking_Install {
 	*/
 	public function ast_insert_shipping_provider() {
 		global $wpdb;		
-		$url = 'https://trackship.info/wp-json/WCAST/v1/Provider';		
+		$url = 'http://trackship.info/wp-json/WCAST/v1/Provider?paypal_slug';		
 		$resp = wp_remote_get( $url );
-		
-		$upload_dir   = wp_upload_dir();	
+		$WC_Countries = new WC_Countries();
+		$countries = $WC_Countries->get_countries();
+		// shipping provider image path
+		$upload_dir   = wp_upload_dir();
 		$ast_directory = $upload_dir['basedir'] . '/ast-shipping-providers';
-		
 		if ( !is_dir( $ast_directory ) ) {
-			wp_mkdir_p( $ast_directory );	
+			wp_mkdir_p( $ast_directory );
 		}
-				
+
 		if ( is_array( $resp ) && ! is_wp_error( $resp ) ) {
-		
+			
 			$providers = json_decode( $resp['body'], true );
-			
-			$providers_name = array();
-			
+
 			$default_shippment_providers = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %1s WHERE shipping_default = 1', $this->table ) );
 			foreach ( $default_shippment_providers as $key => $val ) {
-				$shippment_providers[ $val->ts_slug ] = $val;						
+				$shippment_providers[ $val->ts_slug ] = $val;
 			}
-	
+
+			$providers_name = array();
 			foreach ( $providers as $key => $val ) {
-				$providers_name[ $val['shipping_provider_slug'] ] = $val;						
-			}					
-			
+				$providers_name[ $val['shipping_provider_slug'] ] = $val;
+			}
+
 			$n = 0;
 			foreach ( $providers as $provider ) {
-				
+
 				$provider_name = $provider['shipping_provider'];
 				$provider_url = $provider['provider_url'];
 				$shipping_country = $provider['shipping_country'];
+				
+				if ( 'Global' == $provider['shipping_country'] ) {
+					$shipping_country_name = $provider['shipping_country'];
+				} else {
+					$shipping_country_name = $countries[ $provider['shipping_country'] ];
+				}
+				
 				$ts_slug = $provider['shipping_provider_slug'];
 				$trackship_supported = $provider['trackship_supported'];
+				$paypal_slug = $provider['paypal_slug'];
 				
-				if ( isset( $shippment_providers[ $ts_slug ] ) ) {				
-					
+
+				if ( isset( $shippment_providers[ $ts_slug ] ) ) {
+
 					$db_provider_name = $shippment_providers[ $ts_slug ]->provider_name;
 					$db_provider_url = $shippment_providers[$ts_slug]->provider_url;
 					$db_shipping_country = $shippment_providers[$ts_slug]->shipping_country;
+					$db_shipping_country_name = $shippment_providers[$ts_slug]->shipping_country_name;
 					$db_ts_slug = $shippment_providers[$ts_slug]->ts_slug;
 					$db_trackship_supported = $shippment_providers[$ts_slug]->trackship_supported;
+					$db_paypal_slug = $shippment_providers[$ts_slug]->paypal_slug;
 					
-					if ( ( $db_provider_name != $provider_name ) || ( $db_provider_url != $provider_url ) || ( $db_shipping_country != $shipping_country ) || ( $db_ts_slug != $ts_slug ) || ( $db_trackship_supported != 	$trackship_supported ) ) {
+					if ( ( $db_provider_name != $provider_name ) || ( $db_provider_url != $provider_url ) || ( $db_shipping_country != $shipping_country ) || ( $db_shipping_country_name != $shipping_country_name ) || ( $db_ts_slug != $ts_slug ) || ( $db_trackship_supported != 	$trackship_supported ) || ( $db_paypal_slug != 	$paypal_slug ) ) {
+						
+						if ( 'Global' == $shipping_country ) {
+							$shipping_country_name = $shipping_country;
+						} else {
+							$shipping_country_name = $countries[ $shipping_country ];
+						}
+						
 						$data_array = array(
 							'provider_name' => $provider_name,
 							'ts_slug' => $ts_slug,
 							'provider_url' => $provider_url,
 							'shipping_country' => $shipping_country,
-							'trackship_supported' => $trackship_supported,							
+							'shipping_country_name' => $shipping_country_name,
+							'trackship_supported' => $trackship_supported,
+							'paypal_slug' => $paypal_slug,
 						);
 						$where_array = array(
-							'ts_slug' => $ts_slug,			
-						);					
-						$wpdb->update( $this->table, $data_array, $where_array);					
+							'ts_slug' => $ts_slug,
+						);
+						$wpdb->update( $this->table, $data_array, $where_array);
 					}
 				} else {
+					
 					$img_url = $provider['img_url'];
 					$img_slug = sanitize_title($provider_name);
 					$img = $ast_directory . '/' . $img_slug . '.png';
@@ -375,37 +410,45 @@ class WC_Advanced_Shipment_Tracking_Install {
 					$response = wp_remote_get( $img_url );
 					$data = wp_remote_retrieve_body( $response );
 					
-					file_put_contents($img, $data); 			
-					
-					$display_in_order = 1; 	
-					if ( $n > 14 ) {
+					file_put_contents($img, $data); 
+
+					$display_in_order = 0; 
+					/*if ( $n > 14 ) {
 						$display_in_order = 0; 	
-					}	
-					
+					}*/
+
+					if ( 'Global' == $shipping_country ) {
+						$shipping_country_name = $shipping_country;
+					} else {
+						$shipping_country_name = $countries[ $shipping_country ];
+					}
+
 					$data_array = array(
 						'shipping_country' => sanitize_text_field($shipping_country),
+						'shipping_country_name' => $shipping_country_name,
 						'provider_name' => sanitize_text_field($provider_name),
 						'ts_slug' => $ts_slug,
 						'provider_url' => sanitize_text_field($provider_url),			
 						'display_in_order' => $display_in_order,
 						'shipping_default' => 1,
-						'trackship_supported' => $provider['trackship_supported'],
+						'trackship_supported' => sanitize_text_field( $provider['trackship_supported'] ),
+						'paypal_slug' => sanitize_text_field( $provider['paypal_slug'] ),
 					);
-					$result = $wpdb->insert( $this->table, $data_array );
-					$n++;	
-				}		
+					$wpdb->insert( $this->table, $data_array );
+					$n++;
+				}
 			}
-			
+
 			foreach ( $default_shippment_providers as $db_provider ) {
-	
-				if ( !isset( $providers_name[ $db_provider->ts_slug ] ) ) {				
+
+				if ( !isset( $providers_name[ $db_provider->ts_slug ] ) ) {
 					$where = array(
 						'ts_slug' => $db_provider->ts_slug,
 						'shipping_default' => 1
 					);
-					$wpdb->delete( $this->table, $where );					
+					$wpdb->delete( $this->table, $where );
 				}
 			}
-		}	
+		}
 	}	
 }
