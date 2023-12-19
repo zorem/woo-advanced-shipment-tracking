@@ -47,8 +47,11 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 		//add_action( 'admin_notices', array( $this, 'ast_fulfillment_survay' ) );	
 		//add_action( 'admin_init', array( $this, 'ast_fulfillment_survay_ignore' ) );
 		
-		//add_action( 'before_shipping_provider_list', array( $this, 'ast_db_update_notice' ) );	
-		//add_action( 'admin_init', array( $this, 'ast_db_update_notice_ignore' ) );
+		add_action( 'before_shipping_provider_list', array( $this, 'ast_db_update_notice' ) );	
+		add_action( 'admin_init', array( $this, 'ast_db_update_notice_ignore' ) );
+
+		add_action( 'admin_notices', array( $this, 'ast_trackship_notice' ) );	
+		add_action( 'admin_init', array( $this, 'ast_trackship_notice_ignore' ) );
 	}
 	
 	public function ast_settings_admin_notice() {
@@ -63,7 +66,7 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 
 	public function ast_settings_admin_notice_ignore() {
 		if ( isset( $_GET['ast-pro-settings-ignore-notice'] ) ) {
-			set_transient( 'ast_settings_admin_notice_ignore', 'yes', 518400 );
+			set_transient( 'ast_settings_admin_notice_ignore', 'yes', 2592000 );
 		}
 	}
 	
@@ -200,11 +203,11 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 		}	
 		
 		$dismissable_url = esc_url(  add_query_arg( 'ast-db-update-notice-updated-ignore', 'true' ) );
-		$update_providers_url = esc_url( admin_url( '/admin.php?page=woocommerce-advanced-shipment-tracking&tab=shipping-providers&open=synch_providers' ) );
+		// $update_providers_url = esc_url( admin_url( '/admin.php?page=woocommerce-advanced-shipment-tracking&tab=shipping-providers&open=synch_providers' ) );
 		?>
 		<style>		
 		.wp-core-ui .notice.ast-pro-dismissable-notice a.notice-dismiss{
-			padding: 9px;
+			padding:13px 10px;
 			text-decoration: none;
 		}
 		.wp-core-ui .button-primary.ast_notice_btn {
@@ -224,11 +227,16 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 			padding: 1px 12px;
 			box-shadow: none;
 		}
+		.ast_notice_p{
+			display:inline-block;
+			margin:10px 0 !important;
+		}
 		</style>	
 		<div class="ast-notice notice notice-success is-dismissible ast-pro-dismissable-notice">			
 			<a href="<?php esc_html_e( $dismissable_url ); ?>" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></a>			
-			<p>Shipping providers update is available, please click on update providers to update the shipping providers list.</p>
-			<a class="button-primary ast_notice_btn" href="<?php esc_html_e( $update_providers_url ); ?>">Update Providers</a>			
+			<p class="ast_notice_p">Shipping carriers update is available, please click on update carriers to update the shipping providers list.</p>
+			<!-- <a class="button-primary ast_notice_btn" href="<?php //esc_html_e( $update_providers_url ); ?>">Update Providers</a>	 -->
+			<button class="sync_providers shipping_carriers_notice_btn" target="_blank">UPDATE CARRIERS</button>		
 		</div>
 	<?php 		
 	}	
@@ -243,5 +251,66 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 		if ( isset( $_GET['open'] ) && 'synch_providers' == $_GET['open'] ) {
 			update_option( 'ast_db_update_notice_updated_ignore', 'true' );
 		}
+	}
+
+	/*
+	* Display admin notice on plugin install or update
+	*/
+	public function ast_trackship_notice() { 		
+		
+		$ts4wc_installed = ( function_exists( 'trackship_for_woocommerce' ) ) ? true : false;
+		if ( $ts4wc_installed ) {
+			return;
+		}
+		
+		if ( get_option('ast_trackship_notice_ignore') ) {
+			return;
+		}	
+		
+		$dismissable_url = esc_url(  add_query_arg( 'ast-trackship-notice', 'true' ) );
+		?>
+		<style>		
+		.wp-core-ui .notice.ast-dismissable-notice{
+			position: relative;
+			padding-right: 38px;
+			border-left-color: #005B9A;
+		}
+		.wp-core-ui .notice.ast-dismissable-notice h3{
+			margin-bottom: 5px;
+		} 
+		.wp-core-ui .notice.ast-dismissable-notice a.notice-dismiss{
+			padding: 9px;
+			text-decoration: none;
+		} 
+		.wp-core-ui .button-primary.ast_notice_btn {
+			background: #005B9A;
+			color: #fff;
+			border-color: #005B9A;
+			text-transform: uppercase;
+			padding: 0 11px;
+			font-size: 12px;
+			height: 30px;
+			line-height: 28px;
+			margin: 5px 0 15px;
+		}
+		</style>
+		<div class="notice updated notice-success ast-dismissable-notice">			
+			<a href="<?php esc_html_e( $dismissable_url ); ?>" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></a>			
+			<h3>Supercharge Customer Experience!</h3>
+			<p>Enhance your WooCommerce store with TrackShip's powerful shipment tracking features! Streamline your post-purchase experience, reduce customer inquiries, boost customer satisfaction and build long lasting relationships with your customers</p>				
+			
+			<a class="button-primary ast_notice_btn" target="blank" href="<?php echo esc_url( admin_url( 'plugin-install.php?tab=search&s=TrackShip For WooCommerce&plugin-search-input=Search+Plugins' ) ); ?>">Install TrackShip for WooCommerce</a>
+			<a class="button-primary ast_notice_btn" href="<?php esc_html_e( $dismissable_url ); ?>">Dismiss</a>				
+		</div>	
+		<?php 				
 	}	
+	
+	/*
+	* Dismiss admin notice for trackship
+	*/
+	public function ast_trackship_notice_ignore() {
+		if ( isset( $_GET['ast-trackship-notice'] ) ) {
+			update_option( 'ast_trackship_notice_ignore', 'true' );
+		}
+	}
 }

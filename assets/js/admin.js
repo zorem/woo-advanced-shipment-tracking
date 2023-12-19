@@ -154,6 +154,7 @@ jQuery( function( $ ) {
 		delete_tracking: function() {
 
 			var tracking_id = $( this ).attr( 'rel' );
+			var nonce = $( this ).data( 'nonce' );
 
 			$( '#tracking-item-' + tracking_id ).block({
 				message: null,
@@ -167,7 +168,7 @@ jQuery( function( $ ) {
 				action:      'wc_shipment_tracking_delete_item',
 				order_id:    woocommerce_admin_meta_boxes.post_id,
 				tracking_id: tracking_id,
-				security:    $( '#wc_shipment_tracking_delete_nonce' ).val()
+				security:    nonce
 			};
 
 			$.post( woocommerce_admin_meta_boxes.ajax_url, data, function( response ) {
@@ -273,6 +274,15 @@ function modelMatcher (params, data) {
 	return null;
 }
 
+jQuery(document).ready(function() {
+	jQuery('#tracking_provider').select2({
+		matcher: modelMatcher
+	});
+	jQuery( '.ast-date-picker-field' ).datepicker({
+		dateFormat: 'yy-mm-dd'
+	});
+});
+
 jQuery(document).on("click", ".add_inline_tracking", function(){
 	
 	jQuery(this).closest('.wc_actions').block({
@@ -281,7 +291,7 @@ jQuery(document).on("click", ".add_inline_tracking", function(){
 			background: "#fff",
 			opacity: .6
 		}	
-    });
+	});
 	
 	var order_id = jQuery(this).attr('href');
 	order_id = order_id.replace("#", "");
@@ -301,9 +311,11 @@ jQuery(document).on("click", ".add_inline_tracking", function(){
 			jQuery( ".add_tracking_popup" ).remove();
 			jQuery( ".tracking_details_popup" ).remove();	
 			jQuery("body").append(response.data.html);				
-			jQuery('.add_tracking_popup').show();
+			jQuery('.add_tracking_popup').slideOutForm();
 			jQuery( "#add_tracking_number_form #tracking_number" ).focus();		
-			jQuery('.tracking_provider_dropdown').select2();					
+			jQuery('.tracking_provider_dropdown').select2({
+				matcher: modelMatcher
+			});				
 			
 			var selected_provider = jQuery("#tracking_provider").val();	
 			
@@ -325,19 +337,134 @@ jQuery(document).on("click", ".add_inline_tracking", function(){
 	});		
 });
 
+jQuery(document).on("click", ".add_tracking_inside", function(){
+	jQuery('.add_inside_tracking_popup').slideOutForm();	
+});
+
+jQuery(document).on("click", ".add_inside_tracking_button", function(){
+	
+	var error;
+	var tracking_provider = jQuery(".add_inside_tracking_popup #tracking_provider");
+	var tracking_number = jQuery(".add_inside_tracking_popup #tracking_number");
+	var date_shipped = jQuery(".add_inside_tracking_popup #date_shipped");	
+	var form = jQuery('.add_inside_tracking_popup');
+
+	if( tracking_provider.val() === '' ){					
+		tracking_provider.siblings('.select2-container').find('.select2-selection').css('border-color','red');
+		error = true;
+	} else{
+		tracking_provider.siblings('.select2-container').find('.select2-selection').css('border-color','#ddd');
+		hideerror(tracking_provider);
+	}
+	
+	if( tracking_number.val() === '' ){				
+		showerror(tracking_number);
+		error = true;
+	} else{		
+		hideerror(tracking_number);
+	}	
+	
+	if( date_shipped.val() === '' ){				
+		showerror(date_shipped);
+		error = true;
+	} else{		
+		hideerror(date_shipped);
+	}
+	
+	// if(jQuery("tr").hasClass("ASTProduct_row")){
+	// 	var qty = false;
+	// 	jQuery(".ASTProduct_row").each(function(index){
+	// 		var ASTProduct_qty = jQuery(this).find('input[type="number"]').val();
+	// 		if(ASTProduct_qty > 0){
+	// 			qty = true;		
+	// 			return false;					
+	// 		}
+	// 	});						
+	// }
+
+	// if(qty == false){
+	// 	jQuery('.qty_validation').show();
+	// 	return false;
+	// } else{
+	// 	jQuery('.qty_validation').hide();
+	// } 
+	
+	if(error == true){
+		return false;
+	}
+
+	jQuery(".add_inside_tracking_popup").block({
+		message: null,
+		overlayCSS: {
+			background: "#fff",
+			opacity: .6
+		}	
+	});
+
+	var change_order_to_shipped = jQuery('input[name=change_order_to_shipped]:checked').val();
+			
+	if(change_order_to_shipped == 'change_order_to_partial_shipped'){
+		checked = 'change_order_to_partial_shipped';
+	} else if(change_order_to_shipped == 'change_order_to_shipped'){
+		checked = 'change_order_to_shipped';
+	} else if(change_order_to_shipped == 'change_order_to_custom_shipped'){
+		checked = 'change_order_to_shipped';
+	} else if($('input#change_order_to_shipped').prop("checked") == true){
+		checked = 'change_order_to_shipped';
+	} else{
+		checked = 'no';
+	}
+				
+	// var product_data = [];
+	// jQuery(".ASTProduct_row").each(function(index){
+	// 	var ASTProduct_qty = jQuery(this).find('input[type="number"]').val();
+	// 	if(ASTProduct_qty > 0){
+	// 		product_data.push({
+	// 			product: jQuery(this).find('.product_id').val(),
+	// 			item_id: jQuery(this).find('.item_id').val(),						
+	// 			qty: jQuery(this).find('input[type="number"]').val(),				
+	// 		});					
+	// 	}
+	// });	
+	
+	// var jsonString = JSON.stringify(product_data);						
+	var data = {
+		action:                   'wc_shipment_tracking_save_form',
+		order_id:                 jQuery( '.add_inside_tracking_popup #order_id' ).val(),
+		tracking_provider:        tracking_provider.val(),
+		tracking_number:          tracking_number.val(),
+		tracking_product_code:    jQuery( 'input#tracking_product_code' ).val(),
+		date_shipped:             date_shipped.val(),
+		// productlist:/ 	          jsonString,				
+		change_order_to_shipped:  checked,
+		security:                 jQuery( '#wc_ast_inline_tracking_form_nonce' ).val()
+	};
+
+	jQuery.ajax({
+		url: ajaxurl,		
+		data: data,
+		type: 'POST',		
+		success: function(response) {			
+			location.reload();
+		},
+		error: function(response) {
+			console.log(response);			
+		}
+	});
+	return false;
+
+});
+
 jQuery(document).on("click", ".mark_shipped_checkbox", function(){
 	if(jQuery(this).prop("checked") == true){
 		jQuery('.mark_shipped_checkbox').prop('checked', false);
 		jQuery(this).prop('checked', true);		
 	}
 });
-	
-jQuery(document).on("click", ".popupclose", function(){
-	jQuery('.add_tracking_popup').hide();	
-});
 
 jQuery(document).on("click", ".popup_close_icon", function(){
-	jQuery('.add_tracking_popup').hide();	
+	jQuery('.add_tracking_popup').slideInForm();	
+	jQuery('.add_inside_tracking_popup').slideInForm();
 });
 
 jQuery(document).on("submit", "#add_tracking_number_form", function(){
@@ -403,7 +530,7 @@ jQuery(document).on("submit", "#add_tracking_number_form", function(){
 			background: "#fff",
 			opacity: .6
 		}	
-    });
+	});
 	jQuery.ajax({
 		url: ajaxurl,		
 		data: form.serialize(),
@@ -484,3 +611,19 @@ function showerror(element){
 function hideerror(element){
 	element.css("border","1px solid #ddd");
 }
+
+(function($) {
+	$.fn.slideOutForm = function() {
+		var $formContainer = $(this);
+		$formContainer.addClass('slideout');
+		var htmlContent = '<div class="append_slideout"></div>';
+		$('body').append(htmlContent);
+		$('body').css('overflow', 'hidden');
+	};
+	$.fn.slideInForm = function() {
+		var $formContainer = $(this);   
+		$formContainer.removeClass('slideout');
+		$('.append_slideout').remove();
+		$('body').css('overflow', '');
+	};
+})(jQuery);

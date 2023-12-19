@@ -1,0 +1,289 @@
+/** SlidOut CSS **/
+.slidout_container {
+	position: fixed;
+	top: 0;
+	right: -460px; /* Change this value to adjust the initial position */
+	width: 460px;
+	height: 100%;
+	background-color: #fafafa;	
+	box-sizing: border-box;
+	transition: right 0.3s ease;
+	z-index: 1000000;
+	overflow: auto;
+	max-width: 100%;
+}
+.append_slideout{
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	z-index: 9;
+	top: 0;
+	left: 0;
+	background: rgb(189 189 188 / 50%);
+	z-index: 100000;
+	overflow: hidden;
+}
+.slidout_header{
+	/* border-bottom: 1px solid #e0e0e0; */
+	display: flex;
+	min-height: 70px;
+	padding: 0 10px 0 20px;
+}
+.slidout_container .slidout_title{
+	font-size: 1.2em;
+}
+.slidout_header_title {
+	flex: 1;
+	align-items: center;
+	display: flex;
+}
+.slidout_header_action {
+	display: flex;
+	align-items: center;
+}
+.slideout{
+	right: 0 !important;
+}
+.slidout_close{
+	font-size: 30px;
+	cursor: pointer;
+	width: 30px;
+	height: 27px;
+}
+.slidout_body{
+	padding: 0 20px 20px;
+}
+.slidout_body .sync_message{
+	margin-top: 0;
+}
+.sync_provider_popup .sync_providers_btn, .sync_provider_popup .close_synch_popup {
+	width: 100%;
+}
+
+.sync_provider_popup .sync_providers_btn .dashicons {
+	vertical-align: middle;
+	margin: 0 10px 0 0;
+	height: 38px;
+	line-height: 38px;
+}
+.dot-carousel {
+	position: relative;
+	left: -9960px;
+	width: 6px;
+	height: 6px;
+	border-radius: 5px;
+	background-color: #fff;
+	color: #fff;
+	box-shadow: 9989px 0 0 0 #fff, 9999px 0 0 0 #fff, 10009px 0 0 0 #fff;
+	animation: dotCarousel 0.7s infinite linear;
+}
+@keyframes dotCarousel {
+	0% {
+	  box-shadow: 9989px 0 0 0 #fff, 9999px 0 0 0 #fff, 10009px 0 0 0 #fff;
+	}
+	100% {
+	  box-shadow: 10009px 0 0 0 #fff, 9989px 0 0 0 #fff, 9999px 0 0 0 #fff;
+	}
+	50% {
+	  box-shadow: 9999px 0 0 0 #fff, 10009px 0 0 0 #fff, 9989px 0 0 0 #fff;
+	}
+  }
+.add_provider_popup .sync_providers_btn {
+	width: 100%;
+}
+.add_provider_popup .sync_providers_btn .dashicons {
+	vertical-align: middle;
+	margin: 0 10px 0 0;
+	height: 38px;
+	line-height: 38px;
+}
+#search_shipping_carrier:checked ~ #add_default_carrier_section, #add_custom_carrier:checked ~ #add_customer_carrier_section {
+	display: block !important;
+}
+#add_default_carrier_section .search_section{
+	margin-top: 12px;
+}
+input.tab_input_carrier {
+	display: none;
+}
+.add_provider_popup label.tab_label {
+	padding-top: 0;
+}
+input.tab_input_carrier:checked + label {
+	color: #3c4758;
+	border-bottom: 3px solid #005b9a;
+	margin-bottom: -3px;
+	font-weight: 600;
+}
+.add_provider_popup .menu_devider, .add_custom_carriers_popup .menu_devider, .edit_provider_popup .menu_devider, .sync_provider_popup .menu_devider {
+	margin: 0 -20px 15px;
+}
+.add_provider_popup .menu_devider{
+	margin: 0 !important;
+}
+.slidout_body input[type=text] {
+	line-height: 24px;
+	color: #424242;
+	width: 100%;
+	border-color: #e0e0e0;
+	border-radius: 3px;
+	padding: 5px 10px;
+}
+.add_provider_popup .grid-row{
+	display: block;
+}
+.add_provider_popup .provider-grid-row .grid-item{
+	margin-right: 0;
+}
+.add_provider_popup .grid-provider-settings{
+	display: block;
+}
+.add_provider_popup .grid-left{
+	width: 80%;
+	display: inline-block;    
+	vertical-align: middle;
+}
+.add_provider_popup .grid-right {
+	text-align: right;
+	display: inline-block;
+	vertical-align: middle;
+	width: 19%;
+}
+.slidout_body hr{
+	margin: 5px -20px;
+}
+.slidout_body .change_order_to_shipped_field.form-field{
+	margin: 0;
+}
+.slidout_body .form-field {
+	margin-bottom: 10px;
+	width: 100%;
+}
+.slidout_body .form-field label {
+	margin-bottom: 5px;
+	display: block;
+}
+.slidout_body select {
+	line-height: 24px;
+	color: #424242;
+	width: 100%;
+	max-width: 100%;
+	border-color: #e0e0e0;
+	border-radius: 3px;
+	padding: 5px 10px;
+}
+.slidout_body input[type=text].image_path {
+	width: calc(100% - 71px);
+}
+.slidout_body .upload_image_button {
+	padding: 3px 10px;
+	border-color: #e0e0e0;
+	background: #fafafa;
+	color: #005b9a;
+}
+.slidout_body input[type=text]:disabled,.slidout_body select:disabled{
+	background: #f5f5f5;
+}
+.get_feature_container {
+	background: #f5f5f5;
+	border: 1px solid #e0e0e0;
+	padding: 15px;
+	border-radius: 5px;
+	margin-bottom: 10px; 
+}
+.get_feature_span {
+	background: #ffffff;
+	display: inline-block;
+	padding: 3px 10px;
+	border-radius: 3px;
+	color: #005b9a;
+	font-weight: 700;
+	margin-bottom: 10px;
+}
+.edit_provider_popup .slidout_header_title {
+	display: block;
+	padding: 10px 0;
+}
+.zorem_admin_layout .edit_provider_popup .slidout_title {
+	margin: 0 0 15px;
+}
+.slidout_header .grid-top {
+	margin-bottom: 0;
+}
+.slidout_header .grid-provider-name {
+	flex: 1;
+}
+.slidout_body input[type=text].api_provider_name {
+	width: calc(100% - 33px);
+	margin-bottom: 5px;
+}
+.shipment_tracking_admin_settings .zorem-layout .slidout_body .add_more_api_provider {
+	vertical-align: text-top;
+	cursor: pointer;
+	color: #005b9a;
+	font-size: 25px;
+	height: 25px;
+	width: 25px;
+}
+.add_tracking_popup .slidout_body .select2 {
+	line-height: 24px;
+	color: #0d0d0d;
+	width: 100%;
+	max-width: 100%;
+	height: 36px;
+}
+.add_tracking_popup .select2-container .select2-selection--single {
+	border-color: #e0e0e0;
+	border-radius: 3px;
+	color: #424242;
+	padding: 3px 10px;
+	height: 36px !important;
+}
+.select2-container.select2-container--open {
+	z-index: 100000000 !important;
+}
+/* .slidout_container .select2-container .select2-selection--single .select2-selection__rendered{
+	padding-left: 0;
+} */
+.add_tracking_popup .select2-container .select2-selection--single,.add_inside_tracking_popup .select2-container .select2-selection--single {
+	border-color: #e0e0e0;
+	border-radius: 3px;
+	color: #424242;
+	padding: 3px 10px;
+	height: 36px !important;
+}
+.add_tracking_popup .select2-container .select2-selection--single .select2-selection__rendered,.add_inside_tracking_popup .select2-container .select2-selection--single .select2-selection__rendered{
+	padding-left: 0;
+}
+.add_inside_tracking_popup p.form-field.tracking_number_field {
+	margin: 0;
+}
+.fulfill_order_btn_sidebar{
+	margin: 15px 0 0px 0;
+}
+.powered_by_section{
+	text-align: left;
+	margin: 15px 0 11px 0px;
+}
+.powered_by_section span{
+	font-size: 16px;
+	color: #3c4758;
+	font-weight: 600;
+}
+.powered_by_section img{
+	height: 20px;
+	vertical-align: middle;
+	margin-left: 5px;
+}
+.slidout_header .integration-name {
+	font-weight: 500;
+	font-size: 15px;
+	line-height: 21px;
+}
+.slidout_body .integration-enable {
+	margin-bottom: 20px;
+}
+.slideout-integration-tgl-lbl span {
+	margin-left: 10px;
+	font-size: 15px;
+}
