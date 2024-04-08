@@ -227,11 +227,6 @@ class WC_Advanced_Shipment_Tracking_Install {
 	public function update_database_check() {					
 		if ( is_admin() ) {																
 			
-			if ( version_compare( get_option( 'wc_advanced_shipment_tracking' ), '3.14', '<' ) ) {				
-				$this->add_provider_image_in_upload_directory();							
-				update_option( 'wc_advanced_shipment_tracking', '3.14');		
-			}				
-			
 			if ( version_compare( get_option( 'wc_advanced_shipment_tracking' ), '3.21', '<') ) {	
 				$this->check_all_column_exist();
 				update_option( 'wc_advanced_shipment_tracking', '3.21');				
@@ -281,38 +276,14 @@ class WC_Advanced_Shipment_Tracking_Install {
 				$this->ast_insert_shipping_providers();				
 				update_option( 'wc_advanced_shipment_tracking', '4.0' );
 			}
-		}
-	}
-	
-	/**
-	 * Function for add provider image in uploads directory under wp-content/uploads/ast-shipping-providers
-	*/
-	public function add_provider_image_in_upload_directory() {		
-		$upload_dir   = wp_upload_dir();	
-		$ast_directory = $upload_dir['basedir'] . '/ast-shipping-providers';
-		
-		if ( !is_dir( $ast_directory ) ) {
-			wp_mkdir_p( $ast_directory );	
-		}
-				
-		$url = 'https://trackship.info/wp-json/WCAST/v1/Provider';		
-		$resp = wp_remote_get( $url );							
-		
-		if ( is_array( $resp ) && ! is_wp_error( $resp ) ) {
-			$providers = json_decode( $resp['body'], true );
-			foreach ( $providers as $provider ) {
-				$provider_name = $provider['shipping_provider'];
-				$img_url = $provider['img_url'];
-				$img_slug = sanitize_title($provider_name);
-				$img = $ast_directory . '/' . $img_slug . '.png';
-				
-				$response = wp_remote_get( $img_url );
-				$data = wp_remote_retrieve_body( $response );
 
-				file_put_contents($img, $data);
+			if ( version_compare( get_option( 'wc_advanced_shipment_tracking', '1.0' ), '4.1', '<' ) ) {
+				$this->insert_shipping_carrier_image();
+				update_option( 'wc_advanced_shipment_tracking', '4.1' );
 			}
-		}	
-	}
+
+		}
+	}		
 	
 	/**
 	 * Get providers list from trackship and update providers in database
@@ -326,20 +297,18 @@ class WC_Advanced_Shipment_Tracking_Install {
 	*/
 	public function ast_insert_shipping_provider() {
 		global $wpdb;		
-		$url = 'http://trackship.info/wp-json/WCAST/v1/Provider?paypal_slug';		
+		$url = 'https://api.trackship.com/v1/shipping_carriers/all';		
 		$resp = wp_remote_get( $url );
+		
 		$WC_Countries = new WC_Countries();
 		$countries = $WC_Countries->get_countries();
-		// shipping provider image path
-		$upload_dir   = wp_upload_dir();
-		$ast_directory = $upload_dir['basedir'] . '/ast-shipping-providers';
-		if ( !is_dir( $ast_directory ) ) {
-			wp_mkdir_p( $ast_directory );
-		}
 
+		$this->insert_shipping_carrier_image();
+		
 		if ( is_array( $resp ) && ! is_wp_error( $resp ) ) {
 			
-			$providers = json_decode( $resp['body'], true );
+			$response = json_decode( $resp['body'], true );
+			$providers = $response['data'];
 
 			$default_shippment_providers = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %1s WHERE shipping_default = 1', $this->table ) );
 			foreach ( $default_shippment_providers as $key => $val ) {
@@ -348,14 +317,14 @@ class WC_Advanced_Shipment_Tracking_Install {
 
 			$providers_name = array();
 			foreach ( $providers as $key => $val ) {
-				$providers_name[ $val['shipping_provider_slug'] ] = $val;
+				$providers_name[ $val['slug'] ] = $val;
 			}
 
 			$n = 0;
 			foreach ( $providers as $provider ) {
 
 				$provider_name = $provider['shipping_provider'];
-				$provider_url = $provider['provider_url'];
+				$provider_url = $provider['tracking_url'];
 				$shipping_country = $provider['shipping_country'];
 				
 				if ( 'Global' == $provider['shipping_country'] ) {
@@ -364,7 +333,7 @@ class WC_Advanced_Shipment_Tracking_Install {
 					$shipping_country_name = $countries[ $provider['shipping_country'] ];
 				}
 				
-				$ts_slug = $provider['shipping_provider_slug'];
+				$ts_slug = $provider['slug'];
 				$trackship_supported = $provider['trackship_supported'];
 				$paypal_slug = $provider['paypal_slug'];
 				
@@ -403,20 +372,8 @@ class WC_Advanced_Shipment_Tracking_Install {
 					}
 				} else {
 					
-					$img_url = $provider['img_url'];
-					$img_slug = sanitize_title($provider_name);
-					$img = $ast_directory . '/' . $img_slug . '.png';
-					
-					$response = wp_remote_get( $img_url );
-					$data = wp_remote_retrieve_body( $response );
-					
-					file_put_contents($img, $data); 
-
 					$display_in_order = 0; 
-					/*if ( $n > 14 ) {
-						$display_in_order = 0; 	
-					}*/
-
+					
 					if ( 'Global' == $shipping_country ) {
 						$shipping_country_name = $shipping_country;
 					} else {
@@ -431,8 +388,8 @@ class WC_Advanced_Shipment_Tracking_Install {
 						'provider_url' => sanitize_text_field($provider_url),			
 						'display_in_order' => $display_in_order,
 						'shipping_default' => 1,
-						'trackship_supported' => sanitize_text_field( $provider['trackship_supported'] ),
-						'paypal_slug' => sanitize_text_field( $provider['paypal_slug'] ),
+						'trackship_supported' => sanitize_text_field( $trackship_supported ),
+						'paypal_slug' => sanitize_text_field( $paypal_slug ),
 					);
 					$wpdb->insert( $this->table, $data_array );
 					$n++;
@@ -450,5 +407,41 @@ class WC_Advanced_Shipment_Tracking_Install {
 				}
 			}
 		}
-	}	
+	}
+
+	public function insert_shipping_carrier_image() {
+		
+		// The URL of the zip file
+		$url = 'https://api.trackship.com/images/shipping-carriers/60x60.zip';
+		$upload_dir   = wp_upload_dir();	
+		$ast_directory = $upload_dir['basedir'] . '/ast-shipping-providers';
+		$zipFilePath = $upload_dir['basedir'] . '/shipping-carriers.zip';	
+		
+		if ( !is_dir( $ast_directory ) ) {
+			wp_mkdir_p( $ast_directory );	
+		}
+		// Download the zip file
+		$zipContent = file_get_contents($url);
+		// Save the zip file to the server
+		file_put_contents($zipFilePath, $zipContent);
+		if (class_exists('ZipArchive')) {
+			// Initialize ZipArchive
+			$zip = new ZipArchive();
+			// Open and extract the zip file
+			if ( $zip->open( $zipFilePath ) === true ) {
+				// Extract to the specified directory
+				$zip->extractTo($ast_directory);
+				$zip->close();
+				unlink($zipFilePath); // Delete the zip file after extraction				
+			}
+		} else {
+			// ZipArchive isn't available, use PclZip
+			require_once(ABSPATH . 'wp-admin/includes/class-pclzip.php');
+			$archive = new PclZip($zipFilePath);
+			if ($archive->extract(PCLZIP_OPT_PATH, $ast_directory) != 0) {
+				unlink($zipFilePath); // Delete the zip file after extraction
+			}						
+		}
+	}
+
 }

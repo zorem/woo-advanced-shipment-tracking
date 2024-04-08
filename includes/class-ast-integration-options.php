@@ -73,8 +73,8 @@ class AST_Integration {
 					<label class="slideout-integration-tgl-lbl" for="ast-integration-toggle"><span><?php esc_html_e( 'Enable Integration', 'woo-advanced-shipment-tracking' ); ?></span></label>
 				</div>
 				<div class="get_feature_container">
-					<a href="https://www.zorem.com/product/woocommerce-advanced-shipment-tracking/" target="_blank"><span class="get_feature_span">Get Feature</span></a>
-					<div><a href="https://www.zorem.com/product/woocommerce-advanced-shipment-tracking/" target="_blank">The Advanced Shipment Tracking Pro</a> streamlines fulfillment by integrating with shipping services. Typically, these services use WooCommerce REST API or a plugin to import processing orders to their dashboards. When you generate a shipping label, they update tracking information via the order notes API endpoint, but this doesn't add it to the shipment tracking panel or display it in the shipping confirmation email. With our integrations, tracking info is automatically added to the shipment tracking order meta when labels are generated, and orders are completed, eliminating manual effort.</div>
+					<a href="https://www.zorem.com/product/woocommerce-advanced-shipment-tracking/?utm_source=wp-admin&utm_medium=plugin-setting&utm_campaign=upgrad-to-pro" target="_blank"><span class="get_feature_span">Get Feature</span></a>
+					<div><a href="https://www.zorem.com/product/woocommerce-advanced-shipment-tracking/?utm_source=wp-admin&utm_medium=plugin-setting&utm_campaign=upgrad-to-pro" target="_blank">The Advanced Shipment Tracking Pro</a> streamlines fulfillment by integrating with shipping services. Typically, these services use WooCommerce REST API or a plugin to import processing orders to their dashboards. When you generate a shipping label, they update tracking information via the order notes API endpoint, but this doesn't add it to the shipment tracking panel or display it in the shipping confirmation email. With our integrations, tracking info is automatically added to the shipment tracking order meta when labels are generated, and orders are completed, eliminating manual effort.</div>
 				</div>				
 			</form>
 		</div>		

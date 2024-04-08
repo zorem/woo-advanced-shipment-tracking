@@ -260,21 +260,11 @@ jQuery(document).click(function(event){
 		jQuery(".provider-settings-ul").hide();
 	}   
 });
-jQuery(document).on("click", ".enable_carriers", function(){
-	jQuery('.provider-settings-ul').hide();
+jQuery(document).on("click", ".enable_carriers, .provider_list div.add-provider-container", function(){
 	jQuery('#search_default_provider').val('');
 	jQuery(".search-carrier-icon").click();
-});
-jQuery(document).on("click", ".reset_providers", function(){	
-	jQuery('.provider-settings-ul').hide();
-	jQuery('div.shipping-carriers-selected-provider-message').show();
-	jQuery('#delete_provider_bulk').attr('data-remove', 'selected-page');
-});
-
-jQuery(document).on("click", ".reset_providers.Deselect", function(){	
-	jQuery('.provider-settings-ul').hide();
-	jQuery('div.shipping-carriers-selected-provider-message, div.all-shipping-carriers-selected').hide();
-	jQuery('#delete_provider_bulk').attr('data-remove', 'selected-page');
+	jQuery(".provider-settings-ul").hide();	
+	jQuery('.add_provider_popup').slideOutForm();	
 });
 
 jQuery(document).on("click", "#provider-settings", function(){
@@ -657,9 +647,11 @@ jQuery(document).on("click", ".remove_all_shipping_carrier", function(){
 	jQuery('div.all-shipping-carriers-selected').show();
 	jQuery('div.shipping-carriers-selected-provider-message').hide();
 	jQuery('.bulk_select_provider').prop('checked', true);
+	jQuery('#delete_provider_bulk').attr('data-remove', 'all');
 });
 
 jQuery(document).on("click", ".reset_providers", function(){	
+	
 	jQuery('#delete_provider_bulk').attr('data-remove', 'selected-page');
 	var reset_checked = jQuery(this).data('reset');	
 	var counter = 0;
@@ -673,10 +665,15 @@ jQuery(document).on("click", ".reset_providers", function(){
 		jQuery('#delete_provider_bulk').hide();
 	}
 	jQuery('#selected_provider_total').text(counter);
+
+	jQuery('.provider-settings-ul').hide();
+	jQuery('div.shipping-carriers-selected-provider-message').show();	
 });
 
-jQuery(document).on("click", ".remove_all_shipping_carrier", function(){
-    jQuery('#delete_provider_bulk').attr('data-remove', 'all');
+jQuery(document).on("click", ".reset_providers.deselect", function(){	
+	jQuery('.provider-settings-ul').hide();
+	jQuery('div.shipping-carriers-selected-provider-message, div.all-shipping-carriers-selected').hide();
+	jQuery('#delete_provider_bulk').attr('data-remove', 'selected-page');
 });
 
 jQuery(document).on("click", ".remove_selected_shipping_carrier", function(){
@@ -687,10 +684,11 @@ jQuery(document).on("click", ".remove_selected_shipping_carrier", function(){
 	jQuery('#selected_provider_total').text(length_get);
 });
 
-jQuery(document).on("click", "#delete_provider_bulk", function(){	
+jQuery(document).on("click", "#delete_provider_bulk", function(){
+
 	jQuery('div.all-shipping-carriers-selected').hide();
 	jQuery('div.shipping-carriers-selected-provider-message').hide();
-
+	
 	var data_remove_selected = jQuery(this).attr('data-remove');
 	var selectedProviderValues = jQuery('input[name="bulk_select_provider[]"]:checked').map(function() {
 		return jQuery(this).val();
@@ -702,21 +700,18 @@ jQuery(document).on("click", "#delete_provider_bulk", function(){
 			background: "#fff",
 			opacity: .6
 		}	
-	});
+    });
 	var r = confirm( shipment_tracking_table_rows.i18n.delete_provider );
-	if (r === true) {
+	if (r === true) {		
 	} else {
-		jQuery('#delete_provider_bulk').hide();
-		jQuery('.bulk_select_provider').prop('checked', false);
-		jQuery("#content1").unblock();
+		jQuery("#content1").unblock();	
 		return;
 	}
 	
 	jQuery('#search_provider').removeAttr('value');	
 	jQuery(".provider-settings-ul").hide();
-
-	var nonce = jQuery( '#nonce_shipping_provider' ).val();	
-	var error;		
+	
+	var nonce = jQuery( '#nonce_shipping_provider' ).val();		
 	
 	var ajax_data = {
 		action: 'update_provider_status',
@@ -840,23 +835,6 @@ jQuery(document).on("click", ".sync_providers_btn", function(){
 	});
 });
 
-jQuery(document).on("click", ".enable_carriers, .provider_list div.add-provider-container", function(){
-	jQuery('#search_default_provider').val('');
-	jQuery(".search-carrier-icon").click();
-	jQuery(".provider-settings-ul").hide();	
-	jQuery('.add_provider_popup').slideOutForm();
-	// jQuery('.add_custom_carriers_popup').slideInForm();
-	jQuery('.custom_provider_instruction').show();
-	var isAddDefaultProvider = jQuery('.add_default_provider').length > 0;
-
-    // Show or hide .shipping_carriers_arrow_pagination based on the existence of .add_default_provider
-    if (isAddDefaultProvider) {
-        jQuery('.shipping_carriers_arrow_pagination').show();
-    } else {
-        jQuery('.shipping_carriers_arrow_pagination').hide();
-    }
-});
-
 jQuery(document).on("click", ".add_custom_carriers", function(){
 	jQuery(".provider-settings-ul").hide();
 	jQuery('.add_custom_carriers_popup').slideOutForm();
@@ -873,16 +851,6 @@ jQuery("#search_default_provider").keyup(function(event) {
 jQuery(document).on("click", ".arrow_pagination", function () {
 	
 	var number = jQuery(this).data('number');
-	var side = jQuery(this).data('side');
-
-	if (number === 0 && side === 'left') {
-		return; // Do nothing if on the first page and clicking left
-	}
-	jQuery('.add_provider_popup').animate({ scrollTop: 0 }, 'slow');
-	jQuery('.default_spinner').addClass('default_privder_list_spinner');
-	var div = jQuery('.top_carrier_section');
-	div.find(".spinner").addClass("active");
-
 	var ajax_data = {
 		action: 'shipping_pagination',
 		paged: number,
@@ -890,40 +858,22 @@ jQuery(document).on("click", ".arrow_pagination", function () {
 		security: jQuery('#nonce_shipping_pagination_provider').val(),
 	};
 
+	jQuery("#add_default_carrier_section ").block({
+		message: null,
+		overlayCSS: {
+			background: "#fff",
+			opacity: .6
+		}	
+    });
+
 	jQuery.ajax({
 		url: ajaxurl,
 		data: ajax_data,
 		type: 'POST',
 		success: function (response) {
-			jQuery('.default_spinner').removeClass('default_privder_list_spinner');
-			var div = jQuery('.top_carrier_section');
-			div.find(".spinner").removeClass("active");
-			jQuery(".arrow_pagination").each(function () {
-				var currentNumber = jQuery(this).data('number');
-				
-				if (side === 'left') {
-					currentNumber = (currentNumber > 0) ? currentNumber - 1 : 0;
-				} else {
-					currentNumber++;
-				}
-
-				jQuery(this).data('number', currentNumber).attr('data-number', currentNumber);
-			});
-
-			var leftValue = jQuery(".dashicons-arrow-left-alt.arrow_pagination").data('number');
-			if (leftValue <= 0) {
-				jQuery(".dashicons-arrow-left-alt.arrow_pagination").addClass('disabled');
-			} else {
-				jQuery(".dashicons-arrow-left-alt.arrow_pagination").removeClass('disabled');
-			}
-			jQuery(".add_provider_popup .default_privder_list").replaceWith(response);
-			
-			var data_total_provider = jQuery('.default_privder_list').data('total-provider');
-			if ( data_total_provider == 10 ) {
-				jQuery('.shipping_carriers_arrow_pagination').show();
-			} else {
-				jQuery('.shipping_carriers_arrow_pagination').hide();
-			}
+			jQuery(".default_privder_list").html(response);
+			jQuery("#add_default_carrier_section").unblock();
+			jQuery('.add_provider_popup').animate({ scrollTop: 0 }, 'slow');
 		},
 		error: function (response) {
 			console.log(response);
@@ -931,7 +881,7 @@ jQuery(document).on("click", ".arrow_pagination", function () {
 	});
 });
 
-jQuery(document).on( "click", ".search-carrier-icon", function(){
+jQuery(document).on( "click", ".search-carrier-icon", function(){	
 	
 	var search_term = jQuery('#search_default_provider').val();
 	var nonce = jQuery( '#nonce_shipping_provider' ).val();
@@ -947,7 +897,7 @@ jQuery(document).on( "click", ".search-carrier-icon", function(){
 			background: "#fff",
 			opacity: .6
 		}	
-	});
+    });
 
 	jQuery.ajax({
 		url: ajaxurl,		
@@ -955,22 +905,7 @@ jQuery(document).on( "click", ".search-carrier-icon", function(){
 		type: 'POST',
 		success: function(response) {	
 			jQuery(".default_privder_list").html(response);
-			jQuery("#add_default_carrier_section").unblock();
-			var tempElement = jQuery('<div>').html(response);
-			var textContent = tempElement.find('.provider_msg').text();
-			if ( textContent == 'Shipping Carrier Not Found!' || textContent == 'Shipping Carrier Already Added' ) {
-				jQuery('.shipping_carriers_arrow_pagination').hide();
-			} else {
-				jQuery('.shipping_carriers_arrow_pagination').show();
-			}
-			var data_total_provider = jQuery('.data-shippment-total-provider').attr('data-shippment-total-provider');
-			if ( data_total_provider == 'true' ) {
-				jQuery('.shipping_carriers_arrow_pagination').show();
-			} else {
-				jQuery('.shipping_carriers_arrow_pagination').hide();
-			}
-			jQuery('.shipping_carriers_arrow_pagination .dashicons-arrow-left-alt').attr('data-number', 1);
-			jQuery('.shipping_carriers_arrow_pagination .dashicons-arrow-right-alt').attr('data-number', 2);
+			jQuery("#add_default_carrier_section").unblock();			
 		},
 		error: function(response) {	
 			console.log(response);				

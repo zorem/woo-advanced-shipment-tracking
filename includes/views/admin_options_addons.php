@@ -32,7 +32,7 @@
 					</ul>
 				</div>
 			</div>
-			<a href="https://www.zorem.com/ast-pro/" class="button-primary btn_ast2 btn_large upgrade_to_pro_btn" target="_blank">UPGRADE TO AST PRO <span class="dashicons dashicons-arrow-right-alt2"></span></a>	
+			<a href="https://www.zorem.com/ast-pro/?utm_source=wp-admin&utm_medium=ast-addons&utm_campaign=more-info" class="button-primary btn_ast2 btn_large upgrade_to_pro_btn" target="_blank">UPGRADE TO AST PRO <span class="dashicons dashicons-arrow-right-alt2"></span></a>	
 		</div>						
 		
 		<h1 class="tab_section_heading clear_spacing" style="margin: 20px 0 0;">Level up your fulfillment workflows</h1>				
@@ -51,7 +51,7 @@
 							?>
 							<button type="button" class="button button button-primary btn_green2">Active</button>
 						<?php } else { ?>
-							<a href="https://wordpress.org/plugins/trackship-for-woocommerce/" class="button button-primary btn_ast2" target="blank"><?php esc_html_e('More Info', 'ast-pro'); ?></a>
+							<a href="https://wordpress.org/plugins/trackship-for-woocommerce/" class="button button-primary btn_ast2" target="blank"><?php esc_html_e('More Info', 'woo-advanced-shipment-tracking'); ?></a>
 						<?php } ?>	
 					</div>
 				</div>
@@ -69,7 +69,7 @@
 							?>
 							<button type="button" class="button button button-primary btn_green2">Active</button>
 						<?php } else { ?>
-							<a href="https://www.zorem.com/product/sms-for-woocommerce/" class="button button-primary btn_ast2" target="blank"><?php esc_html_e('More Info', 'ast-pro'); ?></a>
+							<a href="https://www.zorem.com/product/sms-for-woocommerce/?utm_source=wp-admin&utm_medium=ast-addons&utm_campaign=more-info" class="button button-primary btn_ast2" target="blank"><?php esc_html_e('More Info', 'woo-advanced-shipment-tracking'); ?></a>
 						<?php } ?>	
 					</div>
 				</div>
@@ -87,7 +87,7 @@
 							?>
 							<button type="button" class="button button button-primary btn_green2">Active</button>
 						<?php } else { ?>
-							<a href="https://www.zorem.com/product/advanced-local-pickup-for-woocommerce/" class="button button-primary btn_ast2" target="blank"><?php esc_html_e('More Info', 'ast-pro'); ?></a>
+							<a href="https://www.zorem.com/product/advanced-local-pickup-for-woocommerce/?utm_source=wp-admin&utm_medium=ast-addons&utm_campaign=more-info" class="button button-primary btn_ast2" target="blank"><?php esc_html_e('More Info', 'woo-advanced-shipment-tracking'); ?></a>
 						<?php } ?>	
 					</div>
 				</div>
@@ -105,7 +105,7 @@
 							?>
 							<button type="button" class="button button button-primary btn_green2">Active</button>
 						<?php } else { ?>
-							<a href="https://www.zorem.com/product/country-based-restriction-pro/" class="button button-primary btn_ast2" target="blank"><?php esc_html_e('More Info', 'ast-pro'); ?></a>
+							<a href="https://www.zorem.com/product/country-based-restriction-pro/?utm_source=wp-admin&utm_medium=ast-addons&utm_campaign=more-info" class="button button-primary btn_ast2" target="blank"><?php esc_html_e('More Info', 'woo-advanced-shipment-tracking'); ?></a>
 						<?php } ?>	
 					</div>
 				</div>
@@ -123,7 +123,7 @@
 							?>
 							<button type="button" class="button button button-primary btn_green2">Active</button>
 						<?php } else { ?>
-							<a href="https://www.zorem.com/product/customer-email-verification/" class="button button-primary btn_ast2" target="blank"><?php esc_html_e('More Info', 'ast-pro'); ?></a>
+							<a href="https://www.zorem.com/product/customer-email-verification/?utm_source=wp-admin&utm_medium=ast-addons&utm_campaign=more-info" class="button button-primary btn_ast2" target="blank"><?php esc_html_e('More Info', 'woo-advanced-shipment-tracking'); ?></a>
 						<?php } ?>	
 					</div>
 				</div>
@@ -141,7 +141,7 @@
 							?>
 							<button type="button" class="button button button-primary btn_green2">Active</button>
 						<?php } else { ?>
-							<a href="https://www.zorem.com/product/sales-report-email-pro/" class="button button-primary btn_ast2" target="blank"><?php esc_html_e('More Info', 'ast-pro'); ?></a>
+							<a href="https://www.zorem.com/product/sales-report-email-pro/?utm_source=wp-admin&utm_medium=ast-addons&utm_campaign=more-info" class="button button-primary btn_ast2" target="blank"><?php esc_html_e('More Info', 'woo-advanced-shipment-tracking'); ?></a>
 						<?php } ?>	
 					</div>
 				</div>

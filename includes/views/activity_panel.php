@@ -48,7 +48,7 @@
 					</li>
 					<?php if ( !class_exists( 'ast_pro' ) ) { ?>
 						<li class="woocommerce-list__item has-action">
-							<a href="https://www.zorem.com/ast-pro/" class="woocommerce-list__item-inner" target="_blank">
+							<a href="https://www.zorem.com/ast-pro/?utm_source=wp-admin&utm_medium=plugin-setting&utm_campaign=upgrade-now" class="woocommerce-list__item-inner" target="_blank">
 								<div class="woocommerce-list__item-before">
 									<span class="dashicons dashicons-media-document"></span>
 								</div>

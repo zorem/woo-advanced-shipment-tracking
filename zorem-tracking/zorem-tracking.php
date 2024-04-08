@@ -230,17 +230,17 @@ if ( !class_exists( 'WC_Trackers' ) ) {
 				// Shipping method info.
 				$data['shipping_methods'] = $this->get_active_shipping_methods();	
 				// get_order_counts
-				$data['get_order_counts'] = $this->get_order_counts();
-				
+
 				$data['currency'] = get_woocommerce_currency();
-			
 				$data['country'] = WC()->countries->get_base_country();
-			
-				$data['get_order_value'] = $this->get_order_value();
-				
-				$data['order_value_three_month'] = $this->get_order_value_three_month();
-			
-				$data['order_counts_three_month'] = $this->get_order_counts_three_month();
+
+				$data['order'] = $this->get_order_revenue();
+				// $data['net_revenue_twelve'] = $order_revenue_data['net_revenue_twelve'];
+				// $data['orders_count_twelve'] = $order_revenue_data['orders_count_twelve'];
+				// $data['avg_order_value_twelve'] = $order_revenue_data['avg_order_value_twelve'];
+				// $data['avg_order_value_three'] = $order_revenue_data['avg_order_value_three'];
+				// $data['orders_count_three'] = $order_revenue_data['orders_count_three'];
+				// $data['net_revenue_three'] = $order_revenue_data['net_revenue_three'];
 				
 			}
 		
@@ -409,245 +409,36 @@ if ( !class_exists( 'WC_Trackers' ) ) {
 			return $active_methods;
 		}
 		/**
-		 * Get a list one year average order count
+		 * Get a list Order and revenue and Averag order value
 		 *
 		 * @return array
 		 */
-		public function get_order_counts() {
-			global $wpdb;
-			$min_max = $wpdb->get_row(
-				"
-				SELECT
-					MIN( date_created_gmt ) as 'first', MAX( date_created_gmt ) as 'last' 
-				FROM {$wpdb->prefix}wc_order_stats
-			",
-				ARRAY_A
+		public function get_order_revenue() {
+			$data = [];
+			$current_date = gmdate('Y-m-d H:i:s');
+			$three_months_ago = gmdate('Y-m-d H:i:s', strtotime('-3 months'));
+			$args = array(
+				'before'    => $current_date,
+				'after'     => $three_months_ago,
 			);
-			if ( is_null( $min_max ) ) {
-				$min_max = array(
-					'first' => '-',
-					'last'  => '-',
-				);
-			} else {
-				$first = $min_max['first'];
-				$last = $min_max['last'];
-			}
-			$firstDate = strtotime('-12 months');
-			$countQuery = $wpdb->get_var(
-				$wpdb->prepare(
-					"
-					SELECT COUNT(*) 
-					FROM {$wpdb->prefix}wc_order_stats 
-					WHERE date_created_gmt >= %s 
-					AND date_created_gmt <= %s
-					AND status NOT IN ('wc-trash','wc-pending','wc-failed','wc-cancelled','wc-on-hold','wc-refund-requested')
-					",
-					$first,
-					$last
-				)
+			$report_three_month = new \Automattic\WooCommerce\Admin\API\Reports\Orders\Stats\Query( $args );
+			$three_month_data = $report_three_month->get_data();
+			$data['net_revenue_three'] = $three_month_data->totals->net_revenue;
+			$data['avg_order_value_three'] = $three_month_data->totals->avg_order_value;
+			$data['orders_count_three'] = $three_month_data->totals->orders_count;
+
+			$twelve_months_ago = gmdate('Y-m-d H:i:s', strtotime('-12 months'));
+			$args1 = array(
+				'before'    => $current_date,
+				'after'     => $twelve_months_ago,
 			);
-		
-			$total_orders = $countQuery;
-		
-			if (strtotime($first) > $firstDate) {
-				$today = new DateTime();
-				$firstDateObj = new DateTime($first);
-				$interval = $today->diff($firstDateObj);
-				$months = $interval->format('%m');
-				$days = $interval->days;
-				// Check if $months is zero before division
-				if ($months > 0) {
-					$monthly_average = round( $total_orders / $months, 2 );
-				} else {
-					$monthly_average = '0' !== $days ? round($total_orders / $days, 2) : 0; // Set a default value or handle this case accordingly
-				}
-			} else {
-				$monthly_average = round( $total_orders / 12, 2 );
-			}
-			
-		
-			return $monthly_average;
+			$report_twelve_months = new \Automattic\WooCommerce\Admin\API\Reports\Orders\Stats\Query( $args1 );
+			$twelve_month_data = $report_twelve_months->get_data();
+			$data['net_revenue_twelve'] = $twelve_month_data->totals->net_revenue;
+			$data['avg_order_value_twelve'] = $twelve_month_data->totals->avg_order_value;
+			$data['orders_count_twelve'] = $twelve_month_data->totals->orders_count;
+
+			return $data;
 		}
-		/**
-		 * Get a list Three Month average order count
-		 *
-		 * @return array
-		 */
-		public function get_order_counts_three_month() {
-			global $wpdb;
-			$min_max = $wpdb->get_row(
-				"
-				SELECT
-					MIN( date_created_gmt ) as 'first', MAX( date_created_gmt ) as 'last' 
-				FROM {$wpdb->prefix}wc_order_stats
-			",
-				ARRAY_A
-			);
-			if ( is_null( $min_max ) ) {
-				$min_max = array(
-					'first' => '-',
-					'last'  => '-',
-				);
-			} else {
-				$first = $min_max['first'];
-				$last = $min_max['last'];
-			}
-			$firstDate = strtotime('-3 months');
-			$countQuery = $wpdb->get_var(
-				$wpdb->prepare(
-					"
-					SELECT COUNT(*) 
-					FROM {$wpdb->prefix}wc_order_stats 
-					WHERE date_created_gmt >= %s 
-					AND date_created_gmt <= %s
-					AND status NOT IN ('wc-trash','wc-pending','wc-failed','wc-cancelled','wc-on-hold','wc-refund-requested')
-					",
-					$first,
-					$last
-				)
-			);
-		
-			$total_orders = $countQuery;
-		
-			if (strtotime($first) > $firstDate) {
-				$today = new DateTime();
-				$firstDateObj = new DateTime($first);
-				$interval = $today->diff($firstDateObj);
-				$months = $interval->format('%m');
-				$days = $interval->days;
-				if ($months > 0) {
-					$monthly_average = round( $total_orders / $months, 2 );
-				} else {
-					$monthly_average = '0' !== $days ? round($total_orders / $days, 2) : 0;
-				}
-			} else {
-				$monthly_average = round( $total_orders / 3, 2 );
-			} 
-			
-		
-			return $monthly_average;
-		}
-		
-		/**
-		 * Get a list one year average order value count
-		 *
-		 * @return array
-		 */
-		public function get_order_value() {
-			global $wpdb;
-			$min_max = $wpdb->get_row(
-				"
-				SELECT
-					MIN(date_created_gmt) as 'first', MAX(date_created_gmt) as 'last' 
-				FROM {$wpdb->prefix}wc_order_stats
-				",
-				ARRAY_A
-			);
-			
-			if (is_null($min_max)) {
-				$min_max = array(
-					'first' => '-',
-					'last'  => '-',
-				);
-			} else {
-				$first = $min_max['first'];
-				$last = $min_max['last'];
-			}
-			$net_total = $wpdb->get_var(
-				$wpdb->prepare(
-					"
-					SELECT SUM(net_total) 
-					FROM {$wpdb->prefix}wc_order_stats 
-					WHERE date_created_gmt >= %s 
-					AND date_created_gmt <= %s
-					AND status NOT IN ('wc-trash','wc-pending','wc-failed','wc-cancelled','wc-on-hold','wc-refund-requested')
-					",
-					$first,
-					$last
-					
-				)
-			);
-			$firstDate = strtotime('-12 months');
-			if (strtotime($first) > $firstDate) {
-				// Calculate monthly average based on $month_count
-				$today = new DateTime();
-				$firstDateObj = new DateTime($first);
-				$interval = $today->diff($firstDateObj);
-				$months = $interval->format('%m');
-				$days = $interval->days;
-				if ($months > 0) {
-					$monthly_average = $net_total / $months;
-				} else {
-					$monthly_average = '0' !== $days ? round($net_total / $days, 2) : 0;
-				}
-				
-			} else {
-				// Calculate monthly average based on the last 12 months
-				$monthly_average = $net_total / 12;
-			}
-			
-			return $monthly_average;
-			
-		}
-		/**
-		 * Get a list one year average order value count
-		 *
-		 * @return array
-		 */
-		public function get_order_value_three_month() {
-			global $wpdb;
-			$min_max = $wpdb->get_row(
-				"
-				SELECT
-					MIN(date_created_gmt) as 'first', MAX(date_created_gmt) as 'last' 
-				FROM {$wpdb->prefix}wc_order_stats
-				",
-				ARRAY_A
-			);
-			
-			if (is_null($min_max)) {
-				$min_max = array(
-					'first' => '-',
-					'last'  => '-',
-				);
-			} else {
-				$first = $min_max['first'];
-				$last = $min_max['last'];
-			}
-			$net_total = $wpdb->get_var(
-				$wpdb->prepare(
-					"
-					SELECT SUM(net_total) 
-					FROM {$wpdb->prefix}wc_order_stats 
-					WHERE date_created_gmt >= %s 
-					AND date_created_gmt <= %s
-					AND status NOT IN ('wc-trash','wc-pending','wc-failed','wc-cancelled','wc-on-hold','wc-refund-requested')
-					",
-					$first,
-					$last
-				)
-			);
-			$firstDate = strtotime('-3 months');
-			if (strtotime($first) > $firstDate) {
-				// Calculate monthly average based on $month_count
-				$today = new DateTime();
-				$firstDateObj = new DateTime($first);
-				$interval = $today->diff($firstDateObj);
-				$months = $interval->format('%m');
-				$days = $interval->days;
-				if ($months > 0) {
-					$monthly_average = $net_total / $months;
-				} else {
-					$monthly_average = '0' !== $days ? round($net_total / $days, 2) : 0;
-				}
-			} else {
-				// Calculate monthly average based on the last 12 months
-				$monthly_average = $net_total / 3;
-			}
-			
-			return $monthly_average;
-			
-		}
-		
 	}
 }

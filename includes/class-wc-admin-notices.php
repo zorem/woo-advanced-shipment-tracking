@@ -78,7 +78,7 @@ class WC_AST_Admin_Notices_Under_WC_Admin {
 		$note->set_image('');
 		// This example has two actions. A note can have 0 or 1 as well.
 		$note->add_action(
-			'settings', 'Upgrade Now', 'https://www.zorem.com/ast-pro/'
+			'settings', 'Upgrade Now', 'https://www.zorem.com/ast-pro/?utm_source=wp-admin&utm_medium=plugin-setting&utm_campaign=upgrade-now'
 		);		
 		$note->save();
 	}				

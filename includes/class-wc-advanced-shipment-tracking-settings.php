@@ -610,21 +610,17 @@ class WC_Advanced_Shipment_Tracking_Settings {
 		$reset_checked = isset( $_POST[ 'reset_checked' ] ) ? wc_clean( $_POST[ 'reset_checked' ] ) : '';
 		global $wpdb;		
 		
-		$url =	apply_filters( 'ast_sync_provider_url', 'http://trackship.info/wp-json/WCAST/v1/Provider?paypal_slug' );
+		$url =	'https://api.trackship.com/v1/shipping_carriers/all';
 		$resp = wp_remote_get( $url );
 
-		$upload_dir   = wp_upload_dir();	
-		$ast_directory = $upload_dir['basedir'] . '/ast-shipping-providers';		
-		
-		if ( !is_dir( $ast_directory ) ) {
-			wp_mkdir_p( $ast_directory );	
-		}
 		
 		$WC_Countries = new WC_Countries();
 		$countries = $WC_Countries->get_countries();
 		
 		if ( is_array( $resp ) && ! is_wp_error( $resp ) ) {
-			$providers = json_decode( $resp['body'], true );
+			
+			$response = json_decode( $resp['body'], true );
+			$providers = $response['data'];
 			
 			if ( 1 == $reset_checked ) {
 				
@@ -635,7 +631,7 @@ class WC_Advanced_Shipment_Tracking_Settings {
 				
 				foreach ( $providers as $provider ) {
 					$provider_name = $provider['shipping_provider'];
-					$provider_url = $provider['provider_url'];
+					$provider_url = $provider['tracking_url'];
 					$shipping_country = $provider['shipping_country'];
 
 					if ( 'Global' == $provider['shipping_country'] ) {
@@ -644,18 +640,9 @@ class WC_Advanced_Shipment_Tracking_Settings {
 						$shipping_country_name = $countries[ $provider['shipping_country'] ];
 					}
 
-					$ts_slug = $provider['shipping_provider_slug'];	
-					$img_url = $provider['img_url'];			
+					$ts_slug = $provider['slug'];	
 					$trackship_supported = $provider['trackship_supported'];							
-					$img_slug = sanitize_title( $provider_name );
-									
-					$img = $ast_directory . '/' . $img_slug . '.png';
-
-					$response = wp_remote_get( $img_url );
-					$data = wp_remote_retrieve_body( $response );					
 					
-					file_put_contents( $img, $data );
-								
 					$data_array = array(
 						'shipping_country' => sanitize_text_field( $shipping_country ),
 						'shipping_country_name' => sanitize_text_field( $shipping_country_name ),
@@ -672,7 +659,9 @@ class WC_Advanced_Shipment_Tracking_Settings {
 					$result = $wpdb->insert( $this->table, $data_array );
 				}
 				
-				
+				$install = WC_Advanced_Shipment_Tracking_Install::get_instance();
+				$install->insert_shipping_carrier_image();
+
 				ob_start();
 				$admin = new WC_Advanced_Shipment_Tracking_Admin();
 				$html = $admin->get_provider_html( 1 );
@@ -689,7 +678,7 @@ class WC_Advanced_Shipment_Tracking_Settings {
 				}
 		
 				foreach ( $providers as $key => $val ) {
-					$providers_name[ $val['shipping_provider_slug'] ] = $val;						
+					$providers_name[ $val['slug'] ] = $val;						
 				}		
 					
 				$added = 0;
@@ -702,7 +691,7 @@ class WC_Advanced_Shipment_Tracking_Settings {
 				foreach ( $providers as $provider ) {
 					
 					$provider_name = $provider['shipping_provider'];
-					$provider_url = $provider['provider_url'];
+					$provider_url = $provider['tracking_url'];
 					$shipping_country = $provider['shipping_country'];
 					
 					if ( 'Global' == $provider['shipping_country'] ) {
@@ -711,7 +700,7 @@ class WC_Advanced_Shipment_Tracking_Settings {
 						$shipping_country_name = $countries[ $provider['shipping_country'] ];
 					}
 					
-					$ts_slug = $provider['shipping_provider_slug'];
+					$ts_slug = $provider['slug'];
 					$trackship_supported = $provider['trackship_supported'];
 					
 					if ( isset( $shippment_providers[ $ts_slug ] ) ) {				
@@ -760,15 +749,7 @@ class WC_Advanced_Shipment_Tracking_Settings {
 							$updated++;
 						}
 					} else {
-						$img_url = $provider['img_url'];					
-						$img_slug = sanitize_title( $provider_name );
-						$img = $ast_directory . '/' . $img_slug . '.png';
 						
-						$response = wp_remote_get( $img_url );
-						$data = wp_remote_retrieve_body( $response );
-						
-						file_put_contents( $img, $data );
-
 						if ( 'Global' == $shipping_country ) {
 							$shipping_country_name = $shipping_country;
 						} else {
@@ -824,6 +805,11 @@ class WC_Advanced_Shipment_Tracking_Settings {
 					$deleted_html = ob_get_clean();	
 				}
 				
+				if ( $added > 0 || $updated > 0 ) {
+					$install = WC_Advanced_Shipment_Tracking_Install::get_instance();
+					$install->insert_shipping_carrier_image();
+				}
+
 				ob_start();
 				$admin = new WC_Advanced_Shipment_Tracking_Admin();
 				$html = $admin->get_provider_html( 1 );

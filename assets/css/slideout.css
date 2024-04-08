@@ -287,3 +287,37 @@ input.tab_input_carrier:checked + label {
 	margin-left: 10px;
 	font-size: 15px;
 }
+
+.arrow_pagination {
+    border: 1px solid #e0e0e0;
+    color: #005b9a;
+    padding: 5px;
+    margin-right: 10px;
+    border-color: #005b9a;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+}
+.arrow_pagination:disabled{
+    color: #a7aaad;
+    border-color: #dcdcde;
+    background: #f6f7f7;
+    box-shadow: none;
+    cursor: default;
+    transform: none;
+}
+.shipping_carriers_arrow_pagination {
+    margin: 15px 0;
+}
+.top_carrier_section {
+    border-bottom: 1px solid #e0e0e0;
+}
+.top_search_section {
+    padding: 0 20px;
+}
+.padding_zero {
+    padding: 0 !important;
+}
+#add_default_carrier_section .search_section {
+    margin-top: 12px;
+}

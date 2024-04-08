@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: WooCommerce Advanced Shipment Tracking\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-11 09:34+0000\n"
-"PO-Revision-Date: 2023-12-18 11:15+0000\n"
+"PO-Revision-Date: 2024-03-18 11:18+0000\n"
 "Last-Translator: \n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -18,17 +18,16 @@ msgstr ""
 msgid "3plwinner"
 msgstr "3plGewinner"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1897
-#: includes/class-wc-advanced-shipment-tracking-admin.php:2210
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1912
 msgid "Add"
 msgstr "Hinzufügen"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:2154
+#: includes/class-wc-advanced-shipment-tracking-admin.php:2183
 msgid "Add API Name alias"
 msgstr "API-Namensalias hinzufügen"
 
-#: includes/views/admin_options_shipping_provider.php:30
-#: includes/views/admin_options_shipping_provider.php:114
+#: includes/views/admin_options_shipping_provider.php:37
+#: includes/views/admin_options_shipping_provider.php:95
 msgid "Add Custom Carrier"
 msgstr "Benutzerdefinierten Spediteur hinzufügen"
 
@@ -54,6 +53,7 @@ msgstr ""
 msgid "Add Tracking"
 msgstr "Add Tracking"
 
+#: includes/class-wc-advanced-shipment-tracking.php:337
 #: includes/class-wc-advanced-shipment-tracking-settings.php:513
 msgid "Add Tracking - order\t"
 msgstr "Tracking hinzufügen - Bestellung"
@@ -79,7 +79,11 @@ msgstr "Erweiterte Sendungsverfolgung für WooCommerce"
 msgid "AliExpress Dropshipping"
 msgstr "AliExpress Dropshipping"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1651
+#: includes/views/admin_options_shipping_provider.php:51
+msgid "All Carriers Selected."
+msgstr "Alle Spediteure ausgewählt."
+
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1653
 msgid "API aliases"
 msgstr "API-Aliasse"
 
@@ -140,15 +144,19 @@ msgid "Cannot create existing order shipment tracking."
 msgstr ""
 "Bestehende Sendungsverfolgung für Bestellungen kann nicht erstellt werden.\n"
 
-#: includes/views/admin_options_shipping_provider.php:181
+#: includes/views/admin_options_shipping_provider.php:162
 msgid "Carriers Added"
 msgstr "Träger hinzugefügt"
 
-#: includes/views/admin_options_shipping_provider.php:183
+#: includes/views/admin_options_shipping_provider.php:164
 msgid "Carriers Deleted"
 msgstr "Träger gelöscht"
 
-#: includes/views/admin_options_shipping_provider.php:182
+#: includes/views/admin_options_shipping_provider.php:48
+msgid "carriers selected."
+msgstr "Träger ausgewählt."
+
+#: includes/views/admin_options_shipping_provider.php:163
 msgid "Carriers Updated"
 msgstr "Mobilfunkanbieter aktualisiert"
 
@@ -197,6 +205,10 @@ msgstr ""
 "Wählen Sie aus, welchen Bestellstatus in Ihrem Shop Sie anzeigen möchten. "
 "Fügen Sie das Tracking-Symbol im Menü „Bestellaktionen“ hinzu."
 
+#: includes/views/admin_options_shipping_provider.php:48
+msgid "Click Here"
+msgstr "Klicken Sie hier"
+
 #: includes/class-wc-advanced-shipment-tracking.php:479
 msgid "Completed"
 msgstr "vollendet, fertiggestellt"
@@ -228,6 +240,7 @@ msgstr ""
 msgid "Data saved successfully."
 msgstr "Daten erfolgreich gespeichert."
 
+#: includes/class-wc-advanced-shipment-tracking.php:379
 #: includes/class-wc-advanced-shipment-tracking-settings.php:570
 msgid "Date shipped:"
 msgstr "Lieferdatum:"
@@ -236,7 +249,7 @@ msgstr "Lieferdatum:"
 msgid "Dear Systems"
 msgstr "Liebe Systeme"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1673
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1675
 msgid "Delete"
 msgstr "Löschen"
 
@@ -255,7 +268,7 @@ msgid_plural "Delivered <span class=\"count\">(%s)</span>"
 msgstr[0] "Geliefert <span class=\"count\">(%s)</span>"
 msgstr[1] "Geliefert <span class=\"count\">(%s)</span>"
 
-#: includes/views/admin_options_shipping_provider.php:33
+#: includes/views/admin_options_shipping_provider.php:40
 msgid "Deselect All"
 msgstr "Alle abwählen"
 
@@ -276,7 +289,7 @@ msgstr "Sendungsstatusbereich anzeigen"
 msgid "Download \tsample csv"
 msgstr "Beispiel-csv herunterladen"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1672
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1674
 msgid "Edit"
 msgstr "Bearbeiten"
 
@@ -320,8 +333,8 @@ msgid "Email type"
 msgstr "E-Mail-Typ"
 
 #: includes/class-wc-advanced-shipment-tracking-admin.php:1602
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1688
-#: includes/views/admin_options_shipping_provider.php:29
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1690
+#: includes/views/admin_options_shipping_provider.php:36
 msgid "Enable Carriers"
 msgstr "Aktivieren Sie Mobilfunkanbieter"
 
@@ -333,16 +346,17 @@ msgstr "E-Mail aktivieren"
 msgid "Enable Integration"
 msgstr "Aktivieren Sie die Integration"
 
-#: includes/views/admin_options_shipping_provider.php:75
+#: includes/views/admin_options_shipping_provider.php:64
 #| msgid "Add Shipping Carriers"
 msgid "Enable Shipping Carriers"
 msgstr "Aktivieren Sie Versanddienstleister"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:2046
-#: includes/class-wc-advanced-shipment-tracking-admin.php:2063
+#: includes/class-wc-advanced-shipment-tracking-admin.php:2075
+#: includes/class-wc-advanced-shipment-tracking-admin.php:2092
 msgid "Filter by shipping provider"
 msgstr "Nach Versandanbieter filtern"
 
+#: includes/class-wc-advanced-shipment-tracking.php:388
 #: includes/class-wc-advanced-shipment-tracking-settings.php:580
 msgid "Fulfill Order"
 msgstr "Bestellung ausführen"
@@ -399,6 +413,18 @@ msgstr "Tracking-Header ausblenden"
 #| msgid "How to import tracking number from CSV files?"
 msgid "How to import \ttracking number from CSV files?"
 msgstr "Wie importiere ich Tracking-Nummern aus CSV-Dateien?"
+
+#. Author URI of the plugin
+msgid "https://www.zorem.com"
+msgstr "https://www.zorem.com"
+
+#. URI of the plugin
+msgid "https://www.zorem.com/products/woocommerce-advanced-shipment-tracking/"
+msgstr "https://www.zorem.com/products/woocommerce-advanced-shipment-tracking/"
+
+#: includes/views/admin_options_shipping_provider.php:48
+msgid "if you want to select all carriers."
+msgstr "wenn Sie alle Spediteure auswählen möchten."
 
 #: includes/views/admin_options_bulk_upload.php:72
 msgid "Import in Progress"
@@ -468,6 +494,12 @@ msgid "Mockup Order"
 msgstr "Mockup-Bestellung"
 
 #: includes/class-ast-integration-options.php:59
+#: includes/views/admin_options_addons.php:54
+#: includes/views/admin_options_addons.php:72
+#: includes/views/admin_options_addons.php:90
+#: includes/views/admin_options_addons.php:108
+#: includes/views/admin_options_addons.php:126
+#: includes/views/admin_options_addons.php:144
 msgid "More Info"
 msgstr "Mehr Info"
 
@@ -476,7 +508,7 @@ msgid "more info"
 msgstr ""
 "Mehr Info\n"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:2154
+#: includes/class-wc-advanced-shipment-tracking-admin.php:2183
 msgid "Multiple API names mapping is a pro features"
 msgstr "Die Zuordnung mehrerer API-Namen ist ein Profi-Feature"
 
@@ -608,7 +640,7 @@ msgstr "QuickBooks Commerce (ehemals TradeGecko)"
 msgid "ReadyToShip"
 msgstr "Versandfertig"
 
-#: includes/views/admin_options_shipping_provider.php:24
+#: includes/views/admin_options_shipping_provider.php:31
 #| msgid "Delete Selected"
 msgid "Remove Selected"
 msgstr "Ausgewählte entfernen"
@@ -621,7 +653,7 @@ msgstr "Benennen Sie das Statuslabel \"Abgeschlossen\" in \"Versendet\" um."
 msgid "Replace tracking information?"
 msgstr "Tracking-Informationen ersetzen?"
 
-#: includes/views/admin_options_shipping_provider.php:187
+#: includes/views/admin_options_shipping_provider.php:168
 #| msgid ""
 #| "Reset providers database, it will reset all your shipping provider "
 #| "\tdatabase"
@@ -646,12 +678,12 @@ msgstr "Speichern & schließen"
 msgid "Saved"
 msgstr "Gerettet"
 
-#: includes/views/admin_options_shipping_provider.php:88
+#: includes/views/admin_options_shipping_provider.php:77
 #| msgid "Search by provider / country"
 msgid "Search by carrier / country"
 msgstr "Suche nach Mobilfunkanbieter / Land"
 
-#: includes/views/admin_options_shipping_provider.php:32
+#: includes/views/admin_options_shipping_provider.php:39
 msgid "Select All"
 msgstr "Wählen Sie Alle"
 
@@ -694,10 +726,10 @@ msgstr "API zur Sendungsverfolgung"
 #: includes/class-wc-advanced-shipment-tracking.php:479
 #: includes/class-wc-advanced-shipment-tracking-admin.php:573
 #: includes/class-wc-advanced-shipment-tracking-settings.php:438
-#: includes/customizer/ast-customizer.php:127
-#: includes/customizer/ast-customizer.php:353
 #: templates/emails/fluid-tracking-info.php:93
 #: templates/emails/fluid-tracking-info.php:116
+#: includes/customizer/ast-customizer.php:127
+#: includes/customizer/ast-customizer.php:353
 msgid "Shipped"
 msgstr "Versendet"
 
@@ -730,26 +762,28 @@ msgstr "Versendet am:"
 msgid "Shipped Order"
 msgstr "Versandbestellung"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:2220
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1920
 msgid "Shipping Carrier Already Added"
 msgstr "Versanddienstleister bereits hinzugefügt"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:2224
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1924
 msgid "Shipping Carrier Not Found!"
 msgstr "Versanddienstleister nicht gefunden!"
 
 #: includes/class-wc-advanced-shipment-tracking-admin.php:288
 #: includes/class-wc-advanced-shipment-tracking-admin.php:292
-#: includes/views/admin_options_shipping_provider.php:19
+#: includes/views/admin_options_shipping_provider.php:26
 msgid "Shipping Carriers"
 msgstr "Versandunternehmen"
 
-#: includes/views/admin_options_shipping_provider.php:185
+#: includes/views/admin_options_shipping_provider.php:166
 #| msgid "Shipping providers database reset successfully."
 msgid "Shipping carriers database reset successfully."
 msgstr ""
 "Die Datenbank der Versanddienstleister wurde erfolgreich zurückgesetzt."
 
+#: includes/class-wc-advanced-shipment-tracking.php:350
+#: includes/class-wc-advanced-shipment-tracking.php:352
 #: includes/class-wc-advanced-shipment-tracking-settings.php:527
 #: includes/class-wc-advanced-shipment-tracking-settings.php:529
 msgid "Shipping Provider:"
@@ -779,17 +813,17 @@ msgstr "Shirtee Cloud"
 msgid "Stamps.com"
 msgstr "Briefmarken.com"
 
-#: includes/views/admin_options_shipping_provider.php:31
+#: includes/views/admin_options_shipping_provider.php:38
 msgid "Sync Carriers"
 msgstr "Träger synchronisieren"
 
-#: includes/views/admin_options_shipping_provider.php:171
-#: includes/views/admin_options_shipping_provider.php:189
+#: includes/views/admin_options_shipping_provider.php:152
+#: includes/views/admin_options_shipping_provider.php:170
 #| msgid "Sync Shipping Providers"
 msgid "Sync Shipping Carriers"
 msgstr "Spediteur synchronisieren"
 
-#: includes/views/admin_options_shipping_provider.php:179
+#: includes/views/admin_options_shipping_provider.php:160
 #| msgid ""
 #| "Syncing the shipping providers list add or updates the pre-set shipping "
 #| "providers and will not effect custom shipping providers."
@@ -866,6 +900,7 @@ msgstr ""
 msgid "Tracking Number"
 msgstr "Auftragsnummer, Frachtnummer, Sendungscode"
 
+#: includes/class-wc-advanced-shipment-tracking.php:346
 #: includes/class-wc-advanced-shipment-tracking-settings.php:523
 msgid "Tracking number:"
 msgstr "Auftragsnummer, Frachtnummer, Sendungscode:"
@@ -878,6 +913,10 @@ msgstr "Auftragsnummer, Frachtnummer, Sendungscode:"
 #: includes/customizer/ast-customizer.php:438
 msgid "Tracking Widget"
 msgstr "Tracking-Widget"
+
+#: includes/views/admin_options_shipping_provider.php:51
+msgid "Undo"
+msgstr "Rückgängig machen"
 
 #: includes/class-wc-advanced-shipment-tracking-admin.php:943
 #: includes/class-wc-advanced-shipment-tracking-settings.php:267
@@ -964,6 +1003,8 @@ msgstr "WooCommerce Canada Postversand"
 msgid "WooCommerce UPS Shipping"
 msgstr "WooCommerce UPS-Versand"
 
+#: includes/class-wc-advanced-shipment-tracking.php:380
+#: includes/class-wc-advanced-shipment-tracking-settings.php:571
 #: includes/class-wc-advanced-shipment-tracking-settings.php:571
 msgid "Y-m-d"
 msgstr "Y-m-d"
@@ -988,3 +1029,7 @@ msgstr ""
 #: includes/class-ast-integration-options.php:110
 msgid "Zenventory"
 msgstr "Zenventory"
+
+#. Author of the plugin
+msgid "zorem"
+msgstr "zorem"

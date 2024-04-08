@@ -352,24 +352,10 @@ input.inner_tab_input:checked + label.ts_tabs_label{
 	border-bottom: 1px solid #e0e0e0;
 	margin: 20px 0;
 }
-.shipping_carriers_arrow_pagination{
-	margin: 15px 0;
-}
 .tab_inner_container {
 	padding: 0;
 	margin: 0 auto;
 	max-width: 1000px;
-}
-span.arrow_pagination{
-	border: 1px solid #e0e0e0;
-	color: #005b9a;
-	padding: 5px;
-	margin-right: 10px;
-	border-color: #005b9a;
-	cursor: pointer;
-}
-.arrow_pagination.disabled{
-	cursor: not-allowed;
 }
 .provider_settings_icon {
 	text-decoration: none;
@@ -978,17 +964,6 @@ span.provider_name {
 .sync_provider_popup .synch_result {
 	display: none;
 	margin: 0 0 20px;
-}
-.default_privder_list_spinner {
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	right: 0;
-	left: 0;
-	background: #fafafa9e;
-	display: flex;
-	align-items: center;
-	justify-content: center;
 }
 .default_privder_list{
 	position: relative;

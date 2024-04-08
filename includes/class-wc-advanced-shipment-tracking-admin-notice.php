@@ -66,7 +66,9 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 
 	public function ast_settings_admin_notice_ignore() {
 		if ( isset( $_GET['ast-pro-settings-ignore-notice'] ) ) {
-			set_transient( 'ast_settings_admin_notice_ignore', 'yes', 2592000 );
+			if (isset($_GET['nonce']) && wp_verify_nonce($_GET['nonce'], 'ast_dismiss_notice')) {
+				set_transient( 'ast_settings_admin_notice_ignore', 'yes', 2592000 );
+			}
 		}
 	}
 	
@@ -167,9 +169,9 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 		<div class="notice updated notice-success ast-dismissable-notice">			
 			<a href="<?php esc_html_e( $dismissable_url ); ?>" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></a>			
 			
-			<p>Get 20% when you upgrade to <a target="blank" href="https://www.zorem.com/ast-pro/">Advanced Shipment Tracking Pro</a> by 05/31! AST PRO will automate your fulfillment workflow, will save you time on your daily tasks and will keep your customers happy and informed on their shipped orders. Use code <strong>ASTPRO20</strong> to redeem your discount (valid by May 31st, 2022).</p>			
+			<p>Get 20% when you upgrade to <a target="blank" href="https://www.zorem.com/ast-pro/?utm_source=wp-admin&utm_medium=ast-notice-dismiss&utm_campaign=upgrad-now">Advanced Shipment Tracking Pro</a> by 05/31! AST PRO will automate your fulfillment workflow, will save you time on your daily tasks and will keep your customers happy and informed on their shipped orders. Use code <strong>ASTPRO20</strong> to redeem your discount (valid by May 31st, 2022).</p>			
 			
-			<a class="button-primary ast_notice_btn" target="blank" href="https://www.zorem.com/ast-pro/">Upgrade Now</a>
+			<a class="button-primary ast_notice_btn" target="blank" href="https://www.zorem.com/ast-pro/?utm_source=wp-admin&utm_medium=ast-notice-dismiss&utm_campaign=upgrad-now">Upgrade Now</a>
 			<a class="button-primary ast_notice_btn" href="<?php esc_html_e( $dismissable_url ); ?>">Dismiss</a>				
 		</div>	
 		<?php 				
@@ -198,11 +200,11 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 	*/
 	public function ast_db_update_notice() { 		
 		
-		if ( get_option('ast_db_update_notice_updated_ignore') ) {
+		if ( get_option('ast_3_6_6_db_update_notice_updated_ignore') ) {
 			return;
 		}	
 		
-		$dismissable_url = esc_url(  add_query_arg( 'ast-db-update-notice-updated-ignore', 'true' ) );
+		$dismissable_url = esc_url(  add_query_arg( 'ast-3-6-6-db-update-notice-updated-ignore', 'true' ) );
 		// $update_providers_url = esc_url( admin_url( '/admin.php?page=woocommerce-advanced-shipment-tracking&tab=shipping-providers&open=synch_providers' ) );
 		?>
 		<style>		
@@ -245,11 +247,11 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 	* Dismiss admin notice for trackship
 	*/
 	public function ast_db_update_notice_ignore() {
-		if ( isset( $_GET['ast-db-update-notice-updated-ignore'] ) ) {
-			update_option( 'ast_db_update_notice_updated_ignore', 'true' );
+		if ( isset( $_GET['ast-3-6-6-db-update-notice-updated-ignore'] ) ) {
+			update_option( 'ast_3_6_6_db_update_notice_updated_ignore', 'true' );
 		}
 		if ( isset( $_GET['open'] ) && 'synch_providers' == $_GET['open'] ) {
-			update_option( 'ast_db_update_notice_updated_ignore', 'true' );
+			update_option( 'ast_3_6_6_db_update_notice_updated_ignore', 'true' );
 		}
 	}
 
@@ -267,7 +269,9 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 			return;
 		}	
 		
-		$dismissable_url = esc_url(  add_query_arg( 'ast-trackship-notice', 'true' ) );
+		$nonce = wp_create_nonce('ast_trackship_dismiss_notice');
+		$dismissable_url = esc_url(add_query_arg(['ast-trackship-notice' => 'true', 'nonce' => $nonce]));
+
 		?>
 		<style>		
 		.wp-core-ui .notice.ast-dismissable-notice{
@@ -310,7 +314,9 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 	*/
 	public function ast_trackship_notice_ignore() {
 		if ( isset( $_GET['ast-trackship-notice'] ) ) {
-			update_option( 'ast_trackship_notice_ignore', 'true' );
+			if (isset($_GET['nonce']) && wp_verify_nonce($_GET['nonce'], 'ast_trackship_dismiss_notice')) {
+				update_option( 'ast_trackship_notice_ignore', 'true' );
+			}
 		}
 	}
 }

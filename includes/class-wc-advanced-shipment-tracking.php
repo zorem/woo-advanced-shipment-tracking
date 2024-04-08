@@ -14,6 +14,8 @@ class WC_Advanced_Shipment_Tracking_Actions {
 	 */
 	private static $instance;
 	public $table;
+	public $providers;
+	public $providers_for_app;
 	
 	public function __construct() {
 		
@@ -334,7 +336,7 @@ class WC_Advanced_Shipment_Tracking_Actions {
 		<div id="" class="slidout_container add_inside_tracking_popup">
 			<div class="slidout_header">
 				<div class="slidout_header_title">
-					<h3 class="slidout_title"><?php esc_html_e( 'Add Tracking - order	', 'ast-pro'); ?> - #<?php esc_html_e( $order->get_order_number() ); ?></h3>
+					<h3 class="slidout_title"><?php esc_html_e( 'Add Tracking - order	', 'woo-advanced-shipment-tracking'); ?> - #<?php esc_html_e( $order->get_order_number() ); ?></h3>
 				</div>	
 				<div class="slidout_header_action">
 					<span class="dashicons dashicons-no-alt popup_close_icon slidout_close"></span>
@@ -343,13 +345,13 @@ class WC_Advanced_Shipment_Tracking_Actions {
 			<div class="slidout_body">				
 				<?php do_action( 'ast_tracking_form_between_form', $order_id, 'inline' ); ?>
 				<p class="form-field tracking_number_field">
-					<label for="tracking_number"><?php esc_html_e( 'Tracking number:', 'ast-pro'); ?></label>
+					<label for="tracking_number"><?php esc_html_e( 'Tracking number:', 'woo-advanced-shipment-tracking'); ?></label>
 					<input type="text" class="short" name="tracking_number" id="tracking_number" value="" autocomplete="off"> 
 				</p>
 				<p class="form-field">
-					<label for="tracking_number"><?php esc_html_e( 'Shipping Provider:', 'ast-pro'); ?></label>
+					<label for="tracking_number"><?php esc_html_e( 'Shipping Provider:', 'woo-advanced-shipment-tracking'); ?></label>
 					<select class="chosen_select tracking_provider_dropdown" id="tracking_provider" name="tracking_provider">
-						<option value=""><?php esc_html_e( 'Shipping Provider:', 'ast-pro' ); ?></option>
+						<option value=""><?php esc_html_e( 'Shipping Provider:', 'woo-advanced-shipment-tracking' ); ?></option>
 						<?php 
 							
 						foreach ( $shippment_countries as $s_c ) {
@@ -376,8 +378,8 @@ class WC_Advanced_Shipment_Tracking_Actions {
 					</select>
 				</p>	
 				<p class="form-field date_shipped_field">
-					<label for="date_shipped"><?php esc_html_e( 'Date shipped:', 'ast-pro'); ?></label>
-					<input type="text" class="ast-date-picker-field" name="date_shipped" id="date_shipped" value="<?php echo esc_html( date_i18n( __( 'Y-m-d', 'ast-pro' ), current_time( 'timestamp' ) ) ); ?>" placeholder="<?php echo esc_html( date_i18n( esc_html_e( 'Y-m-d', 'ast-pro' ), time() ) ); ?>">						
+					<label for="date_shipped"><?php esc_html_e( 'Date shipped:', 'woo-advanced-shipment-tracking'); ?></label>
+					<input type="text" class="ast-date-picker-field" name="date_shipped" id="date_shipped" value="<?php echo esc_html( date_i18n( __( 'Y-m-d', 'woo-advanced-shipment-tracking' ), current_time( 'timestamp' ) ) ); ?>" placeholder="<?php echo esc_html( date_i18n( esc_html_e( 'Y-m-d', 'woo-advanced-shipment-tracking' ), time() ) ); ?>">						
 				</p>								
 				<?php do_action( 'ast_after_tracking_field', $order_id ); ?>					
 				<?php wc_advanced_shipment_tracking()->actions->mark_order_as_fields_html(); ?>						
@@ -385,9 +387,9 @@ class WC_Advanced_Shipment_Tracking_Actions {
 				<p class="fulfill_order_btn_sidebar">		
 					<?php wp_nonce_field( 'wc_ast_inline_tracking_form', 'wc_ast_inline_tracking_form_nonce' ); ?>
 					<input type="hidden" name="order_id" id="order_id" value="<?php esc_html_e( $order_id ); ?>">
-					<input type="button" value="<?php esc_html_e( 'Fulfill Order', 'ast-pro' ); ?>" class="button-primary btn_green add_inside_tracking_button">        
+					<input type="button" value="<?php esc_html_e( 'Fulfill Order', 'woo-advanced-shipment-tracking' ); ?>" class="button-primary btn_green add_inside_tracking_button">        
 				</p>
-				<!-- <p class="preview_tracking_link"><?php //esc_html_e( 'Preview:', 'ast-pro' ); ?>&nbsp;<a href="" target="_blank"><?php //esc_html_e( 'Track Shipment', 'ast-pro' ); ?></a></p>					 -->
+				<!-- <p class="preview_tracking_link"><?php //esc_html_e( 'Preview:', 'woo-advanced-shipment-tracking' ); ?>&nbsp;<a href="" target="_blank"><?php //esc_html_e( 'Track Shipment', 'woo-advanced-shipment-tracking' ); ?></a></p>					 -->
 			</div>			
 		</div>
 		<?php
@@ -395,7 +397,7 @@ class WC_Advanced_Shipment_Tracking_Actions {
 		$provider_array = array();
 
 		foreach ( $shippment_providers as $provider ) {
-			$provider_array[ sanitize_title( $provider->provider_name ) ] = urlencode( $provider->provider_url );
+			$provider_array[ $provider->ts_slug ] = urlencode( $provider->provider_url );
 		}
 		
 		$js = "
@@ -568,20 +570,7 @@ class WC_Advanced_Shipment_Tracking_Actions {
 			
 			$upload_dir   = wp_upload_dir();	
 			$ast_directory = $upload_dir['baseurl'] . '/ast-shipping-providers/';
-			$ast_base_directory = $upload_dir['basedir'] . '/ast-shipping-providers/';
-			
-			$custom_thumb_id = $results->custom_thumb_id;			
-			
-			if ( 0 == (int) $custom_thumb_id && 1 == (int) $results->shipping_default ) {
-				$src = $ast_directory . '' . sanitize_title( $results->provider_name ) . '.png?v=' . wc_advanced_shipment_tracking()->version;
-			} else if ( 0 != (int) $custom_thumb_id ) {
-				$image_attributes = wp_get_attachment_image_src( (int) $custom_thumb_id , array( '60', '60' ) );
-				if ( $image_attributes[0] ) {
-					$src = $image_attributes[0];
-				}
-			} else {
-				$src = wc_advanced_shipment_tracking()->plugin_dir_url() . 'assets/images/icon-default.png';
-			}
+			$src = $ast_directory . '' . esc_html( $results->ts_slug ) . '.png?v=' . wc_advanced_shipment_tracking()->version;			
 		} else {
 			$src = wc_advanced_shipment_tracking()->plugin_dir_url() . 'assets/images/icon-default.png';
 		}
@@ -1462,9 +1451,9 @@ class WC_Advanced_Shipment_Tracking_Actions {
 			$suffix .= date_i18n( get_option( 'wcj_order_number_date_suffix', '' ) );
 	
 			// Ignore suffix and prefix from search input
-			$search_no_suffix            = preg_replace( "/\A{$prefix}/i", '', $order_id );
-			$search_no_suffix_and_prefix = preg_replace( "/{$suffix}\z/i", '', $search_no_suffix );
-			$final_search                = empty( $search_no_suffix_and_prefix ) ? $search : $search_no_suffix_and_prefix;	
+			$search_no_suffix            = $order_id ? preg_replace( "/\A{$prefix}/i", '', $order_id ) : '';
+			$search_no_suffix_and_prefix = $search_no_suffix ? preg_replace( "/{$suffix}\z/i", '', $search_no_suffix ) : '';
+			$final_search                = empty( $search_no_suffix_and_prefix ) ? $search : $search_no_suffix_and_prefix;
 			
 			if ( 'yes' == $wcj_order_numbers_enabled ) {
 				$query_args = array(
