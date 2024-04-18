@@ -10,7 +10,7 @@
  * License: GPL-2.0+
  * License URI: 
  * Text Domain: woo-advanced-shipment-tracking 
- * WC tested up to: 8.7.0
+ * WC tested up to: 8.8.2
 */
 
 class Zorem_Woocommerce_Advanced_Shipment_Tracking {

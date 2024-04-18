@@ -649,7 +649,7 @@ class WC_Advanced_Shipment_Tracking_Settings {
 						'provider_name' => sanitize_text_field( $provider_name ),
 						'ts_slug' => $ts_slug,
 						'provider_url' => sanitize_text_field( $provider_url ),			
-						'display_in_order' => 1,
+						'display_in_order' => 0,
 						'shipping_default' => 1,
 						'trackship_supported' => sanitize_text_field( $trackship_supported ),
 					);

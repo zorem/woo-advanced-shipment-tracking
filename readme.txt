@@ -2,7 +2,7 @@
 Contributors: zorem,gaurav1092
 Tags: WooCommerce, delivery, shipping, shipment tracking, tracking
 Requires at least: 5.3
-Tested up to: 6.5
+Tested up to: 6.5.2
 Requires PHP: 7.2
 Stable tag: 3.6.6
 License: GPLv2 
@@ -105,12 +105,13 @@ Yes, if you use external shipping services that work with the WooCommerce REST A
 
 = 3.6.6 =
 * Add - UTM link for all the external links to zorem.com
-* Dev - Tested plugin with WordPress 6.5
-* Dev - Tested with WooCommerce 8.7.0
+* Dev - Tested plugin with WordPress 6.5.2
+* Dev - Tested with WooCommerce 8.8.2
 * Dev - Add nonce in all the admin message dismissable URL
 * Dev - updated the Synch providers API call URL
 * Fix - translation issue on Add Tracking slideout
 * Fix - Deprecated warnings
+* Fix - “Creation of dynamic property WC_Advanced_Shipment_Tracking_Actions::$providers is deprecated”
 
 = 3.6.5 =
 * Dev - Test plugin with WordPress 6.4.2
