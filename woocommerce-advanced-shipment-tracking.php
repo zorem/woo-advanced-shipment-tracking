@@ -11,6 +11,7 @@
  * License URI: 
  * Text Domain: woo-advanced-shipment-tracking 
  * WC tested up to: 8.8.2
+ * Requires Plugins: woocommerce
 */
 
 class Zorem_Woocommerce_Advanced_Shipment_Tracking {
