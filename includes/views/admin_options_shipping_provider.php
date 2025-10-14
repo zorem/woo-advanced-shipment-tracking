@@ -3,6 +3,13 @@
  * Html code for shipping providers tab
  */
 
+$total_enable_providers = $wpdb->get_row(
+	$wpdb->prepare(
+		'SELECT COUNT(*) as total_providers FROM %1s WHERE display_in_order = 1',
+		$this->table
+	)
+);
+
 if ( isset( $_GET['open'] ) && 'synch_providers' == $_GET['open'] ) {
 	?>
 	<script>
@@ -17,12 +24,9 @@ if ( isset( $_GET['open'] ) && 'synch_providers' == $_GET['open'] ) {
 		<div class="provider_top">																					
 			<div class="search_section">				
 				<h2 class="shipping_carrier_heading"><?php esc_html_e( 'Shipping Carriers', 'woo-advanced-shipment-tracking' ); ?></h2>
-				<!--span class="dashicons dashicons-search search-icon"></span>
-				<input class="provider_search_bar" type="text" name="search_provider" id="search_provider" placeholder="<?php //esc_html_e( 'Search by carrier / country', 'woo-advanced-shipment-tracking' ); ?>"-->		
-			</div>			
-			
-			<button class="button button-primary" style="display:none;" id="delete_provider_bulk" data-remove="selected-page"><?php esc_html_e( 'Remove Selected', 'woo-advanced-shipment-tracking' ); ?></button>
-
+				<span class="dashicons dashicons-search search-icon"></span>
+				<input class="provider_search_bar" type="text" name="search_provider" id="search_provider" placeholder="<?php esc_html_e( 'Search by carrier / country', 'woo-advanced-shipment-tracking' ); ?>">	
+			</div>
 			<div class="provider_settings">
 				<a href="javaScript:void(0);" class="provider_settings_icon" id="provider-settings"><span class="dashicons dashicons-ellipsis"></span></a>				
 				<ul class="provider-settings-ul">
@@ -30,42 +34,35 @@ if ( isset( $_GET['open'] ) && 'synch_providers' == $_GET['open'] ) {
 					<li><a href="javaScript:void(0);" class="add_custom_carriers"><?php esc_html_e('Add Custom Carrier', 'woo-advanced-shipment-tracking'); ?></a></li>
 					<li><a href="javaScript:void(0);" class="sync_providers"><?php esc_html_e('Sync Carriers', 'woo-advanced-shipment-tracking'); ?></a></li>
 					<li><a href="javaScript:void(0);" class="reset_providers" data-reset="1"><?php esc_html_e('Select All', 'woo-advanced-shipment-tracking'); ?></a></li>
-					<li><a href="javaScript:void(0);" class="reset_providers Deselect" data-reset="0"><?php esc_html_e('Deselect All', 'woo-advanced-shipment-tracking'); ?></a></li>
+					<li><a href="javaScript:void(0);" class="reset_providers deselect" data-reset="0"><?php esc_html_e('Deselect All', 'woo-advanced-shipment-tracking'); ?></a></li>
 				</ul>			
 			</div>			
 		</div>	
 		<div class="shipping_carriers_menu_devider"></div>
 		
-		<?php
-			$get_total_shipment_providers = $wpdb->get_results(
-				$wpdb->prepare(
-					'SELECT * FROM %1s WHERE display_in_order = 1',
-					$this->table
-				)
-			);
+		<?php if ( $total_enable_providers->total_providers > 0 ) { ?>
+			<div class="shipping-carriers-selected-provider-message">
+				<p class="selected_provider_show_notice"><span id="selected_provider_total">0</span> <?php esc_html_e('carriers selected.', 'woo-advanced-shipment-tracking'); ?> <a class="remove_all_shipping_carrier"><?php esc_html_e('Click Here', 'woo-advanced-shipment-tracking'); ?></a> <?php esc_html_e('if you want to select all carriers.', 'woo-advanced-shipment-tracking'); ?>
+					<button class="button button-primary" style="display:none;" id="delete_provider_bulk" data-remove="selected-page">
+						<?php esc_html_e( 'Remove Selected', 'woo-advanced-shipment-tracking' ); ?>
+					</button>
+				</p>
+			</div>
+			<div class="all-shipping-carriers-selected">
+				<p class="all_carriers_selected"><?php esc_html_e('All Carriers Selected.', 'woo-advanced-shipment-tracking'); ?>
+					<a class="remove_selected_shipping_carrier">
+						<?php esc_html_e('Undo', 'woo-advanced-shipment-tracking'); ?>
+					</a>
+					<button class="button button-primary" id="delete_provider_bulk" data-remove="selected-page">
+						<?php esc_html_e( 'Remove Selected', 'woo-advanced-shipment-tracking' ); ?>
+					</button>
+				</p>
+			</div>
+		<?php } ?>
 
-			$provider_ids = array(); // To store all provider IDs
-
-			foreach ($get_total_shipment_providers as $key) {
-				$provider_ids[] = esc_html($key->id);
-			}
-
-			if (! empty($provider_ids)) {
-				?>
-				<div class="shipping-carriers-selected-provider-message">
-					<p class="selected_provider_show_notice"><span id="selected_provider_total">0</span> carriers selected. <a class="remove_all_shipping_carrier">Click Here</a> if you want to select all carriers.</p>
-				</div>
-				<div class="all-shipping-carriers-selected">
-					<p class="all_carriers_selected">All Carriers Selected. <a class="remove_selected_shipping_carrier">Undo</a></p>
-				</div>
-			<?php } ?>
-			<div class="provider_list">	
-				<?php
-				if ( $default_shippment_providers ) {
-					echo wp_kses_post( $this->get_provider_html( 1 ) );
-				}
-				?>
-			</div>	
+		<div class="provider_list">	
+			<?php esc_html_e( $this->get_provider_html( 1 ) ); ?>
+		</div>
 		
 		<input type="hidden" id="nonce_shipping_provider" value="<?php esc_html_e( wp_create_nonce( 'nonce_shipping_provider' ) ); ?>">
 		
@@ -87,14 +84,8 @@ if ( isset( $_GET['open'] ) && 'synch_providers' == $_GET['open'] ) {
 								<span class="dashicons dashicons-search search-carrier-icon"></span>
 								<input class="provider_search_bar" type="text" name="search_default_provider" id="search_default_provider" placeholder="<?php esc_html_e( 'Search by carrier / country', 'woo-advanced-shipment-tracking' ); ?>">		
 							</div>
-							<?php echo wp_kses_post( $this->shipping_pagination_fun( 1 ) ); ?>
-							<div class="default_spinner">
-								<div class="spinner" style=""></div>
-							</div>
-							<div class="shipping_carriers_arrow_pagination">
-								<input type="hidden" id="nonce_shipping_pagination_provider" value="<?php esc_html_e( wp_create_nonce( 'nonce_shipping_pagination_provider' ) ); ?>">
-								<span data-number="1" data-side="left" class="dashicons dashicons-arrow-left-alt arrow_pagination disabled"></span>
-								<span data-number="2" data-side="right" class="dashicons dashicons-arrow-right-alt arrow_pagination"></span>
+							<div class="default_privder_list">
+								<?php esc_html_e( $this->shipping_pagination_fun( 1 ) ); ?>
 							</div>
 						</div>
 					</div>
@@ -121,7 +112,7 @@ if ( isset( $_GET['open'] ) && 'synch_providers' == $_GET['open'] ) {
 				<div class="menu_devider"></div>
 				<section id="add_customer_carrier_section">	
 					<div class="get_feature_container">
-						<a href="https://www.zorem.com/product/woocommerce-advanced-shipment-tracking/" target="_blank"><span class="get_feature_span"><span class="dashicons dashicons-arrow-up-alt"></span>Get Feature</span></a>
+						<a href="https://www.zorem.com/product/woocommerce-advanced-shipment-tracking/?utm_source=wp-admin&utm_medium=provider-popup&utm_campaign=upgrad-to-pro" target="_blank"><span class="get_feature_span"><span class="dashicons dashicons-arrow-up-alt"></span>Get Feature</span></a>
 						<div>Upgrade to Advanced Shipment Tracking Pro and gain the power to Add Custom Shipping Carriers. Ditch limitations, offer more shipping choices, enhance customer satisfaction, and streamline operations. Elevate your e-commerce game today!</div>
 					</div>
 

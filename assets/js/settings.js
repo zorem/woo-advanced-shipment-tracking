@@ -80,20 +80,21 @@ jQuery(document).on("change", "#wc_ast_status_partial_shipped_label_font_color",
 	jQuery('.order-status-table .order-label.wc-partially-shipped').css('color',font_color);
 });
 
-jQuery(document).on("change", "#wc_ast_status_updated_tracking_label_font_color", function(){
-	var font_color = jQuery(this).val();
-	jQuery('.order-status-table .order-label.wc-updated-tracking').css('color',font_color);
-});
+/* activity-panel custom popup create start */
+document.addEventListener('DOMContentLoaded', () => {
+    const menuButton = document.querySelector('.menu-button');
+    const popupMenu = document.querySelector('.popup-menu');
 
-jQuery( document ).on( "click", "#activity-panel-tab-help", function() {
-	jQuery(this).addClass( 'is-active' );
-	jQuery( '.woocommerce-layout__activity-panel-wrapper' ).addClass( 'is-open is-switching' );
-});
+    // Toggle menu visibility on button click
+    menuButton.addEventListener('click', () => {
+        popupMenu.style.display = popupMenu.style.display === 'block' ? 'none' : 'block';
+    });
 
-jQuery(document).click(function(){
-	var $trigger = jQuery(".woocommerce-layout__activity-panel");
-    if($trigger !== event.target && !$trigger.has(event.target).length){
-		jQuery('#activity-panel-tab-help').removeClass( 'is-active' );
-		jQuery( '.woocommerce-layout__activity-panel-wrapper' ).removeClass( 'is-open is-switching' );
-    }   
+    // Close menu when clicking outside of it
+    document.addEventListener('click', (e) => {
+        if (!menuButton.contains(e.target) && !popupMenu.contains(e.target)) {
+            popupMenu.style.display = 'none';
+        }
+    });
 });
+/* activity-panel custom popup create end */

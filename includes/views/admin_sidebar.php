@@ -1,6 +1,6 @@
 <?php
 /**
- * Html code for sidebar promotion
+ * Html code for sidebar   
  */
 ?>
 <div class="ast_admin_sidebar">
@@ -9,6 +9,6 @@
 		<h1>Upgrade to AST PRO!</h1>
 		<p>Upgrade to Advanced Shipment Tracking Pro and automate your fulfillment workflow, save time on your daily tasks and keep your customers happy and informed on their shipped orders.</p>
 		<p>Get 20% Off on your first order. Use code ASTPRO20 to redeem your discount</p>
-		<a href="https://www.zorem.com/ast-pro/" class="button-primary btn_ast2 btn_large upgrade_to_pro_btn" target="_blank">UPGRADE TO AST PRO <span class="dashicons dashicons-arrow-right-alt2"></span></a>
+		<a href="https://www.zorem.com/ast-pro/?utm_source=wp-admin&utm_medium=plugin-setting&utm_campaign=upgrad-to-pro" class="button-primary btn_ast2 btn_large upgrade_to_pro_btn" target="_blank">UPGRADE TO AST PRO <span class="dashicons dashicons-arrow-right-alt2"></span></a>
 	</div>
 </div>

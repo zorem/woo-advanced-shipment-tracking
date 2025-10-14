@@ -341,6 +341,13 @@ jQuery(document).on("click", ".add_tracking_inside", function(){
 	jQuery('.add_inside_tracking_popup').slideOutForm();	
 });
 
+jQuery(document).on('keypress', '.add_inside_tracking_popup input', function(e){
+    if (e.which === 13) { // Enter key
+        e.preventDefault();
+        jQuery('.add_inside_tracking_button').trigger('click');
+    }
+});
+
 jQuery(document).on("click", ".add_inside_tracking_button", function(){
 	
 	var error;
@@ -409,7 +416,7 @@ jQuery(document).on("click", ".add_inside_tracking_button", function(){
 		checked = 'change_order_to_shipped';
 	} else if(change_order_to_shipped == 'change_order_to_custom_shipped'){
 		checked = 'change_order_to_shipped';
-	} else if($('input#change_order_to_shipped').prop("checked") == true){
+	} else if( jQuery( 'input#change_order_to_shipped' ).prop("checked") == true){
 		checked = 'change_order_to_shipped';
 	} else{
 		checked = 'no';

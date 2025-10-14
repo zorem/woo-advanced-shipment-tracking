@@ -51,11 +51,13 @@ class Ast_Customizer {
 	 * @since  1.0
 	*/
 	public function __construct() {
-
-		// Get our Customizer defaults
-		$this->defaults = $this->ast_generate_defaults();	
-
+		
+		add_action( 'init', array( $this, 'initialize' ) ); // Delay execution
 		$this->init();
+	}
+
+	public function initialize() {
+		$this->defaults = $this->ast_generate_defaults();
 	}
 	
 	/*
@@ -74,7 +76,7 @@ class Ast_Customizer {
 		add_action( 'wp_ajax_ast_email_preview', array( $this, 'get_preview_email' ) );
 		
 		//load javascript in admin
-		add_action('admin_enqueue_scripts', array( $this, 'customizer_enqueue_scripts' ) );
+		add_action('admin_enqueue_scripts', array( $this, 'customizer_enqueue_scripts' ), 20 );
 		
 		//load CSS/javascript in admin
 		add_action('admin_footer', array( $this, 'admin_footer_enqueue_scripts' ) );
@@ -122,8 +124,8 @@ class Ast_Customizer {
 		$email_type = !empty( $_GET['email_type'] ) ? sanitize_text_field($_GET['email_type']) : 'completed';
 		$iframe_url = $this->get_email_preview_url( $email_type ) ;
 		
-		$rename_shipped_status = get_option( 'wc_ast_status_shipped', 1 );				
-		
+		$rename_shipped_status = get_ast_settings( 'ast_general_settings', 'wc_ast_status_shipped', 1 );
+
 		$completed_label = ( $rename_shipped_status ) ? esc_html__( 'Shipped', 'woo-advanced-shipment-tracking' ) : esc_html__( 'Completed', 'woocommerce' );		
 		
 		$email_types = array(
@@ -215,7 +217,7 @@ class Ast_Customizer {
 	*
 	* @since 1.0
 	*/	
-	public function customizer_enqueue_scripts() {
+	public function customizer_enqueue_scripts( $hook ) {
 		
 		$page = isset( $_GET['page'] ) ? wc_clean( $_GET['page'] ) : '' ;
 		
@@ -231,7 +233,7 @@ class Ast_Customizer {
 		wp_enqueue_script( 'select2');
 		
 		// Add tiptip js and css file		
-		wp_enqueue_style( 'ast-customizer', plugin_dir_url(__FILE__) . 'assets/Customizer.css', array(), wc_advanced_shipment_tracking()->version );
+		wp_enqueue_style( 'ast-customizer', plugin_dir_url(__FILE__) . 'assets/Customizer.css', array(), time() );
 		wp_enqueue_script( 'ast-customizer', plugin_dir_url(__FILE__) . 'assets/Customizer.js', array( 'jquery', 'wp-util', 'wp-color-picker','jquery-tiptip' ), wc_advanced_shipment_tracking()->version, true );
 		
 		wp_localize_script('ast-customizer', 'ast_customizer', array(
@@ -275,12 +277,14 @@ class Ast_Customizer {
 						update_option( $key, wc_clean( $_POST[$key] ) );					
 					} elseif ( isset( $val['option_type'] ) && 'array' == $val['option_type'] ) {					
 						if ( isset( $val['option_key'] ) ) {
+							$option_data = get_option( $val['option_name'], array() );
+							if (!is_array($option_data)) {
+								$option_data = array();
+							}
 							if ( isset( $val['type'] ) && 'textarea' == $val['type'] ) {
-								$option_data = get_option( $val['option_name'], array() );
 								$option_data[$val['option_key']] = wp_kses_post( wp_unslash( $_POST[ $key ] ) );	
 								update_option( $val['option_name'], $option_data );
-							} else {	
-								$option_data = get_option( $val['option_name'], array() );
+							} else {
 								$option_data[$val['option_key']] = wc_clean( wp_unslash( $_POST[ $key ] ) );	
 								update_option( $val['option_name'], $option_data );								
 							}						
@@ -307,7 +311,7 @@ class Ast_Customizer {
 		$customizer_defaults = array(
 			'wcast_preview_order_id' => 'mockup',
 			'display_tracking_info_at' => 'before_order',
-			'header_text_change' => '',
+			'header_text_change' => __( 'Tracking Information', 'woo-advanced-shipment-tracking' ),
 			'additional_header_text' => '',
 			'fluid_table_layout' => 2,
 			'fluid_display_shipped_header' => 1,
@@ -347,8 +351,9 @@ class Ast_Customizer {
 		$tracking_info_settings = get_option( 'tracking_info_settings', array() );
 		
 		$iframe_url = $this->get_email_preview_url( $email_type ) ;
-		
-		$rename_shipped_status = get_option( 'wc_ast_status_shipped', 1 );		
+
+		$rename_shipped_status = get_ast_settings( 'ast_general_settings', 'wc_ast_status_shipped', 1 );
+	
 		
 		$completed_label = ( $rename_shipped_status ) ? esc_html__( 'Shipped', 'woo-advanced-shipment-tracking' ) : esc_html__( 'Completed', 'woocommerce' );	
 		
@@ -357,8 +362,9 @@ class Ast_Customizer {
 		$email_types = array(
 			'completed'		  => $completed_label,					
 		);
+
+		$wc_ast_status_partial_shipped = get_ast_settings( 'ast_general_settings', 'wc_ast_status_partial_shipped', 0 );
 		
-		$wc_ast_status_partial_shipped = get_option( 'wc_ast_status_partial_shipped', 0 );
 		if ( $wc_ast_status_partial_shipped ) {
 			$email_types['partial_shipped'] = esc_html__( 'Partially Shipped', 'woo-advanced-shipment-tracking' );
 		}

@@ -30,12 +30,12 @@
 										<label for=""><?php esc_html_e('Choose the Shipped Date format', 'woo-advanced-shipment-tracking'); ?></label>
 									</th>
 									<td scope="row" class="">
-										<?php $date_format = get_option( 'date_format_for_csv_import', 'd-m-Y' ); ?>
+										<?php $date_format = get_ast_settings( 'ast_general_settings', 'date_format_for_csv_import', 'd-m-Y' ); ?>
 										<label class="ast_radio_label" for="date_format_ddmmyy">
-											<input type="radio" <?php esc_html_e( ( 'd-m-Y' == $date_format ) ? 'checked' : '' ); ?> id="date_format_ddmmyy" name="date_format_for_csv_import" class="" value="d-m-Y"/> 	dd/mm/YYYY
+											<input type="radio" <?php esc_html_e( ( 'd-m-Y' == $date_format ) ? 'checked' : '' ); ?> id="date_format_ddmmyy" name="date_format_for_csv_import" class="" value="d-m-Y"/> dd-mm-YYYY
 										</label>
 										<label class="ast_radio_label" for="date_format_mmddyy">
-											<input type="radio" <?php esc_html_e( ( 'm-d-Y' == $date_format ) ? 'checked' : '' ); ?> id="date_format_mmddyy" name="date_format_for_csv_import" class="" value="m-d-Y"/> 	mm/dd/YYYY
+											<input type="radio" <?php esc_html_e( ( 'm-d-Y' == $date_format ) ? 'checked' : '' ); ?> id="date_format_mmddyy" name="date_format_for_csv_import" class="" value="m-d-Y"/> mm-dd-YYYY
 										</label>
 									</td>
 								</tr>

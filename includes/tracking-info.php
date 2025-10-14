@@ -18,6 +18,7 @@ function ast_insert_tracking_number( $order_id, $tracking_number, $tracking_prov
 		'tracking_number'       => $tracking_number,
 		'date_shipped'          => $date_shipped,
 		'status_shipped'		=> $status_shipped,
+		'source'				=> 'function',
 	);	
 	$ast = WC_Advanced_Shipment_Tracking_Actions::get_instance();
 	$ast->insert_tracking_item( $order_id, $args );	

@@ -45,13 +45,22 @@ $order_data = wc_get_order( $order_id );
 
 <div class="fluid_section">
 	<?php 
-	foreach ( $tracking_items as $key => $tracking_item ) { 
-	
+	foreach ( $tracking_items as $key => $tracking_item ) {
+
 		if ( '' != $tracking_item[ 'formatted_tracking_provider' ] ) {
-			$ast_provider_title = apply_filters( 'ast_provider_title', esc_html( $tracking_item[ 'formatted_tracking_provider' ] )); 
+			$ast_provider_title = apply_filters( 'ast_provider_title', esc_html( $tracking_item[ 'formatted_tracking_provider' ] ) );
 		} else {
-			$ast_provider_title = apply_filters( 'ast_provider_title', esc_html( $tracking_item[ 'tracking_provider' ] ));
+			$ast_provider_title = '';
+			
+			if ( '' != $tracking_item[ 'tracking_provider' ] ) {
+				$ast_provider_title = $tracking_item[ 'tracking_provider' ];
+			} elseif ( '' != $tracking_item[ 'custom_tracking_provider' ] ) {
+				$ast_provider_title = $tracking_item[ 'custom_tracking_provider' ];
+			}
+		
+			$ast_provider_title = apply_filters( 'ast_provider_title', esc_html( $ast_provider_title ) );
 		}
+		
 		?>
 		<div class="fluid_container">
 			<div class="fluid_cl fluid_left_cl">
@@ -63,7 +72,17 @@ $order_data = wc_get_order( $order_id );
 					<div class="provider_name">
 						<div>
 							<strong class="tracking_provider"><?php esc_html_e( $ast_provider_title ); ?></strong>
-							<a class="tracking_number" href="<?php echo esc_url( $tracking_item['ast_tracking_link'] ); ?>" target="_blank"><?php esc_html_e( $tracking_item['tracking_number'] ); ?></a>
+							<?php 	
+							if ( !empty( $tracking_item['ast_tracking_link'] ) ) {
+								?>
+									<a class="tracking_number" href="<?php echo esc_url( $tracking_item['ast_tracking_link'] ); ?>" target="_blank"><?php esc_html_e( $tracking_item['tracking_number'] ); ?></a>	
+								<?php
+							} else {
+								?>
+									<span class="tracking_link_empty"><?php esc_html_e( $tracking_item['tracking_number'] ); ?></span>	
+								<?php
+							}
+							?>
 						</div>
 						<div class="order_status <?php esc_html_e( $order_status ); ?>">
 						<?php 
@@ -76,9 +95,15 @@ $order_data = wc_get_order( $order_id );
 				<?php do_action( 'ast_fluid_left_cl_end', $tracking_item, $order_id ); ?>	
 			</div>
 			<div class="fluid_cl fluid_right_cl">
-				<div>
-					<a target="blank" href="<?php echo esc_url( $tracking_item['ast_tracking_link'] ); ?>" class="button track-button" data-order="<?php esc_html_e( $order_id ); ?>" data-tracking="<?php echo esc_html( $tracking_item['tracking_number'] ); ?>" target="_blank"><?php esc_html_e( $fluid_button_text ); ?></a>
-				</div>
+				<?php 	
+				if ( !empty( $tracking_item['ast_tracking_link'] ) ) {
+					?>
+						<div>
+							<a target="blank" href="<?php echo esc_url( $tracking_item['ast_tracking_link'] ); ?>" class="button track-button" data-order="<?php esc_html_e( $order_id ); ?>" data-tracking="<?php echo esc_html( $tracking_item['tracking_number'] ); ?>" target="_blank"><?php esc_html_e( $fluid_button_text ); ?></a>
+						</div>
+					<?php
+				}
+				?>
 			</div>
 		</div>
 	<?php } ?>
@@ -178,6 +203,9 @@ a.button.track-button {
 <?php } ?>
 .tracking_number{
 	color: #03a9f4;
+	text-decoration: none;
+}
+.tracking_link_empty{
 	text-decoration: none;
 }
 .order_status{
