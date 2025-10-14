@@ -13,7 +13,7 @@ $ast_customizer = Ast_Customizer::get_instance();
 
 //Widget header option
 $hide_trackig_header = $ast->get_checkbox_option_value_from_array( 'tracking_info_settings', 'hide_trackig_header', '' );
-$shipment_tracking_header = $ast->get_option_value_from_array( 'tracking_info_settings', 'header_text_change', 'Tracking Information' );
+$shipment_tracking_header = $ast->get_option_value_from_array( 'tracking_info_settings', 'header_text_change', $ast_customizer->defaults['header_text_change'] );
 $shipment_tracking_header_text = $ast->get_option_value_from_array( 'tracking_info_settings', 'additional_header_text', '' );
 
 // Tracking widget background/border color and radius option
@@ -73,13 +73,22 @@ $text_align = is_rtl() ? 'right' : 'left';
 <p style="margin: 0;" class="addition_header"><?php echo wp_kses_post( $shipment_tracking_header_text ); ?></p>
 
 <?php 
-	foreach ( $tracking_items as $key => $tracking_item ) { 	
+	foreach ( $tracking_items as $key => $tracking_item ) {
 
 		if ( '' != $tracking_item[ 'formatted_tracking_provider' ] ) {
-			$ast_provider_title = apply_filters( 'ast_provider_title', esc_html( $tracking_item[ 'formatted_tracking_provider' ] )); 
+			$ast_provider_title = apply_filters( 'ast_provider_title', $tracking_item[ 'formatted_tracking_provider' ] );
 		} else {
-			$ast_provider_title = apply_filters( 'ast_provider_title', esc_html( $tracking_item[ 'tracking_provider' ] ));
-		} 
+			$ast_provider_title = '';
+		
+			if ( '' != $tracking_item[ 'tracking_provider' ] ) {
+				$ast_provider_title = $tracking_item[ 'tracking_provider' ];
+			} elseif ( '' != $tracking_item[ 'custom_tracking_provider' ] ) {
+				$ast_provider_title = $tracking_item[ 'custom_tracking_provider' ];
+			}
+		
+			$ast_provider_title = apply_filters( 'ast_provider_title', esc_html( $ast_provider_title ));
+		}
+
 		?>
 	<table class="fluid_table fluid_table_2cl">
 		<tbody class="fluid_tbody_2cl">
@@ -145,13 +154,29 @@ $text_align = is_rtl() ? 'right' : 'left';
 					<td class="fluid_provider_img" style="padding-right:0 !important;">
 						<img src="<?php echo esc_url( $tracking_item['tracking_provider_image'] ); ?>"></img>
 					</td>	
-				<?php } ?>				
-				<td class="fluid_2cl_td_provider">
+				<?php } ?>
+				<td class="<?php echo !empty( $tracking_item['ast_tracking_link'] ) ? 'fluid_2cl_td_provider' : 'fluid_2cl_td_provider_empty'; ?>">
 					<span class="tracking_provider"><?php esc_html_e( $ast_provider_title ); ?></span></br>
-					<a class="tracking_number" href="<?php echo esc_url( $tracking_item['ast_tracking_link'] ); ?>" target="_blank"><?php esc_html_e( $tracking_item['tracking_number'] ); ?></a>	
+					<?php 	
+					if ( !empty( $tracking_item['ast_tracking_link'] ) ) {
+						?>
+							<a class="tracking_number" href="<?php echo esc_url( $tracking_item['ast_tracking_link'] ); ?>" target="_blank"><?php esc_html_e( $tracking_item['tracking_number'] ); ?></a>	
+						<?php
+					} else {
+						?>
+							<span class="tracking_link_empty"><?php esc_html_e( $tracking_item['tracking_number'] ); ?></span>	
+						<?php
+					}
+					?>
 				</td>
 				<td class="fluid_2cl_td_button" style="text-align: right;">
-					<a href="<?php echo esc_url( $tracking_item['ast_tracking_link'] ); ?>" class="track-button" target="_blank"><?php esc_html_e( $fluid_button_text ); ?></a>	
+					<?php 	
+					if ( !empty( $tracking_item['ast_tracking_link'] ) ) {
+						?>
+							<a href="<?php echo esc_url( $tracking_item['ast_tracking_link'] ); ?>" class="track-button" target="_blank"><?php esc_html_e( $fluid_button_text ); ?></a>
+						<?php
+					}
+					?>
 				</td>
 			</tr>
 		</tbody>
@@ -217,6 +242,13 @@ line-height: 19px;
 display: block;
 margin-top: 4px;
 }
+.tracking_link_empty{
+	text-decoration: none;    
+	font-size: 14px;
+	line-height: 19px;
+	display: block;
+	margin-top: 4px;
+}
 .order_status{
 font-size: 12px;    
 margin: 0;	
@@ -253,6 +285,10 @@ white-space: nowrap;
 }
 .track-button-div{
 float: right;
+}
+
+.fluid_2cl_td_provider_empty{
+	width: 100%;
 }
 
 @media screen and (max-width: 720px) {

@@ -347,6 +347,12 @@ jQuery(document).on("click", ".pagination_link", function(){
 	});	
 });
 
+jQuery("#search_provider").keyup(function(event) {
+	if (event.which === 13) {
+		jQuery(".search-icon").click();
+	}
+});
+
 jQuery(document).on( "click", ".search-icon", function(){	
 	var search_term = jQuery('#search_provider').val();
 	var nonce = jQuery( '#nonce_shipping_provider' ).val();
@@ -679,7 +685,10 @@ jQuery(document).on("click", ".reset_providers.deselect", function(){
 jQuery(document).on("click", ".remove_selected_shipping_carrier", function(){
     jQuery('#delete_provider_bulk').attr('data-remove', 'selected-page');
 	jQuery('div.all-shipping-carriers-selected').hide();
-	jQuery('div.shipping-carriers-selected-provider-message').show();
+	
+	// Uncheck all checkboxes
+	jQuery('input[name="bulk_select_provider[]"]').prop('checked', false);
+	jQuery('div.shipping-carriers-selected-provider-message').hide();
 	var length_get = jQuery('input[name="bulk_select_provider[]"]:checked').length;
 	jQuery('#selected_provider_total').text(length_get);
 });
@@ -1097,7 +1106,27 @@ jQuery(document).on("click", ".woocommerce-save-button", function(e){
 	return false;
 });
 
-jQuery(document).on("change", "#wc_ast_settings_form .ast-settings-toggle,.order_status_toggle,.enable_order_status_email_input,.custom_order_color_select, #wc_ast_status_shipped", function(){	
+jQuery(document).on("click", ".usage-tracking-save", function(e){	
+	
+	var form = jQuery('#wc_usage_tracking_form');
+	form.find(".spinner").addClass("active");
+	
+	jQuery.ajax({
+		url: ajaxurl,		
+		data: form.serialize(),		
+		type: 'POST',		
+		success: function(response) {	
+			form.find(".spinner").removeClass("active");
+			jQuery(document).ast_snackbar( shipment_tracking_table_rows.i18n.data_saved );
+		},
+		error: function(response) {
+			console.log(response);			
+		}
+	});
+	return false;
+});
+
+jQuery(document).on("change", "#wc_usage_tracking_form .ast-settings-toggle,#wc_ast_settings_form .ast-settings-toggle,.order_status_toggle,.enable_order_status_email_input,.custom_order_color_select, #wc_ast_status_shipped", function(){	
 	jQuery('span.ast-accordion-btn button').prop("disabled", false);
 });
 		
@@ -1152,43 +1181,6 @@ jQuery( ".ud-checkbox li" ).on("click", function (e) {
 	} else {
 		jQuery('.submit_usage_data').prop("disabled", false);
 	}
-});
-
-jQuery(document).on("click", ".integration_settings", function(){
-	var nonce = jQuery( '#integrations_settings_form_nonce' ).val();
-	var integration_id = jQuery(this).data('iid');
-	var ajax_data = {
-		action: 'integration_settings_slideout',
-		security: nonce,
-		integration_id: integration_id,	
-	};
-
-	jQuery("#integrations_content").block({
-		message: null,
-		overlayCSS: {
-			background: "#fff",
-			opacity: .6
-		}	
-	});
-
-	jQuery.ajax({
-		url: ajaxurl,
-		data: ajax_data,
-		type: 'POST',
-		//dataType:"json",	
-		success: function(response) {
-			jQuery("#integrations_content").unblock();
-			jQuery(".integration_settings_popup").html(response);
-			jQuery('.integration_settings_popup').slideOutForm();
-		},
-		error: function(response) {
-			console.log(response);
-		}
-	});	
-});
-
-jQuery(document).on("click", ".integration_slidout_close", function(){
-	jQuery('.integration_settings_popup').slideInForm();	
 });
 
 /* zorem_snackbar jquery */

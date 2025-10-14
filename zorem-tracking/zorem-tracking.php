@@ -82,9 +82,6 @@ if ( !class_exists( 'WC_Trackers' ) ) {
 		}
 		public function enqueue_plugin_styles() {
 			// Enqueue your CSS file
-			$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-			wp_register_script( 'jquery-blockui', WC()->plugin_url() . '/assets/js/jquery-blockui/jquery.blockUI' . $suffix . '.js', array( 'jquery' ), time(), true );
-			wp_enqueue_script( 'jquery-blockui' );
 			wp_enqueue_style('plugin-css', plugin_dir_url(__FILE__) . 'assets/css/style.css', array(), time());
 			wp_enqueue_script('plugin-js', plugin_dir_url(__FILE__) . 'assets/js/main.js', array(), time());
 			 
@@ -94,9 +91,8 @@ if ( !class_exists( 'WC_Trackers' ) ) {
 			
 		}
 		public function load_admin_page() {
-			
+		
 			if (isset($_GET['page']) && $_GET['page'] === $this->menu_slug) {
-				
 				if (!get_option($this->plugin_slug_with_hyphens . '_usage_data_selector')) {
 					
 					$this->usage_data_signup_box();
@@ -116,7 +112,7 @@ if ( !class_exists( 'WC_Trackers' ) ) {
 			}
 			
 			check_ajax_referer( $this->plugin_slug_with_hyphens . '_usage_data_form', $this->plugin_slug_with_hyphens . '_usage_data_form_nonce' );
-			
+		
 			if ( isset( $_POST[ $this->plugin_slug_with_hyphens . '_optin_email_notification' ] ) && 0 == $_POST[ $this->plugin_slug_with_hyphens . '_optin_email_notification' ] && isset( $_POST[ 	$this->plugin_slug_with_hyphens . '_enable_usage_data' ] ) && 0 == $_POST[ $this->plugin_slug_with_hyphens . '_enable_usage_data' ] ) {
 				update_option( $this->plugin_slug_with_hyphens . '_usage_data_selector', true );
 				die();
@@ -169,7 +165,7 @@ if ( !class_exists( 'WC_Trackers' ) ) {
 			
 			$ast_enable_usage_data = get_option( $this->plugin_slug_with_hyphens . '_enable_usage_data', 0 );
 			$ast_optin_email_notification = get_option( $this->plugin_slug_with_hyphens . '_optin_email_notification', 0 );
-			
+		
 			if ( 0 == $ast_enable_usage_data && 0 == $ast_optin_email_notification ) {
 				return;
 			}
@@ -430,7 +426,7 @@ if ( !class_exists( 'WC_Trackers' ) ) {
 			$data['net_revenue_three'] = $three_month_data->totals->net_revenue;
 			$data['avg_order_value_three'] = $three_month_data->totals->avg_order_value;
 			$data['orders_count_three'] = $three_month_data->totals->orders_count;
-		
+
 			$twelve_months_ago = gmdate('Y-m-d H:i:s', strtotime('-12 months'));
 			$args1 = array(
 				'before'    => $current_date,
@@ -441,7 +437,7 @@ if ( !class_exists( 'WC_Trackers' ) ) {
 			$data['net_revenue_twelve'] = $twelve_month_data->totals->net_revenue;
 			$data['avg_order_value_twelve'] = $twelve_month_data->totals->avg_order_value;
 			$data['orders_count_twelve'] = $twelve_month_data->totals->orders_count;
-		
+
 			return $data;
 		}
 	}

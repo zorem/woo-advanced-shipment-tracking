@@ -60,7 +60,7 @@ ul.zoremmail-panels,ul.zoremmail-sub-panels {
 }
 .zoremmail-layout .customize-section-back:focus, .zoremmail-layout .customize-section-back:hover {
 	color: #fff !important;
-	background: #3bc4e4 !important;
+	background: #3b64d3 !important;
 	border-left: 0 !important;
 	box-shadow: none;
 	outline: 2px solid transparent;
@@ -179,9 +179,9 @@ a.zoremmail-back-wordpress-link {
 	border-bottom: 1px solid #e0e0e0;
 }
 .zoremmail-panel-title:hover, .zoremmail-sub-panel-title:hover, .zoremmail-sub-second-panel-title:hover {
-	color: #3bc4e4;
+	color: #3b64d3;
 	background: #f6f7f7;
-	border-left: 4px solid #3bc4e4;
+	border-left: 4px solid #3b64d3;
 }
 .zoremmail-menu-submenu-title .dashicons, .zoremmail-panel-title .dashicons, .zoremmail-sub-panel-title .dashicons {
 	position: absolute;
@@ -250,20 +250,20 @@ input[type=text] {
 	display: block;
 }
 .wp-core-ui .button-trackship.btn_large.focus, .wp-core-ui .button-trackship.btn_large.hover, .wp-core-ui .button-trackship.btn_large:focus, .wp-core-ui .button-trackship.btn_large:hover {
-	background: #3bc4e4;
+	background: #3b64d3;
 	outline: none;
 	box-shadow: none;
 }
 .wp-core-ui .button-trackship.btn_large {
-	background: #3bc4e4;
-    border-color: #3bc4e4;
+	background: #3b64d3;
+    border-color: #3b64d3;
 	color: #fff;
 	font-size: 14px;
 	line-height: 16px;
 	margin: 8px;
 }
 .wp-core-ui button.btn_large.button-primary[disabled] {
-	color: #3bc4e4 !important;
+	color: #3b64d3 !important;
 }
 .zoremmail-layout-content-container {
 	display: flex;
@@ -320,11 +320,11 @@ aside .zoremmail-layout-content-media .dashicons {
 	cursor: pointer;
 }
 aside .zoremmail-layout-content-media a.last-checked .dashicons {
-	color: #3bc4e4;
-	border-color: #3bc4e4;
+	color: #3b64d3 !important;
+	border-color: #3b64d3 !important;
 }
 aside .dashicons:focus, aside .dashicons:hover {
-	color: #3bc4e495;
+	color: #3b64d3;
 }
 .customize-action-changed span.dashicons {
 	width: 17px;
@@ -519,8 +519,8 @@ input[type=checkbox].tgl {
     opacity: 1;
 }
 .snackbar-log {
-    background: #1F1F1F;
-    background: rgba(0, 0, 0, 0.9);
+    background: #3b64d3;
+    /* background: rgba(0, 0, 0, 0.9); */
     padding: 15px;
     border-radius: 4px;
     color: #FFF;

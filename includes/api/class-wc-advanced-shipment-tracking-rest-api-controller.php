@@ -265,7 +265,21 @@ class WC_Advanced_Shipment_Tracking_REST_API_Controller extends WC_REST_Controll
 		
 		$args = apply_filters( 'ast_api_create_item_arg', $args, $request );		
 		
-		$tracking_item             = $ast->add_tracking_item( $order_id, $args );		
+		$tracking_item = $ast->add_tracking_item( $order_id, $args );
+
+		$wc_ast_enable_log = get_ast_settings( 'ast_general_settings', 'wc_ast_enable_log', 0 );
+			 
+		if ( 1 == $wc_ast_enable_log ) {
+			$log_content = array(
+				'url'		=> isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : 'unknown',
+				'request'	=> $request->get_params(),
+				'response'	=> array( 'tracking_item' => $tracking_item ),
+			);
+	
+			$ast_log = WC_AST_Logger::get_instance();
+			$ast_log->log_event( 'ast_create_rest_api_log', $log_content );	
+		}
+
 		$tracking_item['order_id'] = $order_id;
 		$formatted                 = $ast->get_formatted_tracking_item( $order_id, $tracking_item );
 		$tracking_item             = array_merge( $tracking_item, $formatted );

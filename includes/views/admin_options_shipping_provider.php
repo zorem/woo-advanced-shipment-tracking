@@ -24,12 +24,9 @@ if ( isset( $_GET['open'] ) && 'synch_providers' == $_GET['open'] ) {
 		<div class="provider_top">																					
 			<div class="search_section">				
 				<h2 class="shipping_carrier_heading"><?php esc_html_e( 'Shipping Carriers', 'woo-advanced-shipment-tracking' ); ?></h2>
-				<!--span class="dashicons dashicons-search search-icon"></span>
-				<input class="provider_search_bar" type="text" name="search_provider" id="search_provider" placeholder="<?php //esc_html_e( 'Search by carrier / country', 'woo-advanced-shipment-tracking' ); ?>"-->		
-			</div>			
-			
-			<button class="button button-primary" style="display:none;" id="delete_provider_bulk" data-remove="selected-page"><?php esc_html_e( 'Remove Selected', 'woo-advanced-shipment-tracking' ); ?></button>
-
+				<span class="dashicons dashicons-search search-icon"></span>
+				<input class="provider_search_bar" type="text" name="search_provider" id="search_provider" placeholder="<?php esc_html_e( 'Search by carrier / country', 'woo-advanced-shipment-tracking' ); ?>">	
+			</div>
 			<div class="provider_settings">
 				<a href="javaScript:void(0);" class="provider_settings_icon" id="provider-settings"><span class="dashicons dashicons-ellipsis"></span></a>				
 				<ul class="provider-settings-ul">
@@ -45,15 +42,26 @@ if ( isset( $_GET['open'] ) && 'synch_providers' == $_GET['open'] ) {
 		
 		<?php if ( $total_enable_providers->total_providers > 0 ) { ?>
 			<div class="shipping-carriers-selected-provider-message">
-				<p class="selected_provider_show_notice"><span id="selected_provider_total">0</span> <?php esc_html_e('carriers selected.', 'woo-advanced-shipment-tracking'); ?> <a class="remove_all_shipping_carrier"><?php esc_html_e('Click Here', 'woo-advanced-shipment-tracking'); ?></a> <?php esc_html_e('if you want to select all carriers.', 'woo-advanced-shipment-tracking'); ?></p>
+				<p class="selected_provider_show_notice"><span id="selected_provider_total">0</span> <?php esc_html_e('carriers selected.', 'woo-advanced-shipment-tracking'); ?> <a class="remove_all_shipping_carrier"><?php esc_html_e('Click Here', 'woo-advanced-shipment-tracking'); ?></a> <?php esc_html_e('if you want to select all carriers.', 'woo-advanced-shipment-tracking'); ?>
+					<button class="button button-primary" style="display:none;" id="delete_provider_bulk" data-remove="selected-page">
+						<?php esc_html_e( 'Remove Selected', 'woo-advanced-shipment-tracking' ); ?>
+					</button>
+				</p>
 			</div>
 			<div class="all-shipping-carriers-selected">
-				<p class="all_carriers_selected"><?php esc_html_e('All Carriers Selected.', 'woo-advanced-shipment-tracking'); ?> <a class="remove_selected_shipping_carrier"><?php esc_html_e('Undo', 'woo-advanced-shipment-tracking'); ?></a></p>
+				<p class="all_carriers_selected"><?php esc_html_e('All Carriers Selected.', 'woo-advanced-shipment-tracking'); ?>
+					<a class="remove_selected_shipping_carrier">
+						<?php esc_html_e('Undo', 'woo-advanced-shipment-tracking'); ?>
+					</a>
+					<button class="button button-primary" id="delete_provider_bulk" data-remove="selected-page">
+						<?php esc_html_e( 'Remove Selected', 'woo-advanced-shipment-tracking' ); ?>
+					</button>
+				</p>
 			</div>
 		<?php } ?>
 
-		<div class="provider_list">			
-			<?php echo wp_kses_post( $this->get_provider_html( 1 ) ); ?>
+		<div class="provider_list">	
+			<?php esc_html_e( $this->get_provider_html( 1 ) ); ?>
 		</div>
 		
 		<input type="hidden" id="nonce_shipping_provider" value="<?php esc_html_e( wp_create_nonce( 'nonce_shipping_provider' ) ); ?>">
@@ -76,7 +84,9 @@ if ( isset( $_GET['open'] ) && 'synch_providers' == $_GET['open'] ) {
 								<span class="dashicons dashicons-search search-carrier-icon"></span>
 								<input class="provider_search_bar" type="text" name="search_default_provider" id="search_default_provider" placeholder="<?php esc_html_e( 'Search by carrier / country', 'woo-advanced-shipment-tracking' ); ?>">		
 							</div>
-							<?php echo wp_kses_post( $this->shipping_pagination_fun( 1 ) ); ?>
+							<div class="default_privder_list">
+								<?php esc_html_e( $this->shipping_pagination_fun( 1 ) ); ?>
+							</div>
 						</div>
 					</div>
 					<div class="top_search_section">

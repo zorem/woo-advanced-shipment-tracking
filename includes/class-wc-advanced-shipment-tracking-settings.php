@@ -68,7 +68,7 @@ class WC_Advanced_Shipment_Tracking_Settings {
 		add_action( 'woocommerce_update_options_email_customer_partial_shipped_order', array( $this, 'save_partial_shipped_email' ), 100, 1); 
 		add_action( 'wp_ajax_sync_providers', array( $this, 'sync_providers_fun' ) );
 		
-		$wc_ast_status_delivered = get_option( 'wc_ast_status_delivered', 0);
+		$wc_ast_status_delivered = get_ast_settings( 'ast_general_settings', 'wc_ast_status_delivered', 0);
 		if ( true == $wc_ast_status_delivered ) {
 			//register order status 
 			add_action( 'init', array( $this, 'register_order_status') );
@@ -90,7 +90,8 @@ class WC_Advanced_Shipment_Tracking_Settings {
 		}
 		
 		//new order status
-		$updated_tracking_status = get_option( 'wc_ast_status_updated_tracking', 0 );
+		// $updated_tracking_status = get_option( 'wc_ast_status_updated_tracking', 0 );
+		$updated_tracking_status = get_ast_settings( 'ast_general_settings', 'wc_ast_status_updated_tracking', 0 );
 		if ( true == $updated_tracking_status ) {			
 			//register order status 
 			add_action( 'init', array( $this, 'register_updated_tracking_order_status' ) );
@@ -110,7 +111,7 @@ class WC_Advanced_Shipment_Tracking_Settings {
 		}
 		
 		//new order status
-		$partial_shipped_status = get_option( 'wc_ast_status_partial_shipped', 0 );
+		$partial_shipped_status = get_ast_settings( 'ast_general_settings', 'wc_ast_status_partial_shipped', 0 );
 		if ( true == $partial_shipped_status ) {
 			//register order status 
 			add_action( 'init', array( $this, 'register_partial_shipped_order_status' ) );
@@ -207,7 +208,7 @@ class WC_Advanced_Shipment_Tracking_Settings {
 	*/
 	public function additional_admin_order_preview_buttons_actions( $actions, $order ) {
 		
-		$wc_ast_status_delivered = get_option( 'wc_ast_status_delivered' );
+		$wc_ast_status_delivered = get_ast_settings( 'ast_general_settings', 'wc_ast_status_delivered' );
 		if ( $wc_ast_status_delivered ) {
 			// Below set your custom order statuses (key / label / allowed statuses) that needs a button
 			$custom_statuses = array(
@@ -238,7 +239,7 @@ class WC_Advanced_Shipment_Tracking_Settings {
 	*/
 	public function add_delivered_order_status_actions_button( $actions, $order ) {
 		
-		$wc_ast_status_delivered = get_option( 'wc_ast_status_delivered' );
+		$wc_ast_status_delivered = get_ast_settings( 'ast_general_settings', 'wc_ast_status_delivered' );
 		
 		if ( $wc_ast_status_delivered ) {
 			if ( $order->has_status( array( 'completed' ) ) || $order->has_status( array( 'shipped' ) ) ) {
@@ -427,7 +428,7 @@ class WC_Advanced_Shipment_Tracking_Settings {
 	*/
 	public function wc_renaming_order_status( $order_statuses ) {
 		
-		$enable = get_option( 'wc_ast_status_shipped', 0);
+		$enable = get_ast_settings( 'ast_general_settings', 'wc_ast_status_shipped', 0);
 		if ( false == $enable ) {
 			return $order_statuses;
 		}	
@@ -448,7 +449,7 @@ class WC_Advanced_Shipment_Tracking_Settings {
 	*/
 	public function filter_woocommerce_register_shop_order_post_statuses( $array ) {
 		
-		$enable = get_option( 'wc_ast_status_shipped', 0);
+		$enable = get_ast_settings( 'ast_general_settings', 'wc_ast_status_shipped', 0);
 		if ( false == $enable ) {
 			return $array;
 		}	
@@ -465,7 +466,7 @@ class WC_Advanced_Shipment_Tracking_Settings {
 	*/
 	public function modify_bulk_actions( $bulk_actions ) {
 		
-		$enable = get_option( 'wc_ast_status_shipped', 0);
+		$enable = get_ast_settings( 'ast_general_settings', 'wc_ast_status_shipped', 0);
 		if ( false == $enable ) {
 			return $bulk_actions;
 		}	
@@ -489,7 +490,7 @@ class WC_Advanced_Shipment_Tracking_Settings {
 	
 	public function ast_open_inline_tracking_form_fun() {
 		
-		if ( ! current_user_can( 'manage_woocommerce' ) ) {
+		if ( ! current_user_can( AST_FREE_PLUGIN_ACCESS ) ) {
 			exit( 'You are not allowed' );
 		}
 
@@ -601,7 +602,7 @@ class WC_Advanced_Shipment_Tracking_Settings {
 	*/
 	public function sync_providers_fun() {
 		
-		if ( ! current_user_can( 'manage_woocommerce' ) ) {
+		if ( ! current_user_can( AST_FREE_PLUGIN_ACCESS ) ) {
 			exit( 'You are not allowed' );
 		}
 		

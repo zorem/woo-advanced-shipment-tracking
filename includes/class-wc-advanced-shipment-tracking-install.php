@@ -282,6 +282,93 @@ class WC_Advanced_Shipment_Tracking_Install {
 				update_option( 'wc_advanced_shipment_tracking', '4.1' );
 			}
 
+			if ( version_compare( get_option( 'wc_advanced_shipment_tracking', '1.0' ), '4.2', '<' ) ) {
+				if ( get_option('ast_option_migrated') == false ) {
+
+					//get old general options 
+					$wc_ast_show_orders_actions = get_option( 'wc_ast_show_orders_actions' );
+					$wc_ast_unclude_tracking_info = get_option( 'wc_ast_unclude_tracking_info' );
+					$wc_ast_status_shipped = get_option( 'wc_ast_status_shipped' );
+					$wc_ast_status_partial_shipped = get_option( 'wc_ast_status_partial_shipped' );
+					$wc_ast_status_partial_shipped_label_color = get_option( 'wc_ast_status_partial_shipped_label_color' );
+					$wc_ast_status_partial_shipped_label_font_color = get_option( 'wc_ast_status_partial_shipped_label_font_color' );
+					$wc_ast_status_delivered = get_option( 'wc_ast_status_delivered' );
+					$wc_ast_api_date_format = get_option( 'wc_ast_api_date_format' );
+					$wcast_enable_partial_shipped_email = get_option( 'wcast_enable_partial_shipped_email' );
+					$wc_ast_status_label_color = get_option( 'wc_ast_status_label_color' );
+					$wc_ast_status_label_font_color = get_option( 'wc_ast_status_label_font_color' );
+					$autocomplete_order_tpi = get_option( 'autocomplete_order_tpi' );
+
+					//update new general options
+					update_ast_settings( 'ast_general_settings', 'wc_ast_show_orders_actions', $wc_ast_show_orders_actions );
+					update_ast_settings( 'ast_general_settings', 'wc_ast_unclude_tracking_info', $wc_ast_unclude_tracking_info );
+					update_ast_settings( 'ast_general_settings', 'wc_ast_status_shipped', $wc_ast_status_shipped );
+					update_ast_settings( 'ast_general_settings', 'wc_ast_status_partial_shipped', $wc_ast_status_partial_shipped );
+					update_ast_settings( 'ast_general_settings', 'wc_ast_status_partial_shipped_label_color', $wc_ast_status_partial_shipped_label_color );
+					update_ast_settings( 'ast_general_settings', 'wc_ast_status_partial_shipped_label_font_color', $wc_ast_status_partial_shipped_label_font_color );
+					update_ast_settings( 'ast_general_settings', 'wc_ast_status_delivered', $wc_ast_status_delivered );
+					update_ast_settings( 'ast_general_settings', 'wc_ast_api_date_format', $wc_ast_api_date_format );
+					update_ast_settings( 'ast_general_settings', 'wcast_enable_partial_shipped_email', $wcast_enable_partial_shipped_email );
+					update_ast_settings( 'ast_general_settings', 'wc_ast_status_label_color', $wc_ast_status_label_color );
+					update_ast_settings( 'ast_general_settings', 'wc_ast_status_label_font_color', $wc_ast_status_label_font_color );
+					update_ast_settings( 'ast_general_settings', 'autocomplete_order_tpi', $autocomplete_order_tpi );
+
+					//delete old general options
+					delete_option( 'wc_ast_show_orders_actions' );
+					delete_option( 'wc_ast_unclude_tracking_info' );
+					delete_option( 'wc_ast_status_shipped' );
+					delete_option( 'wc_ast_status_partial_shipped' );
+					delete_option( 'wc_ast_status_partial_shipped_label_color' );
+					delete_option( 'wc_ast_status_partial_shipped_label_font_color' );
+					delete_option( 'wc_ast_status_delivered' );
+					delete_option( 'wc_ast_api_date_format' );
+					delete_option( 'wcast_enable_partial_shipped_email' );
+					delete_option( 'wc_ast_status_label_color' );
+					delete_option( 'wc_ast_status_label_font_color' );
+					delete_option( 'autocomplete_order_tpi' );
+
+					update_option('ast_option_migrated', true);
+					update_option( 'wc_advanced_shipment_tracking', '4.2' );
+				} else {
+					update_option( 'wc_advanced_shipment_tracking', '4.2' );
+				}
+			}
+
+			if ( version_compare( get_option( 'wc_advanced_shipment_tracking', '4.2' ), '4.3', '<' ) ) {
+
+				//get old general options 
+				$wc_ast_status_updated_tracking = get_option( 'wc_ast_status_updated_tracking', 0 );
+				$wc_ast_status_updated_tracking_label_color = get_option( 'wc_ast_status_updated_tracking_label_color', '#23a2dd' );
+				$wc_ast_status_updated_tracking_label_font_color = get_option( 'wc_ast_status_updated_tracking_label_font_color', '#fff' );
+				$wcast_enable_updated_tracking_email = get_option( 'wcast_enable_updated_tracking_email', 0 );
+				
+				//update new general options
+				update_ast_settings( 'ast_general_settings', 'wc_ast_status_updated_tracking', $wc_ast_status_updated_tracking );
+				update_ast_settings( 'ast_general_settings', 'wc_ast_status_updated_tracking_label_color', $wc_ast_status_updated_tracking_label_color );
+				update_ast_settings( 'ast_general_settings', 'wc_ast_status_updated_tracking_label_font_color', $wc_ast_status_updated_tracking_label_font_color );
+				update_ast_settings( 'ast_general_settings', 'wcast_enable_updated_tracking_email', $wcast_enable_updated_tracking_email );
+
+				//delete old general options
+				delete_option( 'wc_ast_status_updated_tracking' );
+				delete_option( 'wc_ast_status_updated_tracking_label_color' );
+				delete_option( 'wc_ast_status_updated_tracking_label_font_color' );
+				delete_option( 'wcast_enable_updated_tracking_email' );
+
+				update_option( 'wc_advanced_shipment_tracking', '4.3' );
+			}
+
+			if ( version_compare( get_option( 'wc_advanced_shipment_tracking', '4.3' ), '4.4', '<' ) ) {
+				delete_option( 'ast_trackship_notice_ignore' );
+				delete_option( 'ast_pro_shipping_integration_notice_ignore' );
+
+				update_option( 'wc_advanced_shipment_tracking', '4.4' );
+			}
+
+			if ( version_compare( get_option( 'wc_advanced_shipment_tracking', '4.4' ), '4.5', '<' ) ) {
+				delete_option( 'zorem_return_update_ignore_385' );
+				update_option( 'wc_advanced_shipment_tracking', '4.5' );
+			}
+
 		}
 	}		
 	
@@ -413,6 +500,10 @@ class WC_Advanced_Shipment_Tracking_Install {
 		
 		// The URL of the zip file
 		$url = 'https://api.trackship.com/images/shipping-carriers/60x60.zip';
+
+		$version = date('YmdHis'); // Current date and time as version
+		$url_with_version = $url . '?v=' . $version;
+
 		$upload_dir   = wp_upload_dir();	
 		$ast_directory = $upload_dir['basedir'] . '/ast-shipping-providers';
 		$zipFilePath = $upload_dir['basedir'] . '/shipping-carriers.zip';	
@@ -421,7 +512,7 @@ class WC_Advanced_Shipment_Tracking_Install {
 			wp_mkdir_p( $ast_directory );	
 		}
 		// Download the zip file
-		$zipContent = file_get_contents($url);
+		$zipContent = file_get_contents($url_with_version);
 		// Save the zip file to the server
 		file_put_contents($zipFilePath, $zipContent);
 		if (class_exists('ZipArchive')) {

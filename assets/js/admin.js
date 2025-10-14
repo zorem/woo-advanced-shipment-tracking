@@ -341,6 +341,13 @@ jQuery(document).on("click", ".add_tracking_inside", function(){
 	jQuery('.add_inside_tracking_popup').slideOutForm();	
 });
 
+jQuery(document).on('keypress', '.add_inside_tracking_popup input', function(e){
+    if (e.which === 13) { // Enter key
+        e.preventDefault();
+        jQuery('.add_inside_tracking_button').trigger('click');
+    }
+});
+
 jQuery(document).on("click", ".add_inside_tracking_button", function(){
 	
 	var error;
