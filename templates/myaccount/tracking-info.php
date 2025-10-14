@@ -64,35 +64,44 @@ $order_data = wc_get_order( $order_id );
 		?>
 		<div class="fluid_container">
 			<div class="fluid_cl fluid_left_cl">
-				<?php if ( !$fluid_hide_provider_image ) { ?>
-						<div class="fluid_provider_img">
-							<img src="<?php echo esc_url( $tracking_item['tracking_provider_image'] ); ?>"></img>
-						</div>
-					<?php } ?>
-					<div class="provider_name">
-						<div>
-							<strong class="tracking_provider"><?php esc_html_e( $ast_provider_title ); ?></strong>
-							<?php 	
-							if ( !empty( $tracking_item['ast_tracking_link'] ) ) {
+				<div class="fluid_img_with_provider">
+					<?php if ( !$fluid_hide_provider_image ) { ?>
+							<div class="fluid_provider_img">
+								<img src="<?php echo esc_url( $tracking_item['tracking_provider_image'] ); ?>"></img>
+							</div>
+						<?php } ?>
+						<div class="provider_name">
+							<div>
+								<strong class="tracking_provider"><?php esc_html_e( $ast_provider_title ); ?></strong>
+								<?php 	
+								if ( !empty( $tracking_item['ast_tracking_link'] ) ) {
+									?>
+										<a class="tracking_number" href="<?php echo esc_url( $tracking_item['ast_tracking_link'] ); ?>" target="_blank"><?php esc_html_e( $tracking_item['tracking_number'] ); ?></a>	
+									<?php
+								} else {
+									?>
+										<span class="tracking_link_empty"><?php esc_html_e( $tracking_item['tracking_number'] ); ?></span>	
+									<?php
+								}
 								?>
-									<a class="tracking_number" href="<?php echo esc_url( $tracking_item['ast_tracking_link'] ); ?>" target="_blank"><?php esc_html_e( $tracking_item['tracking_number'] ); ?></a>	
-								<?php
-							} else {
+							</div>
+							<div class="order_status <?php esc_html_e( $order_status ); ?>" style="display: block;">
+								<?php 
+									esc_html_e( 'Shipped on:', 'woo-advanced-shipment-tracking' ); 
+									echo '<strong> ' . esc_html( date_i18n( get_option( 'date_format' ), $tracking_item['date_shipped'] ) ) . '</strong>'; 
 								?>
-									<span class="tracking_link_empty"><?php esc_html_e( $tracking_item['tracking_number'] ); ?></span>	
-								<?php
-							}
-							?>
+							</div>	
 						</div>
-						<div class="order_status <?php esc_html_e( $order_status ); ?>">
+					<?php do_action( 'ast_fluid_left_cl_end', $tracking_item, $order_id ); ?>	
+				</div>
+				<div class="mb_fluid_shipping_date" style="display: none;">
+					<div class="order_status <?php esc_html_e( $order_status ); ?>">
 						<?php 
 							esc_html_e( 'Shipped on:', 'woo-advanced-shipment-tracking' ); 
 							echo '<strong> ' . esc_html( date_i18n( get_option( 'date_format' ), $tracking_item['date_shipped'] ) ) . '</strong>'; 
 						?>
-						</div>	
-					</div>									
-					
-				<?php do_action( 'ast_fluid_left_cl_end', $tracking_item, $order_id ); ?>	
+					</div>
+				</div>
 			</div>
 			<div class="fluid_cl fluid_right_cl">
 				<?php 	
@@ -119,7 +128,7 @@ $order_data = wc_get_order( $order_id );
 	border-radius: <?php esc_html_e( $border_radius ); ?>px;
 	margin-bottom: 10px;
 	display: inline-block;
-	width: 49%;
+	/* width: 49%; */
 	vertical-align: top;
 }
 .fluid_container:after{
@@ -133,6 +142,10 @@ $order_data = wc_get_order( $order_id );
 }
 .fluid_right_cl{
 	padding-top: 0;
+	margin-left: auto;
+}
+.fluid_left_cl{
+	flex-grow: 1;
 }
 .fluid_cl ul li{
 	margin-left: 0;
@@ -143,7 +156,7 @@ $order_data = wc_get_order( $order_id );
 	margin-right: 10px;
 	width: 40px;
 	display: inline-block;
-	vertical-align: text-bottom;
+	vertical-align: middle;
 }
 .fluid_provider_img img{
 	border-radius: 5px;
@@ -157,7 +170,7 @@ $order_data = wc_get_order( $order_id );
 <?php if ( 2 == $fluid_table_layout ) { ?>
 	.fluid_container{
 		width: 100%;		
-		display: table;		
+		display: flex;		
 	}
 	.fluid_cl{
 		width: 70%;
@@ -191,7 +204,6 @@ a.button.track-button {
 <?php } ?>
 .tracking_provider{
 	word-break: break-word;
-	display: block;
 	margin-right: 5px;
 }
 <?php
@@ -211,6 +223,76 @@ a.button.track-button {
 .order_status{
 	font-size: 13px;    
 	margin: 0;
+}
+@media (max-width: 600px) {
+	.fluid_container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .fluid_cl {
+        padding: 8px 8px;
+        width: 100%;
+    }
+
+    .fluid_right_cl {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .fluid_img_with_provider {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .fluid_provider_img {
+        width: 40px;
+        margin-right: 10px;
+        margin-bottom: 5px;
+    }
+
+    .provider_name {
+        width: calc(100% - 50px);
+    }
+
+    .provider_name > div {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .tracking_provider {
+        font-size: 16px;
+        font-weight: bold;
+        display: block;
+    }
+
+    .tracking_number {
+        font-size: 14px;
+        margin-top: 2px;
+    }
+
+    .mb_fluid_shipping_date {
+        margin-top: 10px;
+        width: 100%;
+		display: block !important;
+    }
+
+    .order_status {
+        font-size: 13px;
+    }
+
+    a.button.track-button {
+        width: 100%;
+        display: block;
+        box-sizing: border-box;
+        padding: 12px 0;
+        font-size: 16px;
+    }
+	.provider_name .order_status{
+		display: none !important;
+	}
 }
 </style>
 <?php
