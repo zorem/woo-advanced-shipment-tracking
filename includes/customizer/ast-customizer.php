@@ -232,9 +232,12 @@ class Ast_Customizer {
 		wp_register_script( 'select2', WC()->plugin_url() . '/assets/js/select2/select2.full' . $suffix . '.js', array( 'jquery' ), '4.0.3' );
 		wp_enqueue_script( 'select2');
 		
-		// Add tiptip js and css file		
+		// Add tiptip js and css file
+		wp_register_script( 'wc-jquery-tiptip', WC()->plugin_url() . '/assets/js/jquery-tiptip/jquery.tipTip.min.js', array( 'jquery', 'dompurify' ), WC_VERSION, true );
+		wp_enqueue_script( 'wc-jquery-tiptip' );
+
 		wp_enqueue_style( 'ast-customizer', plugin_dir_url(__FILE__) . 'assets/Customizer.css', array(), time() );
-		wp_enqueue_script( 'ast-customizer', plugin_dir_url(__FILE__) . 'assets/Customizer.js', array( 'jquery', 'wp-util', 'wp-color-picker','jquery-tiptip' ), wc_advanced_shipment_tracking()->version, true );
+		wp_enqueue_script( 'ast-customizer', plugin_dir_url(__FILE__) . 'assets/Customizer.js', array( 'jquery', 'wp-util', 'wp-color-picker','wc-jquery-tiptip' ), wc_advanced_shipment_tracking()->version, true );
 		
 		wp_localize_script('ast-customizer', 'ast_customizer', array(
 			'plugin_dir_url'		=> wc_advanced_shipment_tracking()->plugin_dir_url(),

@@ -267,6 +267,10 @@ jQuery(document).on("click", ".enable_carriers, .provider_list div.add-provider-
 	jQuery('.add_provider_popup').slideOutForm();	
 });
 
+jQuery(document).on("click", ".enable_carriers", function(){
+  jQuery('.add_provider_popup').slideOutForm();
+});
+
 jQuery(document).on("click", "#provider-settings", function(){
 	var data_remove_selected = jQuery('.provider-grid-row.grid-row').attr('data-shippment-providers');
 
@@ -998,6 +1002,7 @@ jQuery(document).on("click", ".close_synch_popup, .synch_slidout_close", functio
 	jQuery(".updated_details").remove();
 	jQuery(".sync_providers_btn").show();
 	jQuery(".close_synch_popup").hide();
+	jQuery('.add_provider_popup').slideInForm();
 });
 
 jQuery(document).on("click", "#view_added_details", function(){	

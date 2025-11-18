@@ -855,7 +855,7 @@ class WC_Advanced_Shipment_Tracking_Actions {
 	public function show_tracking_info_order( $order_id ) {	
 		
 		wp_enqueue_style( 'front_style' );
-		wp_enqueue_script( 'jquery-blockui' );
+		wp_enqueue_script( 'wc-jquery-blockui' );
 		wp_enqueue_script( 'front-js' );
 		
 		$local_template	= get_stylesheet_directory() . '/woocommerce/myaccount/tracking-info.php';
