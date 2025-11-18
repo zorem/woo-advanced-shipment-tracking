@@ -153,7 +153,7 @@ class WC_Advanced_Shipment_Tracking_Admin {
 		
 		wp_register_script( 'selectWoo', WC()->plugin_url() . '/assets/js/selectWoo/selectWoo.full' . $suffix . '.js', array( 'jquery' ), '1.0.4' );
 		wp_register_script( 'wc-enhanced-select', WC()->plugin_url() . '/assets/js/admin/wc-enhanced-select' . $suffix . '.js', array( 'jquery', 'selectWoo' ), WC_VERSION );
-		wp_register_script( 'jquery-blockui', WC()->plugin_url() . '/assets/js/jquery-blockui/jquery.blockUI' . $suffix . '.js', array( 'jquery' ), '2.70', true );
+		wp_register_script( 'wc-jquery-blockui', WC()->plugin_url() . '/assets/js/jquery-blockui/jquery.blockUI' . $suffix . '.js', array( 'jquery' ), '2.70', true );
 		
 		wp_enqueue_script( 'selectWoo' );
 		wp_enqueue_script( 'wc-enhanced-select' );
@@ -162,17 +162,17 @@ class WC_Advanced_Shipment_Tracking_Admin {
 		wp_enqueue_style( 'woocommerce_admin_styles' );
 		wp_enqueue_style( 'wp-color-picker' );
 		
-		// wp_register_script( 'jquery-tiptip', WC()->plugin_url() . '/assets/js/jquery-tiptip/jquery.tipTip.min.js', array( 'jquery' ), WC_VERSION, true );
+		wp_register_script( 'wc-jquery-tiptip', WC()->plugin_url() . '/assets/js/jquery-tiptip/jquery.tipTip.min.js', array( 'jquery', 'dompurify' ), WC_VERSION, true );
+		wp_enqueue_script( 'wc-jquery-tiptip' );
 		
-		// wp_enqueue_script( 'jquery-tiptip' );
-		wp_enqueue_script( 'jquery-blockui' );
+		wp_enqueue_script( 'wc-jquery-blockui' );
 		wp_enqueue_script( 'wp-color-picker' );
 		
 		wp_enqueue_script( 'ajax-queue', wc_advanced_shipment_tracking()->plugin_dir_url() . 'assets/js/jquery.ajax.queue.js', array( 'jquery' ), wc_advanced_shipment_tracking()->version );
 				
-		wp_enqueue_script( 'ast_settings', wc_advanced_shipment_tracking()->plugin_dir_url() . 'assets/js/settings.js', array( 'jquery', 'jquery-tiptip' ), wc_advanced_shipment_tracking()->version );	
+		wp_enqueue_script( 'ast_settings', wc_advanced_shipment_tracking()->plugin_dir_url() . 'assets/js/settings.js', array( 'jquery', 'wc-jquery-tiptip' ), wc_advanced_shipment_tracking()->version );	
 		
-		wp_register_script( 'shipment_tracking_table_rows', wc_advanced_shipment_tracking()->plugin_dir_url() . 'assets/js/shipping_row.js' , array( 'jquery', 'wp-util', 'jquery-tiptip' ), wc_advanced_shipment_tracking()->version );
+		wp_register_script( 'shipment_tracking_table_rows', wc_advanced_shipment_tracking()->plugin_dir_url() . 'assets/js/shipping_row.js' , array( 'jquery', 'wp-util', 'wc-jquery-tiptip' ), wc_advanced_shipment_tracking()->version );
 		
 		wp_localize_script( 'shipment_tracking_table_rows', 'shipment_tracking_table_rows', array(
 			'i18n' => array(				
@@ -1767,6 +1767,12 @@ class WC_Advanced_Shipment_Tracking_Admin {
 		} else {
 			?>
 			<div class="provider_msg"><?php esc_html_e( 'Shipping Carrier Not Found!', 'woo-advanced-shipment-tracking' ); ?></div>
+			<div class="provider_note">
+				<span><?php esc_html_e( 'Try syncing your shipping carriers to get the latest list.', 'woo-advanced-shipment-tracking' ); ?></span>
+				<button type="button" class="button button-primary button-small sync_providers">
+    				<?php esc_html_e('Sync Carriers', 'woo-advanced-shipment-tracking'); ?>
+				</button>
+			</div>
 			<?php
 		}
 		if ( $total_pages > 1 ) {

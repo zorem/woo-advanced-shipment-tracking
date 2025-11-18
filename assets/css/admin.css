@@ -3047,3 +3047,22 @@ p.zorem_description {
 }
 
 /* addons page end */
+
+/* Sync Carriers ( Shipping Carrier Not Found! ) */
+
+.provider_msg {
+	color: #212121;
+	font-size: 14px;
+	text-align: left;
+	margin: 10px 0 5px 0;
+	font-weight: 600;
+}
+.provider_note{
+	display: flex;
+    align-items: center;
+	margin-bottom: 10px;
+}
+.provider_note .button{
+	margin-left: 10px;
+	font-size: 12px !important;
+}

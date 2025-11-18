@@ -42,7 +42,7 @@ class AST_Uninstall_Handler {
 		// Enqueue admin styles and blockUI script
         wp_enqueue_style( 'ast_styles', wc_advanced_shipment_tracking()->plugin_dir_url() . 'assets/css/admin.css', array(), wc_advanced_shipment_tracking()->version );
         $suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-        wp_enqueue_script( 'jquery-blockui', WC()->plugin_url() . '/assets/js/jquery-blockui/jquery.blockUI' . $suffix . '.js', array( 'jquery' ), '2.70', true );
+        wp_enqueue_script( 'wc-jquery-blockui', WC()->plugin_url() . '/assets/js/jquery-blockui/jquery.blockUI' . $suffix . '.js', array( 'jquery' ), '2.70', true );
 
 		$ps_count       = array_key_exists( 'wc-partial-shipped', wc_get_order_statuses() ) ? wc_orders_count( 'partial-shipped' ) : 0;
 		$delivered_count = array_key_exists( 'wc-delivered', wc_get_order_statuses() ) ? wc_orders_count( 'delivered' ) : 0;
