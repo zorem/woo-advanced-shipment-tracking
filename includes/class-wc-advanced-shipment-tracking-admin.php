@@ -371,7 +371,7 @@ class WC_Advanced_Shipment_Tracking_Admin {
 			if ( $array['show'] ) {
 				if ( isset( $array['type'] ) && 'link' == $array['type'] ) {
 					?>
-					<a class="menu_link <?php esc_html_e( $array['class'] ); ?>" href="<?php esc_html_e( esc_url( $array['link'] ) ); ?>"><?php esc_html_e( $array['title'] ); ?></a>
+					<a class="menu_link <?php echo esc_attr( $array['class'] ); ?>" href="<?php echo esc_url( $array['link'] )); ?>"><?php echo esc_html( $array['title'] ); ?></a>
 				<?php 
 				} else { 
 					$checked = ( $tab == $array['data-tab'] || $settings == $array['data-tab'] ) ? 'checked' : '';
