@@ -1172,12 +1172,6 @@ jQuery( "#wc_ast_show_orders_actions,#wc_ast_unclude_tracking_info" ).on("change
 	jQuery('span.ast-accordion-btn button').prop("disabled", false); 
 });
 
-jQuery('#wc_ast_unclude_tracking_info').on('select2:unselecting', function(e){
-	if ( jQuery(e.params.args.data.element).val() == 'partial-shipped' || jQuery(e.params.args.data.element).val() == 'shipped' || jQuery(e.params.args.data.element).val() == 'completed' ) {
-		e.preventDefault();
-	}
-});
-
 jQuery( ".ud-checkbox li" ).on("click", function (e) { 
 	var ast_optin_email_notification = jQuery("#ast_optin_email_notification").prop("checked");
 	var ast_enable_usage_data = jQuery("#ast_enable_usage_data").prop("checked");

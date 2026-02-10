@@ -168,6 +168,10 @@ label.inner_tab_label {
 	outline: none;
 	font-weight: 600;
 }
+.tab_label.go_pro_tab{
+	font-weight: 700 !important;
+    color: #3b64d3 !important;
+}
 .ts_notifications_outer_table label.inner_tab_label{
 	padding: 15px 12px 15px;
 }
@@ -380,6 +384,7 @@ input.inner_tab_input:checked + label.ts_tabs_label{
 	font-size: 14px;
 	line-height: 35px;	
 	padding: 0 10px;
+	border-radius: 3px;
 }
 .wp-core-ui .btn_full{
 	width: 100%;
@@ -640,7 +645,7 @@ span.provider_name {
 	padding: 0 10px 0;
 	line-height: 2;
 	min-height: 45px;
-	border-radius: 0;
+	border-radius: 8px;
 }
 .provider_top {
 	display: flex;
@@ -1272,6 +1277,9 @@ span.dashicons.dashicons-edit.edit_provider {
 	background: transparent;
 	opacity: 0.7;
 }
+.order-status-table tr.disable_row.ast-pro-status-row{
+	opacity: 1;
+}
 .order-status-table tr.disable_row td{
 	pointer-events: none;
 }
@@ -1825,9 +1833,9 @@ ul.csv_error_details_ul li:before{
 	max-width: 830px;
 }
 .trackship_addon_section{
-	background: #fff;
-	border: 1px solid #e0e0e0;	
-	padding: 25px 20px;
+	background: transparent;
+	border: none;
+	padding: 0;
 }
 .ast_ts_landing_banner{
 	text-align: center;
@@ -1908,11 +1916,11 @@ ul.csv_error_details_ul li:before{
 	min-width: 435px;
 }
 .ast_admin_sidebar .ast_sidebar_inner{
-	background: #D4EFF6;
+	background: #ffffff;
 	text-align: center;
-	margin: 70px 20px 0;
+	margin: 20px 20px 0px 0px;
 	padding: 25px;
-	border-radius: 5px;    
+	border-radius: 8px;    
 }
 .ast_admin_sidebar .ast_sidebar_inner h1{
 	font-size: 22px;
@@ -1936,7 +1944,8 @@ ul.csv_error_details_ul li:before{
 	margin: 20px;    
 	background: #fff;
 	padding: 20px 45px;
-	border-radius: 10px;
+	border-radius: 8px;
+	border: 1px solid #e5e7eb;
 }
 /** Accordion Design **/
 .accordion_container{
@@ -1950,27 +1959,35 @@ ul.csv_error_details_ul li:before{
 	/* padding: 0; */
 	padding: 0 20px;
 }
-.tab_section .accordion, .tab_section .usage-tracking-accordion{
+.tab_section .accordion{
 	padding: 15px;
 	background: #fafafa;
 	border: 1px solid #e0e0e0;
-	border-radius: 3px;
+	border-radius: 8px;
 	margin-top: 10px;
 	cursor: pointer;    
 }
+.tab_section .usage-tracking-accordion{
+	padding: 15px;
+	background: #fafafa;
+	border: 1px solid #e0e0e0;
+	margin-top: 10px;
+	cursor: pointer;
+	border-radius: 8px 8px 0 0;
+}
 .tab_section .accordion.active {    
-	border-radius: 3px 3px 0 0;
+	border-radius: 8px 8px 0 0;
 }
 .tab_section .panel {
 	padding: 15px;	
 	display:none;
 	border: 1px solid #e0e0e0;
 	border-top: 0;
-	border-radius: 3px;
+	border-radius: 0 0 8px 8px;
 	background: #fff;
 }
 .tab_section .panel.active {    
-	border-radius: 0 0 3px 3px;
+	border-radius: 0 0 8px 8px;
 }
 .tab_section .accordion.heading label {
 	font-weight: 600;
@@ -2060,8 +2077,9 @@ ul.csv_error_details_ul li:before{
 	display:block;
 	border: 1px solid #e0e0e0;
 	border-top: 0;
-    border-radius: 3px;
 	background: #fff;
+	border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
 }
 .tab_section .integration_accordion.heading label, .tab_section .usage-tracking-accordion.heading label{
 	font-weight: 600;
@@ -2084,7 +2102,7 @@ ul.csv_error_details_ul li:before{
 	padding: 10px;
 	background: #ffffff;
 	border: 1px solid #e0e0e0;
-	border-radius: 3px;
+	border-radius: 8px;
 	margin: 0 10px 10px 0;
 	height: 58px;
 }
@@ -2305,54 +2323,300 @@ span.dashicons.dashicons-trash.remove {
 /** End CSS ***/
 
 /** TrackShip Landing CSS ***/
-.trackship_section {    
-	border-radius: 3px;
-	padding: 30px;
-	margin-top: 30px;
-	text-align: center;
-	max-width: 930px;
-	margin: 30px auto;
-}
-.ts_landing_logo{
-	margin: 0 0 20px;
-}
-.ts_landing_header{
-	font-size: 26px;
-	line-height: 28px;
-	margin: 0;
-	font-weight: 700;
-	color: #3c4858;
-}
-.ts_landing_h3{
-	color: #3c4858;
-	font-weight: 700;
-	font-size: 17px;
-}
-.ts_landing_description{
-	font-size: 15px;
-	max-width: 585px;
-	margin: 1em auto;
-}
-.ts_landing_banner{
-	position: relative;
-	max-width: 540px;
-}
-.ts_landing_banner img{
-	width: 100%;
-}
-.open_ts_video{
-	position: absolute;
-	text-decoration: none;
-	top: 42%;
-	left: 44%;
-	color: #09d3ac;
+.ts_hero_card {
 	background: #fff;
+	border-radius: 8px;
+	padding: 40px;
+	box-shadow: none;
+	border: 1px solid #e5e7eb;
+}
+.ts_hero_row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 40px;
+}
+.ts_hero_left {
+	flex: 1;
+	min-width: 300px;
+}
+.ts_hero_right {
+	flex: 1;
+	min-width: 280px;
+	display: flex;
+	justify-content: center;
+}
+.ts_hero_logo {
+	margin-bottom: 20px;
+}
+#trackship_landing .ts_landing_logo {
+	max-height: 40px;
+	margin: 0;
+}
+#trackship_landing .ts_landing_header {
+	font-size: 24px;
+	line-height: 32px;
+	margin: 0 0 10px;
+	font-weight: 700;
+	color: #1a1a2e;
+}
+#trackship_landing .ts_landing_h3 {
+	color: #1a1a2e;
+	font-weight: 700;
+	font-size: 16px;
+	margin: 5px 0 20px;
+}
+#trackship_landing .ast_pro_features_list {
+	margin: 20px 0 15px;
+	padding: 0;
+	list-style: none;
+}
+#trackship_landing .ast_pro_features_list li {
+	margin: 0 0 12px;
+	padding: 0 0 0 32px;
+	line-height: 22px;
+	position: relative;
+	font-size: 14px;
+	color: #444;
+}
+#trackship_landing .ast_pro_features_list li:before {
+	content: "\f12a";
+	font-family: dashicons;
+	font-size: 22px;
+	color: #22c997;
+	position: absolute;
+	left: 0;
+	top: -1px;
+}
+
+/* Install Button */
+.ts_install_btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	background: #22c997;
+	color: #fff;
+	font-size: 15px;
+	font-weight: 600;
+	padding: 12px 28px;
+	border-radius: 8px;
+	text-decoration: none;
+	transition: background 0.2s ease;
+	border: none;
 	cursor: pointer;
 }
-.open_ts_video span{
+.ts_install_btn:hover,
+.ts_install_btn:focus {
+	background: #1ab386;
+	color: #fff;
+	text-decoration: none;
+}
+.ts_install_btn .dashicons {
+	font-size: 18px;
+	width: 18px;
+	height: 18px;
+	line-height: 18px;
+}
+
+/* Illustration */
+.ts_illustration {
+	background: linear-gradient(160deg, #eef6ff 0%, #f0f4ff 50%, #e8fff6 100%);
+	border-radius: 8px;
+	padding: 28px 24px;
+	width: 100%;
+	max-width: 350px;
+	border: 1px solid #e5e7eb;
+}
+.ts_illustration_top {
+	display: flex;
+	justify-content: center;
+	gap: 16px;
+	margin-bottom: 16px;
+}
+.ts_illus_card {
+	background: #fff;
+	border-radius: 8px;
+	padding: 20px 24px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
+	box-shadow: none;
+	flex: 1;
+	border: 1px solid #e5e7eb;
+}
+.ts_illus_card .dashicons {
+	font-size: 30px;
+	width: 30px;
+	height: 30px;
+	color: #3b64d3;
+}
+.ts_illus_card:last-child .dashicons {
+	color: #22c997;
+}
+.ts_illus_label {
+	font-size: 11px;
+	font-weight: 700;
+	color: #333;
+	letter-spacing: 0.3px;
+}
+.ts_illustration_mid {
+	text-align: center;
+	margin: 12px 0;
+	position: relative;
+	z-index: 1;
+}
+.ts_sync_circle {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	background: #fff;
+	box-shadow: none;
+}
+.ts_sync_circle .dashicons {
+	font-size: 22px;
+	width: 22px;
+	height: 22px;
+	color: #8895a7;
+}
+.ts_illustration_bottom {
+	display: flex;
+	justify-content: center;
+}
+
+/* Tracking Detail Card */
+.ts_tracking_card {
+	background: #fff;
+	border-radius: 8px;
+	padding: 20px;
+	box-shadow: none;
+	width: 100%;
+	border: 1px solid #e5e7eb;
+}
+.ts_tracking_card_header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 16px;
+}
+.ts_status_badge {
+	background: #eaf7f2;
+	color: #22c997;
+	font-size: 11px;
+	font-weight: 700;
+	padding: 4px 12px;
+	border-radius: 6px;
+	white-space: nowrap;
+}
+
+/* Skeleton Lines */
+.ts_skeleton_line {
+	display: block;
+	height: 8px;
+	border-radius: 4px;
+	background: #e2e6ed;
+}
+.ts_skeleton_short {
 	width: 60px;
-	height: 60px;
-	font-size: 60px;
+}
+.ts_skeleton_wide {
+	width: 100%;
+}
+.ts_skeleton_green {
+	background: linear-gradient(90deg, #22c997, #5ee6c4);
+}
+
+/* Tracking Steps */
+.ts_tracking_step {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 8px 0;
+}
+.ts_step_dot {
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background: #22c997;
+	flex-shrink: 0;
+}
+.ts_step_dot.ts_dot_gray {
+	background: #d0d5dd;
+}
+.ts_step_lines {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+/* Feature Cards */
+.ts_features_row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px;
+	margin-top: 24px;
+}
+.ts_feature_card {
+	flex: 1;
+	min-width: 200px;
+	background: #fff;
+	border-radius: 8px;
+	padding: 30px 24px;
+	text-align: center;
+	box-shadow: none;
+	border: 1px solid #e5e7eb;
+}
+.ts_feature_icon {
+	width: 48px;
+	height: 48px;
+	border-radius: 8px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 0 auto 16px;
+	border: 1px solid #e5e7eb;
+}
+.ts_feature_icon.ts_icon_blue {
+	background: #eef2ff;
+}
+.ts_feature_icon .dashicons {
+	font-size: 24px;
+	width: 24px;
+	height: 24px;
+	color: #3b64d3;
+}
+.ts_feature_title {
+	font-size: 16px;
+	font-weight: 700;
+	color: #1a1a2e;
+	margin: 0 0 10px;
+}
+.ts_feature_desc {
+	font-size: 13px;
+	line-height: 20px;
+	color: #666;
+	margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+	.ts_hero_row {
+		flex-direction: column;
+	}
+	.ts_hero_left,
+	.ts_hero_right {
+		min-width: 100%;
+	}
+	.ts_features_row {
+		flex-direction: column;
+	}
+	.ts_feature_card {
+		min-width: 100%;
+	}
 }
 /** End CSS ***/
 .upgrade_to_pro_popup.popupwrapper{
@@ -2418,9 +2682,6 @@ span.dashicons.dashicons-trash.remove {
 .ast-tgl-btn[for="enable_parcelforce_integration"]{
 	pointer-events: none;
 }
-.multiple_select_container.wc_ast_unclude_tracking_info .select2-selection__choice[title="Partially Shipped"] .select2-selection__choice__remove, .multiple_select_container.wc_ast_unclude_tracking_info .select2-selection__choice[title="Shipped"] .select2-selection__choice__remove, .multiple_select_container.wc_ast_unclude_tracking_info .select2-selection__choice[title="Completed"] .select2-selection__choice__remove {
-	display: none!important;
-}
 .admin-message-panel {
 	margin: 20px; 
 }
@@ -2432,18 +2693,12 @@ span.dashicons.dashicons-trash.remove {
 	color: #005b9a;
 }
 .admin-message-panel .admin-message-row{
-	/* padding: 15px;
-	background: #fff;
-	border: 1px solid #e0e0e0;
-	border-radius: 3px;
-	margin: 0 20px 10px;
-	position: relative; */
-
 	display: block;
 	padding: 20px;
 	background-color: #fff;
-	box-shadow: 0 0 5px 0 #e0e0e0;
 	position: relative;
+	border: 1px solid #E5E7EB;
+	border-radius: 8px;
 }
 .shipping-carriers-selected-provider-message, .all-shipping-carriers-selected{
 	display: block;
@@ -2544,7 +2799,7 @@ span.dashicons.dashicons-trash.remove {
 	width: 100%;
 	max-height: 90vh;
 	overflow-y: auto;
-	border-radius: 6px;
+	border-radius: 8px;
 	box-shadow: 0 0 15px rgba(0,0,0,0.3);
 	z-index: 10000;
 }
@@ -2830,6 +3085,11 @@ span.dashicons.dashicons-arrow-up-alt{
 		min-width: 400px;
 	}
 }
+@media screen and (max-width: 1100px){
+	.ast_admin_sidebar{
+		min-width: unset;
+	}
+}
 
 /* activity-panel custom popup create start */
 .menu-container {
@@ -3065,4 +3325,456 @@ p.zorem_description {
 .provider_note .button{
 	margin-left: 10px;
 	font-size: 12px !important;
+}
+
+/* ==========================================================================
+   PRO FEATURE ROW STYLES - Freemium Design Pattern
+   ========================================================================== */
+
+/* Merge free and PRO feature lists seamlessly */
+.panel.options ul.settings_ul + ul.settings_ul {
+	margin-top: 0;
+	padding-top: 0;
+}
+
+/* Remove extra spacing between lists */
+.panel.options ul.settings_ul:last-child {
+	margin-bottom: 0;
+}
+
+/* ========================================================================
+   PRO FEATURE ROW - Professional Minimal Design
+   ======================================================================== */
+
+/* PRO Feature Row - Clean horizontal layout */
+.settings_ul li.ast-pro-feature-row {
+	background: transparent;
+	border: none;
+	padding: 0;
+	margin: 0;
+	cursor: not-allowed;
+	list-style: none;
+}
+
+/* PRO Feature Content - Horizontal flex layout */
+.ast-pro-feature-row .ast-pro-feature-content {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	padding: 12px 0;
+	border-bottom: 1px solid #F3F4F6;
+}
+
+/* Toggle Wrapper - LEFT side */
+.ast-pro-feature-row .ast-pro-toggle-wrapper {
+	flex-shrink: 0;
+}
+
+/* Disabled Toggle Switch - Minimal style */
+.ast-pro-feature-row .ast-pro-toggle-disabled {
+	position: relative;
+	width: 36px;
+	height: 20px;
+	background: #E5E7EB;
+	border-radius: 10px;
+	border: none;
+	pointer-events: none;
+	opacity: 0.6;
+}
+
+.ast-pro-feature-row .ast-pro-toggle-disabled::after {
+	content: '';
+	position: absolute;
+	width: 14px;
+	height: 14px;
+	border-radius: 50%;
+	background: #FFFFFF;
+	top: 3px;
+	left: 3px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Feature Text - MIDDLE section */
+.ast-pro-feature-row .ast-pro-feature-text {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+/* Feature Label - Grayed out disabled text */
+.ast-pro-feature-row .ast-pro-feature-label {
+	font-size: 14px;
+	font-weight: 400;
+	color: #9CA3AF;
+	margin: 0;
+	cursor: not-allowed;
+}
+
+/* Info Icon (?) - Tooltip icon */
+.ast-pro-feature-row .ast-pro-info-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
+	background: #E5E7EB;
+	color: #6B7280;
+	font-size: 11px;
+	font-weight: 600;
+	flex-shrink: 0;
+	cursor: help;
+}
+
+/* Badges - RIGHT side */
+.ast-pro-feature-row .ast-pro-feature-badges {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	flex-shrink: 0;
+}
+
+/* PRO Badge - Blue professional style */
+.ast-pro-feature-row .ast-pro-badge {
+	background: #3b64d3;
+	color: #FFFFFF;
+	font-size: 10px;
+	font-weight: 600;
+	padding: 3px 10px;
+	border-radius: 4px;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	line-height: 1.4;
+}
+
+/* Lock Icon - Simple dashicon */
+.ast-pro-feature-row .ast-pro-lock-icon {
+	width: 18px;
+	height: 18px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	opacity: 0.5;
+}
+
+.ast-pro-feature-row .ast-pro-lock-icon::before {
+	content: "\f160";
+	font-family: dashicons;
+	font-size: 18px;
+	color: #6B7280;
+}
+
+/* Upgrade Link within PRO Feature Row */
+.ast-pro-feature-row .ast-pro-upgrade-link {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	color: #667EEA;
+	font-size: 13px;
+	font-weight: 500;
+	text-decoration: none;
+	margin-top: 6px;
+	transition: color 0.2s ease;
+}
+
+.ast-pro-feature-row .ast-pro-upgrade-link:hover {
+	color: #764BA2;
+}
+
+.ast-pro-feature-row .ast-pro-upgrade-link::after {
+	content: "\f345";
+	font-family: dashicons;
+	font-size: 16px;
+}
+
+/* PRO Status Row in Order Statuses table - match General Settings PRO row style */
+.order-status-table tr.ast-pro-status-row {
+	opacity: 1;
+	background: #FAFBFC;
+	cursor: not-allowed;
+}
+.order-status-table tr.ast-pro-status-row td {
+	pointer-events: none;
+	color: #9CA3AF;
+}
+.order-status-table tr.ast-pro-status-row td:first-child {
+	pointer-events: none;
+}
+.order-status-table tr.ast-pro-status-row .order-label {
+	opacity: 0.5 !important;
+	color: #9CA3AF !important;
+	background: #E5E7EB !important;
+	border-color: #E5E7EB !important;
+}
+.order-status-table tr.ast-pro-status-row .ast-tgl-btn {
+	opacity: 0.5;
+}
+.order-status-table tr.ast-pro-status-row .input-text,
+.order-status-table tr.ast-pro-status-row select {
+	opacity: 0.5;
+}
+.order-status-table tr.ast-pro-status-row .send_email_label {
+	opacity: 0.5;
+}
+.order-status-table tr.ast-pro-status-row .ast-pro-badge {
+	opacity: 1;
+}
+.order-status-table tr.ast-pro-status-row .ast-pro-badge {
+	background: #3b64d3;
+	color: #FFFFFF;
+	font-size: 10px;
+	font-weight: 600;
+	padding: 3px 10px;
+	border-radius: 4px;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	line-height: 1.4;
+	margin-left: 10px;
+	display: inline-block;
+	opacity: 1;
+}
+.order-status-table tr.ast-pro-status-row .dashicons-lock {
+	color: #9CA3AF;
+	font-size: 18px;
+	opacity: 0.5;
+	vertical-align: middle;
+}
+
+/* Alternative Style - Inline PRO Badge next to Title */
+.ast-pro-badge-inline {
+	background: linear-gradient(135deg, #667EEA 0%, #764BA2 100%);
+	color: #fff;
+	font-size: 10px;
+	font-weight: 600;
+	padding: 2px 8px;
+	border-radius: 10px;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	margin-left: 8px;
+	vertical-align: middle;
+	display: inline-block;
+}
+
+/* ==========================================================================
+   ENHANCED PRO SIDEBAR PANEL
+   ========================================================================== */
+
+
+/* Enhanced PRO Sidebar - Exact White Design */
+.ast_admin_sidebar {
+	position: sticky;
+	/* top: 100px; */
+	align-self: flex-start;
+	flex-shrink: 0;
+	width: 320px;
+	max-width: 320px;
+}
+
+.ast_sidebar_inner {
+	background: #FFFFFF;
+	border: 1px solid #E5E7EB;
+	border-radius: 8px;
+	padding: 28px 24px;
+	text-align: center;
+	margin-bottom: 16px;
+}
+
+/* Icon Wrapper */
+.ast-icon-wrapper {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 48px;
+	height: 48px;
+	background: #EFF6FF;
+	border-radius: 50%;
+	margin-bottom: 16px;
+}
+
+.ast_sidebar_inner h1 {
+	font-size: 17px;
+	font-weight: 600;
+	margin: 0 0 10px 0;
+	color: #1F2937;
+	line-height: 1.4;
+}
+
+.ast_sidebar_inner p {
+	font-size: 12px;
+	line-height: 1.6;
+	margin-bottom: 20px;
+	color: #6B7280;
+}
+
+/* PRO Features List with Simple Checkmarks */
+.ast-pro-features-list {
+	list-style: none;
+	margin: 0 0 20px 0;
+	padding: 0;
+	text-align: left;
+}
+
+.ast-pro-features-list li {
+	padding: 6px 0;
+	font-size: 13px;
+	display: flex;
+	align-items: flex-start;
+	gap: 8px;
+	color: #4B5563;
+	line-height: 1.5;
+}
+
+.ast-pro-features-list li .ast-check {
+	color: #3b64d3;
+	font-weight: bold;
+	font-size: 14px;
+	flex-shrink: 0;
+}
+
+/* Upgrade Button */
+.ast-upgrade-button {
+	padding: 8px 20px !important;
+	display: block !important;
+}
+
+.ast-upgrade-button:hover {
+	background: #2563EB !important;
+	color: #FFFFFF !important;
+}
+
+/* Trusted Badge */
+.ast-trusted-badge {
+	margin-top: 14px;
+	font-size: 9px;
+	color: #9CA3AF;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	font-weight: 600;
+}
+
+/* Need Help Section */
+.ast_sidebar_help {
+	background: #FFFFFF;
+	border: 1px solid #E5E7EB;
+	border-radius: 8px;
+	padding: 20px;
+	/* box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); */
+	display: flex;
+	gap: 14px;
+	align-items: flex-start;
+	margin: 20px 20px 0 0;
+}
+
+.ast_sidebar_help .ast-help-icon {
+	width: 32px;
+	height: 32px;
+	background: #F3F4F6;
+	border-radius: 8px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 16px;
+	font-weight: bold;
+	color: #9CA3AF;
+	flex-shrink: 0;
+}
+
+.ast_sidebar_help .ast-help-text {
+	text-align: left;
+	flex: 1;
+}
+
+.ast_sidebar_help h3 {
+	font-size: 13px;
+	font-weight: 600;
+	color: #1F2937;
+	margin: 0 0 6px 0;
+}
+
+.ast_sidebar_help p {
+	font-size: 12px;
+	color: #6B7280;
+	line-height: 1.5;
+	margin: 0 0 10px 0;
+}
+
+.ast_sidebar_help .ast-help-link {
+	color: #3b64d3;
+	text-decoration: none;
+	font-size: 12px;
+	font-weight: 500;
+	display: inline-block;
+}
+
+.ast_sidebar_help .ast-help-link:hover {
+	color: #2563EB;
+	text-decoration: none;
+	flex-shrink: 0;
+}
+
+.ast_sidebar_help .ast-help-text {
+	text-align: left;
+	flex: 1;
+}
+
+.ast_sidebar_help h3 {
+	font-size: 14px;
+	font-weight: 600;
+	color: #111827;
+	margin: 0 0 6px 0;
+}
+
+.ast_sidebar_help p {
+	font-size: 12px;
+	color: #6B7280;
+	line-height: 1.5;
+	margin: 0 0 12px 0;
+}
+
+.ast_sidebar_help .ast-help-link {
+	color: #3b64d3;
+	text-decoration: none;
+	font-size: 13px;
+	font-weight: 500;
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+}
+
+.ast_sidebar_help .ast-help-link:hover {
+	color: #2563EB;
+	text-decoration: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+	.ast-pro-feature-row .ast-pro-feature-content {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.ast-pro-feature-row .ast-pro-feature-right {
+		width: 100%;
+		justify-content: flex-end;
+	}
+}
+
+/* Sidebar full width at 1100px */
+@media (max-width: 1100px) {
+	#content2 > div[style*="display: flex"] {
+		flex-direction: column !important;
+	}
+	.ast_admin_sidebar {
+		width: 100%;
+		max-width: 100%;
+		min-width: unset;
+		position: static;
+	}
+	.ast_sidebar_inner {
+		margin: 20px 20px 0 20px !important;
+	}
+	.ast_sidebar_help {
+		margin: 16px 20px 0 20px;
+	}
 }

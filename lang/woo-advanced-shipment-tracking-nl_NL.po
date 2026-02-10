@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: WooCommerce Advanced Shipment Tracking\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-11 09:34+0000\n"
-"PO-Revision-Date: 2025-05-09 05:58+0000\n"
+"PO-Revision-Date: 2026-02-10 07:22+0000\n"
 "Last-Translator: \n"
 "Language-Team: Dutch\n"
 "Language: nl_NL\n"
@@ -12,41 +12,67 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco https://localise.biz/\n"
-"X-Loco-Version: 2.7.1; wp-6.7.2"
+"X-Loco-Version: 2.8.1; wp-6.9.1; php-8.3.30"
 
-#: includes/class-wc-advanced-shipment-tracking.php:242
-#: includes/class-wc-advanced-shipment-tracking.php:269
+#: includes/class-wc-advanced-shipment-tracking.php:240
+#: includes/class-wc-advanced-shipment-tracking.php:267
 #: includes/class-wc-advanced-shipment-tracking.php:364
 #, php-format
 msgid " (Added via %s) "
 msgstr "(Toegevoegd via %s)"
 
 #. 1: user name, 2: source name
-#: includes/class-wc-advanced-shipment-tracking.php:240
-#: includes/class-wc-advanced-shipment-tracking.php:267
+#: includes/class-wc-advanced-shipment-tracking.php:238
+#: includes/class-wc-advanced-shipment-tracking.php:265
 #, php-format
 msgid " by %1$s%2$s "
 msgstr "door %1$s%2$s"
 
 #. 1: display name, 2: source text
-#: includes/class-wc-advanced-shipment-tracking.php:369
+#: includes/class-wc-advanced-shipment-tracking.php:371
 #, php-format
 msgid " by %1s%2s "
 msgstr "door %1s%2s"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1259
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1381
 msgid " csv "
 msgstr "csv"
 
-#: includes/class-ast-integration-options.php:188
-msgid "3plwinner"
-msgstr "3pl winnaar"
+#: includes/views/admin_options_addons.php:199
+msgid ""
+"\"Where is my order?\" emails flooding your inbox because of missing or "
+"delayed tracking info."
+msgstr ""
+"Je inbox wordt overspoeld met e-mails als \"Waar is mijn bestelling?\" omdat "
+"de trackinginformatie ontbreekt of vertraagd is."
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1757
+#. %s: link to integrations documentation
+#: includes/views/admin_upgrade_to_pro_popup.php:32
+#, php-format
+msgid "25+ Built-in %s tracking integrations with shipping services"
+msgstr "Meer dan 25 ingebouwde %s-trackingintegraties met verzenddiensten."
+
+#: includes/views/admin_options_trackship_integration.php:45
+msgid "950+ CARRIERS"
+msgstr "Meer dan 950 vervoerders"
+
+#: includes/views/admin_options_trackship_integration.php:99
+msgid ""
+"A professional, branded tracking page on your store to keep customers coming "
+"back."
+msgstr ""
+"Een professionele, herkenbare trackingpagina in uw webshop om klanten te "
+"stimuleren terug te komen."
+
+#: includes/views/admin_options_addons.php:240
+msgid "Active"
+msgstr "Actief"
+
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1879
 msgid "Add"
 msgstr "Toevoegen"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:2028
+#: includes/class-wc-advanced-shipment-tracking-admin.php:2156
 msgid "Add API Name alias"
 msgstr "Alias API-naam toevoegen"
 
@@ -54,6 +80,14 @@ msgstr "Alias API-naam toevoegen"
 #: includes/views/admin_options_shipping_provider.php:105
 msgid "Add Custom Carrier"
 msgstr "Aangepaste vervoerder toevoegen"
+
+#: includes/views/admin_upgrade_to_pro_popup.php:41
+msgid "Add Custom Shipping Carriers"
+msgstr "Voeg aangepaste verzendmaatschappijen toe"
+
+#: includes/views/admin_options_addons.php:83
+msgid "Add multiple tracking numbers to specific line items in an order."
+msgstr "Voeg meerdere trackingnummers toe aan specifieke orderregels."
 
 #. Description of the plugin
 msgid ""
@@ -68,25 +102,34 @@ msgstr ""
 "klantenaccounts (in het bestelpaneel) en in de volledige e-mail van de "
 "WooCommerce-bestelling."
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1404
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1526
 msgid "Add Tracking"
 msgstr "Tracking toevoegen"
 
-#: includes/class-wc-advanced-shipment-tracking.php:408
 #: includes/class-wc-advanced-shipment-tracking-settings.php:514
+#: includes/class-wc-advanced-shipment-tracking.php:410
 msgid "Add Tracking - order\t"
 msgstr "Tracking toevoegen - bestellen"
 
-#: includes/class-wc-advanced-shipment-tracking.php:403
-#: includes/class-wc-advanced-shipment-tracking.php:600
+#: includes/class-wc-advanced-shipment-tracking.php:405
+#: includes/class-wc-advanced-shipment-tracking.php:602
 msgid "Add Tracking Info"
 msgstr "Voeg Track & Trace Info Toe"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:723
+#: includes/class-wc-advanced-shipment-tracking-admin.php:808
 msgid "Add Tracking Order action"
 msgstr "Actie Volgorde toevoegen"
 
-#: includes/customizer/ast-customizer.php:490
+#: includes/views/admin_upgrade_to_pro_popup.php:17
+msgid "Add tracking per item"
+msgstr "Voeg tracking per item toe."
+
+#: includes/views/admin_options_addons.php:107
+msgid "Add your own local or specialized carrier tracking links."
+msgstr ""
+"Voeg uw eigen lokale of gespecialiseerde trackinglinks van vervoerders toe."
+
+#: includes/customizer/ast-customizer.php:493
 msgid "Additional text after header"
 msgstr "Aanvullende tekst na header"
 
@@ -94,23 +137,38 @@ msgstr "Aanvullende tekst na header"
 msgid "Advanced Shipment Tracking for WooCommerce"
 msgstr "Geavanceerde tracking van zendingen voor WooCommerce"
 
-#: includes/class-ast-integration-options.php:212
-msgid "AliExpress Dropshipping"
-msgstr "AliExpress Dropshipping"
+#: includes/views/admin_options_addons.php:119
+msgid ""
+"Advanced Shipment Tracking Pro automatically syncs tracking from shipping "
+"services."
+msgstr ""
+"Advanced Shipment Tracking Pro synchroniseert automatisch trackinggegevens "
+"van verzenddiensten."
+
+#: includes/views/admin_options_addons.php:186
+#: includes/views/admin_options_addons.php:202
+msgid "AFTER:"
+msgstr "NA:"
 
 #: includes/views/admin_options_shipping_provider.php:52
 msgid "All Carriers Selected."
 msgstr "Alle vervoerders geselecteerd."
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1505
+#: includes/class-wc-advanced-shipment-tracking-admin.php:827
+msgid "Allow adding multiple tracking numbers for each order item"
+msgstr ""
+"Maak het mogelijk om meerdere trackingnummers toe te voegen voor elk "
+"orderitem."
+
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1627
 msgid "API aliases"
 msgstr "API-aliassen"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:747
+#: includes/class-wc-advanced-shipment-tracking-admin.php:856
 msgid "API Date Format"
 msgstr "API-datumnotatie"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:180
+#: includes/class-wc-advanced-shipment-tracking-admin.php:182
 msgid "Are you sure you want to delete this shipping carrier?"
 msgstr "Weet je zeker dat je deze vervoerder wilt verwijderen?"
 
@@ -118,49 +176,128 @@ msgstr "Weet je zeker dat je deze vervoerder wilt verwijderen?"
 msgid "AST Customizer"
 msgstr "AST-aanpasser"
 
-#: includes/views/admin_options_settings.php:78
+#: includes/views/admin_upgrade_to_pro_popup.php:9
+msgid ""
+"AST PRO provides powerful features to easily add tracking info to "
+"WooCommerce orders, automate the fulfillment workflows and keep your "
+"customers happy and informed."
+msgstr ""
+"AST PRO biedt krachtige functies om eenvoudig trackinginformatie toe te "
+"voegen aan WooCommerce-bestellingen, de afhandelingsworkflows te "
+"automatiseren en uw klanten tevreden en goed geïnformeerd te houden."
+
+#: includes/views/admin_sidebar.php:27
+msgid "Auto carrier detection & white-label providers"
+msgstr "Automatische detectie van vervoerders en white-label providers"
+
+#: includes/class-wc-advanced-shipment-tracking-admin.php:844
+msgid "Auto-complete orders that come from the API"
+msgstr ""
+"Bestellingen die via de API binnenkomen, moeten automatisch worden aangevuld."
+
+#: includes/views/admin_options_addons.php:88
+msgid "Auto-detect shipping Carriers"
+msgstr "Automatische detectie van verzendmaatschappijen"
+
+#: includes/views/admin_upgrade_to_pro_popup.php:18
+msgid "Auto-detect shipping carriers"
+msgstr "Automatische detectie van transporteurs"
+
+#: includes/views/admin_options_addons.php:127
+msgid "Auto-Sync Enabled"
+msgstr "Automatische synchronisatie ingeschakeld"
+
+#: includes/views/admin_upgrade_to_pro_popup.php:22
+msgid "AutoComplete API orders"
+msgstr "AutoComplete API-bestellingen"
+
+#: includes/views/admin_options_trackship_integration.php:19
+msgid "Automate your post-shipping workflow"
+msgstr "Automatiseer uw workflow na verzending."
+
+#: includes/views/admin_options_settings.php:80
 msgid "Automated CSV Import through FTP/SFTP"
 msgstr "Geautomatiseerde CSV-import via FTP/SFTP"
 
-#: includes/customizer/ast-customizer.php:686
+#: includes/views/admin_sidebar.php:28
+msgid "Automated CSV import via FTP / SFTP"
+msgstr "Geautomatiseerde CSV-import via FTP/SFTP"
+
+#: includes/views/admin_options_trackship_integration.php:91
+msgid "Automated Emails"
+msgstr "Geautomatiseerde e-mails"
+
+#: includes/views/admin_options_addons.php:89
+msgid "Automatically identify carriers based on tracking number format."
+msgstr ""
+"Vervoerders automatisch identificeren op basis van het formaat van het "
+"trackingnummer."
+
+#: includes/class-wc-advanced-shipment-tracking-admin.php:845
+msgid ""
+"Automatically mark orders as completed when tracking information is added "
+"via API"
+msgstr ""
+"Bestellingen automatisch als voltooid markeren wanneer trackinginformatie "
+"via de API wordt toegevoegd."
+
+#: includes/views/admin_options_trackship_integration.php:85
+msgid ""
+"Automatically track shipments across 950+ carriers worldwide with instant "
+"status updates."
+msgstr ""
+"Volg zendingen automatisch via meer dan 950 vervoerders wereldwijd en "
+"ontvang direct statusupdates."
+
+#: includes/customizer/ast-customizer.php:689
 msgid "Available Placeholders:"
 msgstr "Beschikbare tijdelijke aanduidingen:"
 
-#: includes/customizer/ast-customizer.php:530
+#: includes/customizer/ast-customizer.php:533
 msgid "Background color"
 msgstr "Achtergrond kleur"
 
-#: includes/customizer/ast-customizer.php:538
+#: includes/views/admin_options_addons.php:182
+#: includes/views/admin_options_addons.php:198
+msgid "BEFORE:"
+msgstr "VOOR:"
+
+#: includes/customizer/ast-customizer.php:541
 msgid "Border color"
 msgstr "Kleur rand"
 
-#: includes/customizer/ast-customizer.php:546
+#: includes/customizer/ast-customizer.php:549
 msgid "Border radius"
 msgstr "Grensradius"
 
-#: includes/customizer/ast-customizer.php:594
+#: includes/views/admin_options_trackship_integration.php:18
+msgid "Branded tracking experience in your store"
+msgstr "Een gepersonaliseerde trackingervaring in uw winkel."
+
+#: includes/views/admin_options_addons.php:131
+msgid "Built-in support for PDF Invoices, Email Customizers, and more."
+msgstr ""
+"Ingebouwde ondersteuning voor PDF-facturen, e-mailaanpassingen en meer."
+
+#: includes/customizer/ast-customizer.php:597
 msgid "Button color"
 msgstr "Knop kleur"
 
-#: includes/customizer/ast-customizer.php:602
+#: includes/customizer/ast-customizer.php:605
 msgid "Button font color"
 msgstr "Kleur van knoplettertype"
 
-#: includes/customizer/ast-customizer.php:610
+#: includes/customizer/ast-customizer.php:613
 msgid "Button radius"
 msgstr "Knop straal"
 
-#: includes/customizer/ast-customizer.php:582
+#: includes/customizer/ast-customizer.php:585
 msgid "Button size"
 msgstr "Knoopmaat"
 
-#: includes/customizer/ast-customizer.php:572
+#: includes/customizer/ast-customizer.php:575
 msgid "Button text"
 msgstr "Knop tekst"
-
-#: includes/class-ast-integration-options.php:272
-msgid "Byrd Fulfillment"
-msgstr "Byrd-vervulling"
 
 #: includes/api/class-wc-advanced-shipment-tracking-rest-api-controller.php:222
 msgid "Cannot create existing order shipment tracking."
@@ -182,9 +319,11 @@ msgstr "vervoerders geselecteerd."
 msgid "Carriers Updated"
 msgstr "Vervoerders bijgewerkt"
 
-#: includes/class-ast-integration-options.php:98
-msgid "CartRover"
-msgstr "CartRover"
+#: includes/views/admin_options_addons.php:95
+msgid "Centralized view of all unfulfilled and pending shipments."
+msgstr ""
+"Centraal overzicht van alle nog niet afgehandelde en in behandeling zijnde "
+"zendingen."
 
 #: includes/class-wc-advanced-shipment-tracking-settings.php:228
 msgid "Change order status to"
@@ -202,11 +341,19 @@ msgstr "Status wijzigen in %s"
 msgid "Change status to shipped"
 msgstr "Status wijzigen naar verzonden"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:749
+#: includes/views/admin_sidebar.php:49
+msgid ""
+"Check our documentation or contact our support team if you have any "
+"questions."
+msgstr ""
+"Raadpleeg onze documentatie of neem contact op met ons supportteam als u "
+"vragen heeft."
+
+#: includes/class-wc-advanced-shipment-tracking-admin.php:858
 msgid "Choose for which Order status to display"
 msgstr "Kies voor welke Orderstatus u wilt weergeven"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:748
+#: includes/class-wc-advanced-shipment-tracking-admin.php:857
 msgid ""
 "Choose the date format that you use when updating the shipment tracking API "
 "endpoint from external sources"
@@ -218,7 +365,7 @@ msgstr ""
 msgid "Choose the Shipped Date format"
 msgstr "Kies het formaat van de verzenddatum"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:724
+#: includes/class-wc-advanced-shipment-tracking-admin.php:809
 msgid ""
 "Choose which Order Status in your store you would like to display Add the "
 "Tracking icon in the Order Actions menu."
@@ -230,7 +377,11 @@ msgstr ""
 msgid "Click Here"
 msgstr "Klik hier"
 
-#: includes/class-wc-advanced-shipment-tracking.php:550
+#: includes/views/admin_options_addons.php:130
+msgid "Compatible with Popular Plugins"
+msgstr "Compatibel met populaire plugins"
+
+#: includes/class-wc-advanced-shipment-tracking.php:552
 msgid "Completed"
 msgstr "Voltooid"
 
@@ -238,42 +389,78 @@ msgstr "Voltooid"
 msgid "Continue"
 msgstr "Doorgaan"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:297
-#: includes/class-wc-advanced-shipment-tracking-admin.php:301
+#: includes/views/admin_options_addons.php:106
+msgid "Create Custom Shipping Carriers"
+msgstr "Maak aangepaste verzendmaatschappijen aan"
+
+#: includes/views/admin_options_trackship_integration.php:22
+msgid "Create Relationships by engaging your customers after shipping"
+msgstr ""
+"Bouw relaties op door na de verzending contact te houden met uw klanten."
+
+#: includes/class-wc-advanced-shipment-tracking-admin.php:299
+#: includes/class-wc-advanced-shipment-tracking-admin.php:303
 msgid "CSV Import"
 msgstr "CSV-import"
 
-#: includes/class-ast-integration-options.php:170
-msgid "CustomCat"
-msgstr "Aangepaste Cat"
+#: includes/views/admin_options_addons.php:71
+msgid "Current"
+msgstr "Huidig"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:440
-#: includes/class-wc-advanced-shipment-tracking-admin.php:542
+#: includes/views/admin_options_addons.php:103
+msgid "Custom Branding"
+msgstr "Maatwerk branding"
+
+#: includes/views/admin_upgrade_to_pro_popup.php:21
+msgid "Custom Order Status \"Shipped\""
+msgstr "Status van de aangepaste bestelling: \"Verzonden\""
+
+#: includes/views/admin_sidebar.php:30
+msgid "Custom order statuses & branded emails"
+msgstr "Aangepaste orderstatussen en e-mails met uw bedrijfslogo"
+
+#: includes/views/admin_options_addons.php:203
+msgid ""
+"Customers get instant, branded notifications. 65% fewer shipping-related "
+"support inquiries."
+msgstr ""
+"Klanten ontvangen direct merkgebonden meldingen. 65% minder "
+"ondersteuningsvragen met betrekking tot verzending."
+
+#: includes/class-wc-advanced-shipment-tracking-admin.php:442
+#: includes/class-wc-advanced-shipment-tracking-admin.php:544
 msgid "Customize"
 msgstr "Aanpassen"
 
-#: includes/views/admin_options_osm.php:70
+#: includes/class-wc-advanced-shipment-tracking-admin.php:833
+msgid "Customize email content for shipment tracking notifications"
+msgstr ""
+"Pas de inhoud van e-mails aan voor meldingen over de verzendingsstatus."
+
+#: includes/views/admin_options_addons.php:101
+msgid "Customize provider names and logos for a branded experience."
+msgstr ""
+"Personaliseer de namen en logo's van de aanbieders voor een herkenbare "
+"merkbeleving."
+
+#: includes/views/admin_options_osm.php:76
 msgid "Dark Font"
 msgstr "Donker Lettertype"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:179
+#: includes/class-wc-advanced-shipment-tracking-admin.php:181
 msgid "Data saved successfully."
 msgstr "Gegevens succesvol opgeslagen."
 
-#: includes/class-wc-advanced-shipment-tracking.php:450
 #: includes/class-wc-advanced-shipment-tracking-settings.php:571
+#: includes/class-wc-advanced-shipment-tracking.php:452
 msgid "Date shipped:"
 msgstr "Datum verzonden:"
 
-#: includes/class-ast-integration-options.php:176
-msgid "Dear Systems"
-msgstr "Beste systemen"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1527
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1649
 msgid "Delete"
 msgstr "Verwijderen"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:938
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1060
 #: includes/class-wc-advanced-shipment-tracking-settings.php:144
 #: includes/class-wc-advanced-shipment-tracking-settings.php:162
 #: includes/class-wc-advanced-shipment-tracking-settings.php:216
@@ -292,15 +479,7 @@ msgstr[1] "Bezorgd <span class=\"count\">(%s)</span>"
 msgid "Deselect All"
 msgstr "Deselecteer alles"
 
-#: includes/class-ast-integration-options.php:146
-msgid "DHL Shipping Germany for WooCommerce"
-msgstr "DHL Shipping Duitsland voor WooCommerce"
-
-#: includes/class-ast-integration-options.php:194
-msgid "Dianxiaomi"
-msgstr "Dianxiaomi"
-
-#: includes/customizer/ast-customizer.php:507
+#: includes/customizer/ast-customizer.php:510
 msgid "Display shipment status section"
 msgstr "Sectie verzendstatus weergeven"
 
@@ -309,11 +488,7 @@ msgstr "Sectie verzendstatus weergeven"
 msgid "Download \tsample csv"
 msgstr "Voorbeeld csv downloaden"
 
-#: includes/class-ast-integration-options.php:314
-msgid "EasyPost"
-msgstr "EasyPost"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1526
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1648
 msgid "Edit"
 msgstr "Bewerking"
 
@@ -322,64 +497,60 @@ msgstr "Bewerking"
 msgid "Edit Shipping Carrier"
 msgstr "Vervoerder bewerken"
 
-#: includes/class-ast-integration-options.php:200
-msgid "EIZ"
-msgstr "EIZ"
-
-#: includes/customizer/ast-customizer.php:398
-#: includes/customizer/ast-customizer.php:399
-#: includes/customizer/ast-customizer.php:408
-#: includes/customizer/ast-customizer.php:452
-#: includes/customizer/ast-customizer.php:453
-#: includes/customizer/ast-customizer.php:630
+#: includes/customizer/ast-customizer.php:401
+#: includes/customizer/ast-customizer.php:402
+#: includes/customizer/ast-customizer.php:411
+#: includes/customizer/ast-customizer.php:455
+#: includes/customizer/ast-customizer.php:456
+#: includes/customizer/ast-customizer.php:633
 msgid "Email Content"
 msgstr "E-mail inhoud"
 
-#: includes/customizer/ast-customizer.php:674
+#: includes/customizer/ast-customizer.php:677
 msgid "Email content"
 msgstr "E-mail inhoud"
 
-#: includes/customizer/ast-customizer.php:712
+#: includes/customizer/ast-customizer.php:715
 msgid "Email Customizer"
 msgstr "E-mailaanpasser"
 
-#: includes/customizer/ast-customizer.php:662
+#: includes/customizer/ast-customizer.php:665
 msgid "Email heading"
 msgstr "E-mail rubriek"
 
-#: includes/customizer/ast-customizer.php:651
+#: includes/customizer/ast-customizer.php:654
 msgid "Email Subject"
 msgstr "E-mail onderwerp"
 
-#: includes/customizer/ast-customizer.php:637
+#: includes/customizer/ast-customizer.php:640
 #| msgid "Email Type"
 msgid "Email type"
 msgstr "E-mailtype"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1468
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1542
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1590
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1664
 #: includes/views/admin_options_shipping_provider.php:33
 msgid "Enable Carriers"
 msgstr "Schakel vervoerders in"
 
-#: includes/customizer/ast-customizer.php:873
+#: includes/customizer/ast-customizer.php:876
 msgid "Enable email"
 msgstr "E-mail inschakelen"
 
-#: includes/class-ast-integration-options.php:73
-msgid "Enable Integration"
-msgstr "Integratie inschakelen"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:760
+#: includes/class-wc-advanced-shipment-tracking-admin.php:869
 msgid "Enable log"
 msgstr "Logboek inschakelen"
+
+#: includes/class-wc-advanced-shipment-tracking-admin.php:826
+msgid "Enable multiple tracking numbers per order item"
+msgstr "Meerdere trackingnummers per orderitem inschakelen"
 
 #: includes/views/admin_options_shipping_provider.php:72
 #| msgid "Add Shipping Carriers"
 msgid "Enable Shipping Carriers"
 msgstr "Schakel vervoerders in"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:761
+#: includes/class-wc-advanced-shipment-tracking-admin.php:870
 msgid ""
 "Enable this to log all incoming API requests and responses for the Shipment "
 "Tracking API in WooCommerce logs. Logs can be found under WooCommerce > "
@@ -389,33 +560,69 @@ msgstr ""
 "verzendingstracking te registreren in de logs van WooCommerce. Logs zijn te "
 "vinden onder WooCommerce > Status > Logs."
 
-#: includes/class-ast-integration-options.php:296
-msgid "eShipper"
-msgstr "eShipper"
+#: includes/views/admin_upgrade_to_pro_popup.php:40
+msgid "Export tracking information to PayPal"
+msgstr "Exporteer trackinginformatie naar PayPal"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1920
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1937
+#: includes/views/admin_options_addons.php:124
+msgid "Export Tracking to PayPal and Stripe"
+msgstr "Exporteer trackinginformatie naar PayPal en Stripe"
+
+#: includes/views/admin_options_addons.php:219
+msgid "Extend your store's capabilities with our ecosystem"
+msgstr "Breid de mogelijkheden van uw winkel uit met ons ecosysteem."
+
+#: includes/views/admin_options_addons.php:69
+msgid "Feature Comparison"
+msgstr "Functievergelijking"
+
+#: includes/class-wc-advanced-shipment-tracking-admin.php:2048
+#: includes/class-wc-advanced-shipment-tracking-admin.php:2065
 msgid "Filter by shipping provider"
 msgstr "Filteren op vervoerder"
 
-#: includes/class-wc-advanced-shipment-tracking.php:459
 #: includes/class-wc-advanced-shipment-tracking-settings.php:581
+#: includes/class-wc-advanced-shipment-tracking.php:461
 msgid "Fulfill Order"
 msgstr "Bestelling vervullen"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:341
-#: includes/class-wc-advanced-shipment-tracking-admin.php:345
-#: includes/views/admin_options_settings.php:13
+#: includes/views/admin_options_addons.php:94
+msgid "Fulfillment Dashboard"
+msgstr "Fulfillment Dashboard"
+
+#: includes/views/admin_upgrade_to_pro_popup.php:19
+msgid "Fulfillment dashboard"
+msgstr "Afhandelingsdashboard"
+
+#: includes/views/admin_sidebar.php:26
+msgid "Fulfillment dashboard & split shipment tracking"
+msgstr "Fulfillmentdashboard en tracking van gesplitste zendingen"
+
+#: includes/views/admin_options_addons.php:133
+msgid "Full Integration"
+msgstr "Volledige integratie"
+
+#: includes/views/admin_options_addons.php:85
+msgid "Full Item Tracking"
+msgstr "Volledige artikeltracering"
+
+#: includes/views/admin_options_addons.php:97
+msgid "Full Overview"
+msgstr "Volledig overzicht"
+
+#: includes/class-wc-advanced-shipment-tracking-admin.php:343
+#: includes/class-wc-advanced-shipment-tracking-admin.php:347
+#: includes/views/admin_options_settings.php:15
 msgid "General Settings"
 msgstr "Algemene Instellingen"
 
-#: includes/class-ast-integration-options.php:254
-msgid "GLS Sell & Send Italy"
-msgstr "GLS Verkoop & Verzend Italië"
+#: includes/views/admin_options_addons.php:167
+msgid "GET STARTED WITH PRO"
+msgstr "GA AAN DE SLAG MET PRO"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:273
-msgid "Go Pro"
-msgstr "Ga Pro"
+#: includes/class-wc-advanced-shipment-tracking-admin.php:275
+msgid "Go Pro ✨"
+msgstr "GoPro ✨"
 
 #: templates/emails/customer-updated-tracking-order.php:24
 msgid ""
@@ -425,7 +632,7 @@ msgstr ""
 "Hallo daar. we dachten dat u het graag zou willen weten dat het volgen van "
 "de verzending voor uw recente bestelling van {site_title} is bijgewerkt."
 
-#: includes/customizer/ast-customizer.php:337
+#: includes/customizer/ast-customizer.php:340
 msgid ""
 "Hi there. we thought you'd like to know that your recent order from "
 "{site_title} has been partially shipped."
@@ -439,12 +646,12 @@ msgstr ""
 msgid "hide details"
 msgstr "details verbergen"
 
-#: includes/customizer/ast-customizer.php:556
+#: includes/customizer/ast-customizer.php:559
 #| msgid "Display shipping provider image"
 msgid "Hide shipping provider image"
 msgstr "Toon afbeelding van leveringsdienst"
 
-#: includes/customizer/ast-customizer.php:471
+#: includes/customizer/ast-customizer.php:474
 #| msgid "Hide Tracking Header"
 msgid "Hide tracking header"
 msgstr "Trackingkop verbergen"
@@ -454,14 +661,9 @@ msgstr "Trackingkop verbergen"
 msgid "How to import \ttracking number from CSV files?"
 msgstr "Hoe een trackingnummer uit CSV-bestanden te importeren?"
 
-#. Author URI of the plugin
-msgid "https://www.zorem.com"
-msgstr "https://www.zorem.com"
-
-#. URI of the plugin
-msgid "https://www.zorem.com/products/woocommerce-advanced-shipment-tracking/"
-msgstr ""
-"https://www.zorem.com/products/woocommerce-geavanceerde-verzending-tracking/"
+#: includes/views/admin_options_addons.php:180
+msgid "Huge Time Savings"
+msgstr "Enorme tijdsbesparing"
 
 #: includes/views/admin_options_shipping_provider.php:45
 msgid "if you want to select all carriers."
@@ -471,26 +673,39 @@ msgstr "als je alle vervoerders wilt selecteren."
 msgid "Import in Progress"
 msgstr "Bezig met importeren"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:305
-#: includes/class-wc-advanced-shipment-tracking-admin.php:308
+#: includes/views/admin_options_trackship_integration.php:57
+msgid "IN TRANSIT"
+msgstr "ONDERWEG"
+
+#: includes/views/admin_options_trackship_integration.php:23
+msgid "Increase customer satisfaction and repeat purchases"
+msgstr "Verhoog de klanttevredenheid en stimuleer herhaalaankopen."
+
+#: includes/views/admin_options_trackship_integration.php:31
+msgid "Install TrackShip for WooCommerce"
+msgstr "Installeer TrackShip voor WooCommerce"
+
+#: includes/views/admin_options_addons.php:91
+msgid "Instant Detection"
+msgstr "Directe detectie"
+
+#: includes/views/admin_options_addons.php:118
+msgid "Integrates with Your Favorite Shipping Service"
+msgstr "Integreert met uw favoriete verzendservice."
+
+#: includes/class-wc-advanced-shipment-tracking-admin.php:307
+#: includes/class-wc-advanced-shipment-tracking-admin.php:310
 msgid "Integrations"
 msgstr "Integraties"
-
-#: includes/class-ast-integration-options.php:320
-msgid "Interparcel"
-msgstr "Interparcel"
 
 #: includes/api/class-wc-advanced-shipment-tracking-rest-api-controller.php:231
 msgid "Invalid order ID."
 msgstr "Ongeldig bestelnummer."
 
-#: includes/class-ast-integration-options.php:248
-msgid "Inventory source"
-msgstr "Voorraadbron"
-
-#: includes/class-ast-integration-options.php:116
-msgid "JTL-Connector"
-msgstr "JTL-connector"
+#: includes/views/admin_options_addons.php:168
+msgid "Join 60,000+ stores optimizing their shipping workflow"
+msgstr ""
+"Sluit je aan bij meer dan 60.000 winkels die hun verzendproces optimaliseren."
 
 #: includes/views/admin_options_bulk_upload.php:44
 #| msgid ""
@@ -503,23 +718,43 @@ msgstr ""
 "Laat het selectievakje uitgeschakeld om de trackinginformatie toe te voegen "
 "aan bestaande trackinginformatie die aan de bestellingen is toegevoegd."
 
-#: includes/customizer/ast-customizer.php:588
+#: includes/views/admin_options_addons.php:13
+msgid ""
+"Keep your customers informed by sending them automated SMS text messages "
+"with order & delivery updates. You can send SMS notifications to customers "
+"when the order status is updated or when the shipment is out for delivery "
+"and more…"
+msgstr ""
+"Houd uw klanten op de hoogte door ze geautomatiseerde sms-berichten te "
+"sturen met updates over hun bestelling en levering. U kunt klanten sms-"
+"berichten sturen wanneer de bestelstatus wordt bijgewerkt, wanneer de "
+"zending onderweg is en meer…"
+
+#: includes/customizer/ast-customizer.php:591
 msgid "Large"
 msgstr "Groot"
 
-#: includes/views/admin_options_osm.php:69
+#: includes/views/admin_options_addons.php:242
+msgid "Learn More"
+msgstr "Meer informatie"
+
+#: includes/views/admin_options_osm.php:74
 msgid "Light Font"
 msgstr "Licht Lettertype"
 
-#: includes/class-ast-integration-options.php:302
-msgid "Linnworks"
-msgstr "Linnworks"
+#: includes/views/admin_options_addons.php:132
+msgid "Limited Support"
+msgstr "Beperkte ondersteuning"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:767
+#: includes/class-wc-advanced-shipment-tracking-admin.php:876
 msgid "Log will be added to WooCommerce > Status > "
 msgstr "Logboek wordt toegevoegd aan WooCommerce > Status >"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1413
+#: includes/views/admin_options_addons.php:113
+msgid "Map carrier names from external APIs to AST providers."
+msgstr "Koppel vervoerdersnamen van externe API's aan AST-providers."
+
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1535
 msgid "Mark as Shipped"
 msgstr "Markeren als verzonden"
 
@@ -527,82 +762,75 @@ msgstr "Markeren als verzonden"
 msgid "Mark order as delivered"
 msgstr "Bestelling markeren als afgeleverd"
 
-#: includes/class-wc-advanced-shipment-tracking.php:575
+#: includes/class-wc-advanced-shipment-tracking.php:577
 msgid "Mark order as:"
 msgstr "Markeer bestelling als:"
 
-#: includes/customizer/ast-customizer.php:1089
+#: includes/customizer/ast-customizer.php:1092
 msgid "Mockup Order"
 msgstr "Mockup-bestelling"
 
-#: includes/class-ast-integration-options.php:59
-#: includes/views/admin_options_addons.php:71
-#: includes/views/admin_options_addons.php:89
-#: includes/views/admin_options_addons.php:107
-#: includes/views/admin_options_addons.php:125
-#: includes/views/admin_options_addons.php:143
-#: includes/views/admin_options_addons.php:161
-msgid "More Info"
-msgstr "Meer informatie"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:2028
+#: includes/class-wc-advanced-shipment-tracking-admin.php:2156
 msgid "Multiple API names mapping is a pro features"
 msgstr "Het in kaart brengen van meerdere API-namen is een pro-functie"
 
-#: includes/class-ast-integration-options.php:344
-msgid "NetSuite Connector"
-msgstr "NetSuite-connector"
+#: includes/views/admin_sidebar.php:47
+msgid "Need help?"
+msgstr "Hulp nodig?"
 
-#: includes/customizer/ast-customizer.php:587
+#: includes/customizer/ast-customizer.php:590
 msgid "Normal"
 msgstr "normaal"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:778
+#: includes/views/admin_options_addons.php:84
+#: includes/views/admin_options_addons.php:90
+#: includes/views/admin_options_addons.php:96
+#: includes/views/admin_options_addons.php:102
+#: includes/views/admin_options_addons.php:108
+#: includes/views/admin_options_addons.php:114
+#: includes/views/admin_options_addons.php:120
+#: includes/views/admin_options_addons.php:126
+msgid "Not Available"
+msgstr "Niet beschikbaar"
+
+#: includes/class-wc-advanced-shipment-tracking-admin.php:887
 msgid "Opt in to get email notifications for security & feature updates"
 msgstr ""
 "Meld u aan om e-mailmeldingen te ontvangen voor beveiligings- en functie-"
 "updates"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:784
+#: includes/class-wc-advanced-shipment-tracking-admin.php:893
 msgid "Opt in to share some basic WordPress environment info"
 msgstr "Meld u aan om wat basisinformatie over de WordPress-omgeving te delen"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:732
+#: includes/class-wc-advanced-shipment-tracking-admin.php:817
 msgid "Order Emails Display"
 msgstr "Bestel-e-mails weergeven"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:350
-#: includes/class-wc-advanced-shipment-tracking-admin.php:354
+#: includes/class-wc-advanced-shipment-tracking-admin.php:352
+#: includes/class-wc-advanced-shipment-tracking-admin.php:356
 msgid "Order Statuses"
 msgstr "Bestelstatussen"
 
-#: includes/views/admin_options_settings.php:29
+#: includes/views/admin_options_settings.php:31
 msgid "Order Statuses & Notifications"
 msgstr "Bestelstatussen en meldingen"
 
 #. %1$s: Reaplce with tracking provider, %2$s: Reaplce with tracking number
-#: includes/class-wc-advanced-shipment-tracking.php:1219
-#: includes/class-wc-advanced-shipment-tracking.php:1312
+#: includes/class-wc-advanced-shipment-tracking.php:1300
+#: includes/class-wc-advanced-shipment-tracking.php:1393
 #, php-format
 #| msgid "Order was shipped with %s and tracking number is: %s"
 msgid "Order was shipped with %1$s and tracking number is: %2$s"
 msgstr "Bestelling is verzonden met %1$s en volgnummer is: %2$s"
 
-#: includes/class-ast-integration-options.php:91
-msgid "Ordoro"
-msgstr "Ordoro"
-
-#: includes/class-ast-integration-options.php:104
-msgid "ParcelForce"
-msgstr "PakketForce"
-
-#: includes/class-wc-advanced-shipment-tracking.php:566
-#: includes/class-wc-advanced-shipment-tracking-admin.php:926
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1035
 #: includes/class-wc-advanced-shipment-tracking-settings.php:283
 #: includes/class-wc-advanced-shipment-tracking-settings.php:315
+#: includes/class-wc-advanced-shipment-tracking.php:568
 #: includes/customizer/ast-customizer.php:133
-#: includes/customizer/ast-customizer.php:369
-#: includes/customizer/ast-customizer.php:624
+#: includes/customizer/ast-customizer.php:372
+#: includes/customizer/ast-customizer.php:627
 msgid "Partially Shipped"
 msgstr "Gedeeltelijk Verzonden"
 
@@ -614,17 +842,13 @@ msgid_plural "Partially Shipped <span class=\"count\">(%s)</span>"
 msgstr[0] "Gedeeltelijk verzonden <span class = \"count\"> (%s) </span>"
 msgstr[1] "Gedeeltelijk verzonden <span class = \"count\"> (%s) </span>"
 
-#: includes/views/admin_options_settings.php:60
+#: includes/views/admin_sidebar.php:29
+msgid "PayPal & Stripe tracking sync"
+msgstr "PayPal- en Stripe-tracking synchronisatie"
+
+#: includes/views/admin_options_settings.php:62
 msgid "PayPal Tracking"
 msgstr "PayPal-tracking"
-
-#: includes/class-ast-integration-options.php:182
-msgid "Picqer"
-msgstr "Picker"
-
-#: includes/class-ast-integration-options.php:218
-msgid "Pirate Ship"
-msgstr "Piratenschip"
 
 #. Please add shipping carriers from <a>here</a> (link to shipping providers page)
 #: includes/class-wc-advanced-shipment-tracking-settings.php:557
@@ -633,7 +857,7 @@ msgid "Please add shipping carriers from <a href=\"%s\">here</a>"
 msgstr "Voeg <a href=\"%s\">hier</a> vervoerders toe"
 
 #. %s: search WooCommerce plugin link
-#: woocommerce-advanced-shipment-tracking.php:201
+#: woocommerce-advanced-shipment-tracking.php:209
 #, php-format
 msgid ""
 "Please install and activate %1$sWooCommerce%2$s for Advanced Shipment "
@@ -642,37 +866,61 @@ msgstr ""
 "Installeer en activeer %1$sWooCommerce%2$s voor geavanceerde tracking van "
 "zendingen voor WooCommerce!"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:183
+#: includes/class-wc-advanced-shipment-tracking-admin.php:185
 msgid "Please upload a valid CSV file."
 msgstr "Upload een geldig CSV-bestand."
 
-#: includes/class-ast-integration-options.php:260
-msgid "Print Label and Tracking Code for GLS"
-msgstr "Print label en trackingcode voor GLS"
+#: includes/views/admin_options_addons.php:218
+msgid "Powerful Add-ons"
+msgstr "Krachtige add-ons"
 
-#: includes/class-ast-integration-options.php:266
-msgid "Printful"
-msgstr "Afdrukken"
+#: includes/views/admin_options_addons.php:136
+#: includes/views/admin_upgrade_to_pro_popup.php:44
+msgid "Premium Support"
+msgstr "Premium ondersteuning"
+
+#: includes/class-wc-advanced-shipment-tracking-admin.php:851
+msgid "Prevent duplicate tracking numbers from being added to orders"
+msgstr ""
+"Voorkom dat er dubbele trackingnummers aan bestellingen worden toegevoegd."
+
+#: includes/views/admin_options_addons.php:139
+msgid "Priority Support"
+msgstr "Prioriteitsondersteuning"
+
+#: includes/views/admin_options_addons.php:137
+msgid "Priority ticket handling and dedicated help center access."
+msgstr ""
+"Prioritaire afhandeling van tickets en toegang tot een speciaal helpcentrum."
 
 #: includes/class-wc-advanced-shipment-tracking-settings.php:567
 msgid "Product Code:"
 msgstr "Product Code:"
 
+#: includes/views/admin_options_trackship_integration.php:20
+msgid "Provide Amazon Style post-purchase customer experience"
+msgstr ""
+"Bied een klantervaring na aankoop die vergelijkbaar is met die van Amazon."
+
 #: templates/emails/plain/fluid-tracking-info.php:32
 msgid "Provider"
 msgstr "Leveringsdienst"
 
-#: includes/class-ast-integration-options.php:284
-msgid "Qapla"
-msgstr "Qapla"
+#: includes/views/admin_options_trackship_integration.php:84
+msgid "Real-time Tracking"
+msgstr "Realtime tracking"
 
-#: includes/class-ast-integration-options.php:152
-msgid "QuickBooks Commerce (formerly TradeGecko)"
-msgstr "QuickBooks Commerce (voorheen TradeGecko)"
+#: includes/views/admin_options_addons.php:75
+msgid "Recommended"
+msgstr "Aanbevolen"
 
-#: includes/class-ast-integration-options.php:158
-msgid "ReadyToShip"
-msgstr "Klaar voor verzending"
+#: includes/views/admin_options_addons.php:196
+msgid "Reduce Support Tickets"
+msgstr "Verminder het aantal supporttickets"
+
+#: includes/views/admin_options_trackship_integration.php:21
+msgid "Reduce time spent on customer service"
+msgstr "Verminder de tijd die u besteedt aan klantenservice."
 
 #: includes/views/admin_options_shipping_provider.php:47
 #: includes/views/admin_options_shipping_provider.php:57
@@ -681,7 +929,8 @@ msgid "Remove Selected"
 msgstr "Verwijder geselecteerde"
 
 #: includes/views/admin_options_osm.php:11
-msgid "Rename the “Completed” Order status label to “Shipped”"
+#| msgid "Rename the “Completed” Order status label to “Shipped”"
+msgid "Rename the \"Completed\" Order status label to \"Shipped\""
 msgstr "Hernoem het label \"Voltooid\" Bestellingsstatus in \"Verzonden\""
 
 #: includes/views/admin_options_bulk_upload.php:44
@@ -698,13 +947,21 @@ msgstr ""
 "Reset vervoerdersdatabase, het zal de hele database van uw vervoerder "
 "resetten"
 
-#: includes/class-ast-integration-options.php:164
-msgid "Royal Mail Click & Drop"
-msgstr "Royal Mail Click & Drop"
+#: includes/views/admin_upgrade_to_pro_popup.php:20
+msgid "Responsive tracking info widget"
+msgstr "Responsieve widget voor trackinginformatie"
 
-#: includes/views/admin_options_settings.php:16
-#: includes/views/admin_options_settings.php:32
-#: includes/views/admin_options_settings.php:48
+#: includes/class-wc-advanced-shipment-tracking-admin.php:850
+msgid "Restrict adding the same tracking number"
+msgstr "Beperk het toevoegen van hetzelfde trackingnummer."
+
+#: includes/views/admin_options_addons.php:257
+msgid "Save"
+msgstr "Redden"
+
+#: includes/views/admin_options_settings.php:18
+#: includes/views/admin_options_settings.php:34
+#: includes/views/admin_options_settings.php:50
 msgid "Save & Close"
 msgstr "Opslaan en sluiten"
 
@@ -722,21 +979,13 @@ msgstr "Zoek op vervoerder/land"
 msgid "Select All"
 msgstr "Selecteer alles"
 
-#: includes/views/admin_options_osm.php:79
+#: includes/views/admin_options_osm.php:88
 msgid "Send Email"
 msgstr "E-mail Verzenden"
 
-#: includes/class-ast-integration-options.php:224
-msgid "Sendcloud"
-msgstr "Verzendwolk"
-
-#: includes/class-ast-integration-options.php:326
-msgid "Sendle"
-msgstr "Verzenden"
-
-#: includes/class-wc-advanced-shipment-tracking-admin.php:237
-#: includes/class-wc-advanced-shipment-tracking-admin.php:281
-#: includes/class-wc-advanced-shipment-tracking-admin.php:285
+#: includes/class-wc-advanced-shipment-tracking-admin.php:239
+#: includes/class-wc-advanced-shipment-tracking-admin.php:283
+#: includes/class-wc-advanced-shipment-tracking-admin.php:287
 msgid "Settings"
 msgstr "Instellingen"
 
@@ -744,30 +993,35 @@ msgstr "Instellingen"
 msgid "Settings Saved."
 msgstr "Instellingen Opgeslagen."
 
+#: includes/class-wc-advanced-shipment-tracking-admin.php:832
+msgid "Shipment Email Tracking Content"
+msgstr "Inhoud van de e-mail met verzendvolginformatie"
+
 #. %s: replace with status
 #: templates/emails/plain/fluid-tracking-info.php:28
 #, php-format
 msgid "Shipment status changed to %s"
 msgstr "De verzendstatus is gewijzigd naar % s"
 
+#: includes/class-wc-advanced-shipment-tracking-admin.php:197
+#: includes/class-wc-advanced-shipment-tracking-admin.php:239
 #: includes/class-wc-advanced-shipment-tracking.php:144
-#: includes/class-wc-advanced-shipment-tracking.php:294
-#: includes/class-wc-advanced-shipment-tracking-admin.php:195
-#: includes/class-wc-advanced-shipment-tracking-admin.php:237
+#: includes/class-wc-advanced-shipment-tracking.php:292
 msgid "Shipment Tracking"
 msgstr "Track & Trace"
 
-#: includes/views/admin_options_settings.php:45
+#: includes/views/admin_options_settings.php:47
 msgid "Shipment Tracking API"
 msgstr "API voor het volgen van zendingen"
 
-#: includes/class-wc-advanced-shipment-tracking.php:550
-#: includes/class-wc-advanced-shipment-tracking-admin.php:559
+#: includes/class-wc-advanced-shipment-tracking-admin.php:644
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1047
 #: includes/class-wc-advanced-shipment-tracking-settings.php:439
+#: includes/class-wc-advanced-shipment-tracking.php:552
 #: templates/emails/fluid-tracking-info.php:102
 #: templates/emails/fluid-tracking-info.php:125
 #: includes/customizer/ast-customizer.php:129
-#: includes/customizer/ast-customizer.php:358
+#: includes/customizer/ast-customizer.php:361
 msgid "Shipped"
 msgstr "Verzonden"
 
@@ -785,37 +1039,38 @@ msgid "Shipped on"
 msgstr "Verzonden op"
 
 #. 1: shipping date, 2: source info
-#: includes/class-wc-advanced-shipment-tracking.php:235
-#: includes/class-wc-advanced-shipment-tracking.php:262
+#: includes/class-wc-advanced-shipment-tracking.php:233
+#: includes/class-wc-advanced-shipment-tracking.php:260
 #, php-format
 msgid "Shipped on %1$s%2$s "
 msgstr "Verzonden op %1$s%2$s"
 
 #. 1: shipping date
-#: includes/class-wc-advanced-shipment-tracking.php:340
+#: includes/class-wc-advanced-shipment-tracking.php:345
 #, php-format
 #| msgid "Shipped on %s"
 msgid "Shipped on %1s "
 msgstr "Verstuurd op %s"
 
-#: templates/myaccount/tracking-info.php:89
+#: templates/myaccount/tracking-info.php:90
+#: templates/myaccount/tracking-info.php:100
 msgid "Shipped on:"
 msgstr "Verzonden op:"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1367
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1489
 msgid "Shipped Order"
 msgstr "Verzonden bestelling"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1765
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1887
 msgid "Shipping Carrier Already Added"
 msgstr "Vervoerder al toegevoegd"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1769
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1891
 msgid "Shipping Carrier Not Found!"
 msgstr "Vervoerder niet gevonden!"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:289
-#: includes/class-wc-advanced-shipment-tracking-admin.php:293
+#: includes/class-wc-advanced-shipment-tracking-admin.php:291
+#: includes/class-wc-advanced-shipment-tracking-admin.php:295
 #: includes/views/admin_options_shipping_provider.php:26
 msgid "Shipping Carriers"
 msgstr "Vervoerders"
@@ -825,49 +1080,61 @@ msgstr "Vervoerders"
 msgid "Shipping carriers database reset successfully."
 msgstr "Database van transporteurs is opnieuw ingesteld."
 
-#: includes/class-wc-advanced-shipment-tracking.php:421
-#: includes/class-wc-advanced-shipment-tracking.php:423
+#: includes/views/admin_options_addons.php:112
+#: includes/views/admin_upgrade_to_pro_popup.php:43
+msgid "Shipping Provider API Name Mapping"
+msgstr "Mapping van API-namen van verzendproviders"
+
 #: includes/class-wc-advanced-shipment-tracking-settings.php:528
 #: includes/class-wc-advanced-shipment-tracking-settings.php:530
+#: includes/class-wc-advanced-shipment-tracking.php:423
+#: includes/class-wc-advanced-shipment-tracking.php:425
 msgid "Shipping Provider:"
 msgstr "Leveringsdienst:"
 
-#: includes/class-ast-integration-options.php:242
-msgid "Shippo"
-msgstr "Verzending"
+#: includes/views/admin_options_addons.php:121
+msgid "Shipping Service Integrations"
+msgstr "Integratie van verzenddiensten"
 
-#: includes/class-ast-integration-options.php:206
-msgid "Shippypro"
-msgstr "Shippypro"
+#: includes/views/admin_options_addons.php:115
+msgid "Smart API Mapping"
+msgstr "Slimme API-mapping"
 
-#: includes/class-ast-integration-options.php:122
-msgid "ShipStation"
-msgstr "ShipStation"
+#: includes/views/admin_options_addons.php:183
+msgid ""
+"Spending 2-3 hours daily manually copy-pasting tracking numbers from carrier "
+"sites to WooCommerce orders."
+msgstr ""
+"Dagelijks 2-3 uur besteden aan het handmatig kopiëren en plakken van "
+"trackingnummers van de websites van de vervoerders naar WooCommerce-"
+"bestellingen."
 
-#: includes/class-ast-integration-options.php:230
-msgid "Shiptheory"
-msgstr "Scheepstheorie"
+#: includes/views/admin_options_addons.php:138
+msgid "Standard Only"
+msgstr "Alleen standaard"
 
-#: includes/class-ast-integration-options.php:290
-msgid "Shiptime"
-msgstr "Verzendtijd"
+#: includes/views/admin_options_trackship_integration.php:26
+msgid "Start for Free. 50 Free trackers / monthly"
+msgstr "Begin gratis. 50 gratis trackers per maand."
 
-#: includes/class-ast-integration-options.php:278
-msgid "Shirtee Cloud"
-msgstr "Shirtee-wolk"
+#: includes/views/admin_options_addons.php:61
+msgid ""
+"Stop wasting hours on manual tracking updates. Switch from a <strong>tedious "
+"manual workflow</strong> to a <a href=\"https://www.zorem.com/ast-pro/?"
+"utm_source=wp-admin&utm_medium=ast-go-pro&utm_campaign=hero\" "
+"target=\"_blank\">fully automated fulfillment powerhouse</a>."
+msgstr ""
+"Verspil geen uren meer aan handmatige trackingupdates. Stap over van een "
+"<strong>omslachtige handmatige workflow</strong> naar een <a href=\"https:"
+"//www.zorem.com/ast-pro/?utm_source=wp-admin&utm_medium=ast-go-"
+"pro&utm_campaign=hero\" target=\"_blank\">volledig geautomatiseerd "
+"orderverwerkingssysteem</a> ."
 
-#: includes/class-ast-integration-options.php:308
-msgid "SimpleSell"
-msgstr "EenvoudigVerkopen"
-
-#: includes/class-ast-integration-options.php:236
-msgid "Stamps.com"
-msgstr "Postzegels.com"
-
-#: includes/views/admin_options_settings.php:69
+#: includes/views/admin_options_settings.php:71
 msgid "Stripe Tracking"
 msgstr "Stripe-tracking"
 
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1895
 #: includes/views/admin_options_shipping_provider.php:35
 msgid "Sync Carriers"
 msgstr "Synchroniseer providers"
@@ -877,6 +1144,12 @@ msgstr "Synchroniseer providers"
 #| msgid "Sync Shipping Providers"
 msgid "Sync Shipping Carriers"
 msgstr "Synchroniseer vervoerders"
+
+#: includes/views/admin_options_addons.php:125
+msgid "Sync tracking info to PayPal and Stripe transactions automatically."
+msgstr ""
+"Synchroniseer trackinginformatie automatisch met PayPal- en Stripe-"
+"transacties."
 
 #: includes/views/admin_options_shipping_provider.php:170
 #| msgid ""
@@ -890,15 +1163,84 @@ msgstr ""
 "vervoerders toegevoegd of bijgewerkt en dit heeft geen invloed op aangepaste "
 "vervoerders."
 
+#: includes/views/admin_options_addons.php:6
+msgid ""
+"Take control of your post-shipping workflows, reduce time spent on customer "
+"service and provide a superior post-purchase experience to your customers."
+"Beyond automatic shipment tracking, TrackShip brings a branded tracking "
+"experience into your store, integrates into your workflow, and takes care of "
+"all the touch points with your customers after shipping."
+msgstr ""
+"Neem de controle over uw workflows na verzending, bespaar tijd op "
+"klantenservice en bied uw klanten een superieure ervaring na aankoop. "
+"TrackShip biedt meer dan alleen automatische verzendingsvolging; het "
+"integreert naadloos in uw workflow en zorgt voor alle contactmomenten met uw "
+"klanten na verzending."
+
+#: includes/views/admin_options_addons.php:59
+msgid "Take Your Fulfillment to the Next Level"
+msgstr "Breng je voldoening naar een hoger niveau."
+
+#: includes/views/admin_options_addons.php:20
+msgid ""
+"The Advanced Local Pickup (ALP) helps you manage the local pickup orders "
+"workflow more conveniently by extending the WooCommerce Local Pickup "
+"shipping method. The Pro you set up multiple pickup locations, , split the "
+"business hours, apply discounts by pickup location, display local pickup "
+"message on the products pages, allow customers to choose pickup location per "
+"product, force products to be local pickup only and more…"
+msgstr ""
+"De Advanced Local Pickup (ALP) helpt u het workflowproces voor "
+"afhaalbestellingen gemakkelijker te beheren door de WooCommerce Local Pickup-"
+"verzendmethode uit te breiden. Met de Pro-versie kunt u meerdere "
+"afhaallocaties instellen, openingstijden splitsen, kortingen toepassen per "
+"afhaallocatie, een bericht over afhalen op de productpagina's weergeven, "
+"klanten per product een afhaallocatie laten kiezen, producten alleen afhalen "
+"op locatie toestaan en nog veel meer."
+
+#: includes/views/admin_options_addons.php:27
+msgid ""
+"The country-based restrictions plugin by zorem works by the WooCommerce "
+"Geolocation or the shipping country added by the customer and allows you to "
+"restrict products on your store to sell or not to sell to specific countries."
+msgstr ""
+"De plugin voor landspecifieke beperkingen van Zorem werkt op basis van de "
+"geolocatie van WooCommerce of het door de klant opgegeven verzendland en "
+"stelt u in staat om de verkoop van producten in uw webwinkel te beperken tot "
+"specifieke landen."
+
+#: includes/views/admin_options_addons.php:34
+msgid ""
+"The Customer Email Verification helps WooCommerce store owners to reduce "
+"registration and spam orders by requiring customers to verify their email "
+"address when they register an account or before they can place an order on "
+"your store."
+msgstr ""
+"Met de e-mailverificatie voor klanten kunnen WooCommerce-winkeleigenaren het "
+"aantal registraties en spambestellingen verminderen door klanten te "
+"verplichten hun e-mailadres te verifiëren bij het registreren van een "
+"account of voordat ze een bestelling in hun winkel kunnen plaatsen."
+
+#: includes/views/admin_options_addons.php:41
+msgid ""
+"The Sales Report Email Pro will help know how well your store is performing "
+"and how your products are selling by sending you a daily, weekly, or monthly "
+"sales report by email, directly from your WooCommerce store."
+msgstr ""
+"Met Sales Report Email Pro krijgt u inzicht in de prestaties van uw "
+"webwinkel en de verkoop van uw producten. U ontvangt dagelijks, wekelijks of "
+"maandelijks een verkooprapport per e-mail, rechtstreeks vanuit uw "
+"WooCommerce-webshop."
+
 #: includes/class-wc-advanced-shipment-tracking-settings.php:823
 msgid "There are some issue with sync, Please Retry."
 msgstr "Er zijn enkele probleem met synchroniseren, probeer het nogmaals."
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:182
+#: includes/class-wc-advanced-shipment-tracking-admin.php:184
 msgid "This browser does not support HTML5."
 msgstr "Deze browser ondersteunt geen HTML5."
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:733
+#: includes/class-wc-advanced-shipment-tracking-admin.php:818
 msgid ""
 "This option allows you to choose on which order status email you would like "
 "to display the tracking information"
@@ -906,38 +1248,38 @@ msgstr ""
 "Met deze optie kunt u kiezen op welke bestelstatus-e-mail u de "
 "trackinginformatie wilt weergeven"
 
-#: includes/class-wc-advanced-shipment-tracking.php:837
-#: includes/class-wc-advanced-shipment-tracking.php:862
-#: includes/class-wc-advanced-shipment-tracking.php:871
+#: includes/class-wc-advanced-shipment-tracking.php:918
+#: includes/class-wc-advanced-shipment-tracking.php:943
+#: includes/class-wc-advanced-shipment-tracking.php:952
 #: templates/emails/plain/fluid-tracking-info.php:34
 msgid "Track"
 msgstr "Traceer"
 
-#: includes/class-wc-advanced-shipment-tracking.php:325
+#: includes/class-wc-advanced-shipment-tracking.php:327
 msgid "Track Shipment"
 msgstr "Traceer Zending"
 
-#: includes/customizer/ast-customizer.php:325
+#: includes/customizer/ast-customizer.php:328
 msgid "Track Your Order"
 msgstr "Volg je bestelling"
 
-#: includes/customizer/ast-customizer.php:516
+#: includes/customizer/ast-customizer.php:519
 msgid "Tracker type"
 msgstr "Type tracker"
 
-#: includes/customizer/ast-customizer.php:443
-#: includes/customizer/ast-customizer.php:566
+#: includes/customizer/ast-customizer.php:446
+#: includes/customizer/ast-customizer.php:569
 #| msgid "Track Button"
 msgid "Tracking Button"
 msgstr "Volgknop"
 
-#: includes/customizer/ast-customizer.php:480
+#: includes/customizer/ast-customizer.php:483
 #| msgid "Tracking Header text"
 msgid "Tracking header text"
 msgstr "Koptekst bijhouden"
 
 #. %1$s: Reaplce with tracking provider, %2$s: Reaplce with tracking number
-#: includes/class-wc-advanced-shipment-tracking.php:794
+#: includes/class-wc-advanced-shipment-tracking.php:875
 #, php-format
 #| msgid ""
 #| "Tracking info was deleted for tracking provider %s with tracking number %s"
@@ -948,29 +1290,79 @@ msgstr ""
 "Trackinginformatie is verwijderd voor trackingprovider %1$s met "
 "trackingnummer %2$s"
 
+#: includes/customizer/ast-customizer.php:317
+msgid "Tracking Information"
+msgstr "Volggegevens"
+
+#: includes/views/admin_upgrade_to_pro_popup.php:34
+msgid "tracking integrations"
+msgstr "integraties volgen"
+
 #: templates/emails/plain/fluid-tracking-info.php:33
 msgid "Tracking Number"
 msgstr "Tracking-Nummer"
 
-#: includes/class-wc-advanced-shipment-tracking.php:417
 #: includes/class-wc-advanced-shipment-tracking-settings.php:524
+#: includes/class-wc-advanced-shipment-tracking.php:419
 msgid "Tracking number:"
 msgstr "Tracking-nummer:"
 
-#: includes/customizer/ast-customizer.php:389
-#: includes/customizer/ast-customizer.php:390
-#: includes/customizer/ast-customizer.php:416
-#: includes/customizer/ast-customizer.php:426
-#: includes/customizer/ast-customizer.php:435
-#: includes/customizer/ast-customizer.php:444
+#: includes/views/admin_options_addons.php:187
+msgid ""
+"Tracking numbers sync automatically. Fulfillment time reduced to seconds per "
+"order."
+msgstr ""
+"Trackingnummers worden automatisch gesynchroniseerd. De verwerkingstijd per "
+"bestelling is teruggebracht tot slechts enkele seconden."
+
+#: includes/views/admin_options_trackship_integration.php:98
+msgid "Tracking Page"
+msgstr "Trackingpagina"
+
+#: includes/views/admin_options_addons.php:82
+msgid "Tracking Per Item"
+msgstr "Tracking per item"
+
+#: includes/customizer/ast-customizer.php:392
+#: includes/customizer/ast-customizer.php:393
+#: includes/customizer/ast-customizer.php:419
+#: includes/customizer/ast-customizer.php:429
+#: includes/customizer/ast-customizer.php:438
+#: includes/customizer/ast-customizer.php:447
 msgid "Tracking Widget"
 msgstr "Tracking-widget"
+
+#: includes/views/admin_options_trackship_integration.php:92
+msgid ""
+"Trigger custom email notifications based on delivery status like Out for "
+"Delivery or Delivered."
+msgstr ""
+"Activeer aangepaste e-mailmeldingen op basis van de bezorgstatus, zoals "
+"'Onderweg voor bezorging' of 'Bezorgd'."
+
+#: includes/views/admin_sidebar.php:39
+msgid "Trusted by 60,000+ stores"
+msgstr "Vertrouwd door meer dan 60.000 winkels"
+
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1893
+msgid "Try syncing your shipping carriers to get the latest list."
+msgstr ""
+"Probeer je verzendpartners te synchroniseren om de meest recente lijst te "
+"krijgen."
 
 #: includes/views/admin_options_shipping_provider.php:54
 msgid "Undo"
 msgstr "Ongedaan maken"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:956
+#: includes/views/admin_options_addons.php:109
+msgid "Unlimited Custom"
+msgstr "Onbeperkte maatwerkopties"
+
+#: includes/views/admin_sidebar.php:16
+msgid "Unlock Advanced Fulfillment Automation with AST PRO"
+msgstr "Ontgrendel geavanceerde orderverwerkingsautomatisering met AST PRO"
+
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1078
 #: includes/class-wc-advanced-shipment-tracking-settings.php:268
 #: includes/class-wc-advanced-shipment-tracking-settings.php:301
 #: includes/class-wc-advanced-shipment-tracking-settings.php:420
@@ -985,6 +1377,24 @@ msgid_plural "Updated Tracking <span class=\"count\">(%s)</span>"
 msgstr[0] "Opslaan <span class = \"count\"> (%s) </span>"
 msgstr[1] "Opslaan <span class = \"count\"> (%s) </span>"
 
+#: includes/views/admin_sidebar.php:35
+#: includes/views/admin_upgrade_to_pro_popup.php:4
+msgid "Upgrade to"
+msgstr "Upgrade naar"
+
+#: includes/views/admin_upgrade_to_pro_popup.php:49
+msgid "Upgrade To AST PRO"
+msgstr "Upgrade naar AST PRO"
+
+#: includes/views/admin_sidebar.php:18
+msgid ""
+"Upgrade to AST PRO to automate and scale your WooCommerce shipment tracking "
+"workflows beyond the basics."
+msgstr ""
+"Upgrade naar AST PRO om uw WooCommerce-workflows voor het volgen van "
+"verzendingen te automatiseren en uit te breiden, verder dan de "
+"basisfunctionaliteit."
+
 #: includes/views/admin_options_bulk_upload.php:22
 msgid "Upload a CSV file from your computer:"
 msgstr "Upload een CSV-bestand vanaf uw computer:"
@@ -993,6 +1403,10 @@ msgstr "Upload een CSV-bestand vanaf uw computer:"
 msgid "Upload again"
 msgstr "Upload opnieuw"
 
+#: includes/views/admin_options_addons.php:254
+msgid "Usage Tracking"
+msgstr "Gebruiksregistratie"
+
 #: includes/class-wc-advanced-shipment-tracking-settings.php:840
 #: includes/class-wc-advanced-shipment-tracking-settings.php:857
 #: includes/class-wc-advanced-shipment-tracking-settings.php:874
@@ -1000,16 +1414,16 @@ msgstr "Upload opnieuw"
 msgid "view details"
 msgstr "bekijk details"
 
+#: includes/views/admin_sidebar.php:55
+msgid "View Documentation"
+msgstr "Documentatie bekijken"
+
 #: includes/views/admin_options_bulk_upload.php:104
 msgid "View Orders"
 msgstr "Bekijk bestellingen"
 
-#: includes/class-ast-integration-options.php:128
-msgid "WC Shipping"
-msgstr "WC-verzending"
-
 #. %s: replace with Partially Shipped order count
-#: woocommerce-advanced-shipment-tracking.php:499
+#: includes/class-wc-uninstall-handler.php:130
 #, php-format
 msgid ""
 "We detected %s orders that use the Delivered order status, You can reassign "
@@ -1019,7 +1433,7 @@ msgstr ""
 "gebruiken. U kunt deze bestellingen opnieuw toewijzen aan een andere status"
 
 #. %s: replace with Partially Shipped order count
-#: woocommerce-advanced-shipment-tracking.php:481
+#: includes/class-wc-uninstall-handler.php:112
 #, php-format
 msgid ""
 "We detected %s orders that use the Partially Shipped order status, You can "
@@ -1029,58 +1443,47 @@ msgstr ""
 "bestelling gebruiken. U kunt deze bestellingen opnieuw toewijzen aan een "
 "andere status"
 
-#: includes/customizer/ast-customizer.php:425
-#: includes/customizer/ast-customizer.php:463
+#: includes/views/admin_options_addons.php:100
+#: includes/views/admin_upgrade_to_pro_popup.php:42
+msgid "White Label Shipping Carriers"
+msgstr "White Label verzendmaatschappijen"
+
+#: includes/customizer/ast-customizer.php:428
+#: includes/customizer/ast-customizer.php:466
 msgid "Widget Header"
 msgstr "Widgetkoptekst"
 
-#: includes/customizer/ast-customizer.php:434
-#: includes/customizer/ast-customizer.php:501
+#: includes/customizer/ast-customizer.php:437
+#: includes/customizer/ast-customizer.php:504
 msgid "Widget Style"
 msgstr "Widgetstijl"
 
-#: includes/class-ast-integration-options.php:140
-msgid "WooCommerce Canada Post Shipping"
-msgstr "WooCommerce Canada Postverzending"
-
-#: includes/class-ast-integration-options.php:338
-msgid "WooCommerce Germanized plugin by Vendidero"
-msgstr "WooCommerce Germanized plugin van Vendidero"
-
-#: includes/class-ast-integration-options.php:332
-msgid "WooCommerce GLS plugin by Tehster"
-msgstr "WooCommerce GLS-plug-in van Tehster"
-
-#: includes/class-ast-integration-options.php:134
-msgid "WooCommerce UPS Shipping"
-msgstr "WooCommerce UPS-verzending"
-
-#: includes/class-wc-advanced-shipment-tracking.php:451
 #: includes/class-wc-advanced-shipment-tracking-settings.php:572
-#: includes/class-wc-advanced-shipment-tracking-settings.php:572
+#: includes/class-wc-advanced-shipment-tracking.php:453
+#: includes/class-wc-advanced-shipment-tracking.php:453
 msgid "Y-m-d"
 msgstr "Y-m-d"
 
-#: includes/customizer/ast-customizer.php:710
+#: includes/customizer/ast-customizer.php:713
 msgid "You are customizing"
 msgstr "Je bent aan het aanpassen"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:181
+#: includes/class-wc-advanced-shipment-tracking-admin.php:183
 msgid "You can upload only csv file."
 msgstr "U kunt alleen een csv-bestand uploaden."
 
-#: includes/customizer/ast-customizer.php:336
+#: includes/customizer/ast-customizer.php:339
 msgid "Your Order is Partially Shipped"
 msgstr "Uw bestelling wordt gedeeltelijk verzonden"
 
-#: includes/customizer/ast-customizer.php:335
+#: includes/views/admin_options_trackship_integration.php:16
+msgid "Your Post-Shipping & Delivery Autopilot"
+msgstr "Uw automatische piloot voor verzending en levering"
+
+#: includes/views/admin_options_trackship_integration.php:40
+msgid "YOUR STORE"
+msgstr "UW WINKEL"
+
+#: includes/customizer/ast-customizer.php:338
 msgid "Your {site_title} order is now partially shipped"
 msgstr "Uw {site_title} bestelling is nu gedeeltelijk verzonden"
-
-#: includes/class-ast-integration-options.php:110
-msgid "Zenventory"
-msgstr "Zenventaris"
-
-#. Author of the plugin
-msgid "zorem"
-msgstr "zorem"
