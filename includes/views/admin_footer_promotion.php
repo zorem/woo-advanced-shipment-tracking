@@ -10,7 +10,7 @@
 			<div class="ast_features_inner">
 				<ul class="ast_pro_features_list">
 					<li>Add tracking per item</li>
-					<li>Auto-detect shipping providers</li>
+					<li>Auto-detect shipping carriers</li>
 					<li>Fulfillment dashboard</li>
 					<li>Responsive Tracking info widget</li>
 					<li>Custom Order Status "Shipped"</li>			
@@ -21,8 +21,8 @@
 				<ul class="ast_pro_features_list">
 					<li>25+ Built-in <a href="https://docs.zorem.com/docs/ast-pro/integrations/" target="_blank">tracking Integrations</a> with shipping services</li>
 					<li>Export tracking information to PayPal</li>							
-					<li>Add Custom Shipping Providers</li>
-					<li>White Label Shipping Providers</li>
+					<li>Add Custom Shipping Carriers</li>
+					<li>White Label Shipping Carriers</li>
 					<li>Shipping Provider API Name Mapping</li>
 					<li>Premium Support</li>				        
 				</ul>

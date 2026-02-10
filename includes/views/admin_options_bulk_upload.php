@@ -19,7 +19,7 @@
 							<tbody>								
 								<tr valign="top" class="border-bottom-1">
 									<th scope="row" class="">
-										<label for=""><?php esc_html_e('Upload a CSV file from your computer:', 'woo-advanced-shipment-tracking'); ?></label>
+										<label><?php esc_html_e('Upload a CSV file from your computer:', 'woo-advanced-shipment-tracking'); ?></label>
 									</th>
 									<td scope="row" class="input_file_cl">
 										<input type="file" name="trcking_csv_file" id="trcking_csv_file">
@@ -27,7 +27,7 @@
 								</tr> 
 								<tr valign="top" class="border-bottom-1">
 									<th scope="row" class="">
-										<label for=""><?php esc_html_e('Choose the Shipped Date format', 'woo-advanced-shipment-tracking'); ?></label>
+										<label><?php esc_html_e('Choose the Shipped Date format', 'woo-advanced-shipment-tracking'); ?></label>
 									</th>
 									<td scope="row" class="">
 										<?php $date_format = get_ast_settings( 'ast_general_settings', 'date_format_for_csv_import', 'd-m-Y' ); ?>
@@ -41,7 +41,7 @@
 								</tr>
 								<tr valign="top" class="">
 									<th scope="row" class="">
-										<label for=""><?php esc_html_e('Replace tracking information?', 'woo-advanced-shipment-tracking'); ?><span class="woocommerce-help-tip tipTip" data-tip="<?php esc_html_e('Keep 	unchecked for the tracking info to be added to any existing tracking info added to the orders.', 'woo-advanced-shipment-tracking'); ?>"></span></label>
+										<label><?php esc_html_e('Replace tracking information?', 'woo-advanced-shipment-tracking'); ?><span class="woocommerce-help-tip tipTip" data-tip="<?php esc_html_e('Keep 	unchecked for the tracking info to be added to any existing tracking info added to the orders.', 'woo-advanced-shipment-tracking'); ?>"></span></label>
 									</th>
 									<td scope="row" class="">
 										<input type="checkbox" id="replace_tracking_info" name="replace_tracking_info" class="" value="1"/>

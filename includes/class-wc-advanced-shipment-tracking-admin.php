@@ -146,6 +146,8 @@ class WC_Advanced_Shipment_Tracking_Admin {
 		wp_enqueue_script( 'select2');
 		
 		wp_enqueue_style( 'ast_styles', wc_advanced_shipment_tracking()->plugin_dir_url() . 'assets/css/admin.css', array(), time() );
+
+		wp_enqueue_style( 'ast_go_pro_styles', wc_advanced_shipment_tracking()->plugin_dir_url() . 'assets/css/go-pro.css', array(), wc_advanced_shipment_tracking()->version );
 		
 		wp_enqueue_style( 'ast_slideout_styles', wc_advanced_shipment_tracking()->plugin_dir_url() . 'assets/css/slideout.css', array(), wc_advanced_shipment_tracking()->version );
 		wp_enqueue_script( 'woocommerce-advanced-shipment-tracking-js', wc_advanced_shipment_tracking()->plugin_dir_url() . 'assets/js/admin.js', array(), wc_advanced_shipment_tracking()->version );
@@ -241,7 +243,7 @@ class WC_Advanced_Shipment_Tracking_Admin {
 			</div>
 			
 			<div class="woocommerce zorem_admin_layout">
-				<div class="ast_admin_content zorem_admin_settings">
+				<div class="ast_admin_content zorem_admin_settings" >
 					<div class="ast_nav_div">
 						<?php echo do_shortcode('[ast_settings_admin_notice]'); ?>
 						<?php include 'views/activity_panel.php'; ?>
@@ -270,7 +272,7 @@ class WC_Advanced_Shipment_Tracking_Admin {
 	*/
 	public function get_ast_tab_settings_data() {
 		
-		$go_pro_label = __( 'Go Pro', 'woo-advanced-shipment-tracking' );
+		$go_pro_label = __( 'Go Pro ✨', 'woo-advanced-shipment-tracking' );
 		
 		$ts4wc_installed = ( function_exists( 'trackship_for_woocommerce' ) ) ? true : false;
 		$trackship_type = ( $ts4wc_installed ) ? 'link' : '' ;
@@ -313,7 +315,7 @@ class WC_Advanced_Shipment_Tracking_Admin {
 			'tab6' => array(
 				'title'		=> $go_pro_label,
 				'show'      => true,
-				'class'     => 'tab_label',
+				'class'     => 'tab_label go_pro_tab',
 				'data-tab'  => 'addons',
 				'data-label' => $go_pro_label,
 				'name'  => 'tabs',
@@ -371,7 +373,7 @@ class WC_Advanced_Shipment_Tracking_Admin {
 			if ( $array['show'] ) {
 				if ( isset( $array['type'] ) && 'link' == $array['type'] ) {
 					?>
-					<a class="menu_link <?php echo esc_attr( $array['class'] ); ?>" href="<?php echo esc_url( $array['link'] )); ?>"><?php echo esc_html( $array['title'] ); ?></a>
+					<a class="menu_link <?php echo esc_attr( $array['class'] ); ?>" href="<?php echo esc_url( $array['link'] ); ?>"><?php echo esc_html( $array['title'] ); ?></a>
 				<?php 
 				} else { 
 					$checked = ( $tab == $array['data-tab'] || $settings == $array['data-tab'] ) ? 'checked' : '';
@@ -506,7 +508,7 @@ class WC_Advanced_Shipment_Tracking_Admin {
 					?>
 					<li>
 						<div class="multiple_checkbox_label">
-							<label for=""><strong><?php esc_html_e( $array['title'] ); ?></strong></label>
+							<label><strong><?php esc_html_e( $array['title'] ); ?></strong></label>
 							<span class="multiple_checkbox_description"><?php esc_html_e( $array['desc'] ); ?></span>
 						</div >
 						<div class="multiple_checkbox_parent">
@@ -517,7 +519,7 @@ class WC_Advanced_Shipment_Tracking_Admin {
 								$checked = isset( $multi_checkbox_data[ $key ] ) && 1 == $multi_checkbox_data[ $key ] ? 'checked' : '' ;
 								?>
 								<span class="multiple_checkbox">
-									<label class="" for="">
+									<label class="">
 										<input type="hidden" name="<?php esc_html_e( $id ); ?>[<?php esc_html_e( $key ); ?>]" value="0"/>
 										<input type="checkbox" name="<?php esc_html_e( $id ); ?>[<?php esc_html_e( $key ); ?>]" class=""  <?php esc_html_e( $checked ); ?> value="1"/>
 										<span class="multiple_label"><?php esc_html_e( $val['status'] ); ?></span>
@@ -528,7 +530,7 @@ class WC_Advanced_Shipment_Tracking_Admin {
 						</div>
 					</li>
 				<?php 
-				} else if ( 'button' == $array['type'] ) { 
+				} else if ( 'button' == $array['type'] ) {
 					?>
 					<li>
 						<label class="left_label"><?php esc_html_e( $array['title'] ); ?>
@@ -536,11 +538,34 @@ class WC_Advanced_Shipment_Tracking_Admin {
 								<span class="woocommerce-help-tip tipTip" data-tip="<?php esc_html_e( $array['tooltip'] ); ?>"></span>
 							<?php } ?>
 						</label>
-						<?php 
+						<?php
 						if ( isset( $array['customize_link'] ) ) {
 							?>
-							<a href="<?php esc_html_e( $array['customize_link'] ); ?>" class="button-primary btn_ts_transparent btn_large ts_customizer_btn"><?php esc_html_e( 'Customize', 'woo-advanced-shipment-tracking' ); ?></a>	
+							<a href="<?php esc_html_e( $array['customize_link'] ); ?>" class="button-primary btn_ts_transparent btn_large ts_customizer_btn"><?php esc_html_e( 'Customize', 'woo-advanced-shipment-tracking' ); ?></a>
 						<?php } ?>
+					</li>
+				<?php
+				} else if ( 'pro_feature' == $array['type'] ) {
+					$title = isset( $array['title'] ) ? $array['title'] : '';
+					$tooltip = isset( $array['tooltip'] ) ? $array['tooltip'] : '';
+					$upgrade_url = isset( $array['upgrade_url'] ) ? $array['upgrade_url'] : 'https://www.zorem.com/ast-pro/?utm_source=wp-admin&utm_medium=plugin-setting&utm_campaign=pro-feature';
+					?>
+					<li class="ast-pro-feature-row">
+						<div class="ast-pro-feature-content">
+							<div class="ast-pro-toggle-wrapper">
+								<div class="ast-pro-toggle-disabled"></div>
+							</div>
+							<div class="ast-pro-feature-text">
+								<label class="ast-pro-feature-label"><?php echo esc_html( $title ); ?></label>
+								<?php if ( ! empty( $tooltip ) ) { ?>
+									<span class="ast-pro-info-icon" data-tip="<?php echo esc_attr( $tooltip ); ?>">?</span>
+								<?php } ?>
+							</div>
+							<div class="ast-pro-feature-badges">
+								<span class="ast-pro-badge">PRO</span>
+								<span class="ast-pro-lock-icon"></span>
+							</div>
+						</div>
 					</li>
 				<?php
 				}
@@ -549,6 +574,66 @@ class WC_Advanced_Shipment_Tracking_Admin {
 		?>
 		</ul>
 	<?php
+	}
+
+	/**
+	 * Render a PRO feature row (locked state)
+	 *
+	 * @param string $title Feature title
+	 * @param string $description Feature description
+	 * @param string $upgrade_url Optional upgrade URL
+	 */
+	public function render_pro_feature_row( $title, $description, $upgrade_url = '' ) {
+		if ( empty( $upgrade_url ) ) {
+			$upgrade_url = 'https://www.zorem.com/ast-pro/?utm_source=wp-admin&utm_medium=plugin-setting&utm_campaign=pro-feature';
+		}
+		?>
+		<li class="ast-pro-feature-row">
+			<div class="ast-pro-feature-content">
+				<div class="ast-pro-feature-left">
+					<span class="ast-pro-lock-icon"></span>
+					<div class="ast-pro-feature-text">
+						<div class="ast-pro-feature-title">
+							<?php echo esc_html( $title ); ?>
+						</div>
+						<div class="ast-pro-feature-desc">
+							<?php echo esc_html( $description ); ?>
+						</div>
+					</div>
+				</div>
+				<div class="ast-pro-feature-right">
+					<div class="ast-pro-toggle-disabled"></div>
+					<span class="ast-pro-badge">PRO</span>
+				</div>
+			</div>
+		</li>
+		<?php
+	}
+
+	/**
+	 * Render multiple PRO feature rows
+	 *
+	 * @param array $features Array of features with 'title' and 'description'
+	 */
+	public function render_pro_features_section( $features ) {
+		if ( empty( $features ) || ! is_array( $features ) ) {
+			return;
+		}
+		?>
+		<ul class="settings_ul">
+		<?php
+		foreach ( $features as $feature ) {
+			$title = isset( $feature['title'] ) ? $feature['title'] : '';
+			$description = isset( $feature['description'] ) ? $feature['description'] : '';
+			$upgrade_url = isset( $feature['upgrade_url'] ) ? $feature['upgrade_url'] : '';
+
+			if ( ! empty( $title ) ) {
+				$this->render_pro_feature_row( $title, $description, $upgrade_url );
+			}
+		}
+		?>
+		</ul>
+		<?php
 	}
 
 	public function get_add_tracking_options() {
@@ -711,17 +796,17 @@ class WC_Advanced_Shipment_Tracking_Admin {
 		
 		$order_status_array = array_merge( $order_status, $custom_order_status );
 		
-		$form_data = array(		
+		$form_data = array(
 			/*'wc_ast_default_mark_shipped' => array(
 				'type'		=> 'tgl_checkbox',
-				'title'		=> __( 'Set the "mark as shipped" option checked  when adding tracking info to orders', 'woo-advanced-shipment-tracking' ),				
+				'title'		=> __( 'Set the "mark as shipped" option checked  when adding tracking info to orders', 'woo-advanced-shipment-tracking' ),
 				'show'		=> true,
 				'class'     => '',
 			),*/
 			'wc_ast_show_orders_actions' => array(
 				'type'		=> 'multiple_select',
 				'title'		=> __( 'Add Tracking Order action', 'woo-advanced-shipment-tracking' ),
-				'tooltip'		=> __( 'Choose which Order Status in your store you would like to display Add the Tracking icon in the Order Actions menu.', 'woo-advanced-shipment-tracking' ),			
+				'tooltip'		=> __( 'Choose which Order Status in your store you would like to display Add the Tracking icon in the Order Actions menu.', 'woo-advanced-shipment-tracking' ),
 				'options'   => $action_order_status_array,
 				'option_name' => 'ast_general_settings',
 				'show'		=> true,
@@ -735,23 +820,47 @@ class WC_Advanced_Shipment_Tracking_Admin {
 				'option_name' => 'ast_general_settings',
 				'show'		=> true,
 				'class'     => '',
-			),				
+			),
+			'ast_pro_multiple_tracking' => array(
+				'type'		=> 'pro_feature',
+				'title'		=> __( 'Enable multiple tracking numbers per order item', 'woo-advanced-shipment-tracking' ),
+				'tooltip'	=> __( 'Allow adding multiple tracking numbers for each order item', 'woo-advanced-shipment-tracking' ),
+				'show'		=> true,
+			),
+			'ast_pro_shipment_email' => array(
+				'type'		=> 'pro_feature',
+				'title'		=> __( 'Shipment Email Tracking Content', 'woo-advanced-shipment-tracking' ),
+				'tooltip'	=> __( 'Customize email content for shipment tracking notifications', 'woo-advanced-shipment-tracking' ),
+				'show'		=> true,
+			),
 		);
 		return $form_data;
 	}
 	
 	public function get_shipment_tracking_api_options() {				
 		$form_data = array(
+			'ast_pro_api_auto_complete' => array(
+				'type'		=> 'pro_feature',
+				'title'		=> __( 'Auto-complete orders that come from the API', 'woo-advanced-shipment-tracking' ),
+				'tooltip'	=> __( 'Automatically mark orders as completed when tracking information is added via API', 'woo-advanced-shipment-tracking' ),
+				'show'		=> true,
+			),
+			'ast_pro_api_restrict_duplicate' => array(
+				'type'		=> 'pro_feature',
+				'title'		=> __( 'Restrict adding the same tracking number', 'woo-advanced-shipment-tracking' ),
+				'tooltip'	=> __( 'Prevent duplicate tracking numbers from being added to orders', 'woo-advanced-shipment-tracking' ),
+				'show'		=> true,
+			),
 			'wc_ast_api_date_format' => array(
 				'type'		=> 'radio',
 				'title'		=> __( 'API Date Format', 'woo-advanced-shipment-tracking' ),
 				'tooltip'		=> __( 'Choose the date format that you use when updating the shipment tracking API endpoint from external sources', 'woo-advanced-shipment-tracking' ),
-				'desc'		=> __( 'Choose for which Order status to display', 'woo-advanced-shipment-tracking' ),			
+				'desc'		=> __( 'Choose for which Order status to display', 'woo-advanced-shipment-tracking' ),
 				'options'   => array(
 									'd-m-Y' => 'DD-MM-YYYY',
 									'm-d-Y' => 'MM-DD-YYYY',
 							),
-				'default'   => 'd-m-Y',				
+				'default'   => 'd-m-Y',
 				'show'		=> true,
 				'option_name' => 'ast_general_settings',
 				'class'     => '',
@@ -918,32 +1027,45 @@ class WC_Advanced_Shipment_Tracking_Admin {
 	* return array
 	*/
 	public function get_osm_data() {
-		
-		$osm_data = array(			
+
+		$osm_data = array(
 			'partial_shipped' => array(
 				'id'		=> 'wc_ast_status_partial_shipped',
 				'slug'   	=> 'partial-shipped',
-				'label'		=> __( 'Partially Shipped', 'woo-advanced-shipment-tracking' ),				
+				'label'		=> __( 'Partially Shipped', 'woo-advanced-shipment-tracking' ),
 				'label_class' => 'wc-partially-shipped',
-				'option_id'	=> 'woocommerce_customer_partial_shipped_order_settings',				
+				'option_id'	=> 'woocommerce_customer_partial_shipped_order_settings',
 				'edit_email'=> admin_url( 'admin.php?page=ast_customizer&email_type=partial_shipped' ),
-				'label_color_field' => 'wc_ast_status_partial_shipped_label_color',	
-				'font_color_field' => 'wc_ast_status_partial_shipped_label_font_color',	
+				'label_color_field' => 'wc_ast_status_partial_shipped_label_color',
+				'font_color_field' => 'wc_ast_status_partial_shipped_label_font_color',
 				'email_field' => 'wcast_enable_partial_shipped_email',
 				'option_name' => 'ast_general_settings',
-			),	
+			),
+			'shipped' => array(
+				'id'		=> 'wc_ast_status_shipped_pro',
+				'slug'   	=> 'shipped',
+				'label'		=> __( 'Shipped', 'woo-advanced-shipment-tracking' ),
+				'label_class' => 'wc-shipped',
+				'option_id'	=> '',
+				'edit_email'=> '',
+				'label_color_field' => 'wc_ast_status_shipped_label_color',
+				'font_color_field' => 'wc_ast_status_shipped_label_font_color',
+				'email_field' => 'wcast_enable_shipped_email',
+				'option_name' => 'ast_general_settings',
+				'pro'		=> true,
+			),
 			'delivered' => array(
 				'id'		=> 'wc_ast_status_delivered',
 				'slug'   	=> 'delivered',
-				'label'		=> __( 'Delivered', 'woo-advanced-shipment-tracking' ),				
+				'label'		=> __( 'Delivered', 'woo-advanced-shipment-tracking' ),
 				'label_class' => 'wc-delivered',
-				'option_id'	=> 'woocommerce_customer_delivered_order_settings',				
+				'option_id'	=> 'woocommerce_customer_delivered_order_settings',
 				'edit_email'=> '',
-				'label_color_field' => 'wc_ast_status_label_color',	
-				'font_color_field' => 'wc_ast_status_label_font_color',	
+				'label_color_field' => 'wc_ast_status_label_color',
+				'font_color_field' => 'wc_ast_status_label_font_color',
 				'email_field' => '',
 				'option_name' => 'ast_general_settings',
-			),		
+			),
 		);
 		
 		$updated_tracking_status = get_ast_settings( 'ast_general_settings', 'wc_ast_status_updated_tracking', 0 );
