@@ -512,7 +512,9 @@ class WC_Advanced_Shipment_Tracking_Actions {
 
 			} ).change();";
 
-		if ( function_exists( 'wc_enqueue_js' ) ) {
+		if ( defined( 'WC_VERSION' ) && version_compare( WC_VERSION, '10.4.0', '>=' ) ) {
+			wp_add_inline_script( 'woocommerce-advanced-shipment-tracking-js', $js );
+		} elseif ( function_exists( 'wc_enqueue_js' ) ) {
 			wc_enqueue_js( $js );
 		} else {
 			WC()->add_inline_js( $js );
