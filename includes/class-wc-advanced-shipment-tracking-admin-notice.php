@@ -48,10 +48,10 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 
 		if ( 'woocommerce-advanced-shipment-tracking' != $page ) {
 			// AST PRO Notice
-			add_action( 'admin_notices', array( $this, 'ast_pro_notice_39' ) );
+			add_action( 'admin_notices', array( $this, 'ast_pro_notice_391' ) );
 
 		}
-		add_action( 'admin_init', array( $this, 'ast_pro_notice_ignore_39' ) );
+		add_action( 'admin_init', array( $this, 'ast_pro_notice_ignore_391' ) );
 	}
 
 	/**
@@ -136,13 +136,13 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 	/*
 	* Display admin notice on plugin install or update
 	*/
-	public function ast_pro_notice_39() { 		
-		if ( get_option('ast_notice_ignore_39') ) {
+	public function ast_pro_notice_391() { 		
+		if ( get_option('ast_notice_ignore_391') ) {
 			return;
 		}	
 		
-		$nonce = wp_create_nonce('ast_pro_dismiss_notice_39');
-		$dismissable_url = esc_url(add_query_arg(['ast-pro-notice-39' => 'true', 'nonce' => $nonce]));
+		$nonce = wp_create_nonce('ast_pro_dismiss_notice_391');
+		$dismissable_url = esc_url(add_query_arg(['ast-pro-notice-391' => 'true', 'nonce' => $nonce]));
 		?>		
 		<style>		
 		.wp-core-ui .notice.ast-dismissable-notice{
@@ -180,7 +180,7 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 			<h3 class="ts-updated-notice">🚀 Ready to Take the Manual Work Out of Shipping? Meet AST PRO!</h3>
 			<p>Say goodbye to copy-pasting tracking numbers. With Advanced Shipment Tracking PRO, you can:</p>		
 			<ul>
-				<li>✅ Automatically import tracking from 20+ shipping providers</li>
+				<li>✅ Automatically import tracking from 50+ shipping providers</li>
 				<li>✅ Update orders and notify customers in a single click</li>
 				<li>✅ Manage everything from a unified dashboard in WooCommerce</li>
 			</ul>
@@ -194,10 +194,10 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 	/*
 	* Dismiss admin notice for AST PRO
 	*/
-	public function ast_pro_notice_ignore_39() {
-		if ( isset( $_GET['ast-pro-notice-39'] ) ) {
-			if (isset($_GET['nonce']) && wp_verify_nonce( sanitize_key( $_GET['nonce'] ), 'ast_pro_dismiss_notice_39')) {
-				update_option( 'ast_notice_ignore_39', 'true' );
+	public function ast_pro_notice_ignore_391() {
+		if ( isset( $_GET['ast-pro-notice-391'] ) ) {
+			if (isset($_GET['nonce']) && wp_verify_nonce( sanitize_key( $_GET['nonce'] ), 'ast_pro_dismiss_notice_391')) {
+				update_option( 'ast_notice_ignore_391', 'true' );
 			}	
 		}
 	}

@@ -1090,9 +1090,13 @@ class WC_Advanced_Shipment_Tracking_Actions {
 	 *
 	*/
 	public function get_formatted_tracking_item( $order_id, $tracking_item ) {
-		
+
 		$formatted = array();
 		$trackship_supported = '';
+
+		if ( ! is_array( $tracking_item ) ) {
+			return $formatted;
+		}
 
 		$order = wc_get_order( $order_id );
 
@@ -1113,9 +1117,12 @@ class WC_Advanced_Shipment_Tracking_Actions {
 		$link_format = '';
 					
 		foreach ( $this->get_providers() as $provider => $format ) {
+			if ( ! is_array( $format ) ) {
+				continue;
+			}
 			if ( $provider  === $tracking_item['tracking_provider'] || $format['provider_name']  === $tracking_item['tracking_provider'] ) {
 				$link_format = $format['provider_url'];
-				$trackship_supported = $format['trackship_supported'];				
+				$trackship_supported = $format['trackship_supported'];
 				$formatted['formatted_tracking_provider'] = $format['provider_name'];
 				break;
 			}
@@ -1174,6 +1181,29 @@ class WC_Advanced_Shipment_Tracking_Actions {
 			}
 			
 			$link_format = str_replace( '%postal_code%', $shipping_postal_code, $link_format );
+
+			// ==========================
+			// ✅ NEW: Add %phone_number%
+			// ==========================
+			$phone_number = '';
+
+			$billing_phone = $order->get_billing_phone();
+
+			if ( ! empty( $billing_phone ) ) {
+				$phone_number = $billing_phone;
+			} else {
+				 $shipping_phone = $order->get_shipping_phone();
+				if ( ! empty( $shipping_phone ) ) {
+					$phone_number = $shipping_phone;
+				}
+			}
+
+			$phone_number = ! empty( $phone_number ) 
+				? rawurlencode( str_replace( ' ', '', $phone_number ) ) 
+				: '';
+
+			$link_format = str_replace( '%phone_number%', $phone_number, $link_format );
+			// ==========================
 								
 			$formatted_tracking_link = $link_format;
 			$formatted['formatted_tracking_link'] = $link_format;
@@ -1316,6 +1346,9 @@ class WC_Advanced_Shipment_Tracking_Actions {
 	
 	public function seach_tracking_number_in_items( $tracking_number, $tracking_items ) {
 		foreach ( $tracking_items as $key => $val ) {
+			if ( ! is_array( $val ) ) {
+				continue;
+			}
 			if ( $val['tracking_number'] === $tracking_number ) {
 				return $key;
 			}
@@ -1456,6 +1489,8 @@ class WC_Advanced_Shipment_Tracking_Actions {
 			$tracking_items = $order->get_meta( '_wc_shipment_tracking_items', true );
 
 			if ( is_array( $tracking_items ) ) {
+				// Filter out any corrupted non-array entries before processing.
+				$tracking_items = array_values( array_filter( $tracking_items, 'is_array' ) );
 				if ( $formatted ) {
 					foreach ( $tracking_items as &$item ) {
 						$formatted_item = $this->get_formatted_tracking_item( $order_id, $item );

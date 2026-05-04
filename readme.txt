@@ -2,8 +2,8 @@
 Contributors: zorem, gaurav1092, eranzorem, satishzorem
 Tags: shipment tracking, order tracking, shipping, tracking number, woocommerce
 Requires at least: 5.3
-Tested up to: 6.9.1
-Stable tag: 3.9
+Tested up to: 6.9.4
+Stable tag: 3.9.1
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -166,10 +166,14 @@ Yes. When you activate AST, it automatically detects and migrates existing shipm
 
 == Changelog ==
 
+= 3.9.1 =
+* Dev - Tested with WooCommerce 10.6.1 and WordPress 6.9.4
+* Dev - Added support for %phone_number% variable in shipping carrier tracking URLs for dynamic replacement
+* Fix - Corrected German translation for "Track" button from "Spur" to "Verfolgen"
+* Security - Fixed a vulnerability reported via Patchstack affecting Advanced Shipment Tracking for WooCommerce.
+
 = 3.9 =
 * Dev - Tested with WooCommerce 10.5.0 and WordPress 6.9.1
-* Enhancement - Redesigned the AST settings page.
-* Improvement – Removed bundled Portuguese (pt_PT) translation files to allow WordPress.org community translations to load correctly. This ensures accurate and up-to-date Portuguese localization.
 
 = 3.8.9 =
 * Dev - Tested with WooCommerce 10.4.2 and WordPress 6.9

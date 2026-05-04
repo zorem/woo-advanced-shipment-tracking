@@ -227,13 +227,19 @@ class Ast_Customizer {
 		}
 		
 		$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-		wp_register_style( 'woocommerce_admin_styles', WC()->plugin_url() . '/assets/css/admin.css', array(), WC_VERSION );
-		wp_enqueue_style( 'woocommerce_admin_styles');
-		wp_register_script( 'select2', WC()->plugin_url() . '/assets/js/select2/select2.full' . $suffix . '.js', array( 'jquery' ), '4.0.3' );
-		wp_enqueue_script( 'select2');
-		
+		if ( ! wp_style_is( 'woocommerce_admin_styles', 'registered' ) ) {
+			wp_register_style( 'woocommerce_admin_styles', WC()->plugin_url() . '/assets/css/admin.css', array(), WC_VERSION );
+		}
+		wp_enqueue_style( 'woocommerce_admin_styles' );
+		if ( ! wp_script_is( 'select2', 'registered' ) ) {
+			wp_register_script( 'select2', WC()->plugin_url() . '/assets/js/select2/select2.full' . $suffix . '.js', array( 'jquery' ), '4.0.3' );
+		}
+		wp_enqueue_script( 'select2' );
+
 		// Add tiptip js and css file
-		wp_register_script( 'wc-jquery-tiptip', WC()->plugin_url() . '/assets/js/jquery-tiptip/jquery.tipTip.min.js', array( 'jquery', 'dompurify' ), WC_VERSION, true );
+		if ( ! wp_script_is( 'wc-jquery-tiptip', 'registered' ) ) {
+			wp_register_script( 'wc-jquery-tiptip', WC()->plugin_url() . '/assets/js/jquery-tiptip/jquery.tipTip.min.js', array( 'jquery' ), WC_VERSION, true );
+		}
 		wp_enqueue_script( 'wc-jquery-tiptip' );
 
 		wp_enqueue_style( 'ast-customizer', plugin_dir_url(__FILE__) . 'assets/Customizer.css', array(), time() );

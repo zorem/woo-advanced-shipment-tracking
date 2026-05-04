@@ -114,6 +114,10 @@ class WC_Advanced_Shipment_Tracking_REST_API_Controller extends WC_REST_Controll
 	 * @return boolean
 	 */
 	public function create_item_permissions_check( $request ) {
+
+		if ( ! current_user_can( 'manage_woocommerce' ) ) {
+			return new WP_Error( 'forbidden', 'Insufficient permissions', array( 'status' => 403 ) );
+		}
 		
 		if ( ! wc_rest_check_post_permissions( $this->post_type, 'create' ) ) {
 			return new WP_Error( 'woocommerce_rest_cannot_create', __( 'Sorry, you are not allowed to create resources.', 'woocommerce-shipment-tracking' ), array( 'status' => rest_authorization_required_code() ) );
@@ -232,9 +236,9 @@ class WC_Advanced_Shipment_Tracking_REST_API_Controller extends WC_REST_Controll
 		}
 		
 		$ast_admin = WC_Advanced_Shipment_Tracking_Admin::get_instance();		
-
-		$tracking_provider_name = ( isset( $request['custom_tracking_provider'] ) && !empty( $request['custom_tracking_provider'] ) )  ? $request['custom_tracking_provider'] : $request['tracking_provider'];	
 		
+		$tracking_provider_name = sanitize_text_field( ( isset( $request['custom_tracking_provider'] ) && !empty( $request['custom_tracking_provider'] ) ) ? $request['custom_tracking_provider'] : $request['tracking_provider'] );
+
 		$replace_tracking = isset($request['replace_tracking']) ? $request['replace_tracking'] : 0;	
 		
 		if ( 1 == $replace_tracking ) {

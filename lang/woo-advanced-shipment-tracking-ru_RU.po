@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: WooCommerce Advanced Shipment Tracking\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-11 09:34+0000\n"
-"PO-Revision-Date: 2026-02-10 08:51+0000\n"
+"PO-Revision-Date: 2026-03-30 10:10+0000\n"
 "Last-Translator: \n"
 "Language-Team: Russian\n"
 "Language: ru_RU\n"
@@ -35,7 +35,7 @@ msgstr "от %1$s%2$s"
 msgid " by %1s%2s "
 msgstr "от %1s%2s"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1381
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1393
 msgid " csv "
 msgstr "csv"
 
@@ -71,11 +71,11 @@ msgstr ""
 msgid "Active"
 msgstr "Активный"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1879
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1891
 msgid "Add"
 msgstr "Добавлять"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:2156
+#: includes/class-wc-advanced-shipment-tracking-admin.php:2166
 msgid "Add API Name alias"
 msgstr "Добавить псевдоним имени API"
 
@@ -105,7 +105,7 @@ msgstr ""
 "отслеживании доставки будет отображаться в учетных записях клиентов (на "
 "панели заказов) и в электронном письме с полным заказом WooCommerce."
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1526
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1538
 msgid "Add Tracking"
 msgstr "Добавить отслеживание"
 
@@ -119,7 +119,7 @@ msgstr "Добавить отслеживание - заказ"
 msgid "Add Tracking Info"
 msgstr "Добавить информацию отслеживания"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:808
+#: includes/class-wc-advanced-shipment-tracking-admin.php:820
 msgid "Add Tracking Order action"
 msgstr "Добавить действие для заказа отслеживания"
 
@@ -133,7 +133,7 @@ msgstr ""
 "Добавьте собственные ссылки для отслеживания отправлений от локальных или "
 "специализированных перевозчиков."
 
-#: includes/customizer/ast-customizer.php:493
+#: includes/customizer/ast-customizer.php:499
 msgid "Additional text after header"
 msgstr "Дополнительный текст после заголовка"
 
@@ -158,27 +158,35 @@ msgstr "ПОСЛЕ:"
 msgid "All Carriers Selected."
 msgstr "Выбраны все операторы связи."
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:827
+#: includes/class-wc-advanced-shipment-tracking-admin.php:839
 msgid "Allow adding multiple tracking numbers for each order item"
 msgstr ""
 "Разрешить добавление нескольких номеров отслеживания для каждого товара в "
 "заказе."
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1627
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1639
 msgid "API aliases"
 msgstr "Псевдонимы API"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:856
+#: includes/class-wc-advanced-shipment-tracking-admin.php:868
 msgid "API Date Format"
 msgstr "Формат даты API"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:182
+#: includes/class-wc-advanced-shipment-tracking-admin.php:194
 msgid "Are you sure you want to delete this shipping carrier?"
 msgstr "Вы уверены, что хотите удалить этого перевозчика?"
 
 #: includes/customizer/ast-customizer.php:93
 msgid "AST Customizer"
 msgstr "Настройщик АСТ"
+
+#: includes/views/admin_options_addons.php:72
+msgid "AST FREE"
+msgstr "AST БЕСПЛАТНО"
+
+#: includes/views/admin_options_addons.php:76
+msgid "AST PRO"
+msgstr "AST PRO"
 
 #: includes/views/admin_upgrade_to_pro_popup.php:9
 msgid ""
@@ -196,7 +204,7 @@ msgstr ""
 "Автоматическое определение перевозчиков и поставщики услуг под собственной "
 "торговой маркой."
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:844
+#: includes/class-wc-advanced-shipment-tracking-admin.php:856
 msgid "Auto-complete orders that come from the API"
 msgstr "Автоматическое завершение заказов, поступающих через API."
 
@@ -238,7 +246,7 @@ msgstr ""
 "Автоматическая идентификация перевозчиков на основе формата номера "
 "отслеживания."
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:845
+#: includes/class-wc-advanced-shipment-tracking-admin.php:857
 msgid ""
 "Automatically mark orders as completed when tracking information is added "
 "via API"
@@ -254,11 +262,11 @@ msgstr ""
 "Автоматическое отслеживание отправлений с помощью более чем 950 перевозчиков "
 "по всему миру с мгновенным обновлением статуса."
 
-#: includes/customizer/ast-customizer.php:689
+#: includes/customizer/ast-customizer.php:695
 msgid "Available Placeholders:"
 msgstr "Доступные заполнители:"
 
-#: includes/customizer/ast-customizer.php:533
+#: includes/customizer/ast-customizer.php:539
 msgid "Background color"
 msgstr "Фоновый цвет"
 
@@ -267,11 +275,11 @@ msgstr "Фоновый цвет"
 msgid "BEFORE:"
 msgstr "ДО:"
 
-#: includes/customizer/ast-customizer.php:541
+#: includes/customizer/ast-customizer.php:547
 msgid "Border color"
 msgstr "Цвет границы"
 
-#: includes/customizer/ast-customizer.php:549
+#: includes/customizer/ast-customizer.php:555
 msgid "Border radius"
 msgstr "Радиус границы"
 
@@ -285,27 +293,27 @@ msgstr ""
 "Встроенная поддержка PDF-счетов, настроек электронной почты и многого "
 "другого."
 
-#: includes/customizer/ast-customizer.php:597
+#: includes/customizer/ast-customizer.php:603
 msgid "Button color"
 msgstr "Цвет кнопки"
 
-#: includes/customizer/ast-customizer.php:605
+#: includes/customizer/ast-customizer.php:611
 msgid "Button font color"
 msgstr "Цвет шрифта кнопки"
 
-#: includes/customizer/ast-customizer.php:613
+#: includes/customizer/ast-customizer.php:619
 msgid "Button radius"
 msgstr "Радиус кнопки"
 
-#: includes/customizer/ast-customizer.php:585
+#: includes/customizer/ast-customizer.php:591
 msgid "Button size"
 msgstr "Размер кнопки"
 
-#: includes/customizer/ast-customizer.php:575
+#: includes/customizer/ast-customizer.php:581
 msgid "Button text"
 msgstr "Текст кнопки"
 
-#: includes/api/class-wc-advanced-shipment-tracking-rest-api-controller.php:222
+#: includes/api/class-wc-advanced-shipment-tracking-rest-api-controller.php:226
 msgid "Cannot create existing order shipment tracking."
 msgstr ""
 "Невозможно создать существующее отслеживание доставки заказа.\n"
@@ -355,11 +363,11 @@ msgstr ""
 "Если у вас возникнут вопросы, ознакомьтесь с нашей документацией или "
 "свяжитесь с нашей службой поддержки."
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:858
+#: includes/class-wc-advanced-shipment-tracking-admin.php:870
 msgid "Choose for which Order status to display"
 msgstr "Выберите, для какого статуса заказа отображать"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:857
+#: includes/class-wc-advanced-shipment-tracking-admin.php:869
 msgid ""
 "Choose the date format that you use when updating the shipment tracking API "
 "endpoint from external sources"
@@ -371,7 +379,7 @@ msgstr ""
 msgid "Choose the Shipped Date format"
 msgstr "Выберите формат даты отправки"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:809
+#: includes/class-wc-advanced-shipment-tracking-admin.php:821
 msgid ""
 "Choose which Order Status in your store you would like to display Add the "
 "Tracking icon in the Order Actions menu."
@@ -405,8 +413,8 @@ msgid "Create Relationships by engaging your customers after shipping"
 msgstr ""
 "Создавайте взаимоотношения, взаимодействуя с клиентами после отправки товара."
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:299
-#: includes/class-wc-advanced-shipment-tracking-admin.php:303
+#: includes/class-wc-advanced-shipment-tracking-admin.php:311
+#: includes/class-wc-advanced-shipment-tracking-admin.php:315
 msgid "CSV Import"
 msgstr "CSV Импорт"
 
@@ -434,12 +442,12 @@ msgstr ""
 "Клиенты получают мгновенные уведомления с фирменной символикой. Количество "
 "запросов в службу поддержки по вопросам доставки сократилось на 65%."
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:442
-#: includes/class-wc-advanced-shipment-tracking-admin.php:544
+#: includes/class-wc-advanced-shipment-tracking-admin.php:454
+#: includes/class-wc-advanced-shipment-tracking-admin.php:556
 msgid "Customize"
 msgstr "Настроить"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:833
+#: includes/class-wc-advanced-shipment-tracking-admin.php:845
 msgid "Customize email content for shipment tracking notifications"
 msgstr ""
 "Настройте содержимое электронных писем для уведомлений об отслеживании "
@@ -455,7 +463,7 @@ msgid "Dark Font"
 msgstr ""
 "Темный шрифт\n"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:181
+#: includes/class-wc-advanced-shipment-tracking-admin.php:193
 msgid "Data saved successfully."
 msgstr "Данные успешно сохранены."
 
@@ -464,11 +472,11 @@ msgstr "Данные успешно сохранены."
 msgid "Date shipped:"
 msgstr "Дата отправки:"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1649
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1661
 msgid "Delete"
 msgstr "Удалить"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1060
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1072
 #: includes/class-wc-advanced-shipment-tracking-settings.php:144
 #: includes/class-wc-advanced-shipment-tracking-settings.php:162
 #: includes/class-wc-advanced-shipment-tracking-settings.php:216
@@ -488,7 +496,7 @@ msgstr[2] ""
 msgid "Deselect All"
 msgstr "Убрать выделение со всего"
 
-#: includes/customizer/ast-customizer.php:510
+#: includes/customizer/ast-customizer.php:516
 msgid "Display shipment status section"
 msgstr "Показать раздел статуса отправки"
 
@@ -497,7 +505,7 @@ msgstr "Показать раздел статуса отправки"
 msgid "Download \tsample csv"
 msgstr "Скачать образец CSV"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1648
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1660
 msgid "Edit"
 msgstr "Редактировать"
 
@@ -506,51 +514,51 @@ msgstr "Редактировать"
 msgid "Edit Shipping Carrier"
 msgstr "Редактировать перевозчика"
 
-#: includes/customizer/ast-customizer.php:401
-#: includes/customizer/ast-customizer.php:402
-#: includes/customizer/ast-customizer.php:411
-#: includes/customizer/ast-customizer.php:455
-#: includes/customizer/ast-customizer.php:456
-#: includes/customizer/ast-customizer.php:633
+#: includes/customizer/ast-customizer.php:407
+#: includes/customizer/ast-customizer.php:408
+#: includes/customizer/ast-customizer.php:417
+#: includes/customizer/ast-customizer.php:461
+#: includes/customizer/ast-customizer.php:462
+#: includes/customizer/ast-customizer.php:639
 msgid "Email Content"
 msgstr "Содержимое электронной почты"
 
-#: includes/customizer/ast-customizer.php:677
+#: includes/customizer/ast-customizer.php:683
 msgid "Email content"
 msgstr "Содержание электронной почты"
 
-#: includes/customizer/ast-customizer.php:715
+#: includes/customizer/ast-customizer.php:721
 msgid "Email Customizer"
 msgstr "Настройщик электронной почты"
 
-#: includes/customizer/ast-customizer.php:665
+#: includes/customizer/ast-customizer.php:671
 msgid "Email heading"
 msgstr "Заголовок электронной почты"
 
-#: includes/customizer/ast-customizer.php:654
+#: includes/customizer/ast-customizer.php:660
 msgid "Email Subject"
 msgstr "Тема письма"
 
-#: includes/customizer/ast-customizer.php:640
+#: includes/customizer/ast-customizer.php:646
 #| msgid "Email Type"
 msgid "Email type"
 msgstr "Тип электронной почты"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1590
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1664
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1602
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1676
 #: includes/views/admin_options_shipping_provider.php:33
 msgid "Enable Carriers"
 msgstr "Включить операторов связи"
 
-#: includes/customizer/ast-customizer.php:876
+#: includes/customizer/ast-customizer.php:882
 msgid "Enable email"
 msgstr "Включить электронную почту"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:869
+#: includes/class-wc-advanced-shipment-tracking-admin.php:881
 msgid "Enable log"
 msgstr "Включить журнал"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:826
+#: includes/class-wc-advanced-shipment-tracking-admin.php:838
 msgid "Enable multiple tracking numbers per order item"
 msgstr ""
 "Разрешить использование нескольких номеров отслеживания для каждого товара в "
@@ -561,7 +569,7 @@ msgstr ""
 msgid "Enable Shipping Carriers"
 msgstr "Включить перевозчиков"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:870
+#: includes/class-wc-advanced-shipment-tracking-admin.php:882
 msgid ""
 "Enable this to log all incoming API requests and responses for the Shipment "
 "Tracking API in WooCommerce logs. Logs can be found under WooCommerce > "
@@ -587,8 +595,8 @@ msgstr "Расширьте возможности своего магазина 
 msgid "Feature Comparison"
 msgstr "Сравнение характеристик"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:2048
-#: includes/class-wc-advanced-shipment-tracking-admin.php:2065
+#: includes/class-wc-advanced-shipment-tracking-admin.php:2060
+#: includes/class-wc-advanced-shipment-tracking-admin.php:2077
 msgid "Filter by shipping provider"
 msgstr "Фильтр по поставщику услуг доставки"
 
@@ -622,8 +630,8 @@ msgstr "Полное отслеживание товара"
 msgid "Full Overview"
 msgstr "Полный обзор"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:343
-#: includes/class-wc-advanced-shipment-tracking-admin.php:347
+#: includes/class-wc-advanced-shipment-tracking-admin.php:355
+#: includes/class-wc-advanced-shipment-tracking-admin.php:359
 #: includes/views/admin_options_settings.php:15
 msgid "General Settings"
 msgstr "общие настройки"
@@ -632,7 +640,7 @@ msgstr "общие настройки"
 msgid "GET STARTED WITH PRO"
 msgstr "НАЧНИТЕ С PRO"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:275
+#: includes/class-wc-advanced-shipment-tracking-admin.php:287
 msgid "Go Pro ✨"
 msgstr "Go Pro ✨"
 
@@ -644,7 +652,7 @@ msgstr ""
 "Всем привет. мы подумали, что вы хотели бы знать, что отслеживание доставки "
 "вашего недавнего заказа с {site_title} было обновлено."
 
-#: includes/customizer/ast-customizer.php:340
+#: includes/customizer/ast-customizer.php:346
 msgid ""
 "Hi there. we thought you'd like to know that your recent order from "
 "{site_title} has been partially shipped."
@@ -659,13 +667,13 @@ msgid "hide details"
 msgstr ""
 "скрыть детали\n"
 
-#: includes/customizer/ast-customizer.php:559
+#: includes/customizer/ast-customizer.php:565
 #| msgid "Display shipping provider image"
 msgid "Hide shipping provider image"
 msgstr ""
 "Отобразить изображение поставщика доставки\n"
 
-#: includes/customizer/ast-customizer.php:474
+#: includes/customizer/ast-customizer.php:480
 #| msgid "Hide Tracking Header"
 msgid "Hide tracking header"
 msgstr "Скрыть заголовок отслеживания"
@@ -708,12 +716,12 @@ msgstr "Мгновенное обнаружение"
 msgid "Integrates with Your Favorite Shipping Service"
 msgstr "Интегрируется с вашей любимой службой доставки."
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:307
-#: includes/class-wc-advanced-shipment-tracking-admin.php:310
+#: includes/class-wc-advanced-shipment-tracking-admin.php:319
+#: includes/class-wc-advanced-shipment-tracking-admin.php:322
 msgid "Integrations"
 msgstr "Интеграции"
 
-#: includes/api/class-wc-advanced-shipment-tracking-rest-api-controller.php:231
+#: includes/api/class-wc-advanced-shipment-tracking-rest-api-controller.php:235
 msgid "Invalid order ID."
 msgstr ""
 "Неверный идентификатор заказа.\n"
@@ -747,7 +755,7 @@ msgstr ""
 "уведомления клиентам об изменении статуса заказа, о начале доставки и многом "
 "другом…"
 
-#: includes/customizer/ast-customizer.php:591
+#: includes/customizer/ast-customizer.php:597
 msgid "Large"
 msgstr "Большой"
 
@@ -764,7 +772,7 @@ msgstr ""
 msgid "Limited Support"
 msgstr "Ограниченная поддержка"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:876
+#: includes/class-wc-advanced-shipment-tracking-admin.php:888
 msgid "Log will be added to WooCommerce > Status > "
 msgstr "Журнал будет добавлен в WooCommerce > Статус >"
 
@@ -773,7 +781,7 @@ msgid "Map carrier names from external APIs to AST providers."
 msgstr ""
 "Сопоставление названий операторов связи из внешних API с поставщиками AST."
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1535
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1547
 msgid "Mark as Shipped"
 msgstr "Отметить как отправленное"
 
@@ -786,11 +794,11 @@ msgid "Mark order as:"
 msgstr ""
 "Отметить заказ как:\n"
 
-#: includes/customizer/ast-customizer.php:1092
+#: includes/customizer/ast-customizer.php:1098
 msgid "Mockup Order"
 msgstr "Заказ макета"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:2156
+#: includes/class-wc-advanced-shipment-tracking-admin.php:2166
 msgid "Multiple API names mapping is a pro features"
 msgstr "Сопоставление нескольких имен API - это профессиональные функции"
 
@@ -798,7 +806,7 @@ msgstr "Сопоставление нескольких имен API - это п
 msgid "Need help?"
 msgstr "Нужна помощь?"
 
-#: includes/customizer/ast-customizer.php:590
+#: includes/customizer/ast-customizer.php:596
 msgid "Normal"
 msgstr "Обычный"
 
@@ -813,22 +821,22 @@ msgstr "Обычный"
 msgid "Not Available"
 msgstr "Нет в наличии"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:887
+#: includes/class-wc-advanced-shipment-tracking-admin.php:899
 msgid "Opt in to get email notifications for security & feature updates"
 msgstr ""
 "Включите получение уведомлений по электронной почте об обновлениях "
 "безопасности и функциях."
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:893
+#: includes/class-wc-advanced-shipment-tracking-admin.php:905
 msgid "Opt in to share some basic WordPress environment info"
 msgstr "Согласитесь поделиться базовой информацией о среде WordPress."
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:817
+#: includes/class-wc-advanced-shipment-tracking-admin.php:829
 msgid "Order Emails Display"
 msgstr "Заказать отображение писем"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:352
-#: includes/class-wc-advanced-shipment-tracking-admin.php:356
+#: includes/class-wc-advanced-shipment-tracking-admin.php:364
+#: includes/class-wc-advanced-shipment-tracking-admin.php:368
 msgid "Order Statuses"
 msgstr "Статусы заказов"
 
@@ -837,20 +845,20 @@ msgid "Order Statuses & Notifications"
 msgstr "Статусы заказов и уведомления"
 
 #. %1$s: Reaplce with tracking provider, %2$s: Reaplce with tracking number
-#: includes/class-wc-advanced-shipment-tracking.php:1300
-#: includes/class-wc-advanced-shipment-tracking.php:1393
+#: includes/class-wc-advanced-shipment-tracking.php:1330
+#: includes/class-wc-advanced-shipment-tracking.php:1426
 #, php-format
 #| msgid "Order was shipped with %s and tracking number is: %s"
 msgid "Order was shipped with %1$s and tracking number is: %2$s"
 msgstr "Заказ был отправлен с помощью %1$s, номер отслеживания: %2$s."
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1035
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1047
 #: includes/class-wc-advanced-shipment-tracking-settings.php:283
 #: includes/class-wc-advanced-shipment-tracking-settings.php:315
 #: includes/class-wc-advanced-shipment-tracking.php:568
 #: includes/customizer/ast-customizer.php:133
-#: includes/customizer/ast-customizer.php:372
-#: includes/customizer/ast-customizer.php:627
+#: includes/customizer/ast-customizer.php:378
+#: includes/customizer/ast-customizer.php:633
 msgid "Partially Shipped"
 msgstr ""
 "Частично отправлен\n"
@@ -891,7 +899,7 @@ msgstr ""
 "Пожалуйста, установите и активируйте %1$sWooCommerce%2$s для расширенного "
 "отслеживания поставок для WooCommerce!"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:185
+#: includes/class-wc-advanced-shipment-tracking-admin.php:197
 msgid "Please upload a valid CSV file."
 msgstr "Загрузите действующий файл CSV."
 
@@ -904,7 +912,7 @@ msgstr "Мощные дополнения"
 msgid "Premium Support"
 msgstr "Премиум-поддержка"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:851
+#: includes/class-wc-advanced-shipment-tracking-admin.php:863
 msgid "Prevent duplicate tracking numbers from being added to orders"
 msgstr "Предотвратите добавление дублирующихся номеров отслеживания к заказам."
 
@@ -974,7 +982,7 @@ msgstr ""
 msgid "Responsive tracking info widget"
 msgstr "Адаптивный виджет для отслеживания информации"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:850
+#: includes/class-wc-advanced-shipment-tracking-admin.php:862
 msgid "Restrict adding the same tracking number"
 msgstr "Ограничить добавление одного и того же номера отслеживания."
 
@@ -1007,9 +1015,9 @@ msgid "Send Email"
 msgstr ""
 "Отправить письмо\n"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:239
-#: includes/class-wc-advanced-shipment-tracking-admin.php:283
-#: includes/class-wc-advanced-shipment-tracking-admin.php:287
+#: includes/class-wc-advanced-shipment-tracking-admin.php:251
+#: includes/class-wc-advanced-shipment-tracking-admin.php:295
+#: includes/class-wc-advanced-shipment-tracking-admin.php:299
 msgid "Settings"
 msgstr "Настройки"
 
@@ -1017,7 +1025,7 @@ msgstr "Настройки"
 msgid "Settings Saved."
 msgstr "Настройки сохранены."
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:832
+#: includes/class-wc-advanced-shipment-tracking-admin.php:844
 msgid "Shipment Email Tracking Content"
 msgstr "Содержимое электронных писем для отслеживания отправления"
 
@@ -1027,8 +1035,8 @@ msgstr "Содержимое электронных писем для отсле
 msgid "Shipment status changed to %s"
 msgstr "Статус отгрузки изменен на% s"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:197
-#: includes/class-wc-advanced-shipment-tracking-admin.php:239
+#: includes/class-wc-advanced-shipment-tracking-admin.php:209
+#: includes/class-wc-advanced-shipment-tracking-admin.php:251
 #: includes/class-wc-advanced-shipment-tracking.php:144
 #: includes/class-wc-advanced-shipment-tracking.php:292
 msgid "Shipment Tracking"
@@ -1038,14 +1046,14 @@ msgstr "отслеживание посылки"
 msgid "Shipment Tracking API"
 msgstr "API отслеживания отправлений"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:644
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1047
+#: includes/class-wc-advanced-shipment-tracking-admin.php:656
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1059
 #: includes/class-wc-advanced-shipment-tracking-settings.php:439
 #: includes/class-wc-advanced-shipment-tracking.php:552
 #: templates/emails/fluid-tracking-info.php:102
 #: templates/emails/fluid-tracking-info.php:125
 #: includes/customizer/ast-customizer.php:129
-#: includes/customizer/ast-customizer.php:361
+#: includes/customizer/ast-customizer.php:367
 msgid "Shipped"
 msgstr "Высылаем"
 
@@ -1085,20 +1093,20 @@ msgstr "Отправлено на% s"
 msgid "Shipped on:"
 msgstr "Поставляется на:"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1489
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1501
 msgid "Shipped Order"
 msgstr "Отправленный заказ"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1887
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1899
 msgid "Shipping Carrier Already Added"
 msgstr "Транспортная компания уже добавлена"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1891
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1903
 msgid "Shipping Carrier Not Found!"
 msgstr "Транспортная компания не найдена!"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:291
-#: includes/class-wc-advanced-shipment-tracking-admin.php:295
+#: includes/class-wc-advanced-shipment-tracking-admin.php:303
+#: includes/class-wc-advanced-shipment-tracking-admin.php:307
 #: includes/views/admin_options_shipping_provider.php:26
 msgid "Shipping Carriers"
 msgstr "Транспортные перевозчики"
@@ -1161,7 +1169,7 @@ msgstr ""
 msgid "Stripe Tracking"
 msgstr "Отслеживание полосы"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1895
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1907
 #: includes/views/admin_options_shipping_provider.php:35
 msgid "Sync Carriers"
 msgstr "Синхронизация операторов связи"
@@ -1264,11 +1272,11 @@ msgid "There are some issue with sync, Please Retry."
 msgstr ""
 "Возникла проблема с синхронизацией. Повторите попытку.\n"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:184
+#: includes/class-wc-advanced-shipment-tracking-admin.php:196
 msgid "This browser does not support HTML5."
 msgstr "Этот браузер не поддерживает HTML5."
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:818
+#: includes/class-wc-advanced-shipment-tracking-admin.php:830
 msgid ""
 "This option allows you to choose on which order status email you would like "
 "to display the tracking information"
@@ -1288,21 +1296,21 @@ msgid "Track Shipment"
 msgstr ""
 "Трек Отгрузка\n"
 
-#: includes/customizer/ast-customizer.php:328
+#: includes/customizer/ast-customizer.php:334
 msgid "Track Your Order"
 msgstr "Отследить ваш заказ"
 
-#: includes/customizer/ast-customizer.php:519
+#: includes/customizer/ast-customizer.php:525
 msgid "Tracker type"
 msgstr "Тип трекера"
 
-#: includes/customizer/ast-customizer.php:446
-#: includes/customizer/ast-customizer.php:569
+#: includes/customizer/ast-customizer.php:452
+#: includes/customizer/ast-customizer.php:575
 #| msgid "Track Button"
 msgid "Tracking Button"
 msgstr "Кнопка отслеживания"
 
-#: includes/customizer/ast-customizer.php:483
+#: includes/customizer/ast-customizer.php:489
 #| msgid "Tracking Header text"
 msgid "Tracking header text"
 msgstr ""
@@ -1320,7 +1328,7 @@ msgstr ""
 "Информация отслеживания удалена для поставщика отслеживания %1$s с номером "
 "отслеживания %2$s."
 
-#: includes/customizer/ast-customizer.php:317
+#: includes/customizer/ast-customizer.php:323
 msgid "Tracking Information"
 msgstr "Информация об отслеживании"
 
@@ -1353,12 +1361,12 @@ msgstr "Страница отслеживания"
 msgid "Tracking Per Item"
 msgstr "Отслеживание по каждому товару"
 
-#: includes/customizer/ast-customizer.php:392
-#: includes/customizer/ast-customizer.php:393
-#: includes/customizer/ast-customizer.php:419
-#: includes/customizer/ast-customizer.php:429
-#: includes/customizer/ast-customizer.php:438
-#: includes/customizer/ast-customizer.php:447
+#: includes/customizer/ast-customizer.php:398
+#: includes/customizer/ast-customizer.php:399
+#: includes/customizer/ast-customizer.php:425
+#: includes/customizer/ast-customizer.php:435
+#: includes/customizer/ast-customizer.php:444
+#: includes/customizer/ast-customizer.php:453
 msgid "Tracking Widget"
 msgstr "Виджет отслеживания"
 
@@ -1374,7 +1382,7 @@ msgstr ""
 msgid "Trusted by 60,000+ stores"
 msgstr "Нам доверяют более 60 000 магазинов."
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1893
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1905
 msgid "Try syncing your shipping carriers to get the latest list."
 msgstr ""
 "Попробуйте синхронизировать ваши службы доставки, чтобы получить актуальный "
@@ -1394,7 +1402,7 @@ msgstr ""
 "Откройте для себя передовые возможности автоматизации выполнения заказов с "
 "помощью AST PRO."
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:1078
+#: includes/class-wc-advanced-shipment-tracking-admin.php:1090
 #: includes/class-wc-advanced-shipment-tracking-settings.php:268
 #: includes/class-wc-advanced-shipment-tracking-settings.php:301
 #: includes/class-wc-advanced-shipment-tracking-settings.php:420
@@ -1485,13 +1493,13 @@ msgstr ""
 msgid "White Label Shipping Carriers"
 msgstr "Транспортные компании под собственной торговой маркой"
 
-#: includes/customizer/ast-customizer.php:428
-#: includes/customizer/ast-customizer.php:466
+#: includes/customizer/ast-customizer.php:434
+#: includes/customizer/ast-customizer.php:472
 msgid "Widget Header"
 msgstr "Заголовок виджета"
 
-#: includes/customizer/ast-customizer.php:437
-#: includes/customizer/ast-customizer.php:504
+#: includes/customizer/ast-customizer.php:443
+#: includes/customizer/ast-customizer.php:510
 msgid "Widget Style"
 msgstr "Стиль виджета"
 
@@ -1501,15 +1509,15 @@ msgstr "Стиль виджета"
 msgid "Y-m-d"
 msgstr "Г-м-д"
 
-#: includes/customizer/ast-customizer.php:713
+#: includes/customizer/ast-customizer.php:719
 msgid "You are customizing"
 msgstr "Вы настраиваете"
 
-#: includes/class-wc-advanced-shipment-tracking-admin.php:183
+#: includes/class-wc-advanced-shipment-tracking-admin.php:195
 msgid "You can upload only csv file."
 msgstr "Вы можете загружать только файл csv."
 
-#: includes/customizer/ast-customizer.php:339
+#: includes/customizer/ast-customizer.php:345
 msgid "Your Order is Partially Shipped"
 msgstr "Ваш заказ частично отправлен"
 
@@ -1521,7 +1529,7 @@ msgstr "Ваш автопилот после отправки и доставк�
 msgid "YOUR STORE"
 msgstr "ВАШ МАГАЗИН"
 
-#: includes/customizer/ast-customizer.php:338
+#: includes/customizer/ast-customizer.php:344
 msgid "Your {site_title} order is now partially shipped"
 msgstr ""
 "Ваш {site_title} заказ частично отправлен\n"
