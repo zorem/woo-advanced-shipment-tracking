@@ -48,10 +48,10 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 
 		if ( 'woocommerce-advanced-shipment-tracking' != $page ) {
 			// AST PRO Notice
-			add_action( 'admin_notices', array( $this, 'ast_pro_notice_391' ) );
+			add_action( 'admin_notices', array( $this, 'ast_pro_notice_392' ) );
 
 		}
-		add_action( 'admin_init', array( $this, 'ast_pro_notice_ignore_391' ) );
+		add_action( 'admin_init', array( $this, 'ast_pro_notice_ignore_392' ) );
 	}
 
 	/**
@@ -136,13 +136,13 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 	/*
 	* Display admin notice on plugin install or update
 	*/
-	public function ast_pro_notice_391() { 		
-		if ( get_option('ast_notice_ignore_391') ) {
+	public function ast_pro_notice_392() { 		
+		if ( get_option('ast_notice_ignore_392') ) {
 			return;
 		}	
 		
-		$nonce = wp_create_nonce('ast_pro_dismiss_notice_391');
-		$dismissable_url = esc_url(add_query_arg(['ast-pro-notice-391' => 'true', 'nonce' => $nonce]));
+		$nonce = wp_create_nonce('ast_pro_dismiss_notice_392');
+		$dismissable_url = esc_url(add_query_arg(['ast-pro-notice-392' => 'true', 'nonce' => $nonce]));
 		?>		
 		<style>		
 		.wp-core-ui .notice.ast-dismissable-notice{
@@ -194,10 +194,10 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 	/*
 	* Dismiss admin notice for AST PRO
 	*/
-	public function ast_pro_notice_ignore_391() {
-		if ( isset( $_GET['ast-pro-notice-391'] ) ) {
-			if (isset($_GET['nonce']) && wp_verify_nonce( sanitize_key( $_GET['nonce'] ), 'ast_pro_dismiss_notice_391')) {
-				update_option( 'ast_notice_ignore_391', 'true' );
+	public function ast_pro_notice_ignore_392() {
+		if ( isset( $_GET['ast-pro-notice-392'] ) ) {
+			if (isset($_GET['nonce']) && wp_verify_nonce( sanitize_key( $_GET['nonce'] ), 'ast_pro_dismiss_notice_392')) {
+				update_option( 'ast_notice_ignore_392', 'true' );
 			}	
 		}
 	}

@@ -3,7 +3,7 @@ Contributors: zorem, gaurav1092, eranzorem, satishzorem
 Tags: shipment tracking, order tracking, shipping, tracking number, woocommerce
 Requires at least: 5.3
 Tested up to: 6.9.4
-Stable tag: 3.9.1
+Stable tag: 3.9.2
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -165,6 +165,11 @@ Yes. When you activate AST, it automatically detects and migrates existing shipm
 10. AST settings page for customizing order statuses, email display, and tracking behavior.
 
 == Changelog ==
+
+= 3.9.2 =
+* Dev - Tested with WooCommerce 10.7.0
+* Fix – Replaced deprecated wc_enqueue_js with wp_add_inline_script for WooCommerce 10.4.0+ compatibility
+* Fix - Updated version header in customer-completed-order.php email template for WooCommerce 10.4.0 compatibility
 
 = 3.9.1 =
 * Dev - Tested with WooCommerce 10.6.1 and WordPress 6.9.4
