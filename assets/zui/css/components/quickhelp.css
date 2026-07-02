@@ -1,0 +1,194 @@
+/* ============================================================
+   Zorem UI — Quick Help (sidebar info block)
+   ------------------------------------------------------------
+   Tinted help block at the bottom of the sidebar. Holds a title,
+   a one-line description, 2 action links (Documentation, Support),
+   and a decorative illustration.
+
+   ============================================================ */
+
+.zui-scope .zui-quickhelp {
+	margin-block-start: 24px;
+	background: rgba(240, 244, 255, 0.4);
+	border: 1px solid rgba(225, 233, 254, 0.5);
+	border-radius: var(--zui-radius-2xl);
+	padding: 20px;
+	box-shadow: var(--zui-shadow-xs);
+}
+
+.zui-scope .zui-quickhelp__title {
+	margin: 0;
+	font-size: 12px;
+	font-weight: 700;
+	color: var(--zui-text-strong);
+}
+
+.zui-scope .zui-quickhelp__text {
+	margin: 6px 0 14px;
+	font-size: 11px;
+	line-height: 1.5;
+	color: #64748b;
+}
+
+.zui-scope .zui-quickhelp__links {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.zui-scope .zui-quickhelp__link {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 11px;
+	font-weight: 700;
+	color: var(--zui-primary-600);
+	text-decoration: none;
+}
+
+.zui-scope .zui-quickhelp__link .zui-icon {
+	width: 12px;
+	height: 12px;
+}
+
+.zui-scope .zui-quickhelp__link:hover {
+	text-decoration: underline;
+}
+
+.zui-scope .zui-quickhelp__link--muted {
+	color: var(--zui-text-soft);
+}
+
+/* ---- Decorative illustration (matches prototype + amber/indigo glow) ---- */
+
+.zui-scope .zui-quickhelp__art {
+	position: relative;
+	margin-block-start: 14px;
+	height: 80px;
+	width: 100%;
+	border-radius: var(--zui-radius-xl);
+	background: linear-gradient(to top right, rgba(225, 233, 254, 0.6), rgba(199, 218, 252, 0.3));
+	border: 1px solid rgba(225, 233, 254, 0.5);
+	overflow: hidden;
+	user-select: none;
+}
+
+/* Soft blurred underglow — indigo → brand, sits below the amber sphere */
+.zui-scope .zui-quickhelp__glow {
+	position: absolute;
+	inset-inline-end: 12px;
+	bottom: 0;
+	width: 56px;
+	height: 56px;
+	border-radius: 999px;
+	background: linear-gradient(to bottom right, #818cf8, var(--zui-primary, #3b64d3));
+	opacity: 0.2;
+	filter: blur(12px);
+	pointer-events: none;
+}
+
+/* Amber → primary glowing sphere with subtle pulse */
+.zui-scope .zui-quickhelp__sphere {
+	position: absolute;
+	inset-inline-end: 20px;
+	bottom: 12px;
+	width: 40px;
+	height: 40px;
+	border-radius: 999px;
+	background: linear-gradient(to top right, #fcd34d, #6f8cea);
+	opacity: 0.6;
+	box-shadow: inset 0 2px 4px rgba(15, 23, 42, 0.06);
+	animation: zui-quickhelp-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes zui-quickhelp-pulse {
+	0%, 100% { opacity: 0.6; transform: scale(1); }
+	50%      { opacity: 0.8; transform: scale(1.06); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.zui-scope .zui-quickhelp__sphere { animation: none; }
+}
+
+/* ---- Paper cards (with content lines inside) ---- */
+.zui-scope .zui-quickhelp__paper {
+	position: absolute;
+	background: #fff;
+	border: 1px solid #eef2ff;
+	border-radius: 7px;
+	box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.zui-scope .zui-quickhelp__paper--1 {
+	inset-inline-start: 14px;
+	top: 18px;
+	width: 96px;
+	height: 44px;
+	padding: 6px 8px;
+	gap: 4px;
+	background: rgba(255, 255, 255, 0.95);
+	border-color: #f1f5f9;
+	transform: rotate(-6deg);
+}
+
+.zui-scope .zui-quickhelp__paper--2 {
+	inset-inline-start: 38px;
+	top: 10px;
+	width: 64px;
+	height: 52px;
+	padding: 8px;
+	gap: 5px;
+	border-color: rgba(241, 245, 249, 0.8);
+	transform: rotate(6deg);
+}
+
+/* ---- Content lines inside papers ---- */
+.zui-scope .zui-quickhelp__line {
+	display: block;
+	height: 3px;
+	border-radius: 2px;
+	background: #e2e8f0;
+}
+
+.zui-scope .zui-quickhelp__line--brand {
+	width: 24px;
+	height: 4px;
+	background: #93a5f0;
+}
+
+.zui-scope .zui-quickhelp__line--accent {
+	width: 30px;
+	height: 4px;
+	background: var(--zui-primary, #3b64d3);
+}
+
+.zui-scope .zui-quickhelp__line--mid {
+	width: 80%;
+	background: #cbd5e1;
+}
+
+.zui-scope .zui-quickhelp__line--short {
+	width: 50%;
+	background: #e2e8f0;
+}
+
+/* ---- Top-right check badge ---- */
+.zui-scope .zui-quickhelp__check {
+	position: absolute;
+	inset-inline-end: 14px;
+	top: 10px;
+	width: 16px;
+	height: 16px;
+	border-radius: 999px;
+	background: var(--zui-primary, #3b64d3);
+	color: #fff;
+	font-size: 9px;
+	font-weight: 700;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+}

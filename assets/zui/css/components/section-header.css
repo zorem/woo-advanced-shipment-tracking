@@ -1,0 +1,128 @@
+/* ============================================================
+   Zorem UI — Section Header (banner at top of each section)
+   ------------------------------------------------------------
+   The banner at the top of each `.zui-section`. Left cluster:
+   large icon tile + title + optional badge + subtitle. Right
+   cluster: optional secondary action link + save button.
+
+   ============================================================ */
+
+.zui-scope .zui-section-header {
+	background: var(--zui-surface);
+	border: 1px solid var(--zui-primary-200);
+	border-radius: var(--zui-radius-2xl);
+	padding: 24px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 24px;
+	box-shadow: var(--zui-shadow-sm);
+}
+
+/* ---- Left cluster: icon tile + text ---- */
+
+.zui-scope .zui-section-header__main {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+}
+
+.zui-scope .zui-section-header__icon {
+	flex: 0 0 auto;
+	width: 64px;
+	height: 64px;
+	border-radius: var(--zui-radius-xl);
+	background: var(--zui-primary);
+	color: #fff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: var(--zui-shadow-md);
+}
+
+.zui-scope .zui-section-header__icon .zui-icon {
+	width: 32px;
+	height: 32px;
+}
+
+.zui-scope .zui-section-header__titlewrap {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	flex-wrap: wrap;
+}
+
+.zui-scope .zui-section-header__title {
+	margin: 0;
+	font-size: 20px;
+	line-height: 1.2;
+	font-weight: 600;
+	color: var(--zui-text-strong);
+	letter-spacing: -0.01em;
+}
+
+.zui-scope .zui-section-header__badge {
+	display: inline-block;
+	padding: 2px 8px;
+	background: var(--zui-primary);
+	color: #fff;
+	border-radius: 4px;
+	font-size: 11px;
+	font-weight: 800;
+	letter-spacing: 0.05em;
+	font-family: inherit;
+	line-height: 1.4;
+}
+
+.zui-scope .zui-section-header__sub {
+	margin: 4px 0 0;
+	font-size: 12px;
+	color: #64748b;
+}
+
+/* ---- Right cluster: secondary action + save button ---- */
+
+.zui-scope .zui-section-header__actions {
+	display: inline-flex;
+	align-items: center;
+	gap: 12px;
+	flex: 0 0 auto;
+}
+
+.zui-scope .zui-section-header__action {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 9px 16px;
+	background: #fff;
+	color: var(--zui-text-soft);
+	border: 1px solid var(--zui-border);
+	border-radius: var(--zui-radius-xl);
+	font-size: 12px;
+	font-weight: 600;
+	line-height: 1;
+	cursor: pointer;
+	text-decoration: none;
+	box-shadow: var(--zui-shadow-xs);
+}
+
+.zui-scope .zui-section-header__action:hover {
+	background: var(--zui-bg);
+	color: var(--zui-text-strong);
+}
+
+.zui-scope .zui-section-header__action .zui-icon {
+	width: 16px;
+	height: 16px;
+	color: var(--zui-text-muted);
+}
+
+/* ---- Responsive (mobile column stack) ---- */
+@media (max-width: 782px) {
+	.zui-scope .zui-section-header {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 16px;
+	}
+}
+

@@ -1,0 +1,69 @@
+/* ============================================================
+   Zorem UI — License Help Sidebar
+   ------------------------------------------------------------
+   Documentation links sidebar shown in the License page's right
+   column. Tinted card with title + clean link list.
+
+   Markup:
+     <div class="zui-lic-help">
+       <h3 class="zui-lic-help__title">Documentation & Help</h3>
+       <ul class="zui-lic-help__list">
+         <li><a href="..."><span>Knowledge Base</span><svg class="zui-icon"/></a></li>
+         <li><a href="..."><span>Support</span><svg class="zui-icon"/></a></li>
+       </ul>
+     </div>
+
+   ============================================================ */
+
+.zui-scope .zui-lic-help {
+	background: var(--zui-bg);
+	border: 1px solid var(--zui-border);
+	border-radius: var(--zui-radius-2xl);
+	padding: 20px;
+}
+
+.zui-scope .zui-lic-help__title {
+	margin: 0 0 14px;
+	font-size: 11px;
+	font-weight: 800;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--zui-text-soft);
+}
+
+.zui-scope .zui-lic-help__list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.zui-scope .zui-lic-help__list li {
+	padding: 10px 0;
+	border-block-start: 1px solid var(--zui-border);
+}
+
+.zui-scope .zui-lic-help__list li:first-child {
+	border-block-start: 0;
+	padding-top: 0;
+}
+
+.zui-scope .zui-lic-help__list a {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	font-size: 12px;
+	font-weight: 700;
+	color: var(--zui-text-soft);
+	text-decoration: none;
+}
+
+.zui-scope .zui-lic-help__list a:hover {
+	color: var(--zui-primary-600);
+}
+
+.zui-scope .zui-lic-help__list .zui-icon {
+	width: 14px;
+	height: 14px;
+	color: var(--zui-text-muted);
+}

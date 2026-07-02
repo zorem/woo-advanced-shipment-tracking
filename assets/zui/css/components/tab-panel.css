@@ -1,0 +1,25 @@
+/* ============================================================
+   Zorem UI — Tab Panel
+   ------------------------------------------------------------
+   Per-tab container. One panel per top tab. Only the active panel
+   is visible (use `hidden` attribute on the inactive ones —
+   reset.css ensures `[hidden]` is honored).
+
+   ============================================================ */
+
+.zui-scope .zui-tab-panel {
+	/* Page gutter for every tab's content — aligns with the header's
+	   24px inline padding. Tabs that use .zui-layout get their gutter
+	   here (layout itself adds none), and tabs without a layout
+	   (License, Analytics) get the same gutter. Grows to fill the
+	   scope's flex column; visibility is driven by [hidden]. */
+	flex: 1 1 auto;
+	min-height: 0;
+	padding: 24px;
+}
+
+@media (max-width: 782px) {
+	.zui-scope .zui-tab-panel {
+		padding: 16px;
+	}
+}

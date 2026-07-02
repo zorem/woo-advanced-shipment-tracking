@@ -1,0 +1,143 @@
+/* ============================================================
+   Zorem UI — Sidebar (section nav)
+   ------------------------------------------------------------
+   Left column of the settings layout. Holds the section nav
+   (one item per `.zui-section`) plus the Quick Help block
+   (quickhelp.css).
+
+   Mobile: behaves as a drawer toggled by `.zui-sidebar-open`
+   state class on `.zui-scope`.
+
+   ============================================================ */
+
+.zui-scope .zui-sidebar {
+	flex: 0 0 290px;
+	width: 290px;
+	background: var(--zui-surface);
+	border: 1px solid var(--zui-border);
+	border-radius: var(--zui-radius-2xl);
+	padding: 20px;
+	box-shadow: var(--zui-shadow-xs);
+	align-self: stretch;
+}
+
+.zui-scope .zui-sidebar__mobile-head {
+	display: none;
+	align-items: center;
+	justify-content: space-between;
+	padding-block-end: 16px;
+	margin-block-end: 8px;
+	border-block-end: 1px solid var(--zui-divider);
+}
+
+.zui-scope .zui-sidebar__mobile-title {
+	font-weight: 700;
+	font-size: 14px;
+	color: var(--zui-text-strong);
+}
+
+.zui-scope .zui-sidebar__close {
+	border: 0;
+	background: transparent;
+	cursor: pointer;
+	color: var(--zui-text-muted);
+	padding: 4px;
+}
+
+.zui-scope .zui-sidebar__nav {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.zui-scope .zui-sidebar__item {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	width: 100%;
+	text-align: start;
+	padding: 10px 14px;
+	border: 0;
+	background: transparent;
+	border-radius: var(--zui-radius-lg);
+	cursor: pointer;
+	color: var(--zui-text-soft);
+}
+
+.zui-scope .zui-sidebar__item:hover {
+	background: rgba(226, 232, 240, 0.4);
+	color: var(--zui-text-strong);
+}
+
+.zui-scope .zui-sidebar__item.is-active {
+	background: rgba(240, 244, 255, 0.8);
+	color: var(--zui-primary-600);
+}
+
+.zui-scope .zui-sidebar__icon {
+	display: inline-flex;
+	align-items: center;
+	color: var(--zui-text-muted);
+	flex: 0 0 auto;
+}
+
+.zui-scope .zui-sidebar__icon .zui-icon {
+	width: 18px;
+	height: 18px;
+}
+
+.zui-scope .zui-sidebar__item.is-active .zui-sidebar__icon {
+	color: var(--zui-primary-600);
+}
+
+.zui-scope .zui-sidebar__label {
+	flex: 1 1 auto;
+	font-size: 13px;
+	font-weight: 500;
+	line-height: 1.25;
+	color: var(--zui-text-soft);
+}
+
+.zui-scope .zui-sidebar__item.is-active .zui-sidebar__label {
+	font-weight: 600;
+	color: var(--zui-primary-600);
+}
+
+.zui-scope .zui-sidebar__badge {
+	flex: 0 0 auto;
+	background: var(--zui-divider);
+	color: var(--zui-text-soft);
+	font-size: 10px;
+	font-weight: 700;
+	font-family: ui-monospace, monospace;
+	padding: 2px 6px;
+	border-radius: 999px;
+}
+
+/* ---- Mobile drawer behaviour ---- */
+@media (max-width: 782px) {
+	.zui-scope .zui-sidebar {
+		position: fixed;
+		inset-block: 0;
+		inset-inline-start: 0;
+		z-index: 100000;
+		width: 264px;
+		flex-basis: 264px;
+		border-radius: 0;
+		transform: translateX(-100%);
+		transition: transform 0.2s ease;
+		overflow-y: auto;
+	}
+
+	[dir="rtl"] .zui-scope .zui-sidebar {
+		transform: translateX(100%);
+	}
+
+	.zui-scope .zui-sidebar__mobile-head {
+		display: flex;
+	}
+
+	.zui-scope.zui-sidebar-open .zui-sidebar {
+		transform: translateX(0);
+	}
+}

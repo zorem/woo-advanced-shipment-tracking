@@ -1,0 +1,152 @@
+/* ============================================================
+   Zorem UI — Multi-select (chips + dropdown widget)
+   ------------------------------------------------------------
+   Custom multi-select widget with hidden native select as the
+   save-of-truth, visible chip-control on top, and a JS-rendered
+   dropdown of options.
+
+   Auto-init via `data-zui-multiselect` (handled by ZUI.scan() in zui.js).
+
+   ============================================================ */
+
+.zui-scope .zui-ms {
+	position: relative;
+	max-width: 672px;
+}
+
+.zui-scope .zui-ms__control {
+	min-height: 42px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	padding: 8px 14px;
+	background: rgba(248, 250, 252, 0.5);
+	border: 1px solid var(--zui-border);
+	border-radius: var(--zui-radius-xl);
+	cursor: pointer;
+	transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.zui-scope .zui-ms__control:hover {
+	border-color: #cbd5e1;
+}
+
+.zui-scope .zui-ms.is-open .zui-ms__control,
+.zui-scope .zui-ms__control:focus {
+	outline: none;
+	border-color: var(--zui-primary);
+	box-shadow: 0 0 0 3px var(--zui-primary-100);
+}
+
+.zui-scope .zui-ms__chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	align-items: center;
+	min-width: 0;
+}
+
+.zui-scope .zui-ms__placeholder {
+	color: var(--zui-text-muted);
+	font-style: italic;
+	font-size: 13px;
+}
+
+.zui-scope .zui-ms__chip {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	background: var(--zui-chip-bg);
+	border: 1px solid var(--zui-chip-border);
+	color: var(--zui-chip-text);
+	font-size: 11px;
+	font-weight: 700;
+	padding: 4px 10px;
+	border-radius: var(--zui-radius-lg);
+	user-select: none;
+}
+
+.zui-scope .zui-ms__chip-remove {
+	display: flex;
+	justify-content: center;
+	width: 14px;
+	height: 14px;
+	flex-shrink: 0;
+	border: 0;
+	background: transparent;
+	color: #ef4444;
+	font-weight: 700;
+	font-size: 13px;
+	line-height: 1;
+	padding: 0;
+	margin-inline-start: 2px;
+	cursor: pointer;
+}
+
+.zui-scope .zui-ms__chip .zui-ms__chip-remove {
+	color: #ef4444;
+}
+
+.zui-scope .zui-ms__chip-remove:hover {
+	color: #b91c1c;
+}
+
+.zui-scope .zui-ms__chevron {
+	display: inline-flex;
+	color: var(--zui-text-muted);
+	flex: 0 0 auto;
+}
+
+.zui-scope .zui-ms__chevron .zui-icon {
+	width: 16px;
+	height: 16px;
+}
+
+.zui-scope .zui-ms__dropdown {
+	position: absolute;
+	left: 0;
+	right: 0;
+	margin-top: 4px;
+	background: var(--zui-surface);
+	border: 1px solid var(--zui-border);
+	border-radius: var(--zui-radius-xl);
+	box-shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.12), 0 8px 10px -6px rgba(15, 23, 42, 0.1);
+	max-height: 224px;
+	overflow-y: auto;
+	z-index: 30;
+	padding: 4px 0;
+}
+
+.zui-scope .zui-ms__option {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	padding: 10px 16px;
+	font-size: 12px;
+	color: var(--zui-text-soft);
+	cursor: pointer;
+	border-bottom: 1px solid #f8fafc;
+}
+
+.zui-scope .zui-ms__option:last-child {
+	border-bottom: 0;
+}
+
+.zui-scope .zui-ms__option:hover {
+	background: #f8fafc;
+}
+
+.zui-scope .zui-ms__option.is-selected {
+	background: rgba(240, 244, 255, 0.6);
+	color: #243c94;
+	font-weight: 700;
+}
+
+.zui-scope .zui-ms__check {
+	color: var(--zui-primary-600);
+	font-size: 13px;
+	font-weight: 700;
+	line-height: 1;
+}

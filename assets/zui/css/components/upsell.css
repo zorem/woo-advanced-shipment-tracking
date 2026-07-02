@@ -1,0 +1,318 @@
+/* ============================================================
+   Zorem UI — Pro Upsell Panel  (Phase 2 — opt-in)
+   ------------------------------------------------------------
+   Full-width promotional panel displayed on the Settings page
+   of free plugins to upsell the PRO version. Contains a branded
+   header (icon emblem + eyebrow + headline + description), a
+   responsive 3-column feature checklist, and a footer with an
+   optional coupon offer and a primary CTA button.
+
+   No JavaScript. Static HTML only.
+
+   Markup:
+     <section class="zui-upsell" aria-labelledby="upsell-title">
+
+       <header class="zui-upsell__head">
+         <span class="zui-upsell__emblem" aria-hidden="true"><!-- SVG icon --></span>
+         <div class="zui-upsell__head-text">
+           <span class="zui-upsell__eyebrow">PLUGIN PRO</span>
+           <h3 class="zui-upsell__title" id="upsell-title">Headline here</h3>
+           <p class="zui-upsell__sub">Description here</p>
+         </div>
+       </header>
+
+       <ul class="zui-upsell__features">
+         <li class="zui-upsell__feature">
+           <span class="zui-upsell__check" aria-hidden="true"><!-- check SVG --></span>
+           <span class="zui-upsell__label">Feature name</span>
+         </li>
+         <li class="zui-upsell__feature">
+           <span class="zui-upsell__check" aria-hidden="true"><!-- check SVG --></span>
+           <span class="zui-upsell__label">
+             Feature name <span class="zui-upsell__new">NEW</span>
+           </span>
+         </li>
+       </ul>
+
+       <footer class="zui-upsell__foot">
+         <div class="zui-upsell__offer">
+           <span class="zui-upsell__offer-label">LAUNCH OFFER</span>
+           <span class="zui-upsell__offer-body">
+             Get 20% off — use code
+             <span class="zui-upsell__code">PLUGINPRO20</span>
+             at checkout.
+           </span>
+           <span class="zui-upsell__offer-note">★ for new customers only</span>
+         </div>
+         <a class="zui-upsell__cta" href="#" target="_blank" rel="noopener noreferrer">
+           Upgrade to PRO <span aria-hidden="true">→</span>
+         </a>
+       </footer>
+
+     </section>
+
+   Modifier:
+     .zui-upsell--cols-2   Feature grid uses 2 columns instead of 3.
+
+   ============================================================ */
+
+/* ---- Root container ---- */
+
+.zui-scope .zui-upsell {
+	position: relative;
+	margin-block-start: var(--zui-space-lg);
+	background: linear-gradient(180deg, var(--zui-primary-50) 0%, var(--zui-surface) 100%);
+	border: 1px solid var(--zui-primary-200);
+	border-radius: var(--zui-radius-2xl);
+	overflow: hidden;
+	box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
+}
+
+/* Top accent stripe */
+.zui-scope .zui-upsell::before {
+	content: '';
+	position: absolute;
+	inset-block-start: 0;
+	inset-inline: 0;
+	height: 4px;
+	background: linear-gradient(90deg, var(--zui-primary) 0%, var(--zui-primary-700) 100%);
+}
+
+/* ---- Header ---- */
+
+.zui-scope .zui-upsell__head {
+	display: flex;
+	gap: 18px;
+	align-items: flex-start;
+	padding: 28px 32px 20px;
+}
+
+.zui-scope .zui-upsell__emblem {
+	flex-shrink: 0;
+	width: 52px;
+	height: 52px;
+	border-radius: var(--zui-radius-xl);
+	background: linear-gradient(135deg, var(--zui-primary) 0%, var(--zui-primary-700) 100%);
+	color: var(--zui-text-on-accent);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0 4px 10px rgba(59, 100, 211, 0.30);
+}
+
+.zui-scope .zui-upsell__emblem .zui-icon {
+	width: 26px;
+	height: 26px;
+}
+
+.zui-scope .zui-upsell__head-text {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+.zui-scope .zui-upsell__eyebrow {
+	display: inline-block;
+	margin-block-end: 6px;
+	padding: 2px 8px;
+	background: var(--zui-primary-100);
+	color: var(--zui-primary-700);
+	font-size: var(--zui-fs-xs);
+	font-weight: 800;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	border-radius: var(--zui-radius-pill);
+}
+
+.zui-scope .zui-upsell__title {
+	margin: 0 0 6px;
+	font-size: 20px;
+	font-weight: 700;
+	line-height: 1.3;
+	color: var(--zui-text-strong);
+	letter-spacing: -0.01em;
+}
+
+.zui-scope .zui-upsell__sub {
+	margin: 0;
+	font-size: var(--zui-fs-body);
+	line-height: var(--zui-lh-body);
+	color: var(--zui-text-soft);
+	max-width: 680px;
+}
+
+/* ---- Feature grid ---- */
+
+.zui-scope .zui-upsell__features {
+	list-style: none;
+	margin: 0;
+	padding: 4px 32px 24px;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 16px 24px;
+}
+
+.zui-scope .zui-upsell--cols-2 .zui-upsell__features {
+	grid-template-columns: repeat(2, 1fr);
+}
+
+.zui-scope .zui-upsell__feature {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.zui-scope .zui-upsell__check {
+	flex-shrink: 0;
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
+	background: var(--zui-success-bg);
+	color: var(--zui-success);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.zui-scope .zui-upsell__check .zui-icon {
+	width: 11px;
+	height: 11px;
+	stroke-width: 3;
+}
+
+.zui-scope .zui-upsell__label {
+	font-size: var(--zui-fs-body);
+	color: var(--zui-text);
+	line-height: 1.4;
+}
+
+/* ---- NEW inline badge ---- */
+
+.zui-scope .zui-upsell__new {
+	display: inline-block;
+	margin-inline-start: 4px;
+	padding: 2px 6px;
+	background: #ede9fe;
+	color: #6d28d9;
+	font-size: 8px;
+	font-weight: 800;
+	letter-spacing: 0.10em;
+	text-transform: uppercase;
+	border-radius: 3px;
+	vertical-align: middle;
+	line-height: 1.4;
+}
+
+/* ---- Footer ---- */
+
+.zui-scope .zui-upsell__foot {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 24px;
+	padding: 20px 32px;
+	background: var(--zui-primary-50);
+	border-block-start: 1px solid var(--zui-primary-100);
+	flex-wrap: wrap;
+}
+
+.zui-scope .zui-upsell__offer {
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+}
+
+.zui-scope .zui-upsell__offer-label {
+	font-size: var(--zui-fs-xs);
+	font-weight: 800;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--zui-warning);
+}
+
+.zui-scope .zui-upsell__offer-body {
+	font-size: var(--zui-fs-body);
+	color: var(--zui-text);
+	line-height: 1.5;
+}
+
+.zui-scope .zui-upsell__code {
+	display: inline-block;
+	padding: 2px 8px;
+	background: linear-gradient(180deg, #fef3c7 0%, #fde68a 100%);
+	color: #92400e;
+	font-family: var(--zui-font-mono);
+	font-size: var(--zui-fs-sm);
+	font-weight: 800;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	border: 1px dashed #f59e0b;
+	border-radius: 5px;
+}
+
+.zui-scope .zui-upsell__offer-note {
+	font-size: var(--zui-fs-xs);
+	color: var(--zui-text-muted);
+}
+
+/* ---- CTA button ---- */
+
+.zui-scope .zui-upsell__cta {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 12px 22px;
+	background: linear-gradient(135deg, var(--zui-primary) 0%, var(--zui-primary-700) 100%);
+	color: var(--zui-text-on-accent);
+	font-family: var(--zui-font);
+	font-size: 13px;
+	font-weight: 700;
+	letter-spacing: 0.02em;
+	text-decoration: none;
+	border-radius: var(--zui-radius-xl);
+	box-shadow: 0 4px 10px rgba(59, 100, 211, 0.30);
+	transition: transform var(--zui-dur) var(--zui-ease),
+	            box-shadow var(--zui-dur) var(--zui-ease);
+	white-space: nowrap;
+	flex-shrink: 0;
+}
+
+.zui-scope .zui-upsell__cta:hover {
+	transform: translateY(-1px);
+	box-shadow: 0 6px 16px rgba(59, 100, 211, 0.40);
+	color: var(--zui-text-on-accent);
+}
+
+.zui-scope .zui-upsell__cta:active {
+	transform: translateY(0);
+	box-shadow: 0 2px 6px rgba(59, 100, 211, 0.25);
+}
+
+/* ---- Responsive breakpoints ---- */
+
+@media (max-width: 960px) {
+	.zui-scope .zui-upsell__features {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media (max-width: 640px) {
+	.zui-scope .zui-upsell__head {
+		padding: 20px 20px 16px;
+	}
+
+	.zui-scope .zui-upsell__features {
+		grid-template-columns: 1fr;
+		padding-inline: 20px;
+	}
+
+	.zui-scope .zui-upsell__foot {
+		flex-direction: column;
+		align-items: flex-start;
+		padding-inline: 20px;
+	}
+
+	.zui-scope .zui-upsell__cta {
+		width: 100%;
+		justify-content: center;
+	}
+}

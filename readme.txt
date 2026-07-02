@@ -1,35 +1,69 @@
 === Advanced Shipment Tracking for WooCommerce ===
 Contributors: zorem, gaurav1092, eranzorem, satishzorem
-Tags: shipment tracking, order tracking, shipping, tracking number, woocommerce
+Tags: shipment tracking, order tracking, tracking number, fulfillment, shipping notifications
 Requires at least: 5.3
-Tested up to: 6.9.4
-Stable tag: 3.9.2
+Tested up to: 7.0
+Stable tag: 4.0
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Add shipment tracking info to WooCommerce orders, send tracking numbers to customers via email, and let them track deliveries from My Account.
+The #1 WooCommerce shipment tracking plugin. Add tracking, auto-update order status, send branded emails. 1010+ carriers. Trusted by 60,000+ stores.
 
 == Description ==
 
-**Advanced Shipment Tracking (AST)** helps WooCommerce store owners add tracking numbers to orders and automatically share them with customers. When you ship an order, your customer gets a tracking link in their email and on their My Account page — reducing "Where is my order?" support tickets and keeping shoppers informed from checkout to delivery.
+**Trusted by 60,000+ WooCommerce stores worldwide.** Advanced Shipment Tracking (AST) helps WooCommerce store owners add tracking numbers to orders and automatically share them with customers — reducing "Where is my order?" support tickets and keeping shoppers informed from checkout to delivery.
 
-Trusted by **60,000+ WooCommerce stores**, AST makes order fulfillment faster and your customers happier.
+When you ship an order, your customer instantly gets a tracking link in their order email and on their **My Account > Orders** page. No external accounts, no complex setup, no monthly fees.
 
-= Why Store Owners Choose AST =
+**HPOS Compatible** · **WooCommerce Block Checkout Compatible** · **1010+ Carriers** · **Free & Open Source**
+
+= Why 60,000+ Stores Choose AST =
 
 Whether you ship 5 orders a day or 5,000, AST fits into your workflow:
 
 * **Add Tracking Numbers Easily** — Add one or multiple tracking numbers per order directly from the Edit Order page or the orders list.
 * **"Shipped" & "Partially Shipped" Statuses** — Rename the default WooCommerce "Completed" status to "Shipped" and use "Partially Shipped" for split shipments, so customers always know what's going on.
-* **Customizable Tracking Widget** — A responsive tracking info display appears in order emails and on the My Account > Orders page. Customize colors, layout, and content with a live preview customizer.
-* **850+ Shipping Carriers Worldwide** — Predefined tracking links for carriers like USPS, UPS, FedEx, DHL, Royal Mail, Australia Post, Canada Post, Delhivery, ePacket, and hundreds more. [View the full carrier list](https://docs.zorem.com/docs/ast-free/shipping-carriers/#shipping-carriers-list-options/).
+* **Customizable Tracking Widget** — A responsive tracking display appears in order emails and on the My Account > Orders page. Customize colors, layout, and content with a live preview customizer.
+* **1010+ Shipping Carriers Worldwide** — Predefined tracking links for USPS, UPS, FedEx, DHL, Royal Mail, Australia Post, Canada Post, Delhivery, ePacket, Yodel, La Poste, Correos, Japan Post, China Post, and hundreds more. [View the full carrier list](https://docs.zorem.com/docs/ast-free/shipping-carriers/#shipping-carriers-list-options/).
 * **Shipment Tracking REST API** — Let third-party shipping services, ERPs, and label generators push tracking data to your orders via the WooCommerce REST API. [API documentation](https://docs.zorem.com/docs/ast-free/add-tracking-to-orders/shipment-tracking-api/).
 * **Bulk CSV Import** — Upload a CSV file to add tracking numbers to hundreds of orders at once. Perfect for high-volume stores and dropshippers. [CSV import guide](https://docs.zorem.com/docs/ast-free/add-tracking-to-orders/csv-import/).
+* **Works with the Shipping Tools You Already Use** — Compatible with ShipStation, WooCommerce Shipping, Ordoro, Royal Mail Click & Drop, Sendcloud, Printful, AliExpress dropshipping, and other major shipping label generators.
+* **HPOS & Block Checkout Ready** — Fully compatible with WooCommerce High-Performance Order Storage (custom order tables) and the new Cart and Checkout blocks.
+* **PayPal Tracking Foundation** — AST structures your tracking data correctly so it can sync with PayPal (automated sync available in AST PRO).
+* **Built for Performance** — Lightweight, optimized code with zero measurable impact on site load times.
 
-= Upgrade to AST PRO for Advanced Fulfillment =
+= How It Works =
 
-Need more power? [AST PRO](https://www.zorem.com/ast-pro/) adds features built for high-volume and multi-channel stores:
+1. Install and activate AST.
+2. Select your default shipping carriers from the settings page.
+3. Add a tracking number to an order — manually, via CSV, or through the REST API.
+4. AST automatically includes the tracking info and a "Track" link in the order email and the customer's My Account page.
+
+That's it. No complex setup, no external accounts required.
+
+= Works With Your Existing Plugins =
+
+AST is tested and compatible with popular WooCommerce plugins, including shipping label generators, email customizers (Kadence, YayMail, WP HTML Mail), custom order number plugins, multi-vendor solutions (Dokan, WCFM), SMS notification plugins, and PDF invoice tools.
+
+[Full compatibility list](https://docs.zorem.com/docs/ast-free/compatibility/)
+
+= Automate Tracking Updates with TrackShip =
+
+Want to go beyond adding tracking numbers? [TrackShip for WooCommerce](https://wordpress.org/plugins/trackship-for-woocommerce/) monitors your shipments in real time across 1010+ carriers and proactively notifies your customers at every stage — in transit, out for delivery, and delivered.
+
+With TrackShip you can:
+
+* Reduce "Where is my order?" inquiries with automatic delivery updates via email and SMS.
+* Offer a branded tracking page on your store instead of sending customers to carrier websites.
+* Automate order status updates based on actual shipment events.
+* Analyze shipping performance and delivery times.
+
+[Learn more about TrackShip](https://trackship.com/)
+
+= Need More Power? Try AST PRO =
+
+[AST PRO](https://www.zorem.com/product/woocommerce-advanced-shipment-tracking/) adds features built for high-volume and multi-channel stores:
 
 * **Shipping Service Integrations** — Built-in connections with ShipStation, WooCommerce Shipping, Ordoro, Royal Mail Click & Drop, Sendcloud, Pirate Ship, Stamps.com, Printful, and more.
 * **Fulfillment Dashboard** — Manage all shipments from a centralized dashboard.
@@ -39,15 +73,10 @@ Need more power? [AST PRO](https://www.zorem.com/ast-pro/) adds features built f
 * **Custom & White-Labeled Carriers** — Define your own shipping carriers with custom names, logos, and tracking URLs.
 * **Automated CSV Import via FTP/SFTP** — Schedule recurring bulk imports.
 * **PayPal Tracking Sync** — Automatically export tracking data to PayPal to reduce disputes and release payment holds.
+* **Stripe Tracking Sync** — Automatically sync tracking to Stripe transactions.
 * **Priority Support** — Get faster, dedicated assistance.
 
-[Get AST PRO](https://www.zorem.com/ast-pro/)
-
-= Works With Your Existing Plugins =
-
-AST is tested and compatible with popular WooCommerce plugins, including shipping label generators, email customizers (Kadence, YayMail, WP HTML Mail), custom order number plugins, multi-vendor solutions (Dokan), SMS notification plugins, and PDF invoice tools.
-
-[Full compatibility list](https://docs.zorem.com/docs/ast-free/compatibility/)
+[Get AST PRO](https://www.zorem.com/product/woocommerce-advanced-shipment-tracking/)
 
 = Translations =
 
@@ -61,40 +90,13 @@ Step-by-step setup guides, tutorials, and developer code snippets are available 
 
 Need help? Visit the [support forum](https://wordpress.org/support/plugin/woo-advanced-shipment-tracking/).
 
-= Automate Tracking Updates with TrackShip =
-
-Want to go beyond adding tracking numbers? [TrackShip for WooCommerce](https://wordpress.org/plugins/trackship-for-woocommerce/) monitors your shipments in real time across 850+ carriers and proactively notifies your customers at every stage — in transit, out for delivery, and delivered.
-
-With TrackShip you can:
-
-* Reduce "Where is my order?" inquiries with automatic delivery updates via email and SMS.
-* Offer a branded tracking page on your store instead of sending customers to carrier websites.
-* Automate order status updates based on actual shipment events.
-* Analyze shipping performance and delivery times.
-
-[Learn more about TrackShip](https://trackship.com/)
-
 = More Plugins by Zorem =
 
-* [Zorem Local Pickup Pro](https://zorem.com/plugins/zorem-local-pickup-pro/) — Local pickup and store pickup for WooCommerce.
-* [SMS for WooCommerce](https://zorem.com/plugins/sms-for-woocommerce/) — Send SMS order notifications to customers.
-* [Country Based Restriction for WooCommerce](https://zorem.com/plugins/country-based-restriction-for-woocommerce/) — Restrict products, shipping, and payment by country.
-* [Customer Email Verification for WooCommerce](https://zorem.com/plugins/customer-email-verification-for-woocommerce/) — Verify customer emails during registration.
-* [Sales By Country for WooCommerce](https://zorem.com/plugins/sales-by-country-for-woocommerce/) — Visualize sales data by country.
-* [Zorem Returns](https://zorem.com/plugins/zorem-returns/) — Manage product returns and RMA.
-* [Email Reports for WooCommerce](https://zorem.com/plugins/email-reports-for-woocommerce/) — Automated email sales reports.
-* [View as Customer for WooCommerce](https://zorem.com/plugins/view-as-customer-for-woocommerce/) — Preview your store as a specific customer.
+* [TrackShip for WooCommerce](https://wordpress.org/plugins/trackship-for-woocommerce/) — Real-time shipment monitoring and delivery notifications.
+* [SMS for WooCommerce](https://wordpress.org/plugins/sms-for-woocommerce/) — Send SMS order notifications to customers.
+* [Zorem Local Pickup Pro](https://www.zorem.com/product/zorem-local-pickup-pro/) — Local pickup and store pickup for WooCommerce.
 
 Explore all plugins at [zorem.com](https://www.zorem.com/).
-
-= How It Works =
-
-1. Install and activate AST.
-2. Select your default shipping carriers from the settings page.
-3. Add a tracking number to an order — manually, via CSV, or through the REST API.
-4. AST automatically includes the tracking info and a "Track" link in the order email and the customer's My Account page.
-
-That's it. No complex setup, no external accounts required.
 
 == Installation ==
 
@@ -106,6 +108,26 @@ That's it. No complex setup, no external accounts required.
 Alternatively, upload the `woo-advanced-shipment-tracking` folder to `/wp-content/plugins/` and activate through the Plugins menu.
 
 == Frequently Asked Questions ==
+
+= How is AST different from the official WooCommerce Shipment Tracking extension? =
+
+AST is built for store owners who want more than basic tracking links. Compared to the official WooCommerce Shipment Tracking extension, AST adds: 1010+ pre-configured shipping carriers (vs ~50), a customizable tracking widget with live preview, a complete "Shipped / Partially Shipped" fulfillment workflow, bulk CSV import, a Shipment Tracking REST API, and automatic data migration from the official plugin. AST is free, open source, and trusted by 60,000+ active WooCommerce stores.
+
+= I'm migrating from WooCommerce Shipment Tracking (by WooCommerce). Will my data carry over? =
+
+Yes. When you activate AST, it automatically detects and migrates existing shipment tracking data from the official WooCommerce Shipment Tracking extension, so your customers won't lose access to their tracking information.
+
+= Is AST compatible with HPOS (High-Performance Order Storage)? =
+
+Yes. AST has fully declared HPOS compatibility and works with WooCommerce's High-Performance Order Storage (custom order tables) for fast performance on high-volume stores.
+
+= Does AST work with WooCommerce's new Cart and Checkout blocks? =
+
+Yes. AST is compatible with the WooCommerce Block Checkout. Tracking information displays correctly in all block-based email templates and on the My Account page regardless of whether you use the classic shortcode checkout or the new block checkout.
+
+= Will AST slow down my WooCommerce store? =
+
+No. AST is built for performance with lightweight, optimized code. It loads tracking-related assets only on the admin order pages and on the customer-facing tracking widget. There is no measurable impact on page load speed, Core Web Vitals, or checkout performance.
 
 = How do I add a tracking number to a WooCommerce order? =
 
@@ -125,19 +147,31 @@ Yes. You can add as many tracking numbers as needed to a single order. All track
 
 = Can I assign tracking numbers to specific products in an order? =
 
-This feature is available in [AST PRO](https://www.zorem.com/ast-pro/), which supports item-level tracking — you can split orders into multiple shipments and attach tracking numbers to individual line items and quantities.
+Item-level tracking (assigning tracking numbers to specific line items and quantities) is available in [AST PRO](https://www.zorem.com/product/woocommerce-advanced-shipment-tracking/).
+
+= Does AST integrate with PayPal tracking? =
+
+The free version of AST stores your tracking data in the correct WooCommerce metadata structure so it's ready for PayPal tracking. Automatic synchronization of tracking numbers to PayPal transactions (which helps release payment holds and reduce "Item Not Received" disputes) is available in [AST PRO](https://www.zorem.com/product/woocommerce-advanced-shipment-tracking/).
 
 = Does AST automatically track my shipments and send delivery notifications? =
 
-AST handles adding tracking information to orders and sharing it with customers. For automatic shipment monitoring, real-time status updates, and proactive delivery notifications, install [TrackShip for WooCommerce](https://wordpress.org/plugins/trackship-for-woocommerce/). TrackShip auto-tracks your shipped orders across 850+ carriers and sends status and delivery updates by email or SMS.
+AST handles adding tracking information to orders and sharing it with customers. For automatic shipment monitoring, real-time status updates, and proactive delivery notifications across 1010+ carriers, install [TrackShip for WooCommerce](https://wordpress.org/plugins/trackship-for-woocommerce/).
 
 = My shipping carrier is not on the list. Can I add a custom carrier? =
 
-AST includes 850+ predefined carriers. If yours is missing, you can suggest it on our [feature request board](https://feedback.zorem.com/ast) or the [support forum](https://wordpress.org/support/plugin/woo-advanced-shipment-tracking/). Adding your own custom carriers with custom tracking URLs is available in [AST PRO](https://www.zorem.com/ast-pro/).
+AST includes 1010+ predefined carriers. If yours is missing, you can suggest it on our [feature request board](https://feedback.zorem.com/ast) or the [support forum](https://wordpress.org/support/plugin/woo-advanced-shipment-tracking/). Adding your own custom carriers with custom tracking URLs is available in [AST PRO](https://www.zorem.com/product/woocommerce-advanced-shipment-tracking/).
 
 = Can I import tracking numbers in bulk from a CSV file? =
 
 Yes. Use the built-in [CSV import tool](https://docs.zorem.com/docs/ast-free/add-tracking-to-orders/csv-import/) to add tracking numbers to multiple orders at once. Each row in the CSV corresponds to one tracking number entry.
+
+= Can I use AST for dropshipping (AliExpress, CJ Dropshipping, Spocket, etc.)? =
+
+Yes. AST is widely used by WooCommerce dropshipping stores. You can bulk import tracking numbers from your supplier's CSV file, or use the REST API to push tracking data from third-party fulfillment platforms. The 1010+ supported carriers include all major dropshipping logistics providers — ePacket, Yanwen, Yun Express, China Post, 4PX, and others.
+
+= Does AST work with multi-vendor marketplaces like Dokan or WCFM? =
+
+Yes. AST is compatible with Dokan, WCFM Marketplace, and Product Vendors. Vendors can add their own tracking numbers to their orders, and customers receive tracking information through the standard WooCommerce email and My Account flows.
 
 = Does AST support custom order numbers from other plugins? =
 
@@ -147,15 +181,11 @@ Yes. AST is compatible with popular custom order number plugins. You can use cus
 
 Yes. If you use external shipping services or fulfillment tools that work with the WooCommerce REST API, they can use the [AST shipment tracking API endpoint](https://docs.zorem.com/docs/ast-free/add-tracking-to-orders/shipment-tracking-api/) to create, update, and delete tracking entries on orders.
 
-= I'm migrating from WooCommerce Shipment Tracking (by WooCommerce). Will my data carry over? =
-
-Yes. When you activate AST, it automatically detects and migrates existing shipment tracking data from the official WooCommerce Shipment Tracking extension, so your customers won't lose access to their tracking information.
-
 == Screenshots ==
 
 1. Add shipment tracking numbers to orders from the Edit Order page with carrier selection and tracking number fields.
 2. Customize the tracking info widget design for emails and My Account using the built-in live preview customizer.
-3. The Shipping Carriers settings page — search, enable, and manage 850+ carriers.
+3. The Shipping Carriers settings page — search, enable, and manage 1010+ carriers.
 4. Tracking info displayed on the customer's My Account > View Order page.
 5. Shipment tracking details shown in the WooCommerce order email notification.
 6. Bulk CSV import tool to add tracking numbers to multiple orders at once.
@@ -165,6 +195,10 @@ Yes. When you activate AST, it automatically detects and migrates existing shipm
 10. AST settings page for customizing order statuses, email display, and tracking behavior.
 
 == Changelog ==
+
+= 4.0 =
+* Dev – Tested with WooCommerce 10.9.1 and WordPress 7.0
+* New – Completely redesigned the AST FREE admin interface with a modern, cleaner look.
 
 = 3.9.2 =
 * Dev - Tested with WooCommerce 10.7.0
@@ -186,7 +220,7 @@ Yes. When you activate AST, it automatically detects and migrates existing shipm
 
 = 3.8.8 =
 * Dev - Tested with WooCommerce 10.3.5
-* Enhancement – Updated “Shipping Carrier Not Found!” message with a suggestion to sync carriers for the latest list.
+* Enhancement – Updated "Shipping Carrier Not Found!" message with a suggestion to sync carriers for the latest list.
 * Fix – Updated deprecated WooCommerce script handles (jquery-blockui, jquery-tiptip, serializejson) to new handles (wc-jquery-blockui, wc-jquery-tiptip, wc-serializejson) for compatibility with WooCommerce 10.3+.
 
 = 3.8.7 =
@@ -283,7 +317,7 @@ Yes. When you activate AST, it automatically detects and migrates existing shipm
 * Fix - Resolved an issue where the Tracking Info email template was not being overridden in the theme/child-theme
 
 = 3.6.8 =
-* Improvement - Updated the string “selected” to use a non-translatable function for better compatibility.
+* Improvement - Updated the string "selected" to use a non-translatable function for better compatibility.
 * Dev - Tested plugin with WordPress 6.5.5
 * Dev - Tested with WooCommerce 9.0.2
 * Fix - Fixed the issue where custom email content was not being saved properly.
@@ -301,7 +335,7 @@ Yes. When you activate AST, it automatically detects and migrates existing shipm
 * Dev - updated the Synch providers API call URL
 * Fix - translation issue on Add Tracking slideout
 * Fix - Deprecated warnings
-* Fix - “Creation of dynamic property WC_Advanced_Shipment_Tracking_Actions::$providers is deprecated”
+* Fix - "Creation of dynamic property WC_Advanced_Shipment_Tracking_Actions::$providers is deprecated"
 
 = 3.6.5 =
 * Dev - Test plugin with WordPress 6.4.2
@@ -356,7 +390,7 @@ Yes. When you activate AST, it automatically detects and migrates existing shipm
 * Fix - Customizer save issue in Firefox
 
 = 3.5.1 =
-* Fix - Fatal Error - Error message: Uncaught Automaic\WooCommerce\Vendor\League\Container\Excep@on\NotFoundExcep@on: Alias (Automaic\WooCommerce\Internal\DataStores\Orders\CustomOrdersTableController) is not being managed by the container
+* Fix - Fatal Error - Error message: Uncaught Automaic\WooCommerce\Vendor\League\Container\Exception\NotFoundException: Alias (Automaic\WooCommerce\Internal\DataStores\Orders\CustomOrdersTableController) is not being managed by the container
 
 = 3.5 =
 * Add - Declared HPOS compatibility.
@@ -367,7 +401,7 @@ Yes. When you activate AST, it automatically detects and migrates existing shipm
 * Fix - Order status Email content formating issue
 
 = 3.4.7 =
-* Fix - “syntax error, unexpected ‘)’ in class-wc-advanced-shipment-tracking.php on line 916” with PHP 7.2
+* Fix - "syntax error, unexpected ')' in class-wc-advanced-shipment-tracking.php on line 916" with PHP 7.2
 
 = 3.4.6 =
 * Enhancement - Move the fulfillment workflow panel on top in the settings page and updated the design of it

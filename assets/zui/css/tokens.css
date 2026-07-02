@@ -1,0 +1,98 @@
+/* ============================================================
+   Zorem UI — Design tokens
+   ============================================================
+   Single source of truth for color, spacing, radius, shadow,
+   typography and z-index across every Zorem consumer plugin.
+
+   Tokens live only on `.zui-scope`. They do not leak to the rest
+   of wp-admin. Override any token in a more specific scope to
+   theme a single plugin / page:
+
+       .my-plugin-page.zui-scope { --zui-primary: #c00; }
+   ============================================================ */
+
+/* Google Fonts — Inter (sans) + JetBrains Mono (mono). */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+.zui-scope {
+
+	/* ---- Brand / accent (full 50–900 scale per the React design) ---- */
+	--zui-primary:        #3b64d3;     /* alias of --zui-primary-500 */
+	--zui-primary-hover:  #2d4db5;
+	--zui-primary-50:     #f0f4ff;
+	--zui-primary-100:    #e1e9fe;
+	--zui-primary-200:    #cbdafc;
+	--zui-primary-300:    #a7c1fa;
+	--zui-primary-400:    #7da0f6;
+	--zui-primary-500:    #3b64d3;     /* core brand blue */
+	--zui-primary-600:    #2d4db5;
+	--zui-primary-700:    #243c94;
+	--zui-primary-800:    #1d2e73;
+	--zui-primary-900:    #19275e;
+
+	/* ---- Surfaces ---- */
+	--zui-bg:             #f8fafc;
+	--zui-surface:        #ffffff;
+	--zui-border:         #e2e8f0;
+	--zui-divider:        #f1f5f9;
+
+	/* ---- Text ---- */
+	--zui-text-strong:    #0f172a;
+	--zui-text:           #1e293b;     /* slate-800 — labels */
+	--zui-text-soft:      #475569;     /* slate-600 — nav */
+	--zui-text-muted:     #94a3b8;     /* slate-400 — descriptors */
+	--zui-text-faint:     #cbd5e1;     /* slate-300 — sort arrows, gaps, placeholders */
+	--zui-text-on-accent: #ffffff;     /* text on a primary fill */
+
+	/* ---- Semantic status (color + tinted bg) ---- */
+	--zui-success:        #10b981;
+	--zui-success-bg:     #ecfdf5;
+	--zui-warning:        #f59e0b;
+	--zui-warning-bg:     #fffbeb;
+	--zui-danger:         #f43f5e;
+	--zui-danger-bg:      #fff1f2;
+	--zui-info:           #2563eb;
+	--zui-info-bg:        #eff6ff;
+	--zui-neutral:        #64748b;
+	--zui-neutral-bg:     #f1f5f9;
+
+	/* ---- Chips ---- */
+	--zui-chip-bg:        rgba(37, 99, 235, 0.10);
+	--zui-chip-border:    rgba(37, 99, 235, 0.20);
+	--zui-chip-text:      #1e40af;
+
+	/* ---- Spacing scale (4 · 8 · 16 · 24 · 32) ---- */
+	--zui-space-xs:       4px;
+	--zui-space-sm:       8px;
+	--zui-space-md:       16px;
+	--zui-space-lg:       24px;
+	--zui-space-xl:       32px;
+
+	/* ---- Radii ---- */
+	--zui-radius-md:      8px;
+	--zui-radius-lg:      8px;
+	--zui-radius-xl:      12px;
+	--zui-radius-2xl:     16px;
+	--zui-radius-pill:    999px;
+
+	/* ---- Shadows ---- */
+	--zui-shadow-xs:      0 1px 2px rgba(15, 23, 42, 0.04);
+	--zui-shadow-sm:      0 1px 3px rgba(15, 23, 42, 0.08);
+	--zui-shadow-md:      0 4px 10px rgba(15, 23, 42, 0.10);
+	--zui-shadow-lg:      0 10px 30px rgba(15, 23, 42, 0.12);
+
+	/* ---- Typography ---- */
+	--zui-font:           'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+	--zui-font-mono:      'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+	--zui-fs-xs:          11px;
+	--zui-fs-sm:          12px;
+	--zui-fs-body:        14px;
+	--zui-fs-md:          16px;
+	--zui-lh-body:        1.5;
+	--zui-fw-medium:      500;
+	--zui-fw-semibold:    600;
+
+	/* ---- Motion ---- */
+	--zui-dur:            0.15s;
+	--zui-ease:           ease;
+}

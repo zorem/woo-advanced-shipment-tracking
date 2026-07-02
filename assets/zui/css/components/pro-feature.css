@@ -1,0 +1,62 @@
+/* ============================================================
+   Zorem UI — PRO Feature Lock (PRO pill + lock chip pair)
+   ------------------------------------------------------------
+   Compact two-element indicator used anywhere in a settings UI to
+   flag that a feature is gated behind the plugin's PRO version.
+   Renders as a small solid-blue "PRO" pill followed by a soft-tinted
+   rounded-square chip containing a lock icon.
+
+   The component is layout-only — it does NOT prescribe what sits
+   next to it (a disabled toggle, a checkbox, a `select`, or nothing
+   at all). Plugins place this pair wherever they need the indicator;
+   how the surrounding row arranges its children is up to the plugin
+   (typical pattern: `.zui-row__control` is set to inline-flex so the
+   PRO Feature Lock and the disabled control sit on one line).
+
+   Badge and lock chip styles are fully self-contained — no
+   dependency on `badge.css` or any other component.
+
+   Markup:
+     <span class="zui-pro-feature">
+       <span class="zui-pro-feature__badge">PRO</span>
+       <span class="zui-pro-feature__lock" aria-hidden="true">
+         <svg class="zui-icon">…lock…</svg>
+       </span>
+     </span>
+
+   ============================================================ */
+
+.zui-scope .zui-pro-feature {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.zui-scope .zui-pro-feature__badge {
+	display: inline-block;
+	padding: 2px 8px;
+	background: var(--zui-primary);
+	color: #fff;
+	border-radius: 4px;
+	font-size: 11px;
+	font-weight: 800;
+	letter-spacing: 0.05em;
+	font-family: inherit;
+}
+
+.zui-scope .zui-pro-feature__lock {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	background: color-mix(in srgb, var(--zui-primary) 18%, transparent);
+	color: var(--zui-primary);
+	border-radius: 8px;
+}
+
+.zui-scope .zui-pro-feature__lock .zui-icon {
+	width: 14px;
+	height: 14px;
+	display: block;
+}

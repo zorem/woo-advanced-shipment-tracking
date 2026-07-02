@@ -1,0 +1,35 @@
+/* ============================================================
+   Zorem UI — Checkbox Grid (multiple checkbox group)
+   ------------------------------------------------------------
+   Wrap-flow grid of small inline checkbox + label items. Used
+   for the `multiple_checkbox` field type (an array of yes/no
+   sub-options under one row).
+
+   Markup:
+     <div class="zui-checkgrid">
+       <label class="zui-checkitem">
+         <input type="hidden" name="key[a]" value="0">
+         <input type="checkbox" name="key[a]" value="1">
+         <span>Option A</span>
+       </label>
+       <!-- repeat -->
+     </div>
+
+   ============================================================ */
+
+.zui-scope .zui-checkgrid {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px 24px;
+}
+
+.zui-scope .zui-checkitem {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 13px;
+}
+
+.zui-scope .zui-checkitem input[type="checkbox"] {
+	accent-color: var(--zui-primary);
+}

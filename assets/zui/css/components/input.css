@@ -1,0 +1,32 @@
+/* ============================================================
+   Zorem UI — Input (text / password / number)
+   ------------------------------------------------------------
+   Universal text input. Used for text, password, and number
+   fields. Composes with module modifier classes for context-
+   specific styling (e.g. modal field, search field).
+
+   ============================================================ */
+
+.zui-scope .zui-input {
+	width: 100%;
+	max-width: 520px;
+	height: 40px;
+	padding: 0 14px;
+	background: var(--zui-bg);
+	border: 1px solid var(--zui-border);
+	border-radius: var(--zui-radius-xl);
+	font-size: 13px;
+	color: var(--zui-text);
+	box-shadow: none;
+}
+
+.zui-scope .zui-input:focus {
+	outline: none;
+	background: #fff;
+	border-color: var(--zui-primary);
+	box-shadow: 0 0 0 3px var(--zui-primary-100);
+}
+
+.zui-scope .zui-input::placeholder {
+	color: var(--zui-text-muted);
+}

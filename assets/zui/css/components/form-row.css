@@ -1,0 +1,166 @@
+/* ============================================================
+   Zorem UI — Form Row (universal field pattern)
+   ------------------------------------------------------------
+   Universal label + control row used in every settings card.
+   Slots: __head (label cluster) + __control (control + hint).
+
+   Variants:
+     .zui-row              stacked (label/desc above, control below)
+     .zui-row.zui-row--inline  inline (label-left + control-right)
+
+   Sub-elements:
+     .zui-row__head        label cluster (label + optional desc)
+     .zui-row__label       title text + optional tooltip
+     .zui-row__desc        one-line description under title
+     .zui-row__control     control slot
+     .zui-row__hint        secondary description (under/beside control)
+     .zui-row__notice      feedback slot (e.g. FTP test result)
+
+   ============================================================ */
+
+.zui-scope .zui-card .zui-row {
+	padding: 32px;
+	border-block-end: 1px solid var(--zui-divider);
+}
+
+.zui-scope .zui-card .zui-row:last-child {
+	border-block-end: 0;
+}
+
+/* Legacy WP schema classes that need neutralization inside a row */
+.zui-scope .zui-card .zui-row.multiple_checkbox_label {
+	display: block;
+	width: 100%;
+	margin-inline-end: 0;
+}
+
+.zui-scope .zui-card .zui-row.button {
+	display: block !important;
+	width: auto !important;
+	border: 0 !important;
+	border-block-end: 1px solid var(--zui-divider) !important;
+	border-radius: 0 !important;
+	background: transparent !important;
+	box-shadow: none !important;
+	min-height: 0 !important;
+	margin: 0 !important;
+	padding: 32px !important;
+	line-height: inherit;
+	color: inherit;
+	text-shadow: none;
+	cursor: default;
+	white-space: normal;
+}
+/* The `display: block !important` above would otherwise override the [hidden]
+   attribute (display:none), so JS-driven master-toggle visibility would fail
+   on rows with class="button". Re-assert hidden semantics. */
+.zui-scope .zui-card .zui-row.button[hidden] {
+	display: none !important;
+}
+
+/* ---- Row sub-elements ---- */
+
+.zui-scope .zui-row__head {
+	margin-block-end: 12px;
+}
+
+.zui-scope .zui-row__label {
+	font-size: 14px;
+	font-weight: 600;
+	color: var(--zui-text);
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.zui-scope .zui-row__desc {
+	margin: 4px 0 0;
+	font-size: 12px;
+	color: var(--zui-text-muted);
+	max-width: 576px;
+}
+
+.zui-scope .zui-row--inline .zui-row__desc {
+	margin-block-end: 0;
+}
+
+.zui-scope .zui-row__hint {
+	margin: 8px 0 0;
+	font-size: 11px;
+	color: var(--zui-text-muted);
+}
+
+.zui-scope .zui-row__hint a,
+.zui-scope .zui-row__desc a {
+	color: #2563eb;
+	font-weight: 600;
+	text-decoration: none;
+}
+
+.zui-scope .zui-row__hint a:hover,
+.zui-scope .zui-row__desc a:hover {
+	text-decoration: underline;
+}
+
+/* ---- Flush + explicit dividers ----
+   Some renderers group fields with explicit separators instead of a divider
+   after every row. `.zui-row--flush` drops a row's bottom border; a
+   `.zui-row-divider` element draws a single hairline between groups. */
+
+.zui-scope .zui-card .zui-row--flush {
+	border-block-end: 0;
+}
+
+.zui-scope .zui-card .zui-row-divider {
+	height: 0;
+	padding: 0;
+	border-block-end: 1px solid var(--zui-divider);
+}
+
+/* ---- Inline variant (toggle/checkbox rows) ---- */
+
+.zui-scope .zui-row--inline {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+}
+
+.zui-scope .zui-row--inline > .zui-row__head {
+	min-width: 0;
+	margin-block-end: 0;
+}
+
+/* ---- Highlight variant (tinted band that bleeds to the card edge) ----
+   Used for emphasised dependent rows (e.g. a cart-amount threshold or a
+   flagged-category block that should read as a sub-panel of the card). */
+
+.zui-scope .zui-card .zui-row--highlight {
+	background: var(--zui-bg);
+	/* cancel the card row's 32px inline padding so the tint reaches the edge */
+	margin-inline: -32px;
+	padding-inline: 32px;
+}
+
+/* ---- Inline control group (side-by-side controls in one __control) ----
+   e.g. an amount input + a "compare against" select, or an input + copy btn. */
+
+.zui-scope .zui-control-group {
+	display: flex;
+	gap: 12px;
+	flex-wrap: wrap;
+	align-items: center;
+}
+
+/* ---- Responsive (mobile padding tighten) ---- */
+
+@media (max-width: 782px) {
+	.zui-scope .zui-card .zui-row {
+		padding: 24px;
+	}
+
+	.zui-scope .zui-card .zui-row--highlight {
+		margin-inline: -24px;
+		padding-inline: 24px;
+	}
+}

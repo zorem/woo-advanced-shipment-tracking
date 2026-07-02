@@ -1,0 +1,194 @@
+/* ============================================================
+   Zorem UI — License Plugin Promo Card
+   ------------------------------------------------------------
+   Plugin promo card in the License ecosystem grid. Composes
+   with `.zui-card` chrome. Module class carries the lighter
+   shadow override + the slot pattern (head with logo + name +
+   type + optional badge; body with description; foot with
+   active/inactive state + CTA).
+
+   Markup:
+     <div class="zui-card zui-lic-plugin">
+       <div class="zui-lic-plugin__head">
+         <span class="zui-lic-plugin__logo">…</span>
+         <div class="zui-lic-plugin__id">
+           <h4 class="zui-lic-plugin__name">…</h4>
+           <span class="zui-lic-plugin__type">WOO EXTENSION</span>
+         </div>
+         <span class="zui-lic-plugin__badge">Recommended</span>
+       </div>
+       <div class="zui-lic-plugin__body">
+         <p class="zui-lic-plugin__desc">…</p>
+         <div class="zui-lic-plugin__foot">
+           <!-- active state OR get-extension CTA -->
+         </div>
+       </div>
+     </div>
+
+   ============================================================ */
+
+.zui-scope .zui-lic-plugin {
+	display: flex;
+	flex-direction: column;
+	box-shadow: var(--zui-shadow-xs);
+	overflow: hidden;
+	transition: box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.zui-scope .zui-lic-plugin:hover {
+	box-shadow: var(--zui-shadow-sm);
+	border-color: #cbd5e1;
+}
+
+/* ---- Head: logo + identity + optional badge ---- */
+
+.zui-scope .zui-lic-plugin__head {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 16px;
+	border-block-end: 1px solid var(--zui-divider);
+	background: rgba(248, 250, 252, 0.3);
+}
+
+.zui-scope .zui-lic-plugin__logo {
+	width: 44px;
+	height: 44px;
+	flex: 0 0 auto;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: var(--zui-radius-xl);
+	overflow: hidden;
+}
+
+.zui-scope .zui-lic-plugin__logo img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	padding: 8px;
+}
+
+.zui-scope .zui-lic-plugin__logo .zui-icon {
+	width: 22px;
+	height: 22px;
+}
+
+.zui-scope .zui-lic-plugin__id {
+	min-width: 0;
+	flex: 1 1 auto;
+}
+
+.zui-scope .zui-lic-plugin__name {
+	margin: 0;
+	font-size: 13px;
+	font-weight: 700;
+	color: var(--zui-text);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.zui-scope .zui-lic-plugin__type {
+	display: block;
+	margin-top: 4px;
+	font-size: 9px;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	color: var(--zui-text-muted);
+	font-family: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+.zui-scope .zui-lic-plugin__badge {
+	flex: 0 0 auto;
+	padding: 2px 8px;
+	background: rgba(59, 100, 211, 0.1);
+	color: var(--zui-primary-600);
+	font-size: 9px;
+	font-weight: 800;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	border-radius: 999px;
+}
+
+/* ---- Body: description + foot row ---- */
+
+.zui-scope .zui-lic-plugin__body {
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+	padding: 16px;
+	flex: 1 1 auto;
+}
+
+.zui-scope .zui-lic-plugin__desc {
+	margin: 0;
+	font-size: 12px;
+	line-height: 1.6;
+	color: var(--zui-text-soft);
+}
+
+.zui-scope .zui-lic-plugin__foot {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	margin-top: auto;
+	padding-top: 12px;
+	border-top: 1px solid var(--zui-divider);
+}
+
+/* ---- "Get Extension" CTA (inactive plugin) ---- */
+
+.zui-scope .zui-lic-plugin__get {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	padding: 6px 12px;
+	background: rgba(59, 100, 211, 0.1);
+	color: var(--zui-primary-700, #1e40af);
+	border-radius: var(--zui-radius-lg);
+	font-size: 10px;
+	font-weight: 800;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	text-decoration: none;
+}
+
+.zui-scope .zui-lic-plugin__get:hover {
+	background: var(--zui-primary);
+	color: #fff;
+}
+
+.zui-scope .zui-lic-plugin__get .zui-icon {
+	width: 12px;
+	height: 12px;
+}
+
+/* ---- "Active" pill (active plugin) ---- */
+
+.zui-scope .zui-lic-plugin__active {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 6px 12px;
+	background: rgba(16, 185, 129, 0.08);
+	color: #047857;
+	border: 1px solid rgba(16, 185, 129, 0.25);
+	border-radius: var(--zui-radius-lg);
+	font-size: 10px;
+	font-weight: 800;
+}
+
+.zui-scope .zui-lic-plugin__dot {
+	width: 6px;
+	height: 6px;
+	border-radius: 999px;
+	background: #10b981;
+}
+
+.zui-scope .zui-lic-plugin__stat {
+	font-size: 10px;
+	color: var(--zui-text-muted);
+	font-family: 'JetBrains Mono', ui-monospace, monospace;
+}

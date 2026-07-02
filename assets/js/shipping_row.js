@@ -351,42 +351,63 @@ jQuery(document).on("click", ".pagination_link", function(){
 	});	
 });
 
-jQuery("#search_provider").keyup(function(event) {
-	if (event.which === 13) {
-		jQuery(".search-icon").click();
+/* Shipping-carriers live search.
+ *
+ * The redesigned toolbar dropped the old `.search-icon` button, so the previous
+ * "Enter to submit" path never fired (its click target didn't exist). Replaced
+ * with a debounced live search on the input itself: filters as the user types,
+ * hits the same filter_shipping_provider_list AJAX, and keeps `.search-icon`
+ * click as a backward-compat trigger for any legacy markup still in the wild.
+ */
+(function ( $ ) {
+	'use strict';
+
+	var astCarrierSearchTimer = null;
+
+	function runShippingProviderSearch() {
+		var $list = $( '.provider_list' );
+		if ( ! $list.length ) { return; }
+
+		$.ajax({
+			url: ajaxurl,
+			data: {
+				action: 'filter_shipping_provider_list',
+				search_term: $( '#search_provider' ).val(),
+				security: $( '#nonce_shipping_provider' ).val()
+			},
+			type: 'POST',
+			beforeSend: function () {
+				$list.block({
+					message: null,
+					overlayCSS: { background: '#fff', opacity: 0.6 }
+				});
+			},
+			success: function ( response ) {
+				$( '.provider_list' ).replaceWith( response );
+				$( '.provider_list' ).unblock();
+			},
+			error: function ( response ) {
+				console.log( response );
+				$list.unblock();
+			}
+		});
 	}
-});
 
-jQuery(document).on( "click", ".search-icon", function(){	
-	var search_term = jQuery('#search_provider').val();
-	var nonce = jQuery( '#nonce_shipping_provider' ).val();
-	var ajax_data = {
-		action: 'filter_shipping_provider_list',
-		search_term: search_term,
-		security: nonce,	
-	};
-
-	jQuery(".provider_list ").block({
-		message: null,
-		overlayCSS: {
-			background: "#fff",
-			opacity: .6
-		}	
+	$( document ).on( 'input', '#search_provider', function () {
+		clearTimeout( astCarrierSearchTimer );
+		astCarrierSearchTimer = setTimeout( runShippingProviderSearch, 250 );
 	});
 
-	jQuery.ajax({
-		url: ajaxurl,		
-		data: ajax_data,
-		type: 'POST',
-		success: function(response) {	
-			jQuery(".provider_list").replaceWith(response);
-			jQuery(".provider_list").unblock();							
-		},
-		error: function(response) {	
-			console.log(response);				
+	$( document ).on( 'keydown', '#search_provider', function ( e ) {
+		if ( 13 === e.which ) {
+			e.preventDefault();
+			clearTimeout( astCarrierSearchTimer );
+			runShippingProviderSearch();
 		}
-	});	
-});
+	});
+
+	$( document ).on( 'click', '.search-icon', runShippingProviderSearch );
+})( jQuery );
 
 jQuery(document).on("change", ".make_provider_default", function(){	
 	jQuery("#content1 ").block({
@@ -770,10 +791,9 @@ jQuery(document).on("click", ".sync_providers", function(){
 });
 
 jQuery(document).on("click", ".sync_providers_btn", function(){
-	var btn = jQuery('.right_side_db_btn .sync_providers_btn');
-	btn.html('<div class="dot-carousel"></div>');	
-	
-	// jQuery('.sync_providers_btn').attr("disabled", true);	
+	var btn = jQuery('.sync_providers_btn');
+	btn.html('<div class="dot-carousel"></div>');
+
 	jQuery('#reset_tracking_providers').val;
 	
 	var reset_checked = 0;
@@ -984,10 +1004,6 @@ jQuery(document).on("click", ".add_slidout_custom_carriers_close", function(){
 	jQuery('.add_custom_carriers_popup').slideInForm();
 	jQuery('.add_provider_popup').slideInForm();
 });
-jQuery(document).on("click", ".right_side_db_btn button", function(){
-	// jQuery('.add_provider_popup').slideInForm();
-});
-
 jQuery(document).on("click", ".edit_slidout_close", function(){
 	jQuery('.edit_provider_popup').slideInForm();
 });
@@ -1131,8 +1147,16 @@ jQuery(document).on("click", ".usage-tracking-save", function(e){
 	return false;
 });
 
-jQuery(document).on("change", "#wc_usage_tracking_form .ast-settings-toggle,#wc_ast_settings_form .ast-settings-toggle,.order_status_toggle,.enable_order_status_email_input,.custom_order_color_select, #wc_ast_status_shipped", function(){	
-	jQuery('span.ast-accordion-btn button').prop("disabled", false);
+jQuery(document).on("change", "#wc_usage_tracking_form .ast-settings-toggle,#wc_ast_settings_form .ast-settings-toggle,.order_status_toggle,.enable_order_status_email_input,.custom_order_color_select, #wc_ast_status_shipped", function(){
+	// Scope to the new ZUI section that owns this field — without this, ANY
+	// matching change enabled EVERY save button on the page (cross-section
+	// leak). Falls back to the legacy global selector if no section is found.
+	var $section = jQuery(this).closest('.zui-section');
+	if ($section.length) {
+		$section.find('span.ast-accordion-btn button').prop("disabled", false);
+	} else {
+		jQuery('span.ast-accordion-btn button').prop("disabled", false);
+	}
 });
 		
 jQuery('#wc_ast_status_partial_shipped_label_color').wpColorPicker({
@@ -1165,11 +1189,21 @@ jQuery('body').click( function(){
 jQuery('.order-status-table button.button.wp-color-result').click( function(){	
 	if ( jQuery(this).hasClass( 'wp-picker-open' ) ) {}else{jQuery('span.ast-accordion-btn button').prop("disabled", false);}
 });
-jQuery(".wc_ast_api_date_format").on("click", function (e) { 
-	jQuery('span.ast-accordion-btn button').prop("disabled", false);
+jQuery(".wc_ast_api_date_format").on("click", function (e) {
+	var $section = jQuery(this).closest('.zui-section');
+	if ($section.length) {
+		$section.find('span.ast-accordion-btn button').prop("disabled", false);
+	} else {
+		jQuery('span.ast-accordion-btn button').prop("disabled", false);
+	}
 });
-jQuery( "#wc_ast_show_orders_actions,#wc_ast_unclude_tracking_info" ).on("change", function (e) { 
-	jQuery('span.ast-accordion-btn button').prop("disabled", false); 
+jQuery( "#wc_ast_show_orders_actions,#wc_ast_unclude_tracking_info" ).on("change", function (e) {
+	var $section = jQuery(this).closest('.zui-section');
+	if ($section.length) {
+		$section.find('span.ast-accordion-btn button').prop("disabled", false);
+	} else {
+		jQuery('span.ast-accordion-btn button').prop("disabled", false);
+	}
 });
 
 jQuery( ".ud-checkbox li" ).on("click", function (e) { 
@@ -1182,9 +1216,16 @@ jQuery( ".ud-checkbox li" ).on("click", function (e) {
 	}
 });
 
-/* zorem_snackbar jquery */
+/* zorem_snackbar jquery — thin wrapper around the ZUI snackbar component so
+   every legacy call (`jQuery(document).ast_snackbar( msg )`) renders the new
+   ZUI glassmorphic pill instead of the old `.snackbar-logs` cyan bar. Falls
+   back to the legacy DOM injection only if ZUI.snackbar isn't loaded. */
 (function( $ ){
 	$.fn.ast_snackbar = function(msg) {
+		if ( window.ZUI && typeof window.ZUI.snackbar === 'function' ) {
+			window.ZUI.snackbar( msg, { type: 'success' } );
+			return this;
+		}
 		if ( jQuery('.snackbar-logs').length === 0 ){
 			$("body").append("<section class=snackbar-logs></section>");
 		}
@@ -1192,12 +1233,16 @@ jQuery( ".ud-checkbox li" ).on("click", function (e) {
 		$(".snackbar-logs").append(ast_snackbar);
 		setTimeout(function(){ ast_snackbar.remove(); }, 3000);
 		return this;
-	}; 
+	};
 })( jQuery );
 
-/* zorem_snackbar_warning jquery */
+/* zorem_snackbar_warning jquery — same wrapper, error variant. */
 (function( $ ){
 	$.fn.ast_snackbar_warning = function(msg) {
+		if ( window.ZUI && typeof window.ZUI.snackbar === 'function' ) {
+			window.ZUI.snackbar( msg, { type: 'error', html: true } );
+			return this;
+		}
 		if ( jQuery('.snackbar-logs').length === 0 ){
 			$("body").append("<section class=snackbar-logs></section>");
 		}
@@ -1205,21 +1250,6 @@ jQuery( ".ud-checkbox li" ).on("click", function (e) {
 		$(".snackbar-logs").append(ast_snackbar_warning);
 		setTimeout(function(){ ast_snackbar_warning.remove(); }, 3000);
 		return this;
-	}; 
+	};
 })( jQuery );
 
-(function($) {
-	$.fn.slideOutForm = function() {
-		var $formContainer = $(this);
-		$formContainer.addClass('slideout');
-		var htmlContent = '<div class="append_slideout"></div>';
-		$('body').append(htmlContent);
-		$('body').css('overflow', 'hidden');
-	};
-	$.fn.slideInForm = function() {
-		var $formContainer = $(this);   
-		$formContainer.removeClass('slideout');
-		$('.append_slideout').remove();
-		$('body').css('overflow', '');
-	};
-  })(jQuery);

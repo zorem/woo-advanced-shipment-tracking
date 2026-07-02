@@ -1,0 +1,47 @@
+/* ============================================================
+   Zorem UI — Textarea
+   ------------------------------------------------------------
+   Multi-line text input. Same border / focus styling as
+   .zui-input, but with auto-height + vertical resize.
+
+   Phase: 1
+   ============================================================ */
+
+.zui-scope .zui-textarea {
+	display: block;
+	width: 100%;
+	min-height: 96px;
+	padding: var(--zui-space-sm);
+	font-family: inherit;
+	font-size: var(--zui-fs-body);
+	line-height: var(--zui-lh-body);
+	color: var(--zui-text);
+	background: var(--zui-surface);
+	border: 1px solid var(--zui-border);
+	border-radius: var(--zui-radius-md);
+	outline: none;
+	resize: vertical;
+	transition: border-color var(--zui-dur) var(--zui-ease), box-shadow var(--zui-dur) var(--zui-ease);
+}
+
+.zui-scope .zui-textarea::placeholder {
+	color: var(--zui-text-muted);
+}
+
+.zui-scope .zui-textarea:focus {
+	border-color: var(--zui-primary);
+	box-shadow: 0 0 0 3px rgba(59, 100, 211, 0.15);
+}
+
+.zui-scope .zui-textarea[disabled],
+.zui-scope .zui-textarea:disabled {
+	background: var(--zui-neutral-bg);
+	color: var(--zui-text-muted);
+	cursor: not-allowed;
+}
+
+/* Code variant (mono font) — used inside wysiwyg preview */
+.zui-scope .zui-textarea--code {
+	font-family: var(--zui-font-mono);
+	font-size: var(--zui-fs-sm);
+}

@@ -1,0 +1,166 @@
+/* ============================================================
+   Zorem UI — License Inactive State
+   ------------------------------------------------------------
+   Inactive-license display inside `.zui-lic-card__body`. Shows
+   an "Action Needed" amber badge + title + description + CTA
+   row with the Activate button (composes `.zui-btn-primary`).
+
+   Also includes the telemetry save sub-component used by the
+   Telemetry preferences card (same License page).
+
+   ============================================================ */
+
+.zui-scope .zui-lic-inactive {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.zui-scope .zui-lic-inactive__badge {
+	align-self: flex-start;
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	padding: 3px 10px;
+	border-radius: 999px;
+	background: rgba(245, 158, 11, 0.1);
+	border: 1px solid rgba(245, 158, 11, 0.3);
+	color: #b45309;
+	font-size: 10px;
+	font-weight: 800;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+
+.zui-scope .zui-lic-inactive__badge .zui-icon {
+	width: 12px;
+	height: 12px;
+}
+
+.zui-scope .zui-lic-inactive__title {
+	margin: 0;
+	font-size: 18px;
+	font-weight: 800;
+	color: var(--zui-text-strong);
+}
+
+.zui-scope .zui-lic-inactive__text {
+	margin: 0;
+	font-size: 12px;
+	line-height: 1.6;
+	color: var(--zui-text-muted);
+	max-width: 560px;
+}
+
+.zui-scope .zui-lic-inactive__action {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	flex-wrap: wrap;
+	margin-top: 10px;
+	padding-top: 16px;
+	border-top: 1px solid var(--zui-divider);
+}
+
+/* Activate button — composes `.zui-btn-primary` + size override */
+.zui-scope .zui-lic-activate {
+	flex: 0 0 auto;
+	gap: 8px;
+	padding: 12px 22px;
+	text-decoration: none;
+}
+
+.zui-scope .zui-lic-activate .zui-icon {
+	width: 15px;
+	height: 15px;
+}
+
+.zui-scope .zui-lic-inactive__note {
+	font-size: 11px;
+	color: var(--zui-text-muted);
+}
+
+/* ---- Telemetry preferences sub-components (live in License page) ---- */
+
+.zui-scope .zui-lic-save {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.zui-scope .zui-lic-save__msg {
+	font-size: 10px;
+	font-weight: 700;
+	color: #fff;
+	background: #10b981;
+	padding: 3px 8px;
+	border-radius: 6px;
+}
+
+.zui-scope .zui-lic-savebtn {
+	padding: 7px 14px;
+	background: var(--zui-primary);
+	color: #fff;
+	border: 0;
+	border-radius: var(--zui-radius-lg);
+	font-size: 11px;
+	font-weight: 800;
+	cursor: pointer;
+}
+
+.zui-scope .zui-lic-savebtn:hover {
+	background: var(--zui-primary-hover);
+}
+
+.zui-scope .zui-lic-savebtn.is-saving,
+.zui-scope .zui-lic-activate.is-saving {
+	cursor: wait;
+	opacity: 0.55;
+	pointer-events: none;
+}
+
+.zui-scope .zui-lic-savebtn.is-saved {
+	background: var(--zui-success, #16a34a);
+	color: #fff;
+	opacity: 1;
+	cursor: default;
+	pointer-events: none;
+}
+.zui-scope .zui-lic-savebtn.is-saved:hover {
+	background: var(--zui-success, #16a34a);
+}
+
+.zui-scope .zui-lic-telemetry-form {
+	display: flex;
+	flex-direction: column;
+}
+
+.zui-scope .zui-lic-pref {
+	display: flex;
+	align-items: flex-start;
+	gap: 16px;
+	padding: 18px 22px;
+	border-block-end: 1px solid var(--zui-divider);
+}
+
+.zui-scope .zui-lic-pref:last-of-type {
+	border-block-end: 0;
+}
+
+.zui-scope .zui-lic-pref .zui-toggle {
+	margin-top: 2px;
+	flex: 0 0 auto;
+}
+
+.zui-scope .zui-lic-pref__title {
+	font-size: 12px;
+	font-weight: 700;
+	color: var(--zui-text);
+}
+
+.zui-scope .zui-lic-pref__sub {
+	margin: 3px 0 0;
+	font-size: 11px;
+	line-height: 1.6;
+	color: var(--zui-text-muted);
+}

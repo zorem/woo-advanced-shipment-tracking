@@ -1,7 +1,4 @@
 /* fallback */
-.padding_zero{
-	padding:0 !important;
-}
 .zorem-layout__header {
 	height: 60px;
 	background: #fff;
@@ -2197,7 +2194,6 @@ ul.csv_error_details_ul li:before{
 .grid-provider-img{
 	display: flex;
 	align-items: baseline;
-	margin-right: 15px;
 }
 .grid-provider-img img{
 	width: 48px;
@@ -2962,7 +2958,7 @@ span.dashicons.dashicons-arrow-up-alt{
 }
 .rtl .grid-provider-img {
 	margin-right: 0;
-	margin-left: 15px;
+	margin-left: 0;
 }
 .rtl .grid-provider-settings {
 	margin-right: auto;

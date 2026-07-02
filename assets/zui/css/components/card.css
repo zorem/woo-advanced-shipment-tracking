@@ -1,0 +1,93 @@
+/* ============================================================
+   Zorem UI — Card
+   ------------------------------------------------------------
+   Generic content container. White surface, hairline border,
+   subtle shadow. Composes with `.zui-placeholder` for empty-state
+   variant. Module classes (e.g. `.ast-set-carrier-card`) compose
+   on top of `.zui-card` to add per-context layout/state.
+
+   ============================================================ */
+
+.zui-scope .zui-card {
+	background: var(--zui-surface);
+	border: 1px solid var(--zui-border);
+	border-radius: var(--zui-radius-2xl);
+	box-shadow: var(--zui-shadow-sm);
+}
+
+/* ---- Placeholder content (empty/coming-soon card body) ---- */
+
+.zui-scope .zui-placeholder {
+	padding: 32px;
+}
+
+.zui-scope .zui-placeholder__title {
+	margin: 0 0 6px;
+	font-size: 14px;
+	font-weight: 600;
+	color: var(--zui-text-strong);
+}
+
+.zui-scope .zui-placeholder__text {
+	margin: 0;
+	font-size: 12px;
+	color: var(--zui-text-muted);
+}
+
+/* ============================================================
+   In-card header + footer slots
+   ------------------------------------------------------------
+   For cards that carry their own title and an action footer
+   (e.g. maintenance cards, the 2FA enrolment card, a recovery-
+   codes panel). The big page banner stays in section-header.css;
+   these are the lighter in-card variants.
+   ============================================================ */
+
+.zui-scope .zui-card__head {
+	padding: 24px 24px 0;
+}
+
+.zui-scope .zui-card__title {
+	margin: 0;
+	font-size: 16px;
+	font-weight: 700;
+	color: var(--zui-text-strong);
+}
+
+.zui-scope .zui-card__sub {
+	margin: 4px 0 0;
+	font-size: 12px;
+	color: var(--zui-text-muted);
+}
+
+/* Padded free-content region (for cards that aren't a list of .zui-row). */
+.zui-scope .zui-card__body {
+	padding: 24px;
+}
+
+/* When a head sits directly above the body, avoid doubling the top padding. */
+.zui-scope .zui-card__head + .zui-card__body {
+	padding-block-start: 16px;
+}
+
+.zui-scope .zui-card__foot {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	flex-wrap: wrap;
+	padding: 20px 24px;
+	border-block-start: 1px solid var(--zui-divider);
+}
+
+.zui-scope .zui-card__foot-note {
+	font-size: 12px;
+	font-style: italic;
+	color: var(--zui-text-muted);
+}
+
+.zui-scope .zui-card__foot-actions {
+	display: inline-flex;
+	align-items: center;
+	gap: 12px;
+}

@@ -1,0 +1,78 @@
+/* ============================================================
+   Zorem UI — Segmented Control (pill sub-tabs)
+   ------------------------------------------------------------
+   A compact pill-shaped tab strip used to switch between sibling
+   panels inside a card / banner / page. Smaller and more
+   "embedded" than the top-level `.zui-tabs` page chrome.
+
+   Use cases: CSV Import "Manual / Automation", License page
+   "Active / Inactive" view, integration card "Settings / Logs",
+   any in-card view switcher.
+
+   Markup:
+     <div class="zui-segmented" role="tablist">
+       <button type="button"
+               class="zui-segmented__item is-active"
+               role="tab" aria-selected="true"
+               data-…="<your-target-key>">
+         Label A
+       </button>
+       <button type="button"
+               class="zui-segmented__item"
+               role="tab" aria-selected="false"
+               data-…="<your-target-key>">
+         Label B
+       </button>
+     </div>
+
+   The data-* attribute(s) on each item are intentionally
+   plugin-defined. The library only ships the visual + the
+   `.is-active` state convention; the consuming plugin's JS
+   wires the data-* → panel toggle (the same way CSV Import
+   uses `data-csvtab` / `data-csvsub`).
+
+   JS contract:
+   - Active item carries `.is-active` and `aria-selected="true"`.
+   - All other items carry `aria-selected="false"`.
+
+   (.ast-set-csv-subtabs / .ast-set-csv-subtab → .zui-segmented*).
+   ============================================================ */
+
+.zui-scope .zui-segmented {
+	display: inline-flex;
+	gap: 4px;
+	padding: 5px;                                    /* a touch more breathing room around the pill */
+	background: var(--zui-bg);
+	border-radius: var(--zui-radius-xl);
+	flex: 0 0 auto;
+}
+
+.zui-scope .zui-segmented__item {
+	padding: 8px 18px;                               /* slightly wider hit area */
+	border: 1px solid transparent;                   /* reserves space so the active border doesn't shift layout */
+	background: transparent;
+	border-radius: var(--zui-radius-lg);
+	font-size: 12px;
+	font-weight: 800;
+	color: var(--zui-text-muted);
+	cursor: pointer;
+	transition: background-color 0.16s ease, color 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+}
+
+.zui-scope .zui-segmented__item:hover {
+	color: var(--zui-text);
+}
+
+.zui-scope .zui-segmented__item.is-active {
+	background: var(--zui-surface);
+	color: var(--zui-primary-600);
+	border-color: rgba(15, 23, 42, 0.05);            /* crisp 1 px edge so the white pill reads on the light track */
+	box-shadow:
+		0 1px 2px rgba(15, 23, 42, 0.06),
+		0 2px 6px -2px rgba(15, 23, 42, 0.08);       /* softer, more refined lift than --zui-shadow-xs */
+}
+
+.zui-scope .zui-segmented__item:focus-visible {
+	outline: 2px solid var(--zui-primary);
+	outline-offset: -2px;
+}

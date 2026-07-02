@@ -1,0 +1,75 @@
+/* ============================================================
+   Zorem UI — Color Input
+   ------------------------------------------------------------
+   Color dot swatch + hex text input combo. Used in the Order
+   Statuses row where each status has a custom
+   colour token shown as a dot before the hex value.
+
+   The dot is a div with `--zui-c` set to the hex; the hex
+   field is a normal .zui-input. Optionally, a native
+   <input type=color> can sit on top of the dot for picking.
+
+   Phase: 1 (moved up from Phase 2)
+   ============================================================ */
+
+.zui-scope .zui-color-input {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--zui-space-xs);
+	height: var(--zui-control-h);
+	padding: 0 var(--zui-space-xs);
+	background: var(--zui-surface);
+	border: 1px solid var(--zui-border);
+	border-radius: var(--zui-radius-md);
+	transition: border-color var(--zui-dur) var(--zui-ease), box-shadow var(--zui-dur) var(--zui-ease);
+}
+
+.zui-scope .zui-color-input:focus-within {
+	border-color: var(--zui-primary);
+	box-shadow: 0 0 0 3px rgba(59, 100, 211, 0.15);
+}
+
+/* The swatch */
+
+.zui-scope .zui-color-dot {
+	position: relative;
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	background: var(--zui-c, var(--zui-neutral));
+	border: 1px solid rgba(15, 23, 42, 0.1);
+	border-radius: 50%;
+	flex-shrink: 0;
+	cursor: pointer;
+}
+
+/* Optional native colour picker layered on top of the dot */
+
+.zui-scope .zui-color-dot input[type="color"] {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+	cursor: pointer;
+	border: 0;
+	padding: 0;
+	background: transparent;
+}
+
+/* Hex text input — borderless inside the wrapper */
+
+.zui-scope .zui-color-input .zui-input {
+	height: 100%;
+	border: 0;
+	background: transparent;
+	font-family: var(--zui-font-mono);
+	font-size: var(--zui-fs-sm);
+	padding: 0;
+	box-shadow: none;
+	min-width: 80px;
+}
+
+.zui-scope .zui-color-input .zui-input:focus {
+	box-shadow: none;
+}

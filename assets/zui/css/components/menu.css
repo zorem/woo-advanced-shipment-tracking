@@ -1,0 +1,131 @@
+/* ============================================================
+   Zorem UI — Menu (dropdown / kebab popover)
+   ------------------------------------------------------------
+   A trigger button + floating panel of action items.
+   Used for: carrier toolbar kebab, future per-row "..." menus,
+   header overflow menus, integration card menus, etc.
+
+   Markup:
+     <div class="zui-menu">
+       <button class="zui-menu__btn"
+               aria-haspopup="true" aria-expanded="false">
+         <!-- trigger icon (e.g. more-vertical) -->
+       </button>
+       <div class="zui-menu__list" hidden>
+         <!-- item with icon -->
+         <button class="zui-menu__item">
+           <!-- icon --><span>Label</span>
+         </button>
+         <!-- item without icon -->
+         <button class="zui-menu__item">
+           <span>Label only</span>
+         </button>
+         <!-- optional separator between groups -->
+         <div class="zui-menu__sep"></div>
+         <!-- accent (primary) action -->
+         <button class="zui-menu__item zui-menu__item--accent">
+           <!-- icon --><span>Primary Action</span>
+         </button>
+       </div>
+     </div>
+
+   Variants:
+   - With / without icon → include or omit the icon child;
+     flex + gap collapses naturally.
+   - With / without separator → place `.zui-menu__sep` where
+     you want a divider, omit where you don't.
+   - Accent item → `.zui-menu__item--accent` (primary color).
+
+   JS contract:
+   - Toggle `hidden` on `.zui-menu__list` to open/close.
+   - Sync `aria-expanded` on `.zui-menu__btn`.
+
+   (.ast-set-carriers-menu* → .zui-menu*).
+   ============================================================ */
+
+.zui-scope .zui-menu {
+	position: relative;
+	flex: 0 0 auto;
+}
+
+/* ---- Trigger button ---- */
+.zui-scope .zui-menu__btn {
+	width: 36px;
+	height: 36px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: var(--zui-surface);
+	border: 1px solid var(--zui-border);
+	border-radius: var(--zui-radius-xl);
+	color: var(--zui-text-soft);
+	cursor: pointer;
+	box-shadow: var(--zui-shadow-xs);
+}
+
+.zui-scope .zui-menu__btn:hover {
+	background: var(--zui-bg);
+}
+
+/* ---- Floating panel ----
+   Explicit flex column so items always stack vertically regardless of
+   any inherited display rules from the host page (WP admin button styles
+   can otherwise leak in and turn the items into a wrapping row/grid). */
+.zui-scope .zui-menu__list {
+	position: absolute;
+	inset-inline-end: 0;
+	top: calc(100% + 6px);
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	gap: 0;
+	min-width: 220px;
+	background: var(--zui-surface);
+	border: 1px solid var(--zui-border);
+	border-radius: var(--zui-radius-xl);
+	box-shadow: var(--zui-shadow-md);
+	padding: 6px;
+	z-index: 30;
+}
+
+/* ---- Item (works with or without leading icon) ---- */
+.zui-scope .zui-menu__item {
+	flex: 0 0 auto;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 8px 10px;
+	background: transparent;
+	border: 0;
+	border-radius: var(--zui-radius-lg);
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--zui-text-soft);
+	cursor: pointer;
+	text-align: start;
+}
+
+.zui-scope .zui-menu__item:hover {
+	background: var(--zui-bg);
+	color: var(--zui-text-strong);
+}
+
+.zui-scope .zui-menu__item .zui-icon {
+	width: 15px;
+	height: 15px;
+	color: var(--zui-text-muted);
+}
+
+/* ---- Accent (primary) item ---- */
+.zui-scope .zui-menu__item--accent,
+.zui-scope .zui-menu__item--accent .zui-icon {
+	color: var(--zui-primary-600);
+}
+
+/* ---- Optional separator between groups ---- */
+.zui-scope .zui-menu__sep {
+	height: 1px;
+	background: var(--zui-divider);
+	margin: 6px 4px;
+}

@@ -1,0 +1,73 @@
+/* ============================================================
+   Zorem UI — Card Grid
+   ------------------------------------------------------------
+   Responsive grid container. Holds tiles, extension-cards, or
+   any other equal-width children.
+
+   Default columns: 5 → 4 → 3 → 2 → 1 at
+                    1500 / 1300 / 900 / 600 / <600 px.
+
+   Variants:
+     --cols-3   force 3 columns at all widths >=900
+     --cols-2   force 2 columns at all widths >=600
+
+   Phase: 1
+   ============================================================ */
+
+.zui-scope .zui-card-grid {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	gap: var(--zui-space-md);
+}
+
+@media (max-width: 1500px) {
+	.zui-scope .zui-card-grid {
+		grid-template-columns: repeat(4, 1fr);
+	}
+}
+
+@media (max-width: 1300px) {
+	.zui-scope .zui-card-grid {
+		grid-template-columns: repeat(3, 1fr);
+	}
+}
+
+@media (max-width: 900px) {
+	.zui-scope .zui-card-grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media (max-width: 600px) {
+	.zui-scope .zui-card-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* Forced column variants */
+
+.zui-scope .zui-card-grid--cols-3 {
+	grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 900px) {
+	.zui-scope .zui-card-grid--cols-3 {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media (max-width: 600px) {
+	.zui-scope .zui-card-grid--cols-3 {
+		grid-template-columns: 1fr;
+	}
+}
+
+.zui-scope .zui-card-grid--cols-2 {
+	grid-template-columns: repeat(2, 1fr);
+}
+
+@media (max-width: 600px) {
+	.zui-scope .zui-card-grid--cols-2 {
+		grid-template-columns: 1fr;
+	}
+}

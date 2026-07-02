@@ -1,0 +1,26 @@
+/* ============================================================
+   Zorem UI — Icon (SVG container)
+   ------------------------------------------------------------
+   Universal SVG icon container. Lucide-style stroke icons inlined
+   as `<svg class="zui-icon">…</svg>`. Default 18×18 block; parent
+   components override (e.g. section-header__icon enlarges to 32×32,
+   header-action shrinks to 14×14).
+
+   Markup (the SVG body is plugin-emitted):
+     <svg class="zui-icon" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+       <!-- path data -->
+     </svg>
+
+   The PHP/JS helper that emits these lives in the consumer plugin
+   (included by the consumer plugin).
+
+   ============================================================ */
+
+.zui-scope .zui-icon {
+	width: 18px;
+	height: 18px;
+	display: block;
+	flex: 0 0 auto;
+}

@@ -1,0 +1,147 @@
+/* ============================================================
+   Zorem UI — Notice (persistent inline banner)
+   ------------------------------------------------------------
+   Persistent inline status banner — survives until the user
+   dismisses or the page reloads. Use for errors / warnings /
+   info messages that the user must read and act on (the
+   transient `.zui-snackbar` toast is a complement, not a
+   replacement — they pair together).
+
+   Use cases: license activation error reason that the user
+   needs to read leisurely, settings save failure with a
+   recovery hint, post-action warning ("Sync started but
+   tracking page is unreachable"), informational call-outs.
+
+   Markup:
+
+     <div class="zui-notice zui-notice--error" role="alert">
+       <span class="zui-notice__icon">…</span>
+       <div class="zui-notice__body">
+         <strong class="zui-notice__title">Activation failed</strong>
+         <p class="zui-notice__text">Cannot activate License. …</p>
+       </div>
+       <button type="button" class="zui-notice__close"
+               aria-label="Dismiss">×</button>
+     </div>
+
+   Variants:
+     --error    red (default for error/danger)
+     --warning  amber
+     --success  green
+     --info     blue
+
+   JS contract:
+   - Close button toggles the `hidden` attribute on the notice,
+     OR removes the element from the DOM. The library does not
+     wire this automatically; consuming plugins decide whether
+     dismiss is persistent (option/cookie) or local.
+   ============================================================ */
+
+.zui-scope .zui-notice,
+.zui-notice {
+	display: flex;
+	align-items: flex-start;
+	gap: 12px;
+	padding: 14px 16px;
+	border-radius: var(--zui-radius-xl, 12px);
+	border-inline-start: 4px solid var(--zui-notice-accent, var(--zui-danger, #f43f5e));
+	background: var(--zui-notice-bg, var(--zui-danger-bg, #fff1f2));
+	font-size: 13px;
+	line-height: 1.5;
+	color: var(--zui-text-strong, #0f172a);
+}
+
+.zui-scope .zui-notice[hidden],
+.zui-notice[hidden] {
+	display: none;
+}
+
+.zui-scope .zui-notice__icon,
+.zui-notice__icon {
+	flex: 0 0 auto;
+	width: 20px;
+	height: 20px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--zui-notice-accent, var(--zui-danger, #f43f5e));
+}
+
+.zui-scope .zui-notice__icon svg,
+.zui-notice__icon svg {
+	width: 20px;
+	height: 20px;
+}
+
+.zui-scope .zui-notice__body,
+.zui-notice__body {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+.zui-scope .zui-notice__title,
+.zui-notice__title {
+	display: block;
+	font-weight: 700;
+	color: var(--zui-text-strong, #0f172a);
+	margin-block-end: 2px;
+}
+
+.zui-scope .zui-notice__text,
+.zui-notice__text {
+	margin: 0;
+	font-size: 13px;
+	color: var(--zui-text-soft, #475569);
+}
+
+.zui-scope .zui-notice__close,
+.zui-notice__close {
+	flex: 0 0 auto;
+	width: 24px;
+	height: 24px;
+	border: 0;
+	border-radius: 6px;
+	background: transparent;
+	color: var(--zui-text-muted, #94a3b8);
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+	font-size: 18px;
+	line-height: 1;
+	transition: background-color 160ms ease, color 160ms ease;
+}
+
+.zui-scope .zui-notice__close:hover,
+.zui-notice__close:hover {
+	background: rgba(15, 23, 42, 0.06);
+	color: var(--zui-text-strong, #0f172a);
+}
+
+/* ---- Variants (single custom-prop drives accent + tint) ---- */
+.zui-scope .zui-notice--error,
+.zui-scope .zui-notice--danger,
+.zui-notice--error,
+.zui-notice--danger {
+	--zui-notice-accent: var(--zui-danger, #f43f5e);
+	--zui-notice-bg:     var(--zui-danger-bg, #fff1f2);
+}
+
+.zui-scope .zui-notice--warning,
+.zui-notice--warning {
+	--zui-notice-accent: var(--zui-warning, #f59e0b);
+	--zui-notice-bg:     var(--zui-warning-bg, #fffbeb);
+}
+
+.zui-scope .zui-notice--success,
+.zui-notice--success {
+	--zui-notice-accent: var(--zui-success, #10b981);
+	--zui-notice-bg:     var(--zui-success-bg, #ecfdf5);
+}
+
+.zui-scope .zui-notice--info,
+.zui-notice--info {
+	--zui-notice-accent: var(--zui-info, #2563eb);
+	--zui-notice-bg:     var(--zui-info-bg, #eff6ff);
+}

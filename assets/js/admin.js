@@ -212,12 +212,6 @@ jQuery( function( $ ) {
 jQuery(document).on("click", ".update-dismiss", function(){	
 	jQuery('#order_updated_message').fadeOut();
 });
-function showerror(element){
-	element.css("border-color","red");
-}
-function hideerror(element){
-	element.css("border-color","");
-}
 jQuery(document).ready(function() {
 	jQuery('#tracking_provider').select2({
 		matcher: modelMatcher

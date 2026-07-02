@@ -1,0 +1,21 @@
+/* ============================================================
+   Zorem UI — Content column (main settings area)
+   ------------------------------------------------------------
+   The right-hand column inside `.zui-layout`. Holds one or more
+   `.zui-section` panels.
+
+   Variants:
+     .zui-content            default
+     .zui-content--full      full-width (when layout has no sidebar)
+
+   ============================================================ */
+
+.zui-scope .zui-content {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+.zui-scope .zui-content--full {
+	flex: 1 1 auto;
+	min-width: 0;
+}

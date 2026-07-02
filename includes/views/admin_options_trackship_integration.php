@@ -1,103 +1,142 @@
 <?php
 /**
- * Html code for trackship tab
+ * TrackShip integration tab — re-skinned to match the AST PRO TrackShip hero.
+ *
+ * Pure marketing landing: no AJAX, no form submit, no nonce. The only live
+ * contracts are the `trackship_script` enqueue and the wordpress.org install
+ * URL, both preserved verbatim. Markup mirrors the AST PRO dark hero design
+ * (glow orbs + gradient TrackShip wordmark + 2×2 feature grid + testimonial
+ * card) so the free and pro plugins read as siblings.
+ *
+ * @package wc_advanced_shipment_tracking
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 wp_enqueue_script( 'trackship_script' );
+
+if ( ! function_exists( 'zui_icon' ) ) {
+	require_once dirname( __DIR__, 2 ) . '/assets/zui/icons.php';
+}
+
+$ast_ts_logo        = wc_advanced_shipment_tracking()->plugin_dir_url() . 'assets/images/trackship.png';
+$ast_ts_install_url = 'https://wordpress.org/plugins/trackship-for-woocommerce/';
+$ast_ts_learn_url   = 'https://www.trackship.com/';
+
+$ast_ts_features = array(
+	__( 'Branded tracking experience in your store', 'woo-advanced-shipment-tracking' ),
+	__( 'Automate your post-shipping workflow', 'woo-advanced-shipment-tracking' ),
+	__( 'Amazon-style post-purchase experience', 'woo-advanced-shipment-tracking' ),
+	__( 'Reduce time spent on customer service', 'woo-advanced-shipment-tracking' ),
+);
+
+$ast_ts_cards = array(
+	array(
+		'icon'   => 'globe',
+		'tint'   => '#eff6ff',
+		'accent' => '#2563eb',
+		'title'  => __( 'Real-time Tracking', 'woo-advanced-shipment-tracking' ),
+		'desc'   => __( 'Automatically track shipments across 1010+ carriers worldwide with instant status updates.', 'woo-advanced-shipment-tracking' ),
+	),
+	array(
+		'icon'   => 'mail',
+		'tint'   => '#ede9fe',
+		'accent' => '#7c3aed',
+		'title'  => __( 'Automated Emails', 'woo-advanced-shipment-tracking' ),
+		'desc'   => __( 'Trigger custom email notifications based on delivery status like Out for Delivery or Delivered.', 'woo-advanced-shipment-tracking' ),
+	),
+	array(
+		'icon'   => 'clipboard-list',
+		'tint'   => '#ecfdf5',
+		'accent' => '#16a34a',
+		'title'  => __( 'Tracking Page', 'woo-advanced-shipment-tracking' ),
+		'desc'   => __( 'A professional, branded tracking page on your store to keep customers coming back.', 'woo-advanced-shipment-tracking' ),
+	),
+);
 ?>
-<section id="trackship_landing" class="tab_section">
-	<div class="tab_container_without_bg">
-		<!-- Main Hero Section -->
-		<div class="ts_hero_card">
-			<div class="ts_hero_row">
-				<div class="ts_hero_left">
-					<div class="ts_hero_logo">
-						<img class="ts_landing_logo" src="<?php echo esc_url( wc_advanced_shipment_tracking()->plugin_dir_url() ); ?>assets/images/trackship-logo.png">
+<section class="tab_section" id="trackship-tab">
+	<div class="ast-set-ts" id="ast-set-ts">
+
+		<?php /* ───── Dark hero ───── */ ?>
+		<div class="ast-set-ts-hero">
+			<span class="ast-set-ts-hero__glow ast-set-ts-hero__glow--1" aria-hidden="true"></span>
+			<span class="ast-set-ts-hero__glow ast-set-ts-hero__glow--2" aria-hidden="true"></span>
+
+			<div class="ast-set-ts-hero__inner">
+
+				<div class="ast-set-ts-hero__left">
+					<span class="ast-set-ts-badge">
+						<?php zui_icon( 'sparkles' ); ?><span><?php esc_html_e( 'Drive Repeat Business', 'woo-advanced-shipment-tracking' ); ?></span>
+					</span>
+
+					<h1 class="ast-set-ts-title ts_landing_header">
+						<?php esc_html_e( 'Your Post-Shipping Autopilot with', 'woo-advanced-shipment-tracking' ); ?> <span class="ast-set-ts-title__grad">TrackShip</span>
+					</h1>
+
+					<p class="ast-set-ts-lead">
+						<?php esc_html_e( 'Automate post-purchase shipment tracking across 1010+ carriers and deliver an Amazon-style branded experience right inside your store — without outsourcing your retention to plain carrier websites.', 'woo-advanced-shipment-tracking' ); ?>
+					</p>
+
+					<div class="ast-set-ts-features">
+						<?php foreach ( $ast_ts_features as $ast_feat ) : ?>
+							<div class="ast-set-ts-feature">
+								<?php zui_icon( 'check-circle' ); ?><span><?php echo esc_html( $ast_feat ); ?></span>
+							</div>
+						<?php endforeach; ?>
 					</div>
-					<h1 class="ts_landing_header"><?php esc_html_e( 'Your Post-Shipping & Delivery Autopilot', 'woo-advanced-shipment-tracking' ); ?></h1>
-					<ul class="ast_pro_features_list">
-						<li><?php esc_html_e( 'Branded tracking experience in your store', 'woo-advanced-shipment-tracking' ); ?></li>
-						<li><?php esc_html_e( 'Automate your post-shipping workflow', 'woo-advanced-shipment-tracking' ); ?></li>
-						<li><?php esc_html_e( 'Provide Amazon Style post-purchase customer experience', 'woo-advanced-shipment-tracking' ); ?></li>
-						<li><?php esc_html_e( 'Reduce time spent on customer service', 'woo-advanced-shipment-tracking' ); ?></li>
-						<li><?php esc_html_e( 'Create Relationships by engaging your customers after shipping', 'woo-advanced-shipment-tracking' ); ?></li>
-						<li><?php esc_html_e( 'Increase customer satisfaction and repeat purchases', 'woo-advanced-shipment-tracking' ); ?></li>
-					</ul>
-					<h3 class="ts_landing_h3">
-						<?php esc_html_e( 'Start for Free. 50 Free trackers / monthly', 'woo-advanced-shipment-tracking' ); ?>
-					</h3>
-					<a href="https://wordpress.org/plugins/trackship-for-woocommerce/"
-					   class="ts_install_btn"
-					   target="_blank">
-						<?php esc_html_e( 'Install TrackShip for WooCommerce', 'woo-advanced-shipment-tracking' ); ?>
-						<span class="dashicons dashicons-download"></span>
-					</a>
+
+					<div class="ast-set-ts-actions">
+						<a class="ast-set-ts-btn ast-set-ts-btn--primary ts_install_btn" href="<?php echo esc_url( $ast_ts_install_url ); ?>" target="_blank" rel="noopener noreferrer">
+							<?php zui_icon( 'download' ); ?>
+							<span><?php esc_html_e( 'Install TrackShip for WooCommerce', 'woo-advanced-shipment-tracking' ); ?></span>
+						</a>
+						<a class="ast-set-ts-btn ast-set-ts-btn--ghost" href="<?php echo esc_url( $ast_ts_learn_url ); ?>" target="_blank" rel="noopener noreferrer">
+							<span><?php esc_html_e( 'Learn more about TrackShip', 'woo-advanced-shipment-tracking' ); ?></span><?php zui_icon( 'arrow-right' ); ?>
+						</a>
+					</div>
 				</div>
-				<div class="ts_hero_right">
-					<div class="ts_illustration">
-						<div class="ts_illustration_top">
-							<div class="ts_illus_card">
-								<span class="dashicons dashicons-store"></span>
-								<span class="ts_illus_label"><?php esc_html_e( 'YOUR STORE', 'woo-advanced-shipment-tracking' ); ?></span>
-								
+
+				<div class="ast-set-ts-hero__right">
+					<div class="ast-set-ts-card">
+						<div class="ast-set-ts-card__top">
+							<div class="ast-set-ts-card__brand">
+								<span class="ast-set-ts-card__logo"><img class="ts_landing_logo" src="<?php echo esc_url( $ast_ts_logo ); ?>" alt="TrackShip"></span>
+								<div>
+									<h4 class="ast-set-ts-card__name"><?php esc_html_e( 'TrackShip Engine', 'woo-advanced-shipment-tracking' ); ?></h4>
+									<p class="ast-set-ts-card__sub"><?php esc_html_e( 'INTEGRATED SOLUTION', 'woo-advanced-shipment-tracking' ); ?></p>
+								</div>
 							</div>
-							<div class="ts_illus_card">
-								<span class="dashicons dashicons-admin-site-alt3"></span>
-								<span class="ts_illus_label"><?php esc_html_e( '950+ CARRIERS', 'woo-advanced-shipment-tracking' ); ?></span>
-							</div>
+							<span class="ast-set-ts-rating"><?php zui_icon( 'star' ); ?><span>4.9 / 5</span></span>
 						</div>
-						<div class="ts_illustration_mid">
-							<div class="ts_sync_circle">
-								<span class="dashicons dashicons-update"></span>
-							</div>
-						</div>
-						<div class="ts_illustration_bottom">
-							<div class="ts_tracking_card">
-								<div class="ts_tracking_card_header">
-									<span class="ts_skeleton_line ts_skeleton_short"></span>
-									<span class="ts_status_badge"><?php esc_html_e( 'IN TRANSIT', 'woo-advanced-shipment-tracking' ); ?></span>
-								</div>
-								<div class="ts_tracking_step ts_step_active">
-									<span class="ts_step_dot"></span>
-									<div class="ts_step_lines">
-										<span class="ts_skeleton_line ts_skeleton_wide ts_skeleton_green"></span>
-									</div>
-								</div>
-								<div class="ts_tracking_step">
-									<span class="ts_step_dot ts_dot_gray"></span>
-									<div class="ts_step_lines">
-										<span class="ts_skeleton_line ts_skeleton_wide"></span>
-									</div>
-								</div>
-							</div>
+
+						<p class="ast-set-ts-card__quote ts_landing_h3">
+							<?php esc_html_e( '"Start for Free — 50 trackers every month, no credit card required. Branded tracking page, automated delivery emails and a dashboard your team will love."', 'woo-advanced-shipment-tracking' ); ?>
+						</p>
+
+						<div class="ast-set-ts-card__foot">
+							<span class="ast-set-ts-card__nocard"><?php zui_icon( 'shield-check' ); ?><span><?php esc_html_e( 'No credit card required', 'woo-advanced-shipment-tracking' ); ?></span></span>
+							<a class="ast-set-ts-card__more" href="<?php echo esc_url( $ast_ts_learn_url ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Visit trackship.com', 'woo-advanced-shipment-tracking' ); ?> <?php zui_icon( 'arrow-right' ); ?></a>
 						</div>
 					</div>
 				</div>
+
 			</div>
 		</div>
 
-		<!-- Feature Cards Section -->
-		<div class="ts_features_row">
-			<div class="ts_feature_card">
-				<div class="ts_feature_icon ts_icon_blue">
-					<span class="dashicons dashicons-location"></span>
+		<?php /* ───── Feature cards row ───── */ ?>
+		<div class="ast-set-ts-cards">
+			<?php foreach ( $ast_ts_cards as $ast_card ) : ?>
+				<div class="ast-set-ts-fcard">
+					<span class="ast-set-ts-fcard__icon" style="background: <?php echo esc_attr( $ast_card['tint'] ); ?>; color: <?php echo esc_attr( $ast_card['accent'] ); ?>;">
+						<?php zui_icon( $ast_card['icon'] ); ?>
+					</span>
+					<h4 class="ast-set-ts-fcard__title"><?php echo esc_html( $ast_card['title'] ); ?></h4>
+					<p class="ast-set-ts-fcard__desc"><?php echo esc_html( $ast_card['desc'] ); ?></p>
 				</div>
-				<h4 class="ts_feature_title"><?php esc_html_e( 'Real-time Tracking', 'woo-advanced-shipment-tracking' ); ?></h4>
-				<p class="ts_feature_desc"><?php esc_html_e( 'Automatically track shipments across 950+ carriers worldwide with instant status updates.', 'woo-advanced-shipment-tracking' ); ?></p>
-			</div>
-			<div class="ts_feature_card">
-				<div class="ts_feature_icon ts_icon_blue">
-					<span class="dashicons dashicons-email-alt"></span>
-				</div>
-				<h4 class="ts_feature_title"><?php esc_html_e( 'Automated Emails', 'woo-advanced-shipment-tracking' ); ?></h4>
-				<p class="ts_feature_desc"><?php esc_html_e( 'Trigger custom email notifications based on delivery status like Out for Delivery or Delivered.', 'woo-advanced-shipment-tracking' ); ?></p>
-			</div>
-			<div class="ts_feature_card">
-				<div class="ts_feature_icon ts_icon_blue">
-					<span class="dashicons dashicons-media-text"></span>
-				</div>
-				<h4 class="ts_feature_title"><?php esc_html_e( 'Tracking Page', 'woo-advanced-shipment-tracking' ); ?></h4>
-				<p class="ts_feature_desc"><?php esc_html_e( 'A professional, branded tracking page on your store to keep customers coming back.', 'woo-advanced-shipment-tracking' ); ?></p>
-			</div>
+			<?php endforeach; ?>
 		</div>
+
 	</div>
 </section>

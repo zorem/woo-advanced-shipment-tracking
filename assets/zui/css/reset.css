@@ -1,0 +1,65 @@
+/* ============================================================
+   Zorem UI — Scoped reset / baseline
+   ------------------------------------------------------------
+   Applies only inside `.zui-scope`. Nothing leaks into the
+   rest of wp-admin.
+   ============================================================ */
+
+.zui-scope {
+	box-sizing: border-box;
+	font-family: var(--zui-font);
+	color: var(--zui-text);
+	background: var(--zui-bg);
+	min-height: calc(100vh - 32px);
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	font-size: 14px;
+	line-height: 1.45;
+	-webkit-font-smoothing: antialiased;
+}
+
+/* Universal descendant box-sizing reset for predictable sizing */
+.zui-scope *,
+.zui-scope *::before,
+.zui-scope *::after {
+	box-sizing: border-box;
+}
+
+/* Fill the WP admin content column with the app background.
+   Scoped via :has() so only pages with the app are affected. */
+body:has(.zui-scope) #wpcontent,
+body:has(.zui-scope) #wpbody,
+body:has(.zui-scope) #wpbody-content {
+	background: #f8fafc; /* matches --zui-bg literal */
+}
+
+/* Honour [hidden] even when an element sets its own display */
+.zui-scope [hidden] {
+	display: none !important;
+}
+
+/* ---- Custom scrollbar (matches AST Fulfillment Manager React reference) ---- */
+.zui-scope ::-webkit-scrollbar {
+	width: 6px;
+	height: 6px;
+}
+
+.zui-scope ::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+.zui-scope ::-webkit-scrollbar-thumb {
+	background: #cbd5e1;
+	border-radius: 4px;
+}
+
+.zui-scope ::-webkit-scrollbar-thumb:hover {
+	background: #94a3b8;
+}
+
+/* Firefox scrollbar */
+.zui-scope {
+	scrollbar-width: thin;
+	scrollbar-color: #cbd5e1 transparent;
+}

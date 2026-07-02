@@ -1,0 +1,78 @@
+/* ============================================================
+   Zorem UI — Select (native single-select)
+   ------------------------------------------------------------
+   Native <select> with custom chrome. The chevron is a sibling
+   span positioned absolutely; the native browser chevron is
+   suppressed via `appearance: none`.
+
+   Markup:
+     <div class="zui-select-wrap">
+       <select class="zui-select">...</select>
+       <span class="zui-select-chevron"><svg class="zui-icon"/></span>
+     </div>
+
+   ============================================================ */
+
+.zui-scope .zui-select-wrap {
+	position: relative;
+	max-width: 320px;
+}
+
+.zui-scope .zui-select {
+	width: 100%;
+	height: 42px;                                 /* matches .zui-ms__control */
+	padding: 0 38px 0 14px;
+	/* Use longhands (not the `background` shorthand) so we never reset
+	   background-repeat to its initial `repeat` — otherwise a chevron image
+	   that leaks in (e.g. WP core's disabled-select arrow) would tile. */
+	background-color: rgba(248, 250, 252, 0.5);   /* matches .zui-ms__control */
+	background-image: none;
+	background-repeat: no-repeat;
+	border: 1px solid var(--zui-border);
+	border-radius: var(--zui-radius-xl);
+	font-size: 13px;
+	color: var(--zui-text);
+	cursor: pointer;
+	transition: border-color 0.15s ease, box-shadow 0.15s ease;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+}
+
+.zui-scope .zui-select:hover {
+	border-color: #cbd5e1;                        /* matches .zui-ms__control:hover */
+}
+
+.zui-scope .zui-select:focus {
+	outline: none;
+	border-color: var(--zui-primary);
+	box-shadow: 0 0 0 3px var(--zui-primary-100);
+}
+
+/* Disabled — WP core's `.wp-core-ui select:disabled` (specificity 0,2,1)
+   injects a chevron background-image that out-specifies the base rule and
+   tiles. The extra `.zui-select-wrap` in the selector lifts our specificity
+   above WP core's so the image is killed and the control reads as disabled. */
+.zui-scope .zui-select-wrap .zui-select:disabled,
+.zui-scope .zui-select:disabled {
+	background-image: none;
+	background-color: rgba(248, 250, 252, 0.5);
+	color: var(--zui-text-muted);
+	cursor: not-allowed;
+	opacity: 0.6;
+}
+
+.zui-scope .zui-select-chevron {
+	position: absolute;
+	inset-inline-end: 12px;
+	top: 50%;
+	transform: translateY(-50%);
+	color: var(--zui-text-muted);
+	pointer-events: none;
+	display: inline-flex;
+}
+
+.zui-scope .zui-select-chevron .zui-icon {
+	width: 16px;
+	height: 16px;
+}
