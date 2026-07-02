@@ -1,0 +1,384 @@
+/* ============================================================
+   Zorem UI — Calendar (month-view date picker)
+   ------------------------------------------------------------
+   Standalone calendar panel used inline (filter cards, report
+   pages) or inside a popover floating off a date input. Renders
+   a single month at a time with previous/next navigation,
+   weekday header row, and a 7-column grid of day cells.
+
+   Single-day selection, range selection, today highlight, muted
+   adjacent-month days, and an optional footer with quick-select
+   presets (e.g. "Today", "Last 7 days") are all supported.
+
+   Markup — inline calendar:
+     <div class="zui-calendar">
+       <div class="zui-calendar__head">
+         <button type="button" class="zui-calendar__nav zui-calendar__nav--prev"
+                 aria-label="Previous month">
+           <svg class="zui-icon"><!-- chevron-left --></svg>
+         </button>
+         <div class="zui-calendar__title">June 2026</div>
+         <button type="button" class="zui-calendar__nav zui-calendar__nav--next"
+                 aria-label="Next month">
+           <svg class="zui-icon"><!-- chevron-right --></svg>
+         </button>
+       </div>
+       <div class="zui-calendar__grid">
+         <span class="zui-calendar__dow">Mo</span>
+         <span class="zui-calendar__dow">Tu</span>
+         <!-- … 5 more dow cells … -->
+         <button type="button" class="zui-calendar__day zui-calendar__day--muted">31</button>
+         <button type="button" class="zui-calendar__day">1</button>
+         <!-- … remaining day cells … -->
+         <button type="button" class="zui-calendar__day zui-calendar__day--today">23</button>
+         <!-- … -->
+       </div>
+       <div class="zui-calendar__foot">          <!-- optional -->
+         <button type="button" class="zui-calendar__preset">Today</button>
+         <button type="button" class="zui-calendar__preset">Last 7 days</button>
+         <button type="button" class="zui-calendar__preset">This month</button>
+       </div>
+     </div>
+
+   Markup — date input with popover calendar:
+     <div class="zui-datepicker" data-zui-datepicker>
+       <div class="zui-datepicker__input">
+         <input type="text" class="zui-input" readonly value="Jun 23, 2026">
+         <span class="zui-datepicker__icon">
+           <svg class="zui-icon"><!-- calendar --></svg>
+         </span>
+       </div>
+       <div class="zui-calendar zui-calendar--popover" hidden>
+         <!-- same calendar structure as above -->
+       </div>
+     </div>
+
+   Variants:
+   - `.zui-calendar--popover`   floating panel (shadow + z-index)
+   - `.zui-calendar--range`     visual styling for range selection
+                                (highlights cells between start and end)
+
+   Day cell modifiers:
+   - `.zui-calendar__day--muted`        outside the visible month
+   - `.zui-calendar__day--today`        is today (subtle ring)
+   - `.zui-calendar__day--in-range`     between range start + end
+   - `.zui-calendar__day--range-start`  first day of range
+   - `.zui-calendar__day--range-end`    last day of range
+   - `.zui-calendar__day--disabled`     non-selectable
+
+   State classes:
+   - `.is-selected` on a single-selected day (or both endpoints in a range)
+   - `.is-open` on `.zui-datepicker` when the popover calendar is visible
+
+   JS contract (consumer plugin owns the wiring):
+   - Toggle the `.zui-calendar` `hidden` attribute when used in a popover
+   - Sync `.is-open` on `.zui-datepicker`
+   - Re-render `.zui-calendar__grid` cells when month changes or selection updates
+   - Use `data-zui-datepicker` as the auto-init hook
+   ============================================================ */
+
+/* ---- Panel ---- */
+
+.zui-scope .zui-calendar {
+	display: inline-flex;
+	flex-direction: column;
+	gap: 12px;
+	width: 280px;
+	padding: 14px;
+	background: var(--zui-surface);
+	border: 1px solid var(--zui-border);
+	border-radius: var(--zui-radius-xl);
+	box-shadow: var(--zui-shadow-xs);
+	font-family: var(--zui-font);
+	color: var(--zui-text);
+	user-select: none;
+}
+
+/* ---- Popover variant (floating off a date input) ---- */
+
+.zui-scope .zui-calendar--popover {
+	position: absolute;
+	top: calc(100% + 6px);
+	inset-inline-start: 0;
+	box-shadow: var(--zui-shadow-lg);
+	z-index: 30;
+}
+
+/* ---- Header (prev | title | next) ---- */
+
+.zui-scope .zui-calendar__head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	padding: 2px 4px;
+}
+
+.zui-scope .zui-calendar__title {
+	flex: 1 1 auto;
+	text-align: center;
+	font-size: 13px;
+	font-weight: var(--zui-fw-semibold);
+	color: var(--zui-text-strong);
+	letter-spacing: -0.01em;
+}
+
+.zui-scope .zui-calendar__nav {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	padding: 0;
+	background: transparent;
+	border: 1px solid transparent;
+	border-radius: var(--zui-radius-md);
+	color: var(--zui-text-soft);
+	cursor: pointer;
+	transition: background-color var(--zui-dur) var(--zui-ease),
+	            color var(--zui-dur) var(--zui-ease),
+	            border-color var(--zui-dur) var(--zui-ease);
+}
+
+.zui-scope .zui-calendar__nav:hover {
+	background: var(--zui-bg);
+	color: var(--zui-text-strong);
+	border-color: var(--zui-border);
+}
+
+.zui-scope .zui-calendar__nav:focus-visible {
+	outline: none;
+	border-color: var(--zui-primary);
+	box-shadow: 0 0 0 3px var(--zui-primary-100);
+}
+
+.zui-scope .zui-calendar__nav .zui-icon {
+	width: 16px;
+	height: 16px;
+}
+
+/* ---- Grid (7 cols × N rows) — day-of-week header + day cells ---- */
+
+.zui-scope .zui-calendar__grid {
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+	gap: 2px;
+}
+
+.zui-scope .zui-calendar__dow {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	height: 28px;
+	font-size: var(--zui-fs-xs);
+	font-weight: var(--zui-fw-semibold);
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	color: var(--zui-text-muted);
+}
+
+/* ---- Day cells ---- */
+
+.zui-scope .zui-calendar__day {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 32px;
+	padding: 0;
+	background: transparent;
+	border: 1px solid transparent;
+	border-radius: var(--zui-radius-md);
+	font-family: inherit;
+	font-size: var(--zui-fs-sm);
+	font-weight: var(--zui-fw-medium);
+	color: var(--zui-text);
+	cursor: pointer;
+	transition: background-color var(--zui-dur) var(--zui-ease),
+	            color var(--zui-dur) var(--zui-ease),
+	            border-color var(--zui-dur) var(--zui-ease);
+}
+
+.zui-scope .zui-calendar__day:hover {
+	background: var(--zui-bg);
+	color: var(--zui-text-strong);
+}
+
+.zui-scope .zui-calendar__day:focus-visible {
+	outline: none;
+	border-color: var(--zui-primary);
+	box-shadow: 0 0 0 2px var(--zui-primary-100);
+}
+
+/* Muted — days from adjacent months */
+.zui-scope .zui-calendar__day--muted {
+	color: var(--zui-text-faint);
+}
+
+.zui-scope .zui-calendar__day--muted:hover {
+	color: var(--zui-text-muted);
+}
+
+/* Today (when not selected) — primary-50 fill + primary text */
+.zui-scope .zui-calendar__day--today {
+	background: var(--zui-primary-50);
+	color: var(--zui-primary-600);
+	font-weight: var(--zui-fw-semibold);
+}
+
+.zui-scope .zui-calendar__day--today:hover {
+	background: var(--zui-primary-100);
+}
+
+/* Selected — primary fill + white text */
+.zui-scope .zui-calendar__day.is-selected {
+	background: var(--zui-primary);
+	color: var(--zui-text-on-accent);
+	font-weight: var(--zui-fw-semibold);
+}
+
+.zui-scope .zui-calendar__day.is-selected:hover {
+	background: var(--zui-primary-hover);
+	color: var(--zui-text-on-accent);
+}
+
+/* Disabled — non-selectable */
+.zui-scope .zui-calendar__day--disabled,
+.zui-scope .zui-calendar__day[disabled] {
+	color: var(--zui-text-faint);
+	background: transparent;
+	cursor: not-allowed;
+	opacity: 0.5;
+}
+
+.zui-scope .zui-calendar__day--disabled:hover,
+.zui-scope .zui-calendar__day[disabled]:hover {
+	background: transparent;
+	color: var(--zui-text-faint);
+}
+
+/* ---- Range selection ----
+   In a range, the calendar lays out cells without the 2px column gap so
+   the `--in-range` background reads as a single continuous band. Endpoints
+   keep their primary fill; middle cells get a primary-50 strip. */
+
+.zui-scope .zui-calendar--range .zui-calendar__grid {
+	gap: 0 0;
+	row-gap: 2px;
+}
+
+.zui-scope .zui-calendar__day--in-range {
+	background: var(--zui-primary-50);
+	color: var(--zui-primary-700);
+	border-radius: 0;
+}
+
+.zui-scope .zui-calendar__day--in-range:hover {
+	background: var(--zui-primary-100);
+}
+
+.zui-scope .zui-calendar__day--range-start,
+.zui-scope .zui-calendar__day--range-end {
+	background: var(--zui-primary);
+	color: var(--zui-text-on-accent);
+	font-weight: var(--zui-fw-semibold);
+}
+
+.zui-scope .zui-calendar__day--range-start {
+	border-top-left-radius: var(--zui-radius-md);
+	border-bottom-left-radius: var(--zui-radius-md);
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+.zui-scope .zui-calendar__day--range-end {
+	border-top-right-radius: var(--zui-radius-md);
+	border-bottom-right-radius: var(--zui-radius-md);
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
+
+.zui-scope .zui-calendar__day--range-start:hover,
+.zui-scope .zui-calendar__day--range-end:hover {
+	background: var(--zui-primary-hover);
+	color: var(--zui-text-on-accent);
+}
+
+/* ---- Footer (presets) ---- */
+
+.zui-scope .zui-calendar__foot {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	padding-top: 10px;
+	border-top: 1px solid var(--zui-divider);
+}
+
+.zui-scope .zui-calendar__preset {
+	display: inline-flex;
+	align-items: center;
+	padding: 5px 10px;
+	background: var(--zui-bg);
+	border: 1px solid var(--zui-border);
+	border-radius: var(--zui-radius-pill);
+	font-family: inherit;
+	font-size: var(--zui-fs-xs);
+	font-weight: var(--zui-fw-semibold);
+	color: var(--zui-text-soft);
+	cursor: pointer;
+	transition: background-color var(--zui-dur) var(--zui-ease),
+	            color var(--zui-dur) var(--zui-ease),
+	            border-color var(--zui-dur) var(--zui-ease);
+}
+
+.zui-scope .zui-calendar__preset:hover {
+	background: var(--zui-primary-50);
+	color: var(--zui-primary-600);
+	border-color: var(--zui-primary-100);
+}
+
+.zui-scope .zui-calendar__preset.is-active {
+	background: var(--zui-primary);
+	color: var(--zui-text-on-accent);
+	border-color: var(--zui-primary);
+}
+
+/* ============================================================
+   Date Picker — input + popover calendar wrapper
+   ============================================================ */
+
+.zui-scope .zui-datepicker {
+	position: relative;
+	display: inline-block;
+	max-width: 240px;
+	width: 100%;
+}
+
+.zui-scope .zui-datepicker__input {
+	position: relative;
+}
+
+/* Make room on the right for the calendar icon */
+.zui-scope .zui-datepicker__input .zui-input {
+	padding-inline-end: 38px;
+	cursor: pointer;
+}
+
+.zui-scope .zui-datepicker__icon {
+	position: absolute;
+	inset-inline-end: 12px;
+	top: 50%;
+	transform: translateY(-50%);
+	display: inline-flex;
+	color: var(--zui-text-muted);
+	pointer-events: none;
+}
+
+.zui-scope .zui-datepicker__icon .zui-icon {
+	width: 16px;
+	height: 16px;
+}
+
+.zui-scope .zui-datepicker.is-open .zui-datepicker__icon {
+	color: var(--zui-primary-600);
+}

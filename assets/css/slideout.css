@@ -315,9 +315,6 @@ input.tab_input_carrier:checked + label {
 .top_search_section {
     padding: 0 20px;
 }
-.padding_zero {
-    padding: 0 !important;
-}
 #add_default_carrier_section .search_section {
     margin-top: 12px;
 }

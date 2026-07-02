@@ -86,24 +86,18 @@ class WC_Advanced_Shipment_Tracking_Admin {
 		add_action( 'wp_ajax_get_provider_details', array( $this, 'get_provider_details_fun') );
 
 		add_action( 'wp_ajax_shipping_pagination', array( $this, 'shipping_pagination_fun_callback') );
-		
-		// add_action( 'wp_ajax_update_custom_shipment_provider', array( $this, 'update_custom_shipment_provider_fun') );
-		
+
 		add_action( 'wp_ajax_reset_default_provider', array( $this, 'reset_default_provider_fun') );
-		
+
 		add_action( 'wp_ajax_woocommerce_shipping_provider_delete', array( $this, 'woocommerce_shipping_provider_delete' ) );
-		
+
 		add_action( 'wp_ajax_update_provider_status', array( $this, 'update_provider_status_fun') );
-		
-		add_action( 'wp_ajax_reset_shipping_providers_database', array( $this, 'reset_shipping_providers_database_fun') );
-		
+
 		add_action( 'wp_ajax_update_default_provider', array( $this, 'update_default_provider_fun') );
-		
+
 		add_action( 'wp_ajax_update_shipment_status', array( $this, 'update_shipment_status_fun') );
 
 		add_action( 'update_order_status_after_adding_tracking', array( $this, 'update_order_status_after_adding_tracking'), 10, 2 );
-
-		add_action( 'add_more_api_provider', array( $this, 'add_more_api_provider' ) );
 
 		add_action( 'wp_ajax_search_disabled_default_carrier', array( $this, 'search_disabled_default_carrier' ) );
 	}
@@ -198,9 +192,20 @@ class WC_Advanced_Shipment_Tracking_Admin {
 			),
 			'delete_rates_nonce' => wp_create_nonce( 'delete-rate' ),
 		) );
-		wp_enqueue_media();	
+		wp_enqueue_media();
+
+		// New Settings UI — ZUI component library + plugin chrome.
+		// VERSION file lets every consumer plugin (AST/ALP/CBR/CEV/SMS/SRE) cache-bust on
+		// the same library bump without touching plugin code.
+		$ast_zui_dir  = wc_advanced_shipment_tracking()->plugin_dir_url() . 'assets/zui/';
+		$ast_zui_path = wc_advanced_shipment_tracking()->get_plugin_path() . '/assets/zui/';
+		$ast_zui_ver  = file_exists( $ast_zui_path . 'VERSION' ) ? trim( file_get_contents( $ast_zui_path . 'VERSION' ) ) : wc_advanced_shipment_tracking()->version;
+		wp_enqueue_style( 'zui', $ast_zui_dir . 'css/zui.css', array(), $ast_zui_ver );
+		wp_enqueue_script( 'zui', $ast_zui_dir . 'js/zui.js', array(), $ast_zui_ver, true );
+		wp_enqueue_style( 'ast-settings', wc_advanced_shipment_tracking()->plugin_dir_url() . 'assets/css/ast-settings.css', array( 'zui' ), wc_advanced_shipment_tracking()->version );
+		wp_enqueue_script( 'ast-settings', wc_advanced_shipment_tracking()->plugin_dir_url() . 'assets/js/ast-settings.js', array( 'zui', 'jquery' ), wc_advanced_shipment_tracking()->version, true );
 	}
-	
+
 	/*
 	* Admin Menu add function
 	* WC sub menu
@@ -222,17 +227,20 @@ class WC_Advanced_Shipment_Tracking_Admin {
 	* callback for Shipment Tracking page
 	*/
 	public function woocommerce_advanced_shipment_tracking_page_callback() {
-		
+
 		global $order, $wpdb;
 		$WC_Countries = new WC_Countries();
 		$countries = $WC_Countries->get_countries();
-		
+
+		// Preserve legacy data prep — the existing view fragments (carriers, CSV,
+		// integrations, trackship) still read $default_shippment_providers, $countries,
+		// $WC_Countries via $this scope when they're required from the new shell.
 		$default_shippment_providers = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %1s ORDER BY shipping_default ASC, display_in_order DESC, trackship_supported DESC, id ASC', $this->table ) );
-		
+
 		foreach ( $default_shippment_providers as $key => $value ) {
 			$search = array('(US)', '(UK)');
 			$replace = array('', '');
-			
+
 			if ( $value->shipping_country && 'Global' != $value->shipping_country ) {
 				$country = str_replace( $search, $replace, $WC_Countries->countries[ $value->shipping_country ] );
 				$default_shippment_providers[ $key ]->country = $country;
@@ -240,45 +248,16 @@ class WC_Advanced_Shipment_Tracking_Admin {
 				$default_shippment_providers[ $key ]->country = 'Global';
 			}
 		}
-		
+
 		wp_enqueue_script( 'shipment_tracking_table_rows' );
-		
-		?>
-		
-		<div class="zorem-layout">
-			<div class="zorem-layout__header">
-				<h1 class="page_heading">
-					<a href="javascript:void(0)"><?php esc_html_e( 'Shipment Tracking', 'woo-advanced-shipment-tracking' ); ?></a> <span class="dashicons dashicons-arrow-right-alt2"></span> <span class="breadcums_page_heading"><?php esc_html_e( 'Settings', 'woo-advanced-shipment-tracking' ); ?></span>
-				</h1>
-				<a href="https://www.zorem.com/product/woocommerce-advanced-shipment-tracking/?utm_source=wp-admin&utm_medium=plugin-setting&utm_campaign=upgrad-to-pro" target="_blank"><span class="button-primary btn_ast2">UPGRADE TO PRO</span></a>
-				<img class="zorem-layout__header-logo" src="<?php echo esc_url( wc_advanced_shipment_tracking()->plugin_dir_url() ); ?>assets/images/zorem-logo.png">
-			</div>
-			
-			<div class="woocommerce zorem_admin_layout">
-				<div class="ast_admin_content zorem_admin_settings" >
-					<div class="ast_nav_div">
-						<?php echo do_shortcode('[ast_settings_admin_notice]'); ?>
-						<?php include 'views/activity_panel.php'; ?>
-						<?php
-						$this->get_html_menu_tab( $this->get_ast_tab_settings_data() );
-						?>
-						<div class="menu_devider"></div>
-						<?php
-						require_once( 'views/admin_options_shipping_provider.php' );
-						require_once( 'views/admin_options_settings.php' );
-						require_once( 'views/admin_options_bulk_upload.php' );
-						require_once( 'views/admin_options_integrations.php' );
-						require_once( 'views/admin_options_addons.php' ); 
-						include 'views/admin_options_trackship_integration.php';
-						?>
-					</div>
-				</div>
-			</div>
-		</div>
-		<?php include 'views/admin_upgrade_to_pro_popup.php'; ?>
-	<?php
+
+		// New Settings UI — single-page shell with sidebar + top tabs. Functionality
+		// (forms, save handlers, AJAX endpoints) is identical to the legacy UI; only
+		// the chrome (header, sidebar, sections) is new.
+		require SHIPMENT_TRACKING_PATH . '/includes/settings/layout-app.php';
+		include SHIPMENT_TRACKING_PATH . '/includes/views/admin_upgrade_to_pro_popup.php';
 	}
-	
+
 	/*
 	* callback for Shipment Tracking menu array
 	*/
@@ -307,14 +286,6 @@ class WC_Advanced_Shipment_Tracking_Admin {
 				'data-label' => __( 'Shipping Carriers', 'woo-advanced-shipment-tracking' ),
 				'name'  => 'tabs',
 			),
-			'tab4' => array(
-				'title'		=> __( 'CSV Import', 'woo-advanced-shipment-tracking' ),
-				'show'      => true,
-				'class'     => 'tab_label',
-				'data-tab'  => 'bulk-upload',
-				'data-label' => __( 'CSV Import', 'woo-advanced-shipment-tracking' ),
-				'name'  => 'tabs',
-			),
 			'integrations_tab' => array(
 				'title'		=> __( 'Integrations', 'woo-advanced-shipment-tracking' ),
 				'show'      => true,
@@ -322,8 +293,27 @@ class WC_Advanced_Shipment_Tracking_Admin {
 				'data-label' => __( 'Integrations', 'woo-advanced-shipment-tracking' ),
 				// 'class'     => 'tab_label ast_premium_menu',
 				'class'     => 'tab_label',
+				'badge'     => 'PRO',
 				'name'  => 'tabs',
-			),			
+			),
+			'tab4' => array(
+				'title'		=> __( 'CSV Import', 'woo-advanced-shipment-tracking' ),
+				'show'      => true,
+				'class'     => 'tab_label',
+				'data-tab'  => 'csv-import',
+				'data-label' => __( 'CSV Import', 'woo-advanced-shipment-tracking' ),
+				'name'  => 'tabs',
+			),
+			'tab_bulk_paste' => array(
+				'title'		=> __( 'Bulk Paste', 'woo-advanced-shipment-tracking' ),
+				'show'      => true,
+				'class'     => 'tab_label',
+				'data-tab'  => 'bulk-paste',
+				'data-label' => __( 'Bulk Paste', 'woo-advanced-shipment-tracking' ),
+				'badge'     => 'PRO',
+				'name'  => 'tabs',
+			),
+
 			'tab6' => array(
 				'title'		=> $go_pro_label,
 				'show'      => true,
@@ -374,278 +364,229 @@ class WC_Advanced_Shipment_Tracking_Admin {
 	}
 	
 	/*
-	* callback for HTML function for Shipment Tracking menu
-	*/
-	public function get_html_menu_tab( $arrays, $tab_class = 'tab_input' ) { 
-		
-		$tab = isset( $_GET['tab'] ) ? sanitize_text_field( $_GET['tab'] ) : 'settings';
-		$settings = isset( $_GET['settings'] ) ? sanitize_text_field( $_GET['settings'] ) : 'general-settings';
-		
-		foreach ( (array) $arrays as $id => $array ) {
-			if ( $array['show'] ) {
-				if ( isset( $array['type'] ) && 'link' == $array['type'] ) {
-					?>
-					<a class="menu_link <?php echo esc_attr( $array['class'] ); ?>" href="<?php echo esc_url( $array['link'] ); ?>"><?php echo esc_html( $array['title'] ); ?></a>
-				<?php 
-				} else { 
-					$checked = ( $tab == $array['data-tab'] || $settings == $array['data-tab'] ) ? 'checked' : '';
-					?>
-					<input class="<?php esc_html_e( $tab_class ); ?>" id="<?php esc_html_e( $id ); ?>" name="<?php esc_html_e( $array['name'] ); ?>" type="radio"  data-tab="<?php esc_html_e( $array['data-tab'] ); ?>" data-label="<?php esc_html_e( $array['data-label'] ); ?>"  <?php esc_html_e( $checked ); ?>/>
-					<label class="<?php esc_html_e( $array['class'] ); ?>" for="<?php esc_html_e( $id ); ?>"><?php esc_html_e( $array['title'] ); ?></label>
-				<?php
-				}
-			}
-		}
-	}
-
 	/*
 	* get UL html of fields
 	*/
-	public function get_html_ul( $arrays ) { 
-		?>
-		<ul class="settings_ul">		
-		<?php 
+	public function get_html_ul( $arrays ) {
+		// New Settings UI output: ZUI rows inside .zui-card wrappers (driven by
+		// settings-body.php / the new shell). Input name+id contracts are preserved
+		// so existing save handlers (wc_ast_settings_form_update) keep working
+		// untouched. Legacy CSS classes (`.settings_ul`, `.ast-tgl-btn`, …) are
+		// retained only where they still drive existing JS behaviour.
 		foreach ( (array) $arrays as $id => $array ) {
-				
-			if ( $array['show'] ) {
-				
-				if ( 'checkbox' == $array['type'] ) {
-					$default = isset( $array['default'] ) ? $array['default'] : '';
-					$checked = ( get_ast_settings( $array['option_name'], $id, $default ) ) ? 'checked' : '' ;	
-					?>
-					<li>
-						<input type="hidden" name="<?php esc_html_e( $id ); ?>" value="0"/>
-						<input class="" id="<?php esc_html_e( $id ); ?>" name="<?php esc_html_e( $id ); ?>" type="checkbox" <?php esc_html_e( $checked ); ?> value="1"/>
-											
-						<label class="setting_ul_checkbox_label"><?php esc_html_e( $array['title'] ); ?>
-						<?php if ( isset( $array['tooltip'] ) ) { ?>
-							<span class="woocommerce-help-tip tipTip" data-tip="<?php esc_html_e( $array['tooltip'] ); ?>"></span>
-						<?php } ?>
+			if ( empty( $array['show'] ) ) {
+				continue;
+			}
+
+			$type    = isset( $array['type'] ) ? $array['type'] : 'text';
+			$title   = isset( $array['title'] ) ? $array['title'] : '';
+			$tooltip = isset( $array['tooltip'] ) ? $array['tooltip'] : '';
+			$default = isset( $array['default'] ) ? $array['default'] : '';
+			$opt     = isset( $array['option_name'] ) ? $array['option_name'] : 'ast_general_settings';
+
+			if ( 'checkbox' === $type ) {
+				$checked = (bool) get_ast_settings( $opt, $id, $default );
+				?>
+				<div class="zui-row zui-row--inline">
+					<div class="zui-row__head">
+						<span class="zui-row__label"><?php echo esc_html( $title ); ?></span>
+						<?php if ( $tooltip ) : ?><p class="zui-row__desc"><?php echo esc_html( $tooltip ); ?></p><?php endif; ?>
+					</div>
+					<div class="zui-row__control">
+						<label class="zui-checkbox">
+							<input type="hidden" name="<?php echo esc_attr( $id ); ?>" value="0">
+							<input id="<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( $id ); ?>" type="checkbox" class="zui-checkbox__input" value="1" <?php checked( $checked, true ); ?>>
+							<span class="zui-checkbox__box"></span>
 						</label>
-					</li>
+					</div>
+				</div>
 				<?php
-				} else if ( 'tgl_checkbox' == $array['type'] ) {
-					$default = isset( $array['default'] ) ? $array['default'] : '';
-					$checked = get_option( $id, $default ) ? 'checked' : '' ;
-					if ( 'wc_ast_enable_log' == $id ) {
-						$checked = ( get_ast_settings( $array['option_name'], $id, $default ) ) ? 'checked' : '' ;
-					} 
-					$tgl_class = isset( $array['tgl_color'] ) ? 'ast-tgl-btn-green' : '';
-					$disabled = isset( $array['disabled'] ) && true == $array['disabled'] ? 'disabled' : '';
-					?>
-					<li>
-						<span class="ast-tgl-btn-parent">
-							<input type="hidden" name="<?php esc_html_e( $id ); ?>" value="0"/>
-							<input class="ast-tgl ast-tgl-flat ast-settings-toggle" id="<?php esc_html_e( $id ); ?>" name="<?php esc_html_e( $id ); ?>" type="checkbox" <?php esc_html_e( $checked ); ?> value="1" <?php esc_html_e( $disabled ); ?>/>
-							<label class="ast-tgl-btn <?php esc_html_e( $tgl_class ); ?>" for="<?php esc_html_e( $id ); ?>"></label>
-						</span>
 
-						<div class="setting_ul_tgl_checkbox_label"><label><?php esc_html_e( $array['title'] ); ?></label>
-							<?php if ( isset( $array['tooltip'] ) ) { ?>
-								<span class="woocommerce-help-tip tipTip" data-tip="<?php esc_html_e( $array['tooltip'] ); ?>"></span>
-							<?php } ?>
-							<?php if ( isset( $array['desc'] ) ) { ?>
-								<div class="tgl_checkbox_desc"><?php esc_html_e( $array['desc'] ); ?></div>
-							<?php } ?>	
-						</div>
-
-						<?php if ( isset( $array['customize_link'] ) ) { ?>
-							<a href="<?php esc_html_e( $array['customize_link'] ); ?>" class="button-primary btn_ts_transparent btn_large ts_customizer_btn">
+			} elseif ( 'tgl_checkbox' === $type ) {
+				// 'wc_ast_enable_log' reads from ast_general_settings (new), all others use get_option (legacy stand-alone keys).
+				if ( 'wc_ast_enable_log' === $id ) {
+					$checked = (bool) get_ast_settings( $opt, $id, $default );
+				} else {
+					$checked = (bool) get_option( $id, $default );
+				}
+				$disabled = ! empty( $array['disabled'] );
+				?>
+				<div class="zui-row zui-row--inline">
+					<div class="zui-row__head">
+						<span class="zui-row__label"><?php echo esc_html( $title ); ?></span>
+						<?php if ( ! empty( $array['desc'] ) ) : ?>
+							<p class="zui-row__desc"><?php echo esc_html( $array['desc'] ); ?></p>
+						<?php elseif ( $tooltip ) : ?>
+							<p class="zui-row__desc"><?php echo esc_html( $tooltip ); ?></p>
+						<?php endif; ?>
+						<?php if ( ! empty( $array['input_desc'] ) ) : ?>
+							<p class="zui-row__hint">
+								<?php echo esc_html( $array['input_desc'] ); ?>
+								<?php if ( ! empty( $array['desc_url'] ) ) : ?>
+									<a target="_blank" rel="noopener noreferrer" href="<?php echo esc_url( $array['desc_url'] ); ?>"><?php esc_html_e( 'View Logs', 'woo-advanced-shipment-tracking' ); ?></a>
+								<?php endif; ?>
+							</p>
+						<?php endif; ?>
+					</div>
+					<div class="zui-row__control">
+						<label class="zui-toggle">
+							<input type="hidden" name="<?php echo esc_attr( $id ); ?>" value="0">
+							<input id="<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( $id ); ?>" type="checkbox" class="zui-toggle__input ast-settings-toggle" value="1" <?php checked( $checked, true ); ?> <?php disabled( $disabled, true ); ?>>
+							<span class="zui-toggle__track"><span class="zui-toggle__thumb"></span></span>
+						</label>
+						<?php if ( ! empty( $array['customize_link'] ) ) : ?>
+							<a href="<?php echo esc_url( $array['customize_link'] ); ?>" class="zui-btn-secondary ts_customizer_btn">
 								<?php esc_html_e( 'Customize', 'woo-advanced-shipment-tracking' ); ?>
 							</a>
-						<?php } ?>
-						<?php						
-						if ( isset( $array['input_desc'] ) ) {
-							if ( isset( $array['desc_url'] ) ) { 
-								?>
-								<span class="ast_log_setting"><?php esc_html_e( $array['input_desc'] ); ?>
-								<a target="_blank" class='' href="<?php esc_html_e( $array['desc_url'] ); ?>">Logs</a></span>
-							<?php 
-							} else {
-								?>
-								<span><?php esc_html_e( $array['input_desc'] ); ?></span>
-							<?php 
-							}
-						}
-						?>
-					</li>
+						<?php endif; ?>
+					</div>
+				</div>
 				<?php
-				} else if ( 'radio' == $array['type'] ) {
-					?>
-					<li class="settings_radio_li">
-						<label><strong><?php esc_html_e( $array['title'] ); ?></strong>
-							<?php if ( isset( $array['tooltip'] ) ) { ?>
-								<span class="woocommerce-help-tip tipTip" data-tip="<?php esc_html_e( $array['tooltip'] ); ?>"></span>
-							<?php } ?>
-						</label>
 
-						<?php
-
-						foreach ( (array) $array['options'] as $key => $val ) {
-							$selected = ( get_ast_settings( $array['option_name'], $id, $array['default'] ) == (string) $key ) ? 'checked' : '' ;
-							?>
-							<span class="radio_section">
-								<label class="" for="<?php esc_html_e( $id ); ?>_<?php esc_html_e( $key ); ?>">
-									<input type="radio" id="<?php esc_html_e( $id ); ?>_<?php esc_html_e( $key ); ?>" name="<?php esc_html_e( $id ); ?>" class="<?php esc_html_e( $id ); ?>"  value="<?php esc_html_e( $key ); ?>" <?php esc_html_e( $selected ); ?> />
-									<span class=""><?php esc_html_e( $val ); ?></span></br>
-								</label>
-							</span>
-						<?php } ?>
-					</li>
-				<?php
-				} else if ( 'multiple_select' == $array['type'] ) {
-					?>
-					<li class="multiple_select_li">
-						<label><?php esc_html_e( $array['title'] ); ?>
-							<?php if ( isset( $array['tooltip'] ) ) { ?>
-								<span class="woocommerce-help-tip tipTip" data-tip="<?php esc_html_e( $array['tooltip'] ); ?>"></span>
-							<?php } ?>
-						</label>
-						<div class="multiple_select_container <?php esc_html_e( $id ); ?>">	
-							<select multiple class="wc-enhanced-select" name="<?php esc_html_e( $id ); ?>[]" id="<?php esc_html_e( $id ); ?>">
-							<?php
-							foreach ( (array) $array['options'] as $key => $val ) {
-								$multi_checkbox_data = get_ast_settings( $array['option_name'], $id, '' );
-								$checked = isset( $multi_checkbox_data[ $key ] ) && 1 == $multi_checkbox_data[ $key ] ? 'selected' : '' ;
-								?>
-								<option value="<?php echo esc_attr( $key ); ?>" <?php esc_html_e( $checked ); ?>><?php esc_html_e( $val['status'] ); ?></option>
-							<?php 
-							} 
-							?>
-							</select>
-						</div>
-					</li>
-				<?php 
-				} else if ( 'multiple_checkbox' == $array['type'] ) {
-					?>
-					<li>
-						<div class="multiple_checkbox_label">
-							<label><strong><?php esc_html_e( $array['title'] ); ?></strong></label>
-							<span class="multiple_checkbox_description"><?php esc_html_e( $array['desc'] ); ?></span>
-						</div >
-						<div class="multiple_checkbox_parent">
-							<?php 
-							$op = 1;
-							foreach ( (array) $array['options'] as $key => $val ) {
-								$multi_checkbox_data = get_ast_settings( $array['option_name'], $id, '' );
-								$checked = isset( $multi_checkbox_data[ $key ] ) && 1 == $multi_checkbox_data[ $key ] ? 'checked' : '' ;
-								?>
-								<span class="multiple_checkbox">
-									<label class="">
-										<input type="hidden" name="<?php esc_html_e( $id ); ?>[<?php esc_html_e( $key ); ?>]" value="0"/>
-										<input type="checkbox" name="<?php esc_html_e( $id ); ?>[<?php esc_html_e( $key ); ?>]" class=""  <?php esc_html_e( $checked ); ?> value="1"/>
-										<span class="multiple_label"><?php esc_html_e( $val['status'] ); ?></span>
-										</br>
-									</label>
+			} elseif ( 'radio' === $type ) {
+				$current = get_ast_settings( $opt, $id, $default );
+				?>
+				<div class="zui-row">
+					<div class="zui-row__head">
+						<span class="zui-row__label"><?php echo esc_html( $title ); ?></span>
+						<?php if ( $tooltip ) : ?><p class="zui-row__desc"><?php echo esc_html( $tooltip ); ?></p><?php endif; ?>
+					</div>
+					<div class="zui-row__control zui-radio-cards">
+						<?php foreach ( (array) $array['options'] as $key => $val ) : ?>
+							<label class="zui-radio-card <?php echo esc_attr( $id ); ?><?php echo ( (string) $current === (string) $key ) ? ' is-selected' : ''; ?>" for="<?php echo esc_attr( $id . '_' . $key ); ?>">
+								<input type="radio" id="<?php echo esc_attr( $id . '_' . $key ); ?>" name="<?php echo esc_attr( $id ); ?>" class="<?php echo esc_attr( $id ); ?> zui-radio-card__input" value="<?php echo esc_attr( $key ); ?>" <?php checked( (string) $current, (string) $key ); ?>>
+								<span class="zui-radio-card__body">
+									<span class="zui-radio-card__label"><?php echo esc_html( $val ); ?></span>
 								</span>
-							<?php } ?>
-						</div>
-					</li>
-				<?php 
-				} else if ( 'button' == $array['type'] ) {
-					?>
-					<li>
-						<label class="left_label"><?php esc_html_e( $array['title'] ); ?>
-							<?php if ( isset( $array['tooltip'] ) ) { ?>
-								<span class="woocommerce-help-tip tipTip" data-tip="<?php esc_html_e( $array['tooltip'] ); ?>"></span>
-							<?php } ?>
-						</label>
-						<?php
-						if ( isset( $array['customize_link'] ) ) {
-							?>
-							<a href="<?php esc_html_e( $array['customize_link'] ); ?>" class="button-primary btn_ts_transparent btn_large ts_customizer_btn"><?php esc_html_e( 'Customize', 'woo-advanced-shipment-tracking' ); ?></a>
-						<?php } ?>
-					</li>
+							</label>
+						<?php endforeach; ?>
+					</div>
+				</div>
 				<?php
-				} else if ( 'pro_feature' == $array['type'] ) {
-					$title = isset( $array['title'] ) ? $array['title'] : '';
-					$tooltip = isset( $array['tooltip'] ) ? $array['tooltip'] : '';
-					$upgrade_url = isset( $array['upgrade_url'] ) ? $array['upgrade_url'] : 'https://www.zorem.com/ast-pro/?utm_source=wp-admin&utm_medium=plugin-setting&utm_campaign=pro-feature';
-					?>
-					<li class="ast-pro-feature-row">
-						<div class="ast-pro-feature-content">
-							<div class="ast-pro-toggle-wrapper">
-								<div class="ast-pro-toggle-disabled"></div>
-							</div>
-							<div class="ast-pro-feature-text">
-								<label class="ast-pro-feature-label"><?php echo esc_html( $title ); ?></label>
-								<?php if ( ! empty( $tooltip ) ) { ?>
-									<span class="ast-pro-info-icon" data-tip="<?php echo esc_attr( $tooltip ); ?>">?</span>
-								<?php } ?>
-							</div>
-							<div class="ast-pro-feature-badges">
-								<span class="ast-pro-badge">PRO</span>
-								<span class="ast-pro-lock-icon"></span>
-							</div>
-						</div>
-					</li>
-				<?php
-				}
-			}
-		}
-		?>
-		</ul>
-	<?php
-	}
 
-	/**
-	 * Render a PRO feature row (locked state)
-	 *
-	 * @param string $title Feature title
-	 * @param string $description Feature description
-	 * @param string $upgrade_url Optional upgrade URL
-	 */
-	public function render_pro_feature_row( $title, $description, $upgrade_url = '' ) {
-		if ( empty( $upgrade_url ) ) {
-			$upgrade_url = 'https://www.zorem.com/ast-pro/?utm_source=wp-admin&utm_medium=plugin-setting&utm_campaign=pro-feature';
-		}
-		?>
-		<li class="ast-pro-feature-row">
-			<div class="ast-pro-feature-content">
-				<div class="ast-pro-feature-left">
-					<span class="ast-pro-lock-icon"></span>
-					<div class="ast-pro-feature-text">
-						<div class="ast-pro-feature-title">
-							<?php echo esc_html( $title ); ?>
-						</div>
-						<div class="ast-pro-feature-desc">
-							<?php echo esc_html( $description ); ?>
+			} elseif ( 'multiple_select' === $type ) {
+				$stored      = get_ast_settings( $opt, $id, '' );
+				$stored      = is_array( $stored ) ? $stored : array();
+				$placeholder = __( 'Select one or more…', 'woo-advanced-shipment-tracking' );
+
+				// Pre-compute selected state per option for SSR chips + native select.
+				$ms_options = array();
+				foreach ( (array) $array['options'] as $key => $val ) {
+					$label = is_array( $val ) && isset( $val['status'] ) ? $val['status'] : (string) $val;
+					$ms_options[] = array(
+						'key'   => (string) $key,
+						'label' => (string) $label,
+						'sel'   => isset( $stored[ $key ] ) && 1 == $stored[ $key ], // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
+					);
+				}
+				?>
+				<div class="zui-row">
+					<div class="zui-row__head">
+						<span class="zui-row__label"><?php echo esc_html( $title ); ?></span>
+						<?php if ( $tooltip ) : ?><p class="zui-row__desc"><?php echo esc_html( $tooltip ); ?></p><?php endif; ?>
+					</div>
+					<div class="zui-row__control">
+						<div class="zui-ms" data-zui-multiselect data-placeholder="<?php echo esc_attr( $placeholder ); ?>">
+							<select multiple id="<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( $id ); ?>[]" class="zui-ms__native" hidden>
+								<?php foreach ( $ms_options as $o ) : ?>
+									<option value="<?php echo esc_attr( $o['key'] ); ?>" <?php selected( $o['sel'], true ); ?>><?php echo esc_html( $o['label'] ); ?></option>
+								<?php endforeach; ?>
+							</select>
+
+							<div class="zui-ms__control" tabindex="0" role="combobox" aria-haspopup="listbox" aria-expanded="false">
+								<div class="zui-ms__chips">
+									<?php
+									$has_selected = false;
+									foreach ( $ms_options as $o ) :
+										if ( ! $o['sel'] ) {
+											continue;
+										}
+										$has_selected = true;
+										?>
+										<span class="zui-ms__chip" data-value="<?php echo esc_attr( $o['key'] ); ?>">
+											<span class="zui-ms__chip-label"><?php echo esc_html( $o['label'] ); ?></span>
+											<button type="button" class="zui-ms__chip-remove" aria-label="<?php echo esc_attr( $o['label'] ); ?>">&times;</button>
+										</span>
+									<?php endforeach; ?>
+									<?php if ( ! $has_selected ) : ?>
+										<span class="zui-ms__placeholder"><?php echo esc_html( $placeholder ); ?></span>
+									<?php endif; ?>
+								</div>
+								<span class="zui-ms__chevron">
+									<?php ast_free_settings_icon( 'chevron-down' ); ?>
+								</span>
+							</div>
+
+							<div class="zui-ms__dropdown" role="listbox" hidden></div>
 						</div>
 					</div>
 				</div>
-				<div class="ast-pro-feature-right">
-					<div class="ast-pro-toggle-disabled"></div>
-					<span class="ast-pro-badge">PRO</span>
+				<?php
+
+			} elseif ( 'multiple_checkbox' === $type ) {
+				$stored = get_ast_settings( $opt, $id, '' );
+				?>
+				<div class="zui-row">
+					<div class="zui-row__head">
+						<span class="zui-row__label"><?php echo esc_html( $title ); ?></span>
+						<?php if ( ! empty( $array['desc'] ) ) : ?>
+							<p class="zui-row__desc"><?php echo esc_html( $array['desc'] ); ?></p>
+						<?php elseif ( $tooltip ) : ?>
+							<p class="zui-row__desc"><?php echo esc_html( $tooltip ); ?></p>
+						<?php endif; ?>
+					</div>
+					<div class="zui-row__control">
+						<div class="multiple_checkbox_parent">
+							<?php foreach ( (array) $array['options'] as $key => $val ) :
+								$checked = isset( $stored[ $key ] ) && 1 == $stored[ $key ]; ?>
+								<label class="zui-checkbox multiple_checkbox">
+									<input type="hidden" name="<?php echo esc_attr( $id ); ?>[<?php echo esc_attr( $key ); ?>]" value="0">
+									<input type="checkbox" name="<?php echo esc_attr( $id ); ?>[<?php echo esc_attr( $key ); ?>]" class="zui-checkbox__input" value="1" <?php checked( $checked, true ); ?>>
+									<span class="zui-checkbox__box"></span>
+									<span class="multiple_label"><?php echo esc_html( $val['status'] ); ?></span>
+								</label>
+							<?php endforeach; ?>
+						</div>
+					</div>
 				</div>
-			</div>
-		</li>
-		<?php
-	}
+				<?php
 
-	/**
-	 * Render multiple PRO feature rows
-	 *
-	 * @param array $features Array of features with 'title' and 'description'
-	 */
-	public function render_pro_features_section( $features ) {
-		if ( empty( $features ) || ! is_array( $features ) ) {
-			return;
-		}
-		?>
-		<ul class="settings_ul">
-		<?php
-		foreach ( $features as $feature ) {
-			$title = isset( $feature['title'] ) ? $feature['title'] : '';
-			$description = isset( $feature['description'] ) ? $feature['description'] : '';
-			$upgrade_url = isset( $feature['upgrade_url'] ) ? $feature['upgrade_url'] : '';
+			} elseif ( 'button' === $type ) {
+				?>
+				<div class="zui-row zui-row--inline">
+					<div class="zui-row__head">
+						<span class="zui-row__label"><?php echo esc_html( $title ); ?></span>
+						<?php if ( $tooltip ) : ?><p class="zui-row__desc"><?php echo esc_html( $tooltip ); ?></p><?php endif; ?>
+					</div>
+					<div class="zui-row__control">
+						<?php if ( ! empty( $array['customize_link'] ) ) : ?>
+							<a href="<?php echo esc_url( $array['customize_link'] ); ?>" class="zui-btn-secondary ts_customizer_btn"><?php esc_html_e( 'Customize', 'woo-advanced-shipment-tracking' ); ?></a>
+						<?php endif; ?>
+					</div>
+				</div>
+				<?php
 
-			if ( ! empty( $title ) ) {
-				$this->render_pro_feature_row( $title, $description, $upgrade_url );
+			} elseif ( 'pro_feature' === $type ) {
+				?>
+				<div class="zui-row zui-row--inline ast-pro-feature-row">
+					<div class="zui-row__head">
+						<span class="zui-row__label"><?php echo esc_html( $title ); ?></span>
+						<?php if ( $tooltip ) : ?><p class="zui-row__desc"><?php echo esc_html( $tooltip ); ?></p><?php endif; ?>
+					</div>
+					<div class="zui-row__control">
+						<label class="zui-toggle" aria-disabled="true">
+							<input type="checkbox" class="zui-toggle__input" disabled>
+							<span class="zui-toggle__track"><span class="zui-toggle__thumb"></span></span>
+						</label>
+						<span class="zui-pro-feature">
+							<span class="zui-pro-feature__badge">PRO</span>
+							<span class="zui-pro-feature__lock" aria-hidden="true"><?php zui_icon( 'lock' ); ?></span>
+						</span>
+					</div>
+				</div>
+				<?php
 			}
 		}
-		?>
-		</ul>
-		<?php
 	}
 
 	public function get_add_tracking_options() {
@@ -1554,9 +1495,13 @@ class WC_Advanced_Shipment_Tracking_Admin {
 	* Get providers list html
 	*/
 	public function get_provider_html( $page = 1, $search_term = null ) {
-		
-		$upload_dir   = wp_upload_dir();	
-		$ast_directory = $upload_dir['baseurl'] . '/ast-shipping-providers/'; 
+
+		if ( ! function_exists( 'zui_icon' ) ) {
+			require_once SHIPMENT_TRACKING_PATH . '/assets/zui/icons.php';
+		}
+
+		$upload_dir   = wp_upload_dir();
+		$ast_directory = $upload_dir['baseurl'] . '/ast-shipping-providers/';
 
 		global $wpdb;
 		$WC_Countries = new WC_Countries();
@@ -1593,109 +1538,135 @@ class WC_Advanced_Shipment_Tracking_Admin {
 
 		?>
 		<div class="provider_list">
-			<?php 
-			if ( $shippment_providers ) {
-				?>
-			<div class="provider-grid-row grid-row" data-shippment-providers="true">
-				<div class="grid-item hip-item add-provider-container">
-					<div class="add-provider-box">						
-						<div class="add_custom_provider add-provider-label"><span class="dashicons dashicons-plus-alt add_custom_provider"></span><?php esc_html_e('Enable Carriers', 'woo-advanced-shipment-tracking'); ?></div>
-					</div>
+			<?php
+			$ast_has_providers = ! empty( $shippment_providers );
+			?>
+			<div class="ast-set-carriers-grid provider-grid-row grid-row" data-shippment-providers="<?php echo $ast_has_providers ? 'true' : 'false'; ?>">
+
+				<?php /* Enable Carriers tile — PRO-styled, legacy click hooks (.add_custom_provider, .add-provider-container) preserved so shipping_row.js still opens the slideout. */ ?>
+				<div class="ast-set-carrier-add-tile grid-item hip-item add-provider-container add_custom_provider">
+					<span class="ast-set-carrier-add-tile__plus add-provider-box">
+						<span class="dashicons dashicons-plus-alt add_custom_provider"></span>
+					</span>
+					<span class="add-provider-label add_custom_provider"><?php esc_html_e( 'Enable Carriers', 'woo-advanced-shipment-tracking' ); ?></span>
 				</div>
-				<?php 
-				foreach ( $shippment_providers as $index => $d_s_p ) {
-				$provider_type = ( 1 == $d_s_p->shipping_default ) ? 'default_provider' : 'custom_provider';
-					?>
-				<div class="grid-item">					
-					<div class="grid-top">
-						<div class="grid-provider-img">
-							<?php  
-							if ( 1 == $d_s_p->shipping_default ) {
-								$provider_image = $ast_directory . '' . esc_html( $d_s_p->ts_slug ) . '.png?v=' . wc_advanced_shipment_tracking()->version;
-								echo '<img class="provider-thumb" src="' . esc_url( $provider_image ) . '">';
-							} else { 
-								echo '<img class="provider-thumb" src="' . esc_url( wc_advanced_shipment_tracking()->plugin_dir_url() ) . 'assets/images/icon-default.png">';								
+
+				<?php
+				if ( $ast_has_providers ) {
+					foreach ( $shippment_providers as $index => $d_s_p ) {
+						$provider_type = ( 1 == $d_s_p->shipping_default ) ? 'default_provider' : 'custom_provider';
+
+						// Logo URL (logic preserved). Default carriers have real PNGs; custom
+						// carriers fall back to a 2-letter chip rendered from the name so the
+						// card never shows a broken-image icon.
+						$ast_logo_url   = '';
+						$ast_logo_letters = strtoupper( mb_substr( (string) $d_s_p->provider_name, 0, 2 ) );
+						if ( 1 == $d_s_p->shipping_default ) {
+							$ast_logo_url = $ast_directory . esc_html( $d_s_p->ts_slug ) . '.png?v=' . wc_advanced_shipment_tracking()->version;
+						}
+
+						// Name + suffix (custom or api alias count).
+						$ast_name_suffix = '';
+						if ( isset( $d_s_p->custom_provider_name ) && '' != $d_s_p->custom_provider_name ) {
+							$ast_name_suffix .= ' (' . $d_s_p->custom_provider_name . ')';
+						}
+						$ast_alias_count = 0;
+						if ( isset( $d_s_p->api_provider_name ) && '' != $d_s_p->api_provider_name ) {
+							if ( $this->isJSON( $d_s_p->api_provider_name ) && class_exists( 'ast_pro' ) ) {
+								$ast_alias_count = count( json_decode( $d_s_p->api_provider_name ) );
+							} else {
+								$ast_alias_count = 1;
 							}
-							?>
+						}
+
+						// Country label.
+						$search  = array( '(US)', '(UK)' );
+						$replace = array( '', '' );
+						if ( $d_s_p->shipping_country && 'Global' != $d_s_p->shipping_country ) {
+							$ast_country = str_replace( $search, $replace, $WC_Countries->countries[ $d_s_p->shipping_country ] );
+						} elseif ( $d_s_p->shipping_country && 'Global' == $d_s_p->shipping_country ) {
+							$ast_country = __( 'Global', 'woo-advanced-shipment-tracking' );
+						} else {
+							$ast_country = '';
+						}
+						?>
+						<div class="zui-card ast-set-carrier-card grid-item" data-pid="<?php echo esc_attr( $d_s_p->id ); ?>" data-type="<?php echo esc_attr( $provider_type ); ?>">
+
+							<?php /* Floating select checkbox — keeps .bulk_select_provider class + name so shipping_row.js change handler still fires. */ ?>
+							<label class="ast-set-carrier-check" title="<?php esc_attr_e( 'Select carrier', 'woo-advanced-shipment-tracking' ); ?>">
+								<input type="checkbox" name="bulk_select_provider[]" class="bulk_select_provider" value="<?php echo esc_attr( $d_s_p->id ); ?>">
+								<span class="ast-set-carrier-check__box"><?php zui_icon( 'check' ); ?></span>
+							</label>
+
+							<div class="ast-set-carrier-main grid-top">
+								<span class="ast-set-carrier-logo grid-provider-img">
+									<?php if ( $ast_logo_url ) : ?>
+										<img class="provider-thumb" src="<?php echo esc_url( $ast_logo_url ); ?>" alt="<?php echo esc_attr( $d_s_p->provider_name ); ?>" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex';">
+										<span class="ast-set-carrier-logo__fallback" style="display:none;"><?php echo esc_html( $ast_logo_letters ); ?></span>
+									<?php else : ?>
+										<span class="ast-set-carrier-logo__fallback"><?php echo esc_html( $ast_logo_letters ); ?></span>
+									<?php endif; ?>
+								</span>
+								<span class="ast-set-carrier-info grid-provider-name">
+									<span class="ast-set-carrier-name provider_name"><?php echo esc_html( $d_s_p->provider_name . $ast_name_suffix ); ?></span>
+									<span class="ast-set-carrier-meta">
+										<span class="ast-set-carrier-country provider_country">
+											<?php zui_icon( 'globe' ); ?><?php echo esc_html( $ast_country ); ?>
+										</span>
+										<?php if ( $ast_alias_count > 0 ) : ?>
+											<span class="ast-set-carrier-aliases">
+												<?php
+												/* translators: %d: number of API alias names mapped on this carrier */
+												echo esc_html( sprintf( _n( '%d API alias', '%d API aliases', $ast_alias_count, 'woo-advanced-shipment-tracking' ), $ast_alias_count ) );
+												?>
+											</span>
+										<?php endif; ?>
+									</span>
+								</span>
+							</div>
+
+							<?php /* Right action — toggle (off = delete via direct AJAX) + edit pencil.
+							     The toggle handler calls the delete endpoint directly; no hidden
+							     legacy .remove link needed. */ ?>
+							<div class="ast-set-carrier-actions grid-provider-settings">
+								<label class="zui-toggle ast-set-carrier-toggle" title="<?php esc_attr_e( 'Toggle carrier (off = delete)', 'woo-advanced-shipment-tracking' ); ?>">
+									<input type="checkbox" class="zui-toggle__input ast-carrier-toggle" data-pid="<?php echo esc_attr( $d_s_p->id ); ?>" checked>
+									<span class="zui-toggle__track"><span class="zui-toggle__thumb"></span></span>
+								</label>
+								<a href="javaScript:void(0);" class="ast-set-carrier-edit edit_provider" data-provider="<?php echo esc_attr( $provider_type ); ?>" data-pid="<?php echo esc_attr( $d_s_p->id ); ?>" aria-label="<?php esc_attr_e( 'Edit carrier', 'woo-advanced-shipment-tracking' ); ?>">
+									<?php zui_icon( 'edit' ); ?>
+								</a>
+							</div>
 						</div>
-						<div class="grid-provider-name">
-							<span class="provider_name">
-								<?php 
-								esc_html_e( $d_s_p->provider_name );
-								$enable_edit = false;
-								
-								if ( isset( $d_s_p->custom_provider_name ) && '' != $d_s_p->custom_provider_name ) { 
-									esc_html_e( ' (' . $d_s_p->custom_provider_name . ')' ); 
-									$enable_edit = true;
-								} 
-								
-								if ( isset( $d_s_p->api_provider_name ) && '' != $d_s_p->api_provider_name ) {
-									$enable_edit = true;
-									if ( $this->isJSON( $d_s_p->api_provider_name ) && class_exists( 'ast_pro' ) ) {
-										$api_count = count( json_decode( $d_s_p->api_provider_name ) );
-									} else {
-										$api_count = 1;
-									}
-									$api_text = __( 'API aliases', 'woo-advanced-shipment-tracking' );
-									esc_html_e( ' (' . $api_count . ' ' . $api_text . ')' );
-								}
-								?>
-							</span>																		
-							<span class="provider_country">
-								<?php
-								$search  = array('(US)', '(UK)');
-								$replace = array('', '');
-								
-								if ( $d_s_p->shipping_country && 'Global' != $d_s_p->shipping_country ) {
-									esc_html_e( str_replace( $search, $replace, $WC_Countries->countries[ $d_s_p->shipping_country ] ) );
-								} elseif ( $d_s_p->shipping_country && 'Global' == $d_s_p->shipping_country ) {
-									esc_html_e( 'Global' );
-								} 
-								?>
-							</span>
-						</div>
-						<div class="grid-provider-settings">
-							<span class="dashicons dashicons-ellipsis provider_actions_btn"></span>
-							<ul class="provider-action-ul">
-								<li><a href="javaScript:void(0);" class="edit_provider" data-provider="<?php esc_html_e( $provider_type ); ?>" data-pid="<?php esc_html_e( $d_s_p->id ); ?>"><?php esc_html_e('Edit', 'woo-advanced-shipment-tracking'); ?></a></li>
-								<li><a style="color:#f44336" href="javaScript:void(0);" class="remove" data-pid="<?php esc_html_e( $d_s_p->id ); ?>"><?php esc_html_e('Delete', 'woo-advanced-shipment-tracking'); ?></a></li>
-							</ul>	
-							<input type="checkbox" name="bulk_select_provider[]" class="bulk_select_provider" value="<?php echo esc_html( $d_s_p->id ); ?>">
-						</div>
-					</div>					
-				</div>
-				<?php } ?>
-								
-			</div>			
-			<?php 
-			} else {
-				?>
-				<div class="provider-grid-row grid-row" data-shippment-providers="false">
-					<div class="grid-item hip-item add-provider-container">
-						<div class="add-provider-box">						
-							<div class="add_custom_provider add-provider-label"><span class="dashicons dashicons-plus-alt add_custom_provider"></span><?php esc_html_e('Enable Carriers', 'woo-advanced-shipment-tracking'); ?></div>
-						</div>
-					</div>
-				</div>				
-				<?php 
-			}
-			$total_pages = ceil($total_provders / $items_per_page);	
-			if ( $total_pages > 1 ) {
-				?>
-			<div class="hip-pagination">
-				<?php 
-				for ( $i=1; $i <= $total_pages; $i++ ) {
-					if ( $i == $page ) {
-						echo '<a class="active">' . esc_html( $i ) . '</a>';
-					} else {
-						echo '<a class="pagination_link" id="' . esc_html( $i ) . '">' . esc_html( $i ) . '</a>';
+						<?php
 					}
+				}
+
+				if ( ! $ast_has_providers ) {
+					echo '<div class="ast-set-carriers-empty">' . esc_html__( 'No matching active carriers. Use "Enable Carriers" to activate some.', 'woo-advanced-shipment-tracking' ) . '</div>';
 				}
 				?>
 			</div>
-			<?php } ?>
+			<?php
+			$total_pages = ceil($total_provders / $items_per_page);
+			if ( $total_pages > 1 ) {
+				?>
+				<div class="hip-pagination">
+					<?php
+					for ( $i=1; $i <= $total_pages; $i++ ) {
+						if ( $i == $page ) {
+							echo '<a class="active">' . esc_html( $i ) . '</a>';
+						} else {
+							echo '<a class="pagination_link" id="' . esc_html( $i ) . '">' . esc_html( $i ) . '</a>';
+						}
+					}
+					?>
+				</div>
+				<?php
+			}
+			?>
 		</div>
-		<?php 
+		<?php
 	}
 	
 	public function paginate_shipping_provider_list() {
@@ -1845,9 +1816,14 @@ class WC_Advanced_Shipment_Tracking_Admin {
 	
 	public function shipping_pagination_fun( $page = 1, $search = '' ) {
 		global $wpdb;
+
+		if ( ! function_exists( 'zui_icon' ) ) {
+			require_once SHIPMENT_TRACKING_PATH . '/assets/zui/icons.php';
+		}
+
 		$upload_dir   = wp_upload_dir();
 		$ast_directory = $upload_dir['baseurl'] . '/ast-shipping-providers/';
-		$items_per_page = 10;
+		$items_per_page = 6;
 		$start = ( $page - 1 ) * $items_per_page;
 
 		$shippment_provider_pagination = $wpdb->get_results( 
@@ -1873,23 +1849,23 @@ class WC_Advanced_Shipment_Tracking_Admin {
 				foreach ($shippment_provider_pagination as $key => $provider) {
 					?>
 					<div class="grid-item hip-item">
-						<div class="grid-left">				
+						<div class="grid-left">
 							<div class="grid-top">
 								<div class="grid-provider-img">
-									<?php 
-									$provider_image = $ast_directory . '' . esc_html( $provider->ts_slug ) . '.png?v=' . wc_advanced_shipment_tracking()->version;									
+									<?php
+									$provider_image = $ast_directory . '' . esc_html( $provider->ts_slug ) . '.png?v=' . wc_advanced_shipment_tracking()->version;
 									echo '<img class="provider-thumb" src="' . esc_url( $provider_image ) . '">';
 									?>
 								</div>
 								<div class="grid-provider-name">
-									<span class="provider_name"><?php esc_html_e( $provider->provider_name ); ?></span>		
+									<span class="provider_name"><?php esc_html_e( $provider->provider_name ); ?></span>
 									<span class="provider_country"><?php esc_html_e( $provider->shipping_country_name ); ?></span>
-								</div>							
-							</div>						
+								</div>
+							</div>
 						</div>
 						<div class="grid-right">
-							<button class="button add_default_provider" type="button" data-id="<?php echo esc_html( $provider->id ); ?>"><?php esc_html_e( 'Add', 'woo-advanced-shipment-tracking' ); ?></button>
-						</div>				
+							<button class="button add_default_provider" type="button" data-id="<?php echo esc_html( $provider->id ); ?>"><?php esc_html_e( 'Enable', 'woo-advanced-shipment-tracking' ); ?></button>
+						</div>
 					</div>
 				<?php } ?>
 			</div>
@@ -1904,7 +1880,7 @@ class WC_Advanced_Shipment_Tracking_Admin {
 			<div class="provider_note">
 				<span><?php esc_html_e( 'Try syncing your shipping carriers to get the latest list.', 'woo-advanced-shipment-tracking' ); ?></span>
 				<button type="button" class="button button-primary button-small sync_providers">
-    				<?php esc_html_e('Sync Carriers', 'woo-advanced-shipment-tracking'); ?>
+					<?php esc_html_e('Sync Carriers', 'woo-advanced-shipment-tracking'); ?>
 				</button>
 			</div>
 			<?php
@@ -1914,66 +1890,16 @@ class WC_Advanced_Shipment_Tracking_Admin {
 			$next_disabled = ( $page >= $total_pages ) ? 'disabled' : '';
 			?>
 			<div class="shipping_carriers_arrow_pagination">
-				<input type="hidden" id="nonce_shipping_pagination_provider" value="<?php esc_html_e( wp_create_nonce( 'nonce_shipping_pagination_provider' ) ); ?>">
+				<input type="hidden" id="nonce_shipping_pagination_provider" value="<?php echo esc_attr( wp_create_nonce( 'nonce_shipping_pagination_provider' ) ); ?>">
+				<span class="ast-set-enable-pageinfo">
+					<?php esc_html_e( 'Page', 'woo-advanced-shipment-tracking' ); ?> <strong><?php echo esc_html( $page ); ?></strong> <?php esc_html_e( 'of', 'woo-advanced-shipment-tracking' ); ?> <span><?php echo esc_html( $total_pages ); ?></span>
+				</span>
 				<button data-number="<?php echo esc_html( $page - 1 ); ?>" data-side="left" class="dashicons dashicons-arrow-left-alt arrow_pagination" <?php esc_html_e( $prev_disabled ); ?>></button>
 				<button data-number="<?php echo esc_html( $page + 1 ); ?>" data-side="right" class="dashicons dashicons-arrow-right-alt arrow_pagination" <?php esc_html_e( $next_disabled ); ?>></button>
 			</div>
-			<?php } ?>			
-		</div>		
+			<?php } ?>
+		</div>
 		<?php
-	}
-
-	/**
-	* Update custom shipping provider and returen html of it
-	*/
-	public function update_custom_shipment_provider_fun() {
-		
-		if ( ! current_user_can( AST_FREE_PLUGIN_ACCESS ) ) {
-			exit( 'You are not allowed' );
-		}
-		
-		check_ajax_referer( 'nonce_edit_shipping_provider', 'nonce_edit_shipping_provider' );
-		
-		global $wpdb;		
-		
-		$provider_id = isset( $_POST['provider_id'] ) ? wc_clean( $_POST['provider_id'] ) : '';
-		$tracking_url = isset( $_POST['tracking_url'] ) ? wc_clean( $_POST['tracking_url'] ) : '';
-		$thumb_id = isset( $_POST['thumb_id'] ) ? wc_clean( $_POST['thumb_id'] ) : '';
-		$shipping_provider = isset( $_POST['shipping_provider'] ) ? wc_clean( $_POST['shipping_provider'] ) : '';
-		$shipping_display_name = isset( $_POST['shipping_display_name'] ) ? wc_clean( $_POST['shipping_display_name'] ) : '';
-		$shipping_country = isset( $_POST['shipping_country'] ) ? wc_clean( $_POST['shipping_country'] ) : '';
-		$api_provider_name = isset( $_POST['api_provider_name'] ) ? wc_clean( $_POST['api_provider_name'] ) : '';
-		$provider_type = isset( $_POST['provider_type'] ) ? wc_clean( $_POST['provider_type'] ) : '';
-		
-		if ( [] == array_filter( $api_provider_name ) ) {
-			$api_provider_name = null;			
-		} else {
-			$api_provider_name = wc_clean( json_encode( $api_provider_name ) );
-		}	
-				
-		if ( 'default_provider' == $provider_type ) {
-			$data_array = array(				
-				'custom_provider_name' => $shipping_display_name,
-				'api_provider_name' => $api_provider_name,				
-				'custom_thumb_id' => $thumb_id,				
-			);				
-		} else {
-			$data_array = array(
-				'shipping_country' => $shipping_country,
-				'provider_name' => $shipping_provider,
-				'custom_provider_name' => $shipping_display_name,
-				'ts_slug' => $shipping_provider,
-				'custom_thumb_id' => $thumb_id,
-				'provider_url' => $tracking_url		
-			);	
-		}
-		
-		$where_array = array(
-			'id' => $provider_id,			
-		);
-		$wpdb->update( $this->table, $data_array, $where_array );
-		$html = $this->get_provider_html( 1 );		
-		exit;
 	}
 
 	/**
@@ -2159,16 +2085,6 @@ class WC_Advanced_Shipment_Tracking_Admin {
 		return $tracking_provider;
 	}
 	
-	/*
-	* function for add more provider btn
-	*/
-	public function add_more_api_provider() { 
-		$tooltip_text = class_exists( 'ast_pro' ) ? __( 'Add API Name alias', 'woo-advanced-shipment-tracking' ) : __( 'Multiple API names mapping is a pro features', 'woo-advanced-shipment-tracking' ) ;
-		?>
-		<span class="dashicons dashicons-insert woocommerce-help-tip tipTip add_more_api_provider" title="<?php esc_html_e( $tooltip_text ); ?>"></span>	
-		<?php 
-	}
-
 	public function search_disabled_default_carrier() {
 		
 		if ( ! current_user_can( AST_FREE_PLUGIN_ACCESS ) ) {

@@ -1,0 +1,153 @@
+/* ============================================================
+   Zorem UI — Buttons
+   ------------------------------------------------------------
+   Flat single-class variants (canonical convention):
+     .zui-btn-primary    filled primary (Save / Submit / Activate)
+     .zui-btn-secondary  white outline (Customize / Test Connection)
+     .zui-btn-ghost      transparent outline (Cancel / Reset / Clear)
+     .zui-btn-block      width modifier (full-width). Composes with any variant.
+
+   Compose with module modifier classes for context overrides:
+     <button class="zui-btn-primary ast-set-csv-runbtn">
+       Module class adds size/padding override for this context.
+     </button>
+
+   <a>, <button>, <input type="submit"> use the same classes.
+
+   ============================================================ */
+
+/* ---- Secondary (outline) ---- */
+
+.zui-scope .zui-btn-secondary {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 9px 16px;
+	background: #fff;
+	border: 1px solid #cbd5e1;
+	border-radius: var(--zui-radius-xl);
+	font-size: 12px;
+	font-weight: 700;
+	color: var(--zui-text-soft);
+	cursor: pointer;
+	text-decoration: none;
+	width: auto;
+}
+
+.zui-scope .zui-btn-secondary:hover {
+	background: var(--zui-bg);
+}
+
+/* ---- Primary (filled blue) ---- */
+
+.zui-scope .zui-btn-primary {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	flex: 1 1 0;
+	padding: 10px 16px;
+	background: var(--zui-primary);
+	color: #fff;
+	border: 0;
+	border-radius: var(--zui-radius-xl);
+	font-size: 12px;
+	font-weight: 700;
+	cursor: pointer;
+	text-decoration: none;
+	box-shadow: var(--zui-shadow-xs);
+}
+
+.zui-scope .zui-btn-primary:hover {
+	background: var(--zui-primary-hover);
+}
+
+.zui-scope .zui-btn-primary .zui-icon {
+	width: 15px;
+	height: 15px;
+}
+
+/* ---- Ghost (outline subtle) ---- */
+
+.zui-scope .zui-btn-ghost {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex: 1 1 0;
+	padding: 10px 16px;
+	background: var(--zui-surface);
+	color: var(--zui-text-soft);
+	border: 1px solid var(--zui-border);
+	border-radius: var(--zui-radius-xl);
+	font-size: 12px;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.zui-scope .zui-btn-ghost:hover {
+	background: var(--zui-bg);
+}
+
+/* ---- Soft / tonal (light primary fill — Apply / Export / Run / Send test) ---- */
+
+.zui-scope .zui-btn-soft {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	padding: 9px 16px;
+	background: var(--zui-primary-50);
+	color: var(--zui-primary-600);
+	border: 1px solid var(--zui-primary-100);
+	border-radius: var(--zui-radius-xl);
+	font-size: 12px;
+	font-weight: 700;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+.zui-scope .zui-btn-soft:hover {
+	background: var(--zui-primary-100);
+}
+
+.zui-scope .zui-btn-soft:disabled,
+.zui-scope .zui-btn-soft[disabled] {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+/* ---- Danger (destructive — Turn off 2FA / Deactivate License) ---- */
+
+.zui-scope .zui-btn-danger {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	padding: 9px 16px;
+	background: #fff;
+	color: #e11d48;
+	border: 1px solid #fecdd3;
+	border-radius: var(--zui-radius-xl);
+	font-size: 12px;
+	font-weight: 700;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+.zui-scope .zui-btn-danger:hover {
+	background: var(--zui-danger-bg);
+}
+
+.zui-scope .zui-btn-soft .zui-icon,
+.zui-scope .zui-btn-danger .zui-icon {
+	width: 15px;
+	height: 15px;
+}
+
+/* ---- Block modifier (full width — composes with any variant) ---- */
+
+.zui-scope .zui-btn-block {
+	width: 100%;
+	flex: none;
+	padding: 12px 16px;
+}

@@ -1,0 +1,99 @@
+/* ============================================================
+   Zorem UI — Checkbox (single)
+   ------------------------------------------------------------
+   Structural primitive for a single checkbox field. Currently
+   Used as a label-wrap pattern (mirroring `.zui-toggle`).
+   No own CSS rules — relies on browser-default checkbox + the
+   row wrapper for spacing.
+
+   Markup:
+     <label class="zui-checkbox">
+       <input type="hidden" name="..." value="0">
+       <input type="checkbox" class="zui-checkbox__input" name="..." value="1">
+       <span class="zui-checkbox__box"></span>
+     </label>
+
+   ============================================================ */
+
+/* ---- Label wrap ---- */
+
+.zui-scope .zui-checkbox {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	cursor: pointer;
+}
+
+/* ---- Native input (visually hidden, drives the box state) ---- */
+
+/* Visually-hide the native input bulletproofly. The !important opacity +
+   border + min-width beat WordPress core's `input[type=checkbox]` styling
+   (incl. its `:disabled { opacity:.7 }` and min-width), which would otherwise
+   render a stray native control / line on top of our custom box. The label
+   wraps the input, so clicks + keyboard focus still work. */
+.zui-scope .zui-checkbox__input {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	border: 0 !important;
+	min-width: 0 !important;
+	opacity: 0 !important;
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	overflow: hidden;
+	pointer-events: none;
+}
+
+/* ---- Visible box ---- */
+
+.zui-scope .zui-checkbox__box {
+	width: 18px;
+	height: 18px;
+	flex-shrink: 0;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: var(--zui-surface);
+	/* slate-300 — a visible-but-subtle control border (the hairline
+	   --zui-border is too faint for an 18px box on a white card). */
+	border: 1.5px solid var(--zui-text-faint);
+	border-radius: 6px;
+	transition: background var(--zui-dur) var(--zui-ease), border-color var(--zui-dur) var(--zui-ease);
+}
+
+.zui-scope .zui-checkbox:hover .zui-checkbox__box {
+	border-color: var(--zui-text-muted);
+}
+
+.zui-scope .zui-checkbox__input:checked + .zui-checkbox__box {
+	background: var(--zui-primary);
+	border-color: var(--zui-primary);
+}
+
+/* Checkmark */
+.zui-scope .zui-checkbox__input:checked + .zui-checkbox__box::after {
+	content: "";
+	width: 5px;
+	height: 9px;
+	border: solid #fff;
+	border-width: 0 2px 2px 0;
+	transform: rotate(45deg) translateY(-1px);
+}
+
+.zui-scope .zui-checkbox__input:focus-visible + .zui-checkbox__box {
+	box-shadow: 0 0 0 3px var(--zui-primary-100);
+}
+
+.zui-scope .zui-checkbox__input:disabled + .zui-checkbox__box {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+/* ---- Fallback: a bare native checkbox with no visible box still
+   themes to the brand color (used in dense lists / table cells). ---- */
+.zui-scope input[type="checkbox"].zui-checkbox__input:not(:has(+ .zui-checkbox__box)),
+.zui-scope .zui-checkbox-native {
+	accent-color: var(--zui-primary);
+}

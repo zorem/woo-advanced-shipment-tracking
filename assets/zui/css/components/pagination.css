@@ -1,0 +1,74 @@
+/* ============================================================
+   Zorem UI — Pagination
+   ------------------------------------------------------------
+   Two variants:
+     .zui-pagination           numbered pills (Previous / 1 / 2 / Next)
+     .zui-pagination--simple   page indicator + chevron arrows
+                               (Page X of Y · ← · →)
+
+   Phase: 1
+   ============================================================ */
+
+.zui-scope .zui-pagination {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--zui-space-xs);
+	flex-wrap: wrap;
+	padding: var(--zui-space-md) 0;
+}
+
+.zui-scope .zui-page-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 32px;
+	height: 32px;
+	padding: 0 var(--zui-space-sm);
+	background: var(--zui-surface);
+	border: 1px solid var(--zui-border);
+	border-radius: var(--zui-radius-md);
+	color: var(--zui-text-muted);
+	font-size: var(--zui-fs-body);
+	font-weight: var(--zui-fw-medium);
+	cursor: pointer;
+	transition: border-color var(--zui-dur) var(--zui-ease), color var(--zui-dur) var(--zui-ease), background var(--zui-dur) var(--zui-ease);
+}
+
+.zui-scope .zui-page-btn:hover {
+	border-color: var(--zui-primary);
+	color: var(--zui-primary);
+}
+
+.zui-scope .zui-page-btn.is-active {
+	background: var(--zui-primary);
+	border-color: var(--zui-primary);
+	color: var(--zui-text-on-accent);
+}
+
+.zui-scope .zui-page-btn:disabled,
+.zui-scope .zui-page-btn[disabled] {
+	opacity: 0.4;
+	cursor: not-allowed;
+}
+
+.zui-scope .zui-page-gap {
+	color: var(--zui-text-faint);
+	padding: 0 var(--zui-space-xs);
+}
+
+/* ------- Simple variant ------- */
+
+.zui-scope .zui-pagination--simple {
+	justify-content: space-between;
+}
+
+.zui-scope .zui-pagination--simple .zui-pagination-info {
+	font-size: var(--zui-fs-body);
+	color: var(--zui-text-muted);
+}
+
+.zui-scope .zui-pagination--simple .zui-pagination-info strong {
+	color: var(--zui-text);
+	font-weight: var(--zui-fw-semibold);
+}

@@ -1,0 +1,96 @@
+/* ============================================================
+   Zorem UI — Lock Section (PRO upgrade promo card)
+   ------------------------------------------------------------
+   Centered upgrade prompt used at the top of a PRO-only section.
+   Below this banner, the section's fields can be rendered in a
+   read-only / disabled state so users still see what they'd get
+   while being directed to the upgrade CTA.
+
+   Markup:
+     <div class="zui-lock-section">
+       <div class="zui-lock-section__icon">
+         <svg class="zui-icon">…lock…</svg>
+       </div>
+       <h3 class="zui-lock-section__title">
+         Unlock <feature>
+         <span class="zui-lock-section__badge">PRO</span>
+       </h3>
+       <p class="zui-lock-section__desc">…</p>
+       <a class="zui-btn-primary zui-lock-section__cta" href="…">
+         Upgrade to PRO
+       </a>
+     </div>
+
+   ============================================================ */
+
+.zui-scope .zui-lock-section {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	padding: 48px 32px;
+	background: var(--zui-surface);
+	border: 1px solid var(--zui-border);
+	border-radius: var(--zui-radius-xl);
+	box-shadow: var(--zui-shadow-xs);
+}
+
+.zui-scope .zui-lock-section__icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 48px;
+	height: 48px;
+	background: var(--zui-primary-50);
+	border-radius: 999px;
+	color: var(--zui-primary);
+	margin-bottom: 18px;
+}
+
+.zui-scope .zui-lock-section__icon .zui-icon {
+	width: 22px;
+	height: 22px;
+}
+
+.zui-scope .zui-lock-section__title {
+	margin: 0 0 12px;
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	font-size: 18px;
+	font-weight: 800;
+	color: var(--zui-text-strong, #0f172a);
+	line-height: 1.3;
+}
+
+.zui-scope .zui-lock-section__badge {
+	display: inline-block;
+	padding: 2px 8px;
+	background: var(--zui-primary);
+	color: #fff;
+	border-radius: 4px;
+	font-size: 11px;
+	font-weight: 800;
+	letter-spacing: 0.05em;
+	font-family: inherit;
+}
+
+.zui-scope .zui-lock-section__desc {
+	margin: 0 0 22px;
+	max-width: 480px;
+	font-size: 13px;
+	line-height: 1.6;
+	color: var(--zui-text-muted);
+}
+
+.zui-scope .zui-lock-section__cta {
+	min-width: 160px;
+}
+
+/* Below-banner field area: visible but non-interactive (read-only preview).
+   Wrap the field rows in `.zui-lock-section__preview` to dim them. */
+.zui-scope .zui-lock-section__preview {
+	opacity: 0.55;
+	pointer-events: none;
+	user-select: none;
+}

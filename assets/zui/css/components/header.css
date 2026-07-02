@@ -1,0 +1,173 @@
+/* ============================================================
+   Zorem UI — Header (page brand bar)
+   ------------------------------------------------------------
+   Top brand bar of every Zorem admin page. Contains menu toggle
+   (mobile only), brand cluster (emblem, name, badge, tagline)
+   and the actions cluster (docs link, notifications, etc.).
+
+   Tabs live INSIDE the header (see tabs.css).
+
+   ============================================================ */
+
+.zui-scope .zui-header {
+	background: var(--zui-surface);
+	border-block-end: 1px solid var(--zui-border);
+}
+
+.zui-scope .zui-header__bar {
+	height: 60px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding-inline: 24px;
+}
+
+.zui-scope .zui-header__lead {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.zui-scope .zui-header__menu-toggle {
+	display: none;
+	border: 0;
+	background: transparent;
+	color: var(--zui-text-soft);
+	padding: 4px;
+	cursor: pointer;
+	border-radius: var(--zui-radius-lg);
+}
+
+/* ---- Brand cluster ---- */
+
+.zui-scope .zui-brand {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+/* Plugin-themable: override --zui-brand-emblem-bg / --zui-brand-emblem-color
+   per consumer plugin to match its brand (e.g. CEV PRO = red, CBR PRO = orange).
+   Defaults match the zorem.com plugin-cards blue tile (blue-100 + blue-600). */
+.zui-scope .zui-brand__emblem {
+	position: relative;
+	width: 36px;
+	height: 36px;
+	border-radius: var(--zui-radius-xl);
+	background: var(--zui-brand-emblem-bg, #DBEAFE);
+	color: var(--zui-brand-emblem-color, #2563EB);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: var(--zui-shadow-sm);
+	overflow: hidden;
+}
+
+.zui-scope .zui-brand__emblem svg {
+	width: 20px;
+	height: 20px;
+}
+
+.zui-scope .zui-brand__emblem-dot {
+	position: absolute;
+	top: 3px;
+	inset-inline-end: 3px;
+	width: 8px;
+	height: 8px;
+	border-radius: 999px;
+	background: var(--zui-primary-300);
+}
+
+.zui-scope .zui-brand__name {
+	font-weight: 800;
+	font-size: 20px;
+	letter-spacing: -0.02em;
+	color: var(--zui-text-strong);
+}
+
+.zui-scope .zui-brand__badge {
+	background: var(--zui-primary);
+	color: #fff;
+	font-weight: 700;
+	font-size: 9px;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	padding: 2px 6px;
+	border-radius: var(--zui-radius-lg);
+}
+
+.zui-scope .zui-brand__tagline {
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--zui-text-muted);
+	border-inline-start: 1px solid var(--zui-border);
+	padding-inline-start: 8px;
+}
+
+/* ---- Action cluster (right side of header) ---- */
+
+.zui-scope .zui-header-actions {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.zui-scope .zui-header-action--with-label {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 6px 12px;
+	border: 1px solid var(--zui-border);
+	border-radius: var(--zui-radius-xl);
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--zui-text-soft);
+	text-decoration: none;
+	background: var(--zui-surface);
+	box-shadow: var(--zui-shadow-xs);
+}
+
+.zui-scope .zui-header-action--with-label:hover {
+	border-color: #cbd5e1;
+	color: var(--zui-text);
+}
+
+.zui-scope .zui-header-action--with-label .zui-icon {
+	width: 14px;
+	height: 14px;
+	color: var(--zui-text-muted);
+}
+
+.zui-scope .zui-header-action--icon-only {
+	padding: 8px;
+	border: 1px solid var(--zui-border);
+	border-radius: var(--zui-radius-xl);
+	background: var(--zui-surface);
+	color: var(--zui-text-soft);
+	cursor: pointer;
+	box-shadow: var(--zui-shadow-xs);
+	display: inline-flex;
+}
+
+.zui-scope .zui-header-action--icon-only:hover {
+	color: var(--zui-primary);
+	border-color: #cbd5e1;
+}
+
+.zui-scope .zui-header-action--icon-only .zui-icon {
+	width: 16px;
+	height: 16px;
+}
+
+/* ---- Responsive: hide the action label text on mobile (icon stays) ---- */
+
+@media (max-width: 782px) {
+	.zui-scope .zui-header__menu-toggle {
+		display: inline-flex;
+	}
+
+	.zui-scope .zui-brand__tagline,
+	.zui-scope .zui-header-action__label {
+		display: none;
+	}
+}

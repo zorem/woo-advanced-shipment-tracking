@@ -1,0 +1,51 @@
+/* ============================================================
+   Zorem UI — Upload Field (file picker)
+   ------------------------------------------------------------
+   Horizontal flex: input (path / placeholder) + upload button.
+   Optional remove button (use `.ast-carrier-logo-remove`-style
+   modifier; library only exposes `.zui-upload__btn`).
+
+   Markup:
+     <div class="zui-upload">
+       <input type="text" class="zui-input zui-field__input" readonly>
+       <button type="button" class="zui-upload__btn">
+         <svg class="zui-icon"><!-- upload --></svg>
+         <span>Upload</span>
+       </button>
+     </div>
+
+   ============================================================ */
+
+.zui-scope .zui-upload {
+	display: flex;
+	gap: 8px;
+}
+
+.zui-scope .zui-upload .zui-field__input {
+	flex: 1 1 auto;
+}
+
+.zui-scope .zui-upload__btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 0 14px;
+	height: 40px;
+	background: var(--zui-bg);
+	border: 1px solid var(--zui-border);
+	border-radius: var(--zui-radius-xl);
+	font-size: 12px;
+	font-weight: 700;
+	color: var(--zui-text-soft);
+	cursor: pointer;
+	flex: 0 0 auto;
+}
+
+.zui-scope .zui-upload__btn:hover {
+	background: #e2e8f0;
+}
+
+.zui-scope .zui-upload__btn .zui-icon {
+	width: 14px;
+	height: 14px;
+}

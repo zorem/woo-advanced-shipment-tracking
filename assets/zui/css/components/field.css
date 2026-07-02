@@ -1,0 +1,52 @@
+/* ============================================================
+   Zorem UI — Modal Form Field
+   ------------------------------------------------------------
+   Compact form field used inside modal bodies. Vertical stack:
+   label above + input below. Composes `.zui-input` for the
+   text-input control (or `.zui-select-wrap` for selects).
+
+   Markup:
+     <div class="zui-field">
+       <label class="zui-field__label" for="...">Field name</label>
+       <input type="text" id="..." class="zui-input zui-field__input">
+     </div>
+
+   ============================================================ */
+
+.zui-scope .zui-field {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.zui-scope .zui-field__label {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	font-size: 12px;
+	font-weight: 700;
+	color: var(--zui-text-soft);
+}
+
+.zui-scope .zui-field__input {
+	width: 100%;
+	height: 40px;
+	padding: 0 12px;
+	background: var(--zui-surface);
+	border: 1px solid var(--zui-border);
+	border-radius: var(--zui-radius-xl);
+	font-size: 12px;
+	color: var(--zui-text);
+	box-shadow: var(--zui-shadow-xs);
+}
+
+.zui-scope .zui-field__input:focus {
+	outline: none;
+	border-color: var(--zui-primary);
+	box-shadow: 0 0 0 3px var(--zui-primary-100);
+}
+
+.zui-scope .zui-field__input[readonly] {
+	background: var(--zui-bg);
+	color: var(--zui-text-muted);
+}

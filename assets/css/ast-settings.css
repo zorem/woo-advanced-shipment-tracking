@@ -1,0 +1,2861 @@
+/**
+ * AST PRO - New Settings UI (Phase 1-3) + UI parity pass.
+ *
+ * Visual authority: the AST Fulfillment Manager prototype (ast-fulfillment-manager,
+ * React/Vite) - matched as a Figma reference. NO React code is used.
+ *
+ * Every selector is scoped under .ast-settings-app so it (a) does not bleed into
+ * wp-admin and (b) reliably overrides legacy admin.css rules scoped under
+ * .shipment_tracking_admin_settings. Logical properties used for RTL.
+ */
+
+.ast-settings-app {
+	--ast-primary: #3b64d3;
+	--ast-primary-hover: #2d4db5;
+	--ast-primary-50: #f0f4ff;
+	--ast-primary-100: #e1e9fe;
+	--ast-primary-200: #cbdafc;
+	--ast-primary-300: #a7c1fa;
+	--ast-primary-600: #2d4db5;
+
+	--ast-bg: #f8fafc;
+	--ast-surface: #ffffff;
+	--ast-border: #e2e8f0;
+	--ast-divider: #f1f5f9;
+
+	--ast-text-strong: #0f172a;
+	--ast-text: #1e293b;      /* slate-800 - labels */
+	--ast-text-soft: #475569; /* slate-600 - nav */
+	--ast-text-muted: #94a3b8;/* slate-400 - desc */
+
+	--ast-chip-bg: rgba(37, 99, 235, 0.10);
+	--ast-chip-border: rgba(37, 99, 235, 0.20);
+	--ast-chip-text: #1e40af;
+
+	--ast-radius-lg: 8px;
+	--ast-radius-xl: 12px;
+	--ast-radius-2xl: 16px;
+	--ast-radius-pill: 999px;
+
+	--ast-shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
+	--ast-shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.08);
+	--ast-shadow-md: 0 4px 10px rgba(15, 23, 42, 0.10);
+
+	--ast-font: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+	box-sizing: border-box;
+	font-family: var(--ast-font);
+	color: var(--ast-text);
+	background: var(--ast-bg);
+	min-height: calc(100vh - 32px);
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	font-size: 14px;
+	line-height: 1.45;
+	-webkit-font-smoothing: antialiased;
+}
+
+/* Stage 1 cleanup (zui-validation-baseline → zui-stage-1) removed 18 lines here:
+   - universal `*` box-sizing reset
+   - body:has(.ast-settings-app) WP-admin column background fill
+   - .ast-settings-app [hidden] display:none override
+   All three now sourced from zorem-ui library reset.css under .zui-scope.
+   Root markup carries both .ast-settings-app + .zui-scope so library rules match. */
+
+/* Live unfulfilled-orders count badge on the Fulfillment nav item.
+   Gently floats up and down on a slow loop to draw the eye. */
+@keyframes ast-badge-float {
+	0%, 100% { transform: translateY(2px); }
+	50%      { transform: translateY(-2px); }
+}
+
+/* Quick Help decorative illustration (matches prototype) */
+
+/* Secondary header button (e.g. Preview Email) */
+
+/* Some shared schemas tag rows with legacy layout classes (e.g. PayPal/Stripe
+   credential fields carry `multiple_checkbox_label`, which admin.css renders as a
+   40% inline-block). In the new settings app every field is its own full-width row,
+   so neutralize the legacy side-by-side layout. */
+
+/* The FTP "Test Connection" field carries class="button", which picks up WordPress's
+   core .button style (border, radius, inline-block) and boxes the whole row. Reset it
+   back to a normal full-width row. */
+
+.ast-settings-app .ftp_test_button { display: inline-flex; align-items: center; }
+
+.ast-settings-app .ftp_test_button :is(.spinner, .workflow_spinner) { display: none; }
+
+/* Clean spinning ring while testing. The legacy handler toggles class "active" on the
+   spinner; also cover .is-active / button.is-testing. Kills the WP spinner GIF. */
+.ast-settings-app .ftp_test_button.is-testing :is(.spinner, .workflow_spinner),
+.ast-settings-app .ftp_test_button :is(.spinner, .workflow_spinner):is(.active, .is-active) {
+	display: inline-block;
+	width: 13px;
+	height: 13px;
+	margin: 0;
+	margin-inline-start: 8px;
+	padding: 0;
+	background: none !important;
+	background-image: none !important;
+	visibility: visible;
+	opacity: 1;
+	float: none;
+	box-sizing: border-box;
+	border: 2px solid currentColor;
+	border-right-color: transparent;
+	border-radius: 50%;
+	animation: ast-spin 0.6s linear infinite;
+}
+
+@keyframes ast-spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+.ast-settings-app .ftp_test_msg {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 12px;
+	font-weight: 600;
+	line-height: 1;
+	margin-inline-start: 10px;
+	padding: 6px 12px;
+	border-radius: var(--ast-radius-pill);
+	transition: background 150ms ease, color 150ms ease;
+}
+.ast-settings-app .ftp_test_msg:empty { display: none; }
+.ast-settings-app .ftp_test_msg.is-success { background: var(--zui-success-bg); color: var(--zui-success); }
+.ast-settings-app .ftp_test_msg.is-error { background: var(--zui-danger-bg); color: var(--zui-danger); }
+.ast-settings-app .ftp_test_msg .dashicons { font-size: 16px; width: 16px; height: 16px; line-height: 1; }
+
+.ast-settings-app .ast-set-osm-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: 16px 24px;
+	padding: 24px 32px;
+	border-block-end: 1px solid var(--ast-divider);
+}
+
+.ast-settings-app .ast-set-osm-row:last-child { border-block-end: 0; }
+
+.ast-settings-app .ast-set-osm-row__main {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	min-width: 0;
+	flex: 1 1 280px;
+}
+
+.ast-settings-app .ast-set-osm-icon {
+	width: 40px;
+	height: 40px;
+	border-radius: var(--ast-radius-xl);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	color: #fff;
+	box-shadow: var(--ast-shadow-xs);
+	flex: 0 0 auto;
+	transition: background-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+}
+
+/* Status name — no background pill. Inline text where BOTH the Color picker
+   and the Theme dropdown apply live:
+     • text colour = the picked Color (live, from colour picker)
+     • opacity     = the Theme (Light Font → 0.6 "light", Dark Font → 1 "solid") */
+.ast-settings-app .ast-set-osm-status-pill { font-weight: 700; transition: color 0.2s ease, opacity 0.2s ease; }
+
+.ast-settings-app .ast-set-osm-icon .zui-icon { width: 20px; height: 20px; }
+
+.ast-settings-app .ast-set-osm-row__text { min-width: 0; }
+
+.ast-settings-app .ast-set-osm-row__title {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 14px;
+	font-weight: 700;
+	color: var(--ast-text);
+}
+
+.ast-settings-app .ast-set-osm-badge {
+	background: #f0f2fe;
+	color: var(--ast-primary-600);
+	font-size: 10px;
+	font-weight: 700;
+	padding: 2px 8px;
+	border-radius: 6px;
+}
+
+/* Delivered status uses a green-tinted badge to match the design */
+.ast-settings-app [data-osm-row="delivered"] .ast-set-osm-badge { background: #dcfce7; color: #16a34a; }
+
+.ast-settings-app .ast-set-osm-row__desc { margin: 2px 0 0; font-size: 12px; color: var(--ast-text-muted); }
+
+.ast-settings-app .ast-set-osm-controls {
+	display: flex;
+	align-items: flex-end;
+	justify-content: flex-start;
+	gap: 24px;
+	flex-wrap: wrap;
+	/* Fixed width so the Color/Theme columns start at the same x on every row,
+	   even when a row has no Email Notification field (e.g. Delivered). */
+	min-width: 360px;
+}
+
+.ast-settings-app .ast-set-osm-field { display: flex; flex-direction: column; gap: 6px; }
+
+.ast-settings-app .ast-set-osm-field__label { font-size: 10px; font-weight: 600; color: var(--ast-text-muted); text-transform: none; }
+
+/* color control: pill with colored dot + hex value (hidden native picker overlay) */
+.ast-settings-app .ast-set-osm-color-pill {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 6px 12px;
+	min-height: 33px;     /* match the OSM-specific theme select override (33px) + email label so all 3 controls align cleanly */
+	background: #fff;
+	border: 1px solid var(--ast-border);
+	border-radius: var(--ast-radius-xl);
+	cursor: pointer;
+	box-shadow: var(--ast-shadow-xs);
+}
+
+.ast-settings-app .ast-set-osm-color-pill:hover { background: var(--ast-bg); }
+
+.ast-settings-app .ast-set-osm-color {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	opacity: 0;
+	cursor: pointer;
+}
+
+.ast-settings-app .ast-set-osm-color-dot {
+	width: 16px;
+	height: 16px;
+	border-radius: var(--ast-radius-pill);
+	border: 1px solid #cbd5e1;
+	flex: 0 0 auto;
+}
+
+.ast-settings-app .ast-set-osm-color-hex {
+	font-family: 'JetBrains Mono', ui-monospace, monospace;
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--ast-text);
+	letter-spacing: -0.01em;
+}
+
+.ast-settings-app .ast-set-osm-theme { max-width: 96px; }
+
+.ast-settings-app .ast-set-osm-theme .zui-select {
+	min-height: 30px;
+    max-height: 33px;
+	background: #fff;
+	font-size: 12px;
+	font-weight: 600;
+	padding: 0 32px 0 12px;
+}
+
+.ast-settings-app .ast-set-osm-theme .zui-select-chevron .zui-icon { width: 14px; height: 14px; }
+
+/* OSM "Send Email" row uses the library `.zui-checkbox` primitive — this
+   wrapper just adds the typography + 33px height so it aligns vertically
+   with the color pill + theme select inside the OSM row. */
+.ast-settings-app .ast-set-osm-email { font-size: 12px; font-weight: 600; color: var(--ast-text-soft); height: 33px; }
+
+.ast-settings-app .ast-set-osm-cog {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+	border: 1px solid var(--ast-border);
+	border-radius: var(--ast-radius-xl);
+	color: var(--ast-text-muted);
+	background: #fff;
+	flex: 0 0 auto;
+	text-decoration: none;
+}
+
+.ast-settings-app .ast-set-osm-cog:hover { color: var(--ast-text-soft); background: var(--ast-bg); }
+
+.ast-settings-app .ast-set-osm-cog .zui-icon { width: 16px; height: 16px; }
+
+/* Empty placeholder that occupies the gear's footprint on rows without an email template. */
+.ast-settings-app .ast-set-osm-cog-spacer { display: inline-flex; width: 36px; height: 36px; flex: 0 0 auto; }
+
+/* disabled row: keep the enable toggle interactive, dim the rest.
+   CSS-only fallback so the row reads as disabled even if the JS sync
+   handler (icon bg color via [data-osm-icon]) hasn't fired yet. */
+.ast-settings-app .ast-set-osm-row.is-disabled { background: rgba(248, 250, 252, 0.5); }
+
+.ast-settings-app .ast-set-osm-row.is-disabled :is(.ast-set-osm-icon, .ast-set-osm-row__text, .ast-set-osm-controls, .ast-set-osm-cog) { opacity: 0.45; pointer-events: none; }
+
+@media (max-width: 782px) {
+	.ast-settings-app .ast-set-osm-row {
+		padding: 20px;
+	}
+	.ast-settings-app .ast-set-osm-controls {
+		min-width: 0;
+	}
+}
+
+/* Select2 theming (WooCommerce wc-enhanced-select) to match the prototype's chip/field design. Selection box + chips are inside the app. */
+.ast-settings-app .select2-container { width: 100% !important; max-width: 520px; }
+
+.ast-settings-app .select2-container--default :is(.select2-selection--single, .select2-selection--multiple) {
+	min-height: 42px;
+	background: var(--ast-bg);
+	border: 1px solid var(--ast-border);
+	border-radius: var(--ast-radius-xl);
+	padding: 3px 6px;
+}
+
+.ast-settings-app .select2-container--default .select2-selection--single { height: 40px; display: flex; align-items: center; padding: 0 12px; }
+
+.ast-settings-app .select2-container--default .select2-selection--single .select2-selection__rendered { line-height: normal; color: var(--ast-text); font-size: 13px; padding: 0; }
+
+.ast-settings-app .select2-container--default .select2-selection--single .select2-selection__arrow { height: 38px; }
+
+.ast-settings-app .select2-container--default:is(.select2-container--focus, .select2-container--open) :is(.select2-selection--single, .select2-selection--multiple) { border-color: var(--ast-primary); box-shadow: 0 0 0 3px var(--ast-primary-100); }
+
+.ast-settings-app .select2-container--default .select2-selection--multiple .select2-selection__choice {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	background: var(--ast-chip-bg);
+	border: 1px solid var(--ast-chip-border);
+	color: var(--ast-chip-text);
+	border-radius: var(--ast-radius-lg);
+	font-size: 11px;
+	font-weight: 700;
+	padding: 3px 24px 3px 9px; /* right padding leaves room for the absolutely-placed x */
+	margin: 3px 4px 3px 0;
+	line-height: 1.5;
+}
+
+/* pin the remove "x" to the RIGHT of the chip (version-proof, no float/flex-order reliance) */
+.ast-settings-app .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+	position: absolute;
+	inset-inline-end: 7px;
+	top: 50%;
+	transform: translateY(-50%);
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	color: #ef4444;
+	font-weight: 700;
+	font-size: 13px;
+	line-height: 1;
+}
+
+.ast-settings-app .select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover { color: #b91c1c; background: transparent; }
+
+.ast-settings-app .select2-container--default .select2-search--inline .select2-search__field { font-size: 13px; margin: 4px 0; }
+
+/* dropdown is appended to <body>; scope via the page body class so it only
+   restyles AST admin screens, not arbitrary WC select2 elsewhere. */
+.shipment_tracking_admin_settings .select2-dropdown {
+	border-color: var(--ast-border, #e2e8f0);
+	border-radius: 12px;
+	box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+	overflow: hidden;
+}
+
+.shipment_tracking_admin_settings .select2-results__option { position: relative; font-size: 13px; padding: 9px 34px 9px 14px; color: #1e293b; }
+
+/* soft light-blue highlight (hover / keyboard) instead of harsh brand blue / grey */
+.shipment_tracking_admin_settings .select2-container--default :is(.select2-results__option--highlighted, .select2-results__option--highlighted[aria-selected]) { background-color: #f0f4ff !important; color: #1e293b !important; }
+
+/* selected option: light-blue row, bold, with a checkmark on the right (prototype) */
+.shipment_tracking_admin_settings .select2-container--default .select2-results__option[aria-selected="true"] { background-color: rgba(240, 244, 255, 0.8) !important; color: #2d4db5 !important; font-weight: 600; }
+
+.shipment_tracking_admin_settings .select2-container--default .select2-results__option[aria-selected="true"]::after {
+	content: "\2713";
+	position: absolute;
+	inset-inline-end: 14px;
+	top: 50%;
+	transform: translateY(-50%);
+	color: #2d4db5;
+	font-weight: 700;
+}
+
+/* Footer — removed per design: no white strip / border break at the bottom, the page background fills full height uniformly. */
+.ast-settings-app .ast-set-footer { display: none !important; }
+
+.ast-settings-app .ast-set-carriers { display: flex; flex-direction: column; gap: 20px; }
+
+/* AJAX busy state (grid / enable list) */
+.ast-settings-app .is-busy { opacity: 0.55; pointer-events: none; transition: opacity 0.15s ease; }
+
+.ast-settings-app .ast-set-carriers-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+
+.ast-settings-app .ast-set-carriers-search { position: relative; width: 100%; max-width: 240px; }
+
+.ast-settings-app .ast-set-carriers-search__icon {
+	position: absolute;
+	inset-inline-start: 10px;
+	top: 50%;
+	transform: translateY(-50%);
+	display: inline-flex;
+	color: var(--ast-text-muted);
+	pointer-events: none;
+}
+
+.ast-settings-app .ast-set-carriers-search__icon .zui-icon { width: 15px; height: 15px; }
+
+.ast-settings-app .ast-set-carriers-search__input {
+	width: 100%;
+	height: 36px;
+	padding: 0 12px 0 32px;
+	background: var(--ast-surface);
+	border: 1px solid var(--ast-border);
+	border-radius: var(--ast-radius-xl);
+	font-size: 12px;
+	color: var(--ast-text);
+	box-shadow: var(--ast-shadow-xs);
+}
+
+[dir="rtl"] .ast-settings-app .ast-set-carriers-search__input { padding: 0 32px 0 12px; }
+
+.ast-settings-app .ast-set-carriers-search__input:focus { outline: none; border-color: var(--ast-primary); box-shadow: 0 0 0 3px var(--ast-primary-100); }
+
+.ast-settings-app .ast-set-carriers-bulkbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	margin-bottom: 16px;
+	padding: 12px 14px;
+	background: rgba(240, 244, 255, 0.7);
+	border: 1px solid var(--ast-primary-100);
+	border-radius: var(--ast-radius-xl);
+	font-size: 12px;
+	box-shadow: var(--ast-shadow-xs);
+}
+
+.ast-settings-app .ast-set-carriers-bulkbar__info { display: flex; align-items: center; gap: 8px; color: var(--ast-text-soft); }
+
+.ast-settings-app .ast-set-carriers-bulkbar__info .zui-icon { width: 16px; height: 16px; color: var(--ast-primary); flex: 0 0 auto; }
+
+.ast-settings-app .ast-set-carriers-bulkbar__all {
+	background: transparent;
+	border: 0;
+	padding: 0;
+	font: inherit;
+	font-weight: 800;
+	color: var(--ast-primary-600);
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.ast-settings-app .ast-set-carriers-bulkbar__remove {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 7px 12px;
+	background: #fff1f2;
+	border: 1px solid #fecdd3;
+	border-radius: var(--ast-radius-lg);
+	color: #be123c;
+	font-size: 12px;
+	font-weight: 700;
+	cursor: pointer;
+	flex: 0 0 auto;
+}
+
+.ast-settings-app .ast-set-carriers-bulkbar__remove:hover { background: #ffe4e6; }
+
+.ast-settings-app .ast-set-carriers-bulkbar__remove .zui-icon { width: 14px; height: 14px; }
+
+.ast-settings-app .ast-set-carriers-bulkbar__remove.is-loading { cursor: progress; opacity: 0.85; }
+
+/* Inline form error note — shown above the modal actions row when a submit fails
+   for a recoverable reason (e.g. Add Carrier duplicate). Auto-clears when the
+   user edits the offending field. */
+.ast-settings-app .ast-set-form-error {
+	margin: 8px 0 0;
+	padding: 10px 12px;
+	border: 1px solid #fecdd3;
+	background: #fff1f2;
+	border-radius: var(--ast-radius-lg);
+	color: #be123c;
+	font-size: 13px;
+	font-weight: 600;
+	line-height: 1.35;
+}
+
+.ast-settings-app .ast-set-carriers-bulkbar__remove .ast-set-carriers-bulkbar__spinner {
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+	border: 2px solid rgba(190, 18, 60, 0.25);
+	border-top-color: #be123c;
+	border-radius: 50%;
+	animation: ast-bulkbar-spin 0.6s linear infinite;
+}
+
+@keyframes ast-bulkbar-spin {
+	to { transform: rotate(360deg); }
+}
+
+.ast-settings-app .ast-set-carriers-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+
+@media (min-width: 768px) {
+	.ast-settings-app .ast-set-carriers-grid {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}
+
+@media (min-width: 1100px) {
+	.ast-settings-app .ast-set-carriers-grid {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+	}
+}
+
+@media (min-width: 1400px) {
+	.ast-settings-app .ast-set-carriers-grid {
+		grid-template-columns: repeat(5, minmax(0, 1fr));
+	}
+}
+
+.ast-settings-app .ast-set-carriers-empty {
+	grid-column: 1 / -1;
+	padding: 40px;
+	text-align: center;
+	font-size: 12px;
+	font-style: italic;
+	color: var(--ast-text-muted);
+	background: rgba(248, 250, 252, 0.6);
+	border: 1px dashed var(--ast-border);
+	border-radius: var(--ast-radius-2xl);
+}
+
+.ast-settings-app .ast-set-carrier-add-tile {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	min-height: 74px;
+	padding: 12px;
+	background: var(--ast-surface);
+	border: 1px dashed #cbd5e1;
+	border-radius: var(--ast-radius-2xl);
+	font-size: 12px;
+	font-weight: 700;
+	color: var(--ast-text-soft);
+	cursor: pointer;
+	box-shadow: var(--ast-shadow-xs);
+}
+
+.ast-settings-app .ast-set-carrier-add-tile:hover { border-color: #94a3b8; color: var(--ast-text-strong); }
+
+.ast-settings-app .ast-set-carrier-add-tile__plus {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 24px;
+	height: 24px;
+	background: #f1f5f9;
+	color: var(--ast-text-soft);
+	border-radius: var(--ast-radius-lg);
+}
+
+.ast-settings-app .ast-set-carrier-add-tile__plus .zui-icon { width: 14px; height: 14px; }
+
+/* ---- Carrier card — composes with .zui-card (chrome lives there); this rule only carries the carrier layout + lighter shadow override. */
+.ast-settings-app .ast-set-carrier-card {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	min-height: 74px;
+	padding: 12px;
+	box-shadow: var(--ast-shadow-xs);
+	transition: box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.ast-settings-app .ast-set-carrier-card:hover { box-shadow: var(--ast-shadow-sm); }
+
+.ast-settings-app .ast-set-carrier-card.is-selected { border-color: var(--ast-primary-200); background: rgba(248, 250, 252, 0.7); }
+
+.ast-settings-app .ast-set-carrier-check {
+	position: absolute;
+	top: -7px;
+	inset-inline-start: -7px;
+	z-index: 5;
+	cursor: pointer;
+	opacity: 0;
+	transform: scale(0.9);
+	transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.ast-settings-app .ast-set-carrier-card:hover .ast-set-carrier-check,
+.ast-settings-app .ast-set-carrier-card.is-selected .ast-set-carrier-check { opacity: 1; transform: scale(1); }
+
+.ast-settings-app .ast-set-carrier-check input { position: absolute; opacity: 0; width: 0; height: 0; }
+
+.ast-settings-app .ast-set-carrier-check__box {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 18px;
+	height: 18px;
+	background: #fff;
+	border: 1px solid #cbd5e1;
+	border-radius: 6px;
+	color: transparent;
+	box-shadow: var(--ast-shadow-xs);
+}
+
+.ast-settings-app .ast-set-carrier-check__box .zui-icon { width: 12px; height: 12px; }
+
+.ast-settings-app .ast-set-carrier-check input:checked + .ast-set-carrier-check__box { background: var(--ast-primary); border-color: var(--ast-primary); color: #fff; }
+
+/* left: logo + info */
+.ast-settings-app .ast-set-carrier-main {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	min-width: 0;
+	flex: 1 1 auto;
+}
+
+.ast-settings-app .ast-set-carrier-logo {
+	width: 50px;
+	height: 50px;
+	flex: 0 0 auto;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: #f8fafc;
+	border: 1px solid var(--ast-divider);
+	border-radius: var(--ast-radius-xl);
+	overflow: hidden;
+	font-size: 11px;
+	font-weight: 800;
+	color: var(--ast-text-soft);
+	letter-spacing: -0.02em;
+}
+
+.ast-settings-app .ast-set-carrier-logo img { width: 100%; height: 100%; object-fit: contain; padding: 6px; }
+
+.ast-settings-app .ast-set-carrier-info { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+
+.ast-settings-app .ast-set-carrier-name {
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--ast-text);
+	line-height: 1.2;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.ast-settings-app .ast-set-carrier-meta {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	flex-wrap: wrap;
+	min-width: 0;
+}
+.ast-settings-app .ast-set-carrier-aliases {
+	display: inline-block;
+	padding: 1px 6px;
+	font-size: 10px;
+	font-weight: 600;
+	color: var(--ast-primary-600);
+	background: var(--ast-primary-50);
+	border-radius: var(--ast-radius-pill);
+	white-space: nowrap;
+}
+
+.ast-settings-app .ast-set-carrier-country {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	font-size: 11px;
+	font-weight: 500;
+	color: var(--ast-text-muted);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.ast-settings-app .ast-set-carrier-country .zui-icon { width: 11px; height: 11px; color: #cbd5e1; flex: 0 0 auto; }
+
+/* right: toggle + edit */
+.ast-settings-app .ast-set-carrier-actions { display: flex; align-items: center; gap: 6px; flex: 0 0 auto; }
+
+/* Carrier toggle — composes with .zui-toggle; this rule only overrides the smaller carrier dimensions + translate distance. Track bg = var(--ast-border) = #e2e8f0 (identical via token). */
+.ast-settings-app .ast-set-carrier-toggle .zui-toggle__input { width: 0; height: 0; }
+
+.ast-settings-app .ast-set-carrier-toggle .zui-toggle__track { width: 32px; height: 18px; }
+
+.ast-settings-app .ast-set-carrier-toggle .zui-toggle__thumb { width: 14px; height: 14px; border: 0; }
+
+.ast-settings-app .ast-set-carrier-toggle .zui-toggle__input:checked + .zui-toggle__track .zui-toggle__thumb { transform: translateX(14px); }
+
+[dir="rtl"] .ast-settings-app .ast-set-carrier-toggle .zui-toggle__input:checked + .zui-toggle__track .zui-toggle__thumb { transform: translateX(-14px); }
+
+.ast-settings-app .ast-set-carrier-edit {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	background: transparent;
+	border: 1px solid transparent;
+	border-radius: var(--ast-radius-lg);
+	color: var(--ast-text-muted);
+	cursor: pointer;
+}
+
+.ast-settings-app .ast-set-carrier-edit:hover { color: var(--ast-primary-600); background: var(--ast-bg); border-color: var(--ast-divider); }
+
+.ast-settings-app .ast-set-carrier-edit .zui-icon { width: 15px; height: 15px; }
+
+@keyframes ast-modal-in {
+	from { opacity: 0; transform: scale(0.96); }
+	to   { opacity: 1; transform: scale(1); }
+}
+
+.ast-settings-app .ast-set-enable-pageinfo { font-size: 11px; color: var(--ast-text-muted); }
+.ast-settings-app .ast-set-enable-pageinfo strong { color: var(--ast-text); }
+
+.ast-settings-app .ast-set-enable-nav { display: flex; gap: 6px; }
+
+.ast-settings-app .ast-set-enable-list { gap: 12px; min-height: 320px; }
+
+.ast-settings-app .ast-set-enable-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 12px;
+	background: var(--ast-surface);
+	border: 1px solid var(--ast-border);
+	border-radius: var(--ast-radius-2xl);
+	box-shadow: var(--ast-shadow-xs);
+}
+
+.ast-settings-app .ast-set-enable-row__main { display: flex; align-items: center; gap: 10px; min-width: 0; }
+
+.ast-settings-app .ast-set-enable-btn {
+	padding: 7px 16px;
+	background: transparent;
+	border: 1px solid var(--ast-primary-200);
+	border-radius: var(--ast-radius-lg);
+	color: var(--ast-primary-600);
+	font-size: 12px;
+	font-weight: 700;
+	cursor: pointer;
+	flex: 0 0 auto;
+}
+
+.ast-settings-app .ast-set-enable-btn:hover { background: var(--ast-primary); color: #fff; border-color: var(--ast-primary); }
+
+.ast-settings-app :is(.ast-set-enable-btn.is-added, .ast-set-enable-btn:disabled) {
+	background: var(--ast-bg);
+	color: var(--ast-text-muted);
+	border-color: var(--ast-border);
+	cursor: default;
+	pointer-events: none;
+}
+
+.ast-settings-app .zui-upload__btn.ast-carrier-logo-remove { padding: 0 11px; color: #ef4444; }
+.ast-settings-app .zui-upload__btn.ast-carrier-logo-remove:hover { background: #fef2f2; border-color: #fecaca; }
+
+/* Check card (Set default / Reset DB) */
+
+.ast-settings-app .ast-set-edit-preview {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 12px;
+	width: 100%;
+	background: var(--ast-surface);
+	border-radius: var(--ast-radius-xl);
+	box-shadow: var(--ast-shadow-xs);
+}
+
+.ast-settings-app .ast-edit-carrier-name-2 { margin: 0; font-size: 12px; font-weight: 700; color: var(--ast-text-soft); }
+.ast-settings-app .ast-edit-carrier-country { margin: 2px 0 0; font-size: 10px; color: var(--ast-text-muted); }
+
+.ast-settings-app .ast-set-integrations { display: flex; flex-direction: column; gap: 20px; }
+
+.ast-settings-app .ast-set-intg-banner {
+	display: flex;
+	align-items: flex-start;
+	gap: 14px;
+	padding: 18px 20px;
+	background: #eef2ff;
+	border: 1px solid var(--ast-primary-100);
+	border-radius: var(--ast-radius-2xl);
+	color: #243c94;
+}
+
+.ast-settings-app .ast-set-intg-banner__icon { display: inline-flex; color: var(--ast-primary); flex: 0 0 auto; margin-top: 1px; }
+.ast-settings-app .ast-set-intg-banner__icon .zui-icon { width: 22px; height: 22px; }
+.ast-settings-app .ast-set-intg-banner__title { margin: 0; font-size: 14px; font-weight: 800; }
+.ast-settings-app .ast-set-intg-banner__text { margin: 4px 0 0; font-size: 12px; line-height: 1.6; color: rgba(36, 60, 148, 0.8); }
+
+.ast-settings-app .ast-set-intg-search { position: relative; width: 100%; max-width: 380px; margin-bottom: 16px; }
+.ast-settings-app .ast-set-intg-search__icon {
+	position: absolute; inset-inline-start: 12px; top: 50%; transform: translateY(-50%);
+	display: inline-flex; color: var(--ast-text-muted); pointer-events: none;
+}
+.ast-settings-app .ast-set-intg-search__icon .zui-icon { width: 16px; height: 16px; }
+.ast-settings-app .ast-set-intg-search input {
+	width: 100%; height: 40px; padding: 0 14px 0 38px;
+	background: var(--ast-surface); border: 1px solid var(--ast-border);
+	border-radius: var(--ast-radius-xl); font-size: 12px; color: var(--ast-text); box-shadow: var(--ast-shadow-xs);
+}
+.ast-settings-app .ast-set-intg-search input:focus { outline: none; border-color: var(--ast-primary); box-shadow: 0 0 0 3px var(--ast-primary-100); }
+
+.ast-settings-app .ast-set-intg-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+@media (min-width: 768px)  { .ast-settings-app .ast-set-intg-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 1100px) { .ast-settings-app .ast-set-intg-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (min-width: 1400px) { .ast-settings-app .ast-set-intg-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+
+.ast-settings-app .ast-set-intg-empty {
+	padding: 40px; text-align: center; font-size: 12px; font-style: italic; color: var(--ast-text-muted);
+	background: rgba(248, 250, 252, 0.6); border: 1px dashed var(--ast-border); border-radius: var(--ast-radius-2xl);
+}
+
+/* Tile — composes with .zui-card (chrome lives there); this rule only carries the tile layout + lighter shadow override. */
+.ast-settings-app .ast-set-intg-card {
+	display: flex; align-items: center; justify-content: space-between; gap: 8px;
+	min-height: 74px; padding: 12px;
+	box-shadow: var(--ast-shadow-xs);
+	cursor: pointer; transition: box-shadow 0.15s ease, border-color 0.15s ease;
+}
+.ast-settings-app .ast-set-intg-card:hover { box-shadow: var(--ast-shadow-sm); }
+.ast-settings-app .ast-set-intg-card.is-active { border-color: var(--ast-primary-200); background: rgba(248, 250, 252, 0.7); }
+
+.ast-settings-app .ast-set-intg-main { display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1 1 auto; }
+
+.ast-settings-app .ast-set-intg-logo {
+	width: 50px; height: 50px; flex: 0 0 auto;
+	display: inline-flex; align-items: center; justify-content: center;
+	background: #f8fafc; border: 1px solid var(--ast-divider); border-radius: var(--ast-radius-xl);
+	overflow: hidden; font-size: 11px; font-weight: 800; color: var(--ast-text-soft);
+	transition: filter 0.2s ease, opacity 0.2s ease;
+}
+.ast-settings-app .ast-set-intg-logo img { width: 100%; height: 100%; object-fit: contain; padding: 6px; }
+.ast-settings-app .ast-set-intg-card:not(.is-active) .ast-set-intg-logo { opacity: 0.6; filter: saturate(0.5); }
+
+.ast-settings-app .ast-set-intg-info { min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+.ast-settings-app .ast-set-intg-name {
+	display: inline-flex; align-items: center; gap: 6px;
+	font-size: 13px; font-weight: 600; color: var(--ast-text); line-height: 1.2;
+	white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.ast-settings-app .ast-set-intg-dot { width: 8px; height: 8px; border-radius: var(--ast-radius-pill); background: #cbd5e1; flex: 0 0 auto; }
+.ast-settings-app .ast-set-intg-card.is-active .ast-set-intg-dot { background: #10b981; box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.18); animation: ast-dot-pulse 1.6s ease-in-out infinite; }
+
+@keyframes ast-dot-pulse {
+	0%, 100% { box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.18); }
+	50%      { box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.08); }
+}
+
+.ast-settings-app .ast-set-intg-meta { font-size: 11px; font-weight: 500; color: var(--ast-text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ast-settings-app .ast-set-intg-card.is-active .ast-set-intg-status { color: #059669; font-weight: 700; }
+
+.ast-settings-app .ast-set-intg-gear {
+	display: inline-flex; align-items: center; justify-content: center;
+	width: 28px; height: 28px; background: transparent; border: 1px solid transparent;
+	border-radius: var(--ast-radius-lg); color: var(--ast-text-muted); cursor: pointer; flex: 0 0 auto;
+}
+.ast-settings-app .ast-set-intg-gear:hover { color: var(--ast-primary-600); background: var(--ast-bg); border-color: var(--ast-divider); }
+.ast-settings-app .ast-set-intg-gear .zui-icon { width: 16px; height: 16px; }
+
+/* Modal: More Info link + toggle row + features box */
+.ast-settings-app .ast-intg-doc {
+	display: inline-flex; align-items: center; gap: 3px; margin-top: 2px;
+	font-size: 10px; font-weight: 700; color: var(--ast-primary-600); text-decoration: none;
+}
+.ast-settings-app .ast-intg-doc:hover { text-decoration: underline; }
+.ast-settings-app .ast-intg-doc .zui-icon { width: 11px; height: 11px; }
+
+.ast-settings-app .ast-set-intg-toggle-row {
+	display: flex; align-items: center; justify-content: space-between; gap: 12px;
+	padding: 14px; background: var(--ast-bg); border-radius: var(--ast-radius-xl);
+}
+.ast-settings-app .ast-set-intg-toggle-row__title { font-size: 12px; font-weight: 700; color: var(--ast-text); }
+.ast-settings-app .ast-set-intg-toggle-row__sub { margin: 2px 0 0; font-size: 10px; color: var(--ast-text-muted); }
+
+.ast-settings-app .ast-set-intg-features {
+	padding: 12px; background: rgba(239, 246, 255, 0.5); border: 1px solid rgba(191, 219, 254, 0.5);
+	border-radius: var(--ast-radius-xl); display: flex; flex-direction: column; gap: 4px;
+}
+.ast-settings-app .ast-set-intg-features__title { font-size: 11px; font-weight: 800; color: #1e40af; }
+.ast-settings-app .ast-set-intg-features p { margin: 0; font-size: 10px; line-height: 1.6; color: var(--ast-text-soft); }
+
+.ast-settings-app .ast-set-csv { display: flex; flex-direction: column; gap: 16px; }
+
+.ast-settings-app .ast-set-csv-banner {
+	display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+	padding: 20px; background: var(--ast-surface);
+	border: 1px solid var(--ast-primary-200); border-radius: var(--ast-radius-2xl);
+	box-shadow: var(--ast-shadow-sm);
+}
+.ast-settings-app .ast-set-csv-banner__icon {
+	flex: 0 0 auto; width: 56px; height: 56px; border-radius: var(--ast-radius-xl);
+	background: var(--ast-primary); color: #fff;
+	display: flex; align-items: center; justify-content: center; box-shadow: var(--ast-shadow-md);
+}
+.ast-settings-app .ast-set-csv-banner__icon .zui-icon { width: 28px; height: 28px; }
+.ast-settings-app .ast-set-csv-banner__title { margin: 0; font-size: 18px; font-weight: 700; color: var(--ast-text-strong); letter-spacing: -0.01em; }
+.ast-settings-app .ast-set-csv-banner__text { margin: 4px 0 0; font-size: 12px; color: #64748b; }
+.ast-settings-app .ast-set-csv-banner__lead { display: flex; align-items: center; gap: 16px; min-width: 0; }
+
+/* Manual / Automated sub-tab toggle: moved to ZUI library (.zui-segmented*) — see assets/zui/css/components/segmented.css */
+
+/* Automated FTP/SFTP panel */
+.ast-settings-app .ast-set-csv-sub { display: flex; flex-direction: column; gap: 16px; }
+.ast-settings-app .ast-set-csv-sub[hidden] { display: none; }
+.ast-settings-app .ast-set-csv-ftp { display: flex; flex-direction: column; gap: 16px; }
+
+/* Save bar: edge-to-edge grey strip inside the card, sitting under the Enable toggle.
+   Label on the left, a SMALL right-aligned primary button (not full width). */
+.ast-settings-app .ast-set-csv-ftp-bar {
+	display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+	margin: 0 -24px; padding: 14px 24px; background: var(--ast-bg);
+	border-block-end: 1px solid var(--ast-divider);
+}
+.ast-settings-app .ast-set-csv-ftp-bar__label { flex: 1 1 auto; font-size: 12px; font-weight: 700; color: var(--ast-text-muted); }
+.ast-settings-app .ast-set-csv-ftp-bar .zui-btn-primary { flex: 0 0 auto; width: auto; }
+.ast-settings-app .ast-csv-ftp-save.is-busy { opacity: 0.6; pointer-events: none; }
+
+/* Card rows: row dividers + comfortable padding, narrower controls like the mock */
+.ast-settings-app .zui-card--csv-ftp { padding: 0 24px; }
+.ast-settings-app .zui-card--csv-ftp .zui-row { padding: 22px 0; border-block-end: 1px solid var(--ast-divider); margin: 0; }
+.ast-settings-app .zui-card--csv-ftp .zui-row:last-child { border-block-end: 0; }
+/* The Test-Connection row has class="button" which the global reset pads to 32px on ALL
+   sides, indenting it from the left. Re-align it with the other rows inside this card. */
+.ast-settings-app .zui-card--csv-ftp .zui-row.button { padding: 22px 0 !important; }
+.ast-settings-app .zui-card--csv-ftp .zui-input { max-width: 620px; width: 100%; }
+/* Selects in the FTP card stay compact so the chevron sits flush with the
+   control — without this they inherit the 620px text-input width and the
+   chevron escapes far to the right of the visible select. */
+.ast-settings-app .zui-card--csv-ftp .zui-select-wrap { max-width: 340px; }
+/* Legacy admin.css declares `.import_day_weekly { display: inline }` for the
+   old <li> markup. In the new card, the row is a block container with padding,
+   so `display: inline` breaks the layout. Restore block stacking. */
+.ast-settings-app .zui-card--csv-ftp .zui-row.import_day_weekly { display: block; }
+.ast-settings-app .zui-card--csv-ftp .zui-input { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 12px; }
+/* Port is a short field */
+.ast-settings-app .zui-card--csv-ftp .zui-row.zui-row--port .zui-input,
+.ast-settings-app .zui-card--csv-ftp #ftp_sftp_port { max-width: 220px; }
+/* Frequency / protocol select stays compact */
+.ast-settings-app .zui-card--csv-ftp .import_frequency .zui-select-wrap { max-width: 340px; }
+
+.ast-settings-app .ast-set-bp-step { padding: 24px 28px; }
+.ast-settings-app .ast-set-bp-step[hidden] { display: none; }
+
+/* Two buttons per row (Clear | Parse, Back | Run, View | Paste-more): small, left & right. */
+.ast-settings-app .ast-set-bp .ast-set-csv-submit-row { justify-content: space-between; gap: 12px; border-block-start: 1px solid var(--ast-divider); margin-top: 22px; }
+.ast-settings-app .ast-set-bp .ast-set-csv-submit-row :is(.zui-btn-primary, .zui-btn-ghost) { flex: 0 0 auto; width: auto; }
+
+.ast-settings-app .ast-set-bp-sample { display: inline-flex; align-items: center; gap: 8px; flex: 0 0 auto; }
+.ast-settings-app .ast-set-bp-sample__label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; color: var(--ast-text-muted); }
+.ast-settings-app .ast-set-bp-sample__btn {
+	padding: 6px 10px; border: 0; border-radius: var(--ast-radius-lg);
+	background: rgba(59,100,211,.08); color: var(--ast-primary-600); font-size: 11px; font-weight: 800; cursor: pointer;
+}
+.ast-settings-app .ast-set-bp-sample__btn:hover { background: rgba(59,100,211,.16); }
+
+.ast-settings-app .ast-set-bp-textarea-wrap { margin-top: 16px; }
+.ast-settings-app .ast-set-bp-textarea {
+	width: 100%; min-height: 180px; resize: vertical; box-sizing: border-box;
+	background: var(--ast-bg); border: 1px solid var(--ast-border); border-radius: var(--ast-radius-xl);
+	padding: 14px; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 12px; line-height: 1.6; color: var(--ast-text);
+}
+.ast-settings-app .ast-set-bp-textarea:focus { outline: none; background: #fff; border-color: var(--ast-primary); box-shadow: 0 0 0 1px var(--ast-primary); }
+.ast-settings-app .ast-set-bp-textmeta { display: flex; justify-content: space-between; margin-top: 6px; font-size: 10px; color: var(--ast-text-muted); }
+.ast-settings-app .ast-set-bp-rows strong { font-family: 'JetBrains Mono', ui-monospace, monospace; color: var(--ast-text-soft); }
+
+/* Controls row: separator + switches */
+.ast-settings-app .ast-set-bp-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 20px; padding-top: 18px; border-block-start: 1px solid var(--ast-divider); }
+.ast-settings-app .ast-set-bp-sep__box {
+	display: flex; align-items: center; gap: 8px; margin-top: 8px;
+	background: var(--ast-bg); border: 1px solid var(--ast-border); border-radius: var(--ast-radius-xl); padding: 12px 14px;
+	font-size: 12px; font-weight: 600; color: var(--ast-text-soft);
+}
+.ast-settings-app .ast-set-bp-sep__box .zui-icon { width: 16px; height: 16px; color: #16a34a; }
+.ast-settings-app .ast-set-bp-switches .ast-set-csv-row { padding: 8px 0; }
+.ast-settings-app .ast-set-bp-switches .ast-set-csv-row:first-child { padding-top: 0; }
+
+.ast-settings-app .ast-set-bp-mapnote {
+	display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+	background: var(--ast-bg); border: 1px solid var(--ast-border); border-radius: var(--ast-radius-xl); padding: 14px 16px; margin-bottom: 18px;
+}
+.ast-settings-app .ast-set-bp-count { font-size: 11px; font-weight: 700; color: var(--ast-primary-600); background: rgba(59,100,211,.08); border-radius: var(--ast-radius-lg); padding: 6px 10px; }
+.ast-settings-app .ast-set-bp-maptable { border: 1px solid var(--ast-border); border-radius: var(--ast-radius-xl); overflow: hidden; }
+.ast-settings-app :is(.ast-set-bp-maphead, .ast-set-bp-maprow) { display: grid; grid-template-columns: 1fr 140px 1fr; gap: 16px; align-items: center; padding: 12px 16px; }
+.ast-settings-app .ast-set-bp-maphead {
+	background: var(--ast-bg); border-block-end: 1px solid var(--ast-border);
+	font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; color: var(--ast-text-muted);
+}
+.ast-settings-app .ast-set-bp-maphead__dir { text-align: center; }
+.ast-settings-app .ast-set-bp-maprow { border-block-end: 1px solid var(--ast-divider); }
+.ast-settings-app .ast-set-bp-maprow:last-child { border-block-end: 0; }
+.ast-settings-app .ast-set-bp-maprow:hover { background: rgba(248,250,252,.7); }
+.ast-settings-app .ast-set-bp-maprow__name { font-size: 12px; font-weight: 700; color: var(--ast-text); display: flex; align-items: center; gap: 6px; }
+.ast-settings-app .ast-set-bp-maprow__desc { display: block; font-size: 10px; color: var(--ast-text-muted); margin-top: 2px; }
+.ast-settings-app .ast-set-bp-req { background: #fef2f2; border: 1px solid #fecdd3; color: #e11d48; font-size: 8px; font-weight: 800; text-transform: uppercase; padding: 1px 5px; border-radius: 4px; }
+.ast-settings-app .ast-set-bp-maprow__dir { display: flex; justify-content: center; }
+.ast-settings-app .ast-set-bp-maprow__dir span { font-family: ui-monospace, monospace; font-size: 10px; color: var(--ast-text-muted); background: var(--ast-bg); border: 1px solid var(--ast-border); border-radius: 6px; padding: 4px 8px; }
+.ast-settings-app .ast-set-bp-maprow__prev { font-family: ui-monospace, monospace; font-size: 10px; color: var(--ast-primary-600); margin-top: 5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.ast-settings-app .ast-set-bp-done-hero { text-align: center; padding: 8px 0 18px; }
+.ast-settings-app .ast-set-bp-done-hero__icon {
+	display: inline-flex; width: 56px; height: 56px; align-items: center; justify-content: center;
+	background: #ecfdf5; color: #10b981; border: 1px solid #a7f3d0; border-radius: var(--ast-radius-pill); margin-bottom: 12px;
+}
+.ast-settings-app .ast-set-bp-done-hero__icon .zui-icon { width: 30px; height: 30px; }
+.ast-settings-app .ast-set-bp-done-hero h3 { margin: 0; font-size: 18px; font-weight: 800; color: var(--ast-text-strong); }
+.ast-settings-app .ast-set-bp-done-hero p { margin: 4px 0 0; font-size: 12px; color: var(--ast-text-muted); }
+.ast-settings-app .ast-set-bp-stats { margin-bottom: 16px; }
+
+.ast-settings-app .ast-bp-li { display: flex; align-items: flex-start; gap: 8px; padding: 4px 0; font-family: ui-monospace, monospace; font-size: 11px; line-height: 1.5; }
+.ast-settings-app .ast-bp-li--ok { color: #34d399; }
+.ast-settings-app .ast-bp-li--fail { color: #fbbf24; }
+.ast-settings-app .ast-bp-li__mark { flex: 0 0 auto; font-weight: 800; }
+.ast-settings-app .ast-set-bp-report .ast-bp-li--ok { color: #047857; }
+.ast-settings-app .ast-set-bp-report .ast-bp-li--fail { color: #b45309; }
+
+/* Footer note */
+.ast-settings-app .ast-set-bp-footnote { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--ast-text-muted); }
+.ast-settings-app .ast-set-bp-footnote .zui-icon { width: 16px; height: 16px; color: var(--ast-primary); }
+
+@media (max-width: 860px) {
+	.ast-settings-app .ast-set-bp-controls { grid-template-columns: 1fr; }
+.ast-settings-app :is(.ast-set-bp-maphead, .ast-set-bp-maprow) { grid-template-columns: 1fr; gap: 8px; }
+	.ast-settings-app .ast-set-bp-maphead__dir, .ast-settings-app .ast-set-bp-maprow__dir { display: none; }
+}
+
+/* Stepper card — composes with .zui-card (chrome lives there); this rule only carries the stepper-specific padding. */
+.ast-settings-app .ast-set-csv-stepcard { padding: 22px; }
+.ast-settings-app .ast-set-csv-steps {
+	list-style: none; margin: 0 auto; padding: 0; max-width: 640px;
+	display: flex; justify-content: space-between; position: relative; counter-reset: csvstep;
+}
+.ast-settings-app .ast-set-csv-steps::before { content: ''; position: absolute; top: 18px; left: 16.66%; right: 16.66%; height: 2px; background: var(--ast-border); z-index: 0; }
+.ast-settings-app .ast-set-csv-steps li {
+	position: relative; z-index: 1; flex: 1; text-align: center; padding-top: 46px;
+	font-size: 11px; font-weight: 800; color: var(--ast-text-muted);
+}
+.ast-settings-app .ast-set-csv-steps li::before {
+	counter-increment: csvstep; content: counter(csvstep);
+	position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+	width: 36px; height: 36px; border-radius: var(--ast-radius-pill);
+	display: flex; align-items: center; justify-content: center;
+	background: #fff; border: 1px solid var(--ast-border); color: var(--ast-text-muted);
+	font-size: 12px; font-weight: 700;
+}
+.ast-settings-app .ast-set-csv-steps li.active { color: var(--ast-text); }
+.ast-settings-app .ast-set-csv-steps li.active::before {
+	background: var(--ast-primary); border-color: var(--ast-primary); color: #fff;
+	box-shadow: 0 0 0 4px var(--ast-primary-100);
+}
+.ast-settings-app .ast-set-csv-steps li.done { color: var(--ast-text); }
+.ast-settings-app .ast-set-csv-steps li.done::before { content: '\2713'; background: var(--ast-primary); border-color: var(--ast-primary); color: #fff; }
+
+.ast-settings-app .ast-set-csv-wizard {
+	background: var(--ast-surface); border: 1px solid var(--ast-border);
+	border-radius: var(--ast-radius-2xl); box-shadow: var(--ast-shadow-sm); overflow: hidden;
+}
+.ast-settings-app .ast-set-csv-upload { padding: 28px 32px; }
+
+.ast-settings-app .ast-set-csv-row {
+	display: flex; align-items: center; justify-content: space-between; gap: 16px;
+	padding: 20px 0; border-block-end: 1px solid var(--ast-divider);
+}
+.ast-settings-app .ast-set-csv-row:first-child { padding-top: 0; }
+.ast-settings-app .ast-set-csv-row--last { border-block-end: 0; }
+.ast-settings-app .ast-set-csv-row__title { display: inline-flex; align-items: center; font-size: 13px; font-weight: 700; color: var(--ast-text); }
+.ast-settings-app .ast-set-csv-row__sub { margin: 3px 0 0; font-size: 12px; color: var(--ast-text-muted); }
+
+.ast-settings-app .ast-set-csv-fileinput { display: none; }
+.ast-settings-app .ast-set-csv-choose { display: inline-flex; align-items: center; gap: 12px; flex: 0 0 auto; }
+.ast-settings-app .ast-set-csv-choosebtn {
+	display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px;
+	background: var(--ast-surface); border: 1px solid var(--ast-border); border-radius: var(--ast-radius-xl);
+	font-size: 12px; font-weight: 700; color: var(--ast-text-soft); cursor: pointer; box-shadow: var(--ast-shadow-xs);
+}
+.ast-settings-app .ast-set-csv-choosebtn:hover { background: var(--ast-bg); }
+.ast-settings-app .ast-set-csv-choosebtn .zui-icon { width: 14px; height: 14px; }
+.ast-settings-app .ast-set-csv-filename { font-size: 11px; font-style: italic; color: var(--ast-text-muted); max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.ast-settings-app .ast-set-csv-drop {
+	margin: 20px 0; padding: 32px; text-align: center; cursor: pointer;
+	border: 2px dashed var(--ast-border); border-radius: var(--ast-radius-2xl); background: rgba(248, 250, 252, 0.5);
+	transition: border-color 0.15s ease, background 0.15s ease;
+}
+.ast-settings-app .ast-set-csv-drop:hover { border-color: #cbd5e1; }
+.ast-settings-app .ast-set-csv-drop.is-drag { border-color: var(--ast-primary); background: var(--ast-primary-50); }
+.ast-settings-app .ast-set-csv-drop__icon { display: inline-flex; color: var(--ast-text-muted); }
+.ast-settings-app .ast-set-csv-drop__icon .zui-icon { width: 30px; height: 30px; }
+.ast-settings-app .ast-set-csv-drop__title { display: block; margin-top: 10px; font-size: 12px; font-weight: 700; color: var(--ast-text-soft); }
+.ast-settings-app .ast-set-csv-drop__sub { margin: 4px auto 0; max-width: 360px; font-size: 11px; color: var(--ast-text-muted); }
+
+/* Selected-file state: replaces the empty drop view once a file is chosen */
+.ast-settings-app .ast-set-csv-drop.is-filled { border-style: solid; border-color: #16a34a; background: #f0fdf4; cursor: default; }
+.ast-settings-app .ast-set-csv-drop.is-filled:hover { border-color: #16a34a; }
+.ast-settings-app .ast-set-csv-drop__check { display: inline-flex; color: #16a34a; }
+.ast-settings-app .ast-set-csv-drop__check .zui-icon { width: 40px; height: 40px; }
+.ast-settings-app .ast-set-csv-drop__fname {
+	display: block; margin-top: 10px; font-size: 16px; font-weight: 800; color: var(--ast-text);
+	word-break: break-all; padding: 0 16px;
+}
+.ast-settings-app .ast-set-csv-drop__meta { display: block; margin-top: 4px; font-size: 12px; color: #166534; font-weight: 600; }
+.ast-settings-app .ast-set-csv-drop__actions { margin-top: 14px; display: inline-flex; gap: 8px; }
+.ast-settings-app .ast-set-csv-drop__btn {
+	height: 32px; padding: 0 14px; border-radius: var(--ast-radius-lg);
+	font-size: 12px; font-weight: 700; cursor: pointer; line-height: 1;
+	background: var(--ast-surface); border: 1px solid var(--ast-border); color: var(--ast-text-soft);
+}
+.ast-settings-app .ast-set-csv-drop__btn:hover { color: var(--ast-text); border-color: #cbd5e1; }
+.ast-settings-app .ast-set-csv-drop__btn--primary { background: var(--ast-primary); border-color: var(--ast-primary); color: #fff; }
+.ast-settings-app .ast-set-csv-drop__btn--primary:hover { background: var(--ast-primary-600); border-color: var(--ast-primary-600); color: #fff; }
+
+.ast-settings-app .ast-set-csv-submit-row { display: flex; justify-content: flex-end; padding-top: 22px; }
+.ast-settings-app .ast-set-csv-runbtn { flex: 0 0 auto; padding: 11px 22px; }
+.ast-settings-app .ast-set-csv-runbtn .zui-icon { width: 15px; height: 15px; }
+
+.ast-settings-app .ast-set-csv-status { padding: 28px 32px; }
+.ast-settings-app .ast-set-csv-status__head { text-align: center; }
+.ast-settings-app .ast-set-csv-status__head h2 {
+	display: inline-flex; align-items: center; gap: 10px; margin: 0;
+	font-size: 16px; font-weight: 800; color: var(--ast-text-strong);
+}
+.ast-settings-app .ast-set-csv-status__head .spinner {
+	background: none; float: none; margin: 0; width: 16px; height: 16px; opacity: 1; visibility: visible;
+	border: 2px solid var(--ast-primary); border-right-color: transparent; border-radius: 50%;
+	animation: ast-spin 0.7s linear infinite;
+}
+.ast-settings-app .bulk_upload_status_div.csv_import_done .ast-set-csv-status__head .spinner { display: none; }
+.ast-settings-app .bulk_upload_status_div.csv_import_done .ast-set-csv-status__head h2::before { content: '\2713 '; color: #10b981; }
+
+.ast-settings-app .ast-set-csv-progress { margin-top: 22px; }
+.ast-settings-app .ast-set-csv-progress__row {
+	display: flex; align-items: center; justify-content: space-between;
+	font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 11px; font-weight: 700; color: var(--ast-text-muted); margin-bottom: 8px;
+}
+.ast-settings-app .ast-set-csv-progress__row .progress_number { color: var(--ast-primary-600); }
+.ast-settings-app .ast-set-csv-bar { width: 100%; height: 12px; background: #f1f5f9; border: 1px solid var(--ast-divider); border-radius: var(--ast-radius-pill); overflow: hidden; }
+.ast-settings-app .ast-set-csv-bar .progress-bar2 { height: 100%; width: 0; background: var(--ast-primary); transition: width 0.3s ease; }
+.ast-settings-app .bulk_upload_status_div.csv_import_done .ast-set-csv-progress { display: none; }
+
+.ast-settings-app .ast-set-csv-console { margin-top: 22px; }
+.ast-settings-app .ast-set-csv-console__label {
+	display: block; margin-bottom: 8px; font-size: 10px; font-weight: 800; letter-spacing: 0.08em;
+	text-transform: uppercase; color: var(--ast-text-muted);
+}
+.ast-settings-app .ast-set-csv-log {
+	list-style: none; margin: 0; padding: 14px; max-height: 260px; overflow-y: auto;
+	background: #0f172a; border: 1px solid #1e293b; border-radius: var(--ast-radius-xl);
+	font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 11px; line-height: 1.7;
+	display: flex; flex-direction: column; gap: 2px;
+}
+.ast-settings-app .ast-set-csv-log:empty::before { content: 'Initializing CSV handshakes…'; color: #64748b; font-style: italic; }
+.ast-settings-app .ast-set-csv-log li { color: #fca5a5; display: flex; gap: 8px; }
+.ast-settings-app .ast-set-csv-log li::before { content: '\2717'; flex: 0 0 auto; font-weight: 800; }
+.ast-settings-app .ast-set-csv-log li.success { color: #6ee7b7; }
+.ast-settings-app .ast-set-csv-log li.success::before { content: '\2713'; }
+/* Bulk Paste rows render their own ●/▲ marker via .ast-bp-li__mark — suppress the
+   generic ✗ that the CSV-importer rule above otherwise stamps on every row. */
+.ast-settings-app .ast-set-csv-log li.ast-bp-li::before { content: none; }
+
+.ast-settings-app .ast-set-csv-done { display: none; margin-top: 22px; }
+.ast-settings-app .bulk_upload_status_div.csv_import_done .ast-set-csv-done { display: block; }
+.ast-settings-app .ast-set-csv-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; max-width: 460px; margin: 0 auto; }
+.ast-settings-app .ast-set-csv-stat { padding: 16px; text-align: center; border-radius: var(--ast-radius-2xl); border: 1px solid; }
+.ast-settings-app .ast-set-csv-stat span { display: block; font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; }
+.ast-settings-app .ast-set-csv-stat strong { display: block; margin-top: 4px; font-size: 24px; font-weight: 800; font-family: 'JetBrains Mono', ui-monospace, monospace; }
+.ast-settings-app .ast-set-csv-stat--ok { background: rgba(16, 185, 129, 0.06); border-color: rgba(16, 185, 129, 0.25); }
+.ast-settings-app .ast-set-csv-stat--ok span { color: #059669; }
+.ast-settings-app .ast-set-csv-stat--ok strong { color: #047857; }
+.ast-settings-app .ast-set-csv-stat--fail { background: rgba(244, 63, 94, 0.05); border-color: rgba(244, 63, 94, 0.2); }
+.ast-settings-app .ast-set-csv-stat--fail span { color: #e11d48; }
+.ast-settings-app .ast-set-csv-stat--fail strong { color: #be123c; }
+
+.ast-settings-app .ast-set-csv-actions { display: flex; gap: 12px; justify-content: center; max-width: 420px; margin: 24px auto 0; }
+.ast-settings-app .ast-set-csv-actions :is(.zui-btn-primary, .zui-btn-ghost) { text-decoration: none; flex: 1 1 0; }
+
+.ast-settings-app .ast-set-csv-footer {
+	display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+	padding: 16px 24px; background: rgba(248, 250, 252, 0.7); border-block-start: 1px solid var(--ast-divider);
+}
+.ast-settings-app .ast-set-csv-footer__link {
+	display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700;
+	color: var(--ast-primary-600); text-decoration: none;
+}
+.ast-settings-app .ast-set-csv-footer__link:hover { text-decoration: underline; }
+.ast-settings-app .ast-set-csv-footer__link .zui-icon { width: 15px; height: 15px; }
+
+/* AJAX tab-switch: brief fade on the outgoing body */
+.ast-settings-app .zui-layout.ast-body-loading { opacity: 0.45; pointer-events: none; transition: opacity 0.12s ease; }
+
+/* override */
+
+.ast-settings-app .zui-scope .zui-checkcard { margin: 10px 0px 10px 0 !important; }
+/*
+ * Free-version compatibility shim
+ *
+ * The legacy admin.css ships `section.tab_section { display:none }` and
+ * `section.inner_tab_section { display:none }` (toggled visible by the
+ * legacy nav JS via .active). The new shell renders each legacy view
+ * inside its own .zui-tab-panel (handled by ast-settings.js tab logic),
+ * so we always want the inner <section> visible — no `.active` required.
+ *
+ * Locked-card style (PRO upgrade CTA used by PayPal / Stripe / FTP).
+ */
+.ast-settings-app .zui-tab-panel :is(section.tab_section, section.inner_tab_section) { display: block; }
+
+.ast-settings-app .zui-locked { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+.ast-settings-app .zui-locked__head { display: flex; align-items: center; gap: 10px; }
+.ast-settings-app .zui-locked__badge,
+.ast-settings-app .zui-sidebar__badge {
+	display: inline-block;
+	padding: 2px 8px;
+	background: var(--zui-primary);
+	color: #fff;
+	border-radius: 4px;
+	font-size: 11px;
+	font-weight: 800;
+	letter-spacing: 0.05em;
+	font-family: inherit;
+}
+.ast-settings-app .zui-locked__title { font-size: 15px; font-weight: 700; margin: 0; }
+.ast-settings-app .zui-locked__text { color: #475569; font-size: 13px; margin: 0; }
+.ast-settings-app .zui-locked__cta { margin-top: 6px; }
+
+/* Free-version: stretch the multiselect to full row width (matches PRO).
+   ZUI default has max-width: 672px but content-driven width by default. */
+.ast-settings-app .zui-scope .zui-row .zui-ms { width: 100%; }
+
+/* Free-version: PRO-locked section preview rows (PayPal, Stripe, FTP/SFTP).
+   Each row mirrors PRO's field layout but every control is disabled and
+   tagged with a PRO badge. Card has reduced opacity to signal locked state. */
+.ast-settings-app .zui-card--locked { position: relative; }
+.ast-settings-app .ast-locked-row .zui-row__control { display: flex; align-items: center; gap: 12px; }
+.ast-settings-app .ast-locked-row .zui-row__control > :is(.zui-input, .zui-select-wrap, .zui-ms) { flex: 1 1 auto; }
+.ast-settings-app .ast-locked-row :is(.zui-input, .zui-select):disabled { background: rgba(248, 250, 252, 0.5); color: #94a3b8; cursor: not-allowed; }
+.ast-settings-app .ast-locked-row .zui-toggle[aria-disabled="true"] { opacity: 0.55; cursor: not-allowed; }
+.ast-settings-app .ast-locked-row .zui-ms.is-disabled .zui-ms__control { background: rgba(248, 250, 252, 0.5); cursor: not-allowed; pointer-events: none; }
+.ast-locked-cta { display: flex; justify-content: center; padding: 24px 0; }
+
+/* Legacy-markup compatibility shims -------------------------------------------------------------- Free-version legacy view files (admin_options_*.php) use the old `.tab_section` / `.zorem-layout` / `.menu_devider` classes that admin.css hides via `display: none`. Inside the new ZUI shell those wrappers must always be visible. Scope every override under `.ast-settings-app` so admin.css behaviour elsewhere in WP-Admin is untouched. */
+.ast-settings-app :is(section.tab_section, .tab_section) {
+	display: block !important;
+	background: transparent;
+	box-shadow: none;
+	border: 0;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+.ast-settings-app .menu_devider,
+.ast-settings-app .ast_nav_div > .menu_devider { display: none !important; }
+.ast-settings-app :is(.ast_nav_div, .zorem_admin_layout, .zorem_admin_settings, .ast_admin_content) {
+	background: transparent !important;
+	border: 0 !important;
+	box-shadow: none !important;
+	padding: 0 !important;
+	margin: 0 !important;
+	width: 100% !important;
+}
+/* Legacy admin.css ships `.shipping_provider_container { margin: 20px }` and
+   `.csv_import_container { margin: 20px }` to gutter the old layout. Inside
+   the new ZUI shell the tab-panel already adds 24px padding, so the legacy
+   20px margin compounds and pushes the content down. Zero it out here. */
+.ast-settings-app :is(.shipping_provider_container, .csv_import_container) {
+	margin: 0 !important;
+	padding: 0 !important;
+	background: transparent !important;
+}
+.ast-settings-app .ast_nav_div :is(.activity_panel, ul.ast_settings_admin_notice) { display: none !important; }
+/* The legacy menu (tabs) must never appear — top tabs are already in the new header. */
+.ast-settings-app :is(.menu_div, ul.menu_ul, .ast_admin_content > .menu_div) { display: none !important; }
+
+.ast-settings-app .zui-tabs__item .zui-tabs__badge--pro {
+	display: inline-flex;
+	align-items: center;
+	height: 18px;
+	padding: 0 7px;
+	margin-left: 6px;
+	font-size: 10px;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	color: #fff;
+	background: var(--zui-primary);
+	border-radius: 4px;
+	min-width: 0;
+	line-height: 1;
+}
+
+.ast-settings-app .ast-locked-bp .ast-set-csv-banner__title { display: inline-flex; align-items: center; gap: 10px; }
+.ast-settings-app .ast-locked-bp .ast-set-bp-textarea { background: rgba(248, 250, 252, 0.6); color: #94a3b8; cursor: not-allowed; }
+.ast-settings-app .ast-locked-bp :is(.zui-btn-secondary[disabled], .zui-btn-ghost[disabled]) { opacity: 0.55; cursor: not-allowed; }
+.ast-settings-app .ast-locked-bp .ast-set-bp-sample { display: inline-flex; align-items: center; gap: 10px; }
+
+/* Integrations locked state — tighten gap so preview sits closer to the lock card */
+.ast-settings-app .ast-locked-intg { gap: 12px; }
+.ast-settings-app .ast-locked-intg .zui-lock-section__preview { margin-top: 4px; }
+
+/* Remove WP-admin <a:hover> underline from every ZUI button variant (anchor tags styled as buttons). Scoped to the settings app so WP-admin links elsewhere stay underlined. */
+.ast-settings-app a:is(.zui-btn-primary, .zui-btn-secondary, .zui-btn-ghost, .zui-btn-soft, .zui-btn-danger):is(:link, :visited, :hover, :focus) { text-decoration: none !important; box-shadow: var(--zui-shadow-xs); }
+.ast-settings-app a:is(.zui-btn-primary, .zui-btn-secondary, .zui-btn-ghost, .zui-btn-soft, .zui-btn-danger) span { text-decoration: none !important; }
+
+/* CSV Import — legacy `<div class="submit">` wrapper inside the submit row. WP-core's default .submit adds padding + margin + top border that block the parent flex layout's `justify-content: flex-end`. Strip those and make .submit itself an inline-flex container so the button sits on the right edge exactly like AST PRO. */
+.ast-settings-app .ast-set-csv-submit-row { display: flex !important; justify-content: flex-end !important; width: 100%; }
+.ast-settings-app .ast-set-csv-submit-row .submit {
+	margin: 0 0 0 auto !important;
+	padding: 0 !important;
+	border: 0 !important;
+	background: transparent !important;
+	display: inline-flex !important;
+	align-items: center;
+	gap: 10px;
+	width: auto !important;
+	float: none !important;
+}
+.ast-settings-app .ast-set-csv-submit-row .submit > .spinner { margin: 0; }
+/* WP-core spinner uses visibility:hidden (NOT display:none) when idle,
+   which preserves its 20px width + flex gap (~30px) and shows as
+   trailing empty space on the right of the submit row. Collapse it
+   from layout until it becomes .is-active. */
+.ast-settings-app .ast-set-csv-submit-row .submit > .spinner:not(.is-active) { display: none !important; }
+/* Belt-and-braces: button itself never grows past its content. */
+.ast-settings-app .ast-set-csv-submit-row .ast-set-csv-runbtn,
+.ast-settings-app .ast-set-csv-submit-row .submit .ast-set-csv-runbtn { flex: 0 0 auto !important; width: auto !important; margin-left: auto; }
+
+/*
+   CSV Import — Done state: match AST PRO layout.
+   shipping_row.js writes per-row results to .csv_upload_status
+   as <li class="success|error"> entries, then calls .hide() on
+   that ul when the import finishes. It ALSO populates the
+   legacy .csv_error_details_ul with aggregated summaries and
+   shows a .bulk_upload_status_overview_tr with success/fail
+   totals. The new UI shows the same data via:
+     - stat cards (INGESTED SUCCESS / FAILED CHECKS)
+     - dark console (per-row entries)
+   So the legacy overview text + grouped error list become
+   duplicate noise and must be hidden, while the dark console's
+   own ul (which IS .csv_upload_status) must stay visible
+   despite the JS calling .hide() on it.
+ */
+
+.ast-settings-app .ast-set-csv-console :is(.csv_upload_status, .csv_upload_status.ast-set-csv-log) { display: block !important; }
+
+/* 2) Hide the duplicate legacy overview row (success/fail totals
+      with "view details" link) — stat cards already show counts. */
+.ast-settings-app .ast-set-csv-status .bulk_upload_status_overview_tr,
+.ast-settings-app .ast-set-csv-status__overview { display: none !important; }
+
+/* 3) Hide the legacy grouped error list. The dark console already
+      shows per-row failure entries — same data, cleaner format. */
+.ast-settings-app .ast-set-csv-status .bulk_upload_status_detail_error_tr { display: none !important; }
+
+/* CSV Import — Dark console icon alignment. admin.css's `.csv_upload_status li:before` uses Dashicons font + margin-right + vertical-align which conflicts with the new flex-based row. Force the new icon rendering inside the dark console so X / ✓ sit cleanly aligned with the message text. */
+.ast-settings-app .ast-set-csv-log.csv_upload_status,
+.ast-settings-app .ast-set-csv-console .csv_upload_status { list-style: none !important; padding: 14px !important; margin: 0 !important; }
+.ast-settings-app .ast-set-csv-log.csv_upload_status li,
+.ast-settings-app .ast-set-csv-console .csv_upload_status li {
+	display: flex !important;
+	gap: 8px !important;
+	padding: 4px 0 !important;
+	border-bottom: 1px solid #e0e0e0 !important;
+	list-style: none !important;
+	color: #fca5a5;
+	font-family: 'JetBrains Mono', ui-monospace, monospace;
+	font-size: 11px;
+	line-height: 1.7;
+	align-items: baseline;
+}
+.ast-settings-app .ast-set-csv-log.csv_upload_status li:last-child,
+.ast-settings-app .ast-set-csv-console .csv_upload_status li:last-child { border-bottom: 0 !important; }
+.ast-settings-app .ast-set-csv-log.csv_upload_status li.success,
+.ast-settings-app .ast-set-csv-console .csv_upload_status li.success { color: #6ee7b7; }
+.ast-settings-app .ast-set-csv-log.csv_upload_status li::before,
+.ast-settings-app .ast-set-csv-console .csv_upload_status li:before {
+	font-family: inherit !important;
+	font-size: 12px !important;
+	font-weight: 800 !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	vertical-align: baseline !important;
+	content: '\2717' !important;
+	color: #fca5a5 !important;
+	flex: 0 0 auto !important;
+	display: inline-block !important;
+	width: auto !important;
+	height: auto !important;
+	line-height: 1.7 !important;
+}
+.ast-settings-app .ast-set-csv-log.csv_upload_status li.success::before,
+.ast-settings-app .ast-set-csv-console .csv_upload_status li.success:before { content: '\2713' !important; color: #6ee7b7 !important; }
+
+/* Go Pro tab - bespoke marketing layout ------------------------------------------------------------ Hero gradient + 4-up stats strip + 6-up power-features grid + side-by-side outcomes + finale CTA banner. The bottom of the tab (telemetry / docs / ecosystem grid) reuses the shared zui-lic-* component library, so only the bespoke chrome lives here. All selectors scoped under .zui-scope so they cannot leak to admin.css elsewhere in WP-Admin. */
+
+.zui-scope .ast-gp { display: flex; flex-direction: column; gap: 28px; }
+
+.zui-scope .ast-gp-hero {
+	position: relative;
+	overflow: hidden;
+	border-radius: 18px;
+	padding: 38px 36px 32px;
+	color: #f5f3ff;
+	background: radial-gradient(circle at 18% 12%, #4338ca 0%, transparent 55%),
+				radial-gradient(circle at 82% 88%, #7c3aed 0%, transparent 50%),
+				linear-gradient(135deg, #1e1b4b 0%, #312e81 55%, #4c1d95 100%);
+	box-shadow: 0 18px 40px -22px rgba(76, 29, 149, 0.55);
+}
+.zui-scope .ast-gp-hero__inner { position: relative; z-index: 2; max-width: 760px; }
+.zui-scope .ast-gp-hero__orb {
+	position: absolute;
+	border-radius: var(--ast-radius-pill);
+	filter: blur(60px);
+	opacity: 0.55;
+	pointer-events: none;
+	z-index: 1;
+}
+.zui-scope .ast-gp-hero__orb--a { width: 280px; height: 280px; background: #a78bfa; top: -90px; right: -60px; }
+.zui-scope .ast-gp-hero__orb--b { width: 220px; height: 220px; background: #38bdf8; bottom: -100px; left: 30%; opacity: 0.35; }
+.zui-scope .ast-gp-hero__orb--c { width: 160px; height: 160px; background: #f472b6; top: 40%; right: 20%; opacity: 0.30; }
+
+.zui-scope .ast-gp-hero__eyebrow {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 6px 12px;
+	border-radius: var(--ast-radius-pill);
+	background: rgba(255, 255, 255, 0.12);
+	border: 1px solid rgba(255, 255, 255, 0.18);
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: #f5f3ff;
+	backdrop-filter: blur(6px);
+}
+.zui-scope .ast-gp-hero__eyebrow .zui-icon { width: 14px; height: 14px; color: #fde68a; }
+.zui-scope .ast-gp-hero__title {
+	margin: 16px 0 12px;
+	font-size: 34px;
+	line-height: 1.15;
+	font-weight: 800;
+	letter-spacing: -0.02em;
+	color: #ffffff;
+}
+.zui-scope .ast-gp-hero__lead {
+	margin: 0 0 24px;
+	font-size: 15px;
+	line-height: 1.65;
+	color: rgba(245, 243, 255, 0.85);
+	max-width: 620px;
+}
+.zui-scope .ast-gp-hero__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 22px; }
+.zui-scope .ast-gp-hero__trust {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 22px;
+	font-size: 12px;
+	color: rgba(245, 243, 255, 0.75);
+}
+.zui-scope .ast-gp-hero__trust-item { display: inline-flex; align-items: center; gap: 6px; }
+.zui-scope .ast-gp-hero__trust-item .zui-icon { width: 14px; height: 14px; color: #a7f3d0; }
+.zui-scope .ast-gp-hero__badge {
+	position: absolute;
+	top: 22px;
+	right: 24px;
+	z-index: 2;
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	padding: 10px 14px;
+	border-radius: 12px;
+	background: rgba(255, 255, 255, 0.10);
+	border: 1px solid rgba(255, 255, 255, 0.20);
+	backdrop-filter: blur(6px);
+}
+.zui-scope .ast-gp-hero__badge-dot {
+	width: 8px;
+	height: 8px;
+	border-radius: var(--ast-radius-pill);
+	background: #fbbf24;
+	box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.18);
+}
+.zui-scope .ast-gp-hero__badge-eyebrow {
+	font-size: 9px;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: rgba(245, 243, 255, 0.65);
+}
+.zui-scope .ast-gp-hero__badge-val { font-size: 13px; font-weight: 700; color: #ffffff; }
+
+.zui-scope .ast-gp-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 11px 20px;
+	border-radius: 10px;
+	font-size: 13.5px;
+	font-weight: 700;
+	line-height: 1;
+	text-decoration: none;
+	border: 1px solid transparent;
+	cursor: pointer;
+	transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+.zui-scope .ast-gp-btn .zui-icon { width: 16px; height: 16px; }
+.zui-scope .ast-gp-btn--primary { background: #ffffff; color: #4c1d95; box-shadow: 0 8px 20px -10px rgba(0, 0, 0, 0.35); }
+.zui-scope .ast-gp-btn--primary:hover { transform: translateY(-1px); box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.45); }
+.zui-scope .ast-gp-btn--ghost { background: rgba(255, 255, 255, 0.08); color: #ffffff; border-color: rgba(255, 255, 255, 0.25); }
+.zui-scope .ast-gp-btn--ghost:hover { background: rgba(255, 255, 255, 0.15); }
+.zui-scope .ast-gp-btn--xl { padding: 14px 28px; font-size: 15px; border-radius: 12px; }
+.zui-scope .ast-gp-btn--xl .zui-icon { width: 18px; height: 18px; }
+
+.zui-scope .ast-gp-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+.zui-scope .ast-gp-stat {
+	background: #ffffff;
+	border: 1px solid var(--zui-border);
+	border-radius: 14px;
+	padding: 22px 22px 20px;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	position: relative;
+	overflow: hidden;
+	transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.zui-scope .ast-gp-stat:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -18px rgba(15, 23, 42, 0.18); }
+.zui-scope .ast-gp-stat__icon {
+	width: 38px;
+	height: 38px;
+	border-radius: 10px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 4px;
+}
+.zui-scope .ast-gp-stat__icon .zui-icon { width: 20px; height: 20px; }
+.zui-scope .ast-gp-stat__num {
+	font-size: 32px;
+	font-weight: 800;
+	color: var(--zui-text-strong);
+	letter-spacing: -0.02em;
+	line-height: 1.1;
+}
+.zui-scope .ast-gp-stat__label { font-size: 13px; font-weight: 700; color: var(--zui-text-strong); }
+.zui-scope .ast-gp-stat__sub { font-size: 12px; color: var(--zui-text-muted); }
+
+.zui-scope .ast-gp-section { display: flex; flex-direction: column; gap: 22px; }
+.zui-scope .ast-gp-section__head { text-align: center; max-width: 720px; margin: 0 auto; }
+.zui-scope .ast-gp-section__eyebrow {
+	display: inline-block;
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--zui-primary-600);
+	margin-bottom: 8px;
+}
+.zui-scope .ast-gp-section__title {
+	margin: 0 0 6px;
+	font-size: 24px;
+	font-weight: 800;
+	letter-spacing: -0.01em;
+	color: var(--zui-text-strong);
+}
+.zui-scope .ast-gp-section__sub { margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--zui-text-muted); }
+
+.zui-scope .ast-gp-powers { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.zui-scope .ast-gp-power {
+	background: #ffffff;
+	border: 1px solid var(--zui-border);
+	border-radius: 14px;
+	padding: 22px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	position: relative;
+	transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+.zui-scope .ast-gp-power:hover { transform: translateY(-3px); box-shadow: 0 18px 34px -22px rgba(15, 23, 42, 0.18); border-color: #c4b5fd; }
+.zui-scope .ast-gp-power__icon {
+	width: 44px;
+	height: 44px;
+	border-radius: 12px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+.zui-scope .ast-gp-power__icon .zui-icon { width: 22px; height: 22px; }
+.zui-scope .ast-gp-power__title { margin: 4px 0 0; font-size: 15px; font-weight: 700; color: var(--zui-text-strong); }
+.zui-scope .ast-gp-power__desc {
+	margin: 0;
+	font-size: 13px;
+	line-height: 1.55;
+	color: var(--zui-text-muted);
+	flex: 1;
+}
+.zui-scope .ast-gp-power__chip {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	margin-top: 6px;
+	padding: 4px 10px;
+	border-radius: var(--ast-radius-pill);
+	background: #ecfdf5;
+	color: #047857;
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.02em;
+	width: fit-content;
+}
+.zui-scope .ast-gp-power__chip .zui-icon { width: 12px; height: 12px; }
+
+.zui-scope .ast-gp-outcomes { display: grid; grid-template-columns: 1fr; gap: 16px; }
+@media (min-width: 820px) {
+	.zui-scope .ast-gp-outcomes {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+.zui-scope .ast-gp-outcome {
+	border-radius: 14px;
+	padding: 24px;
+	border: 1px solid var(--zui-border);
+	background: #ffffff;
+	position: relative;
+}
+.zui-scope .ast-gp-outcome--before { background: linear-gradient(180deg, #fff1f2 0%, #ffffff 65%); border-color: #fecdd3; }
+.zui-scope .ast-gp-outcome--after { background: linear-gradient(180deg, #ecfdf5 0%, #ffffff 65%); border-color: #a7f3d0; }
+.zui-scope .ast-gp-outcome__head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.zui-scope .ast-gp-outcome__icon {
+	width: 38px;
+	height: 38px;
+	border-radius: 10px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+.zui-scope .ast-gp-outcome--before .ast-gp-outcome__icon { background: #fee2e2; color: #dc2626; }
+.zui-scope .ast-gp-outcome--after .ast-gp-outcome__icon { background: #d1fae5; color: #059669; }
+.zui-scope .ast-gp-outcome__icon .zui-icon { width: 20px; height: 20px; }
+.zui-scope .ast-gp-outcome__eyebrow {
+	display: block;
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	color: var(--zui-text-muted);
+}
+.zui-scope .ast-gp-outcome__title { margin: 2px 0 0; font-size: 17px; font-weight: 800; color: var(--zui-text-strong); }
+.zui-scope .ast-gp-outcome__list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+.zui-scope .ast-gp-outcome__list li {
+	display: grid;
+	grid-template-columns: 22px 1fr;
+	gap: 10px;
+	align-items: start;
+	font-size: 13px;
+	line-height: 1.55;
+	color: var(--zui-text);
+}
+.zui-scope .ast-gp-outcome__bullet {
+	width: 22px;
+	height: 22px;
+	border-radius: var(--ast-radius-pill);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+.zui-scope .ast-gp-outcome--before .ast-gp-outcome__bullet { background: #fee2e2; color: #dc2626; }
+.zui-scope .ast-gp-outcome--after .ast-gp-outcome__bullet { background: #d1fae5; color: #059669; }
+.zui-scope .ast-gp-outcome__bullet .zui-icon { width: 12px; height: 12px; }
+
+.zui-scope .ast-gp-cta {
+	position: relative;
+	overflow: hidden;
+	border-radius: 18px;
+	padding: 32px 34px;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 24px;
+	background: linear-gradient(135deg, #2563eb 0%, #4338ca 50%, #7c3aed 100%);
+	color: #ffffff;
+	box-shadow: 0 18px 40px -22px rgba(67, 56, 202, 0.6);
+}
+.zui-scope .ast-gp-cta__orb {
+	position: absolute;
+	width: 360px;
+	height: 360px;
+	border-radius: var(--ast-radius-pill);
+	background: radial-gradient(circle, rgba(255, 255, 255, 0.18) 0%, transparent 60%);
+	right: -120px;
+	top: -140px;
+	pointer-events: none;
+}
+.zui-scope .ast-gp-cta__content { position: relative; z-index: 2; max-width: 560px; }
+.zui-scope .ast-gp-cta__eyebrow {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 5px 12px;
+	border-radius: var(--ast-radius-pill);
+	background: rgba(255, 255, 255, 0.18);
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	margin-bottom: 12px;
+}
+.zui-scope .ast-gp-cta__eyebrow .zui-icon { width: 14px; height: 14px; }
+.zui-scope .ast-gp-cta__title {
+	margin: 0 0 8px;
+	font-size: 24px;
+	font-weight: 800;
+	line-height: 1.25;
+	letter-spacing: -0.01em;
+}
+.zui-scope .ast-gp-cta__sub { margin: 0; font-size: 13.5px; line-height: 1.6; color: rgba(255, 255, 255, 0.85); }
+.zui-scope .ast-gp-cta__action {
+	position: relative;
+	z-index: 2;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	gap: 8px;
+}
+.zui-scope .ast-gp-cta__note { font-size: 12px; color: rgba(255, 255, 255, 0.75); }
+
+.zui-scope .zui-lic-save { margin-left: auto; }
+.zui-scope .zui-lic-savebtn { min-width: 90px; }
+.zui-scope .zui-lic-telemetry-form { padding: 8px 22px 18px; display: flex; flex-direction: column; gap: 14px; }
+.zui-scope .zui-lic-pref {
+	display: grid;
+	grid-template-columns: 44px 1fr;
+	gap: 14px;
+	align-items: start;
+	padding: 12px 0;
+	border-block-end: 1px solid var(--zui-divider);
+}
+.zui-scope .zui-lic-pref:last-child { border-block-end: 0; }
+.zui-scope .zui-lic-pref__title {
+	display: block;
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--zui-text-strong);
+	margin-bottom: 2px;
+}
+.zui-scope .zui-lic-pref__sub { margin: 0; font-size: 12px; color: var(--zui-text-muted); line-height: 1.5; }
+
+@media (max-width: 720px) {
+	.zui-scope .ast-gp-hero { padding: 32px 24px 28px; }
+	.zui-scope .ast-gp-hero__title { font-size: 26px; }
+	.zui-scope .ast-gp-hero__badge { position: static; margin-top: 18px; display: inline-flex; }
+	.zui-scope .ast-gp-cta { padding: 26px 22px; }
+	.zui-scope .ast-gp-cta__action { align-items: flex-start; }
+}
+
+/* TrackShip tab - dark hero (mirrors AST PRO) ------------------------------------------------------------ Markup is identical to ast-pro/.../trackship.php: dark hero with two blurred glow orbs, gradient TrackShip wordmark, 2x2 feature grid and a testimonial card on the right. Plus a light feature-cards row below the hero (Real-time / Emails / Tracking Page) that the free version surfaces. */
+
+.ast-settings-app .ast-set-ts { display: flex; flex-direction: column; gap: 24px; }
+
+.ast-settings-app .ast-set-ts-hero {
+	position: relative;
+	overflow: hidden;
+	background: #0f172a;
+	border: 1px solid #1e293b;
+	border-radius: 28px;
+	box-shadow: 0 25px 50px -12px rgba(2, 6, 23, 0.45);
+	color: #fff;
+}
+.ast-settings-app .ast-set-ts-hero::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background: radial-gradient(circle at 28% 30%, rgba(30, 27, 75, 0.85), transparent 58%);
+	pointer-events: none;
+}
+.ast-settings-app .ast-set-ts-hero__glow { position: absolute; border-radius: var(--ast-radius-pill); filter: blur(80px); pointer-events: none; }
+.ast-settings-app .ast-set-ts-hero__glow--1 { top: -120px; right: -120px; width: 360px; height: 360px; background: rgba(59, 100, 211, 0.2); }
+.ast-settings-app .ast-set-ts-hero__glow--2 { bottom: -140px; left: -80px; width: 320px; height: 320px; background: rgba(99, 102, 241, 0.12); }
+
+.ast-settings-app .ast-set-ts-hero__inner {
+	position: relative;
+	z-index: 1;
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 32px;
+	padding: 36px;
+	align-items: center;
+}
+@media (min-width: 1024px) {
+	.ast-settings-app .ast-set-ts-hero__inner { grid-template-columns: 7fr 5fr; padding: 48px; }
+}
+
+.ast-settings-app .ast-set-ts-hero__left { display: flex; flex-direction: column; gap: 20px; }
+
+.ast-settings-app .ast-set-ts-badge {
+	align-self: flex-start;
+	display: inline-flex; align-items: center; gap: 8px;
+	padding: 5px 12px; border-radius: var(--ast-radius-pill);
+	background: rgba(59, 100, 211, 0.12); border: 1px solid rgba(59, 100, 211, 0.32);
+	color: #93b4fb; font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;
+}
+.ast-settings-app .ast-set-ts-badge .zui-icon { width: 14px; height: 14px; }
+
+.ast-settings-app .ast-set-ts-title { margin: 0; font-size: 40px; line-height: 1.08; font-weight: 800; letter-spacing: -0.02em; color: #fff; }
+@media (max-width: 768px) { .ast-settings-app .ast-set-ts-title { font-size: 30px; } }
+.ast-settings-app .ast-set-ts-title__grad {
+	background: linear-gradient(90deg, #60a5fa, #a5b4fc, #c4b5fd);
+	-webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent;
+}
+
+.ast-settings-app .ast-set-ts-lead { margin: 0; max-width: 560px; font-size: 14px; line-height: 1.7; color: #cbd5e1; }
+
+.ast-settings-app .ast-set-ts-features { display: grid; grid-template-columns: 1fr; gap: 12px; }
+@media (min-width: 560px) { .ast-settings-app .ast-set-ts-features { grid-template-columns: 1fr 1fr; } }
+.ast-settings-app .ast-set-ts-feature { display: flex; align-items: center; gap: 10px; font-size: 12px; font-weight: 600; color: #cbd5e1; }
+.ast-settings-app .ast-set-ts-feature .zui-icon { width: 16px; height: 16px; color: #34d399; flex: 0 0 auto; }
+
+.ast-settings-app .ast-set-ts-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 6px; }
+.ast-settings-app .ast-set-ts-btn {
+	display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+	padding: 13px 22px; border-radius: 16px; font-size: 13px; font-weight: 800; text-decoration: none; cursor: pointer;
+	transition: background 0.15s ease, transform 0.1s ease;
+}
+.ast-settings-app .ast-set-ts-btn:active { transform: scale(0.985); }
+.ast-settings-app .ast-set-ts-btn .zui-icon { width: 16px; height: 16px; }
+.ast-settings-app .ast-set-ts-btn--primary { background: var(--ast-primary, #3b64d3); color: #fff; box-shadow: 0 14px 30px -10px rgba(59, 100, 211, 0.55); }
+.ast-settings-app .ast-set-ts-btn--primary:hover { background: var(--ast-primary-hover, #2e52b0); color: #fff; }
+.ast-settings-app .ast-set-ts-btn--ghost { background: #1e293b; color: #e2e8f0; border: 1px solid #334155; }
+.ast-settings-app .ast-set-ts-btn--ghost:hover { background: #273548; color: #fff; }
+
+.ast-settings-app .ast-set-ts-hero__right { display: flex; justify-content: center; }
+@media (min-width: 1024px) { .ast-settings-app .ast-set-ts-hero__right { justify-content: flex-end; } }
+
+.ast-settings-app .ast-set-ts-card {
+	position: relative;
+	width: 100%; max-width: 380px;
+	display: flex; flex-direction: column; gap: 22px;
+	padding: 28px;
+	background: #020617; border: 1px solid #1e293b; border-radius: 26px;
+	box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+}
+.ast-settings-app .ast-set-ts-card::before {
+	content: ''; position: absolute; inset: -1px; z-index: -1; border-radius: 27px;
+	background: linear-gradient(90deg, rgba(59, 100, 211, 0.35), rgba(99, 102, 241, 0.35));
+	filter: blur(14px); opacity: 0.35;
+}
+.ast-settings-app .ast-set-ts-card__top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.ast-settings-app .ast-set-ts-card__brand { display: flex; align-items: center; gap: 12px; }
+.ast-settings-app .ast-set-ts-card__logo {
+	width: 48px; height: 48px; border-radius: 16px;
+	display: inline-flex; align-items: center; justify-content: center;
+	background: #CCFBF1;
+	overflow: hidden;
+	box-shadow: 0 0 0 4px #0f172a, 0 8px 20px -6px rgba(13, 148, 136, 0.4);
+}
+.ast-settings-app .ast-set-ts-card__logo img { width: 100%; height: 100%; object-fit: contain; padding: 6px; }
+.ast-settings-app .ast-set-ts-card__name { margin: 0; font-size: 14px; font-weight: 800; color: #fff; }
+.ast-settings-app .ast-set-ts-card__sub { margin: 2px 0 0; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; color: #64748b; font-family: 'JetBrains Mono', ui-monospace, monospace; }
+.ast-settings-app .ast-set-ts-rating {
+	display: inline-flex; align-items: center; gap: 4px; flex: 0 0 auto;
+	padding: 3px 8px; border-radius: var(--ast-radius-pill);
+	background: rgba(251, 191, 36, 0.1); border: 1px solid rgba(251, 191, 36, 0.25);
+	color: #fbbf24; font-size: 10px; font-weight: 800;
+}
+.ast-settings-app .ast-set-ts-rating .zui-icon { width: 12px; height: 12px; fill: #fbbf24; }
+.ast-settings-app .ast-set-ts-card__quote { margin: 0; font-size: 12px; line-height: 1.7; color: #94a3b8; }
+.ast-settings-app .ast-set-ts-card__foot {
+	display: flex; align-items: center; justify-content: space-between; gap: 12px;
+	padding-top: 16px; border-top: 1px solid #1e293b; font-size: 12px; font-weight: 700;
+}
+.ast-settings-app .ast-set-ts-card__nocard { display: inline-flex; align-items: center; gap: 6px; color: #cbd5e1; }
+.ast-settings-app .ast-set-ts-card__nocard .zui-icon { width: 15px; height: 15px; color: #34d399; }
+.ast-settings-app .ast-set-ts-card__more { display: inline-flex; align-items: center; gap: 4px; color: #60a5fa; text-decoration: none; }
+.ast-settings-app .ast-set-ts-card__more:hover { text-decoration: underline; }
+.ast-settings-app .ast-set-ts-card__more .zui-icon { width: 14px; height: 14px; }
+
+.ast-settings-app .ast-set-ts-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+.ast-settings-app .ast-set-ts-fcard {
+	background: #ffffff;
+	border: 1px solid var(--zui-border, #e2e8f0);
+	border-radius: 14px;
+	padding: 22px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.ast-settings-app .ast-set-ts-fcard:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -18px rgba(15, 23, 42, 0.18); }
+.ast-settings-app .ast-set-ts-fcard__icon {
+	width: 40px; height: 40px;
+	border-radius: 10px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+.ast-settings-app .ast-set-ts-fcard__icon .zui-icon { width: 20px; height: 20px; }
+.ast-settings-app .ast-set-ts-fcard__title { margin: 4px 0 0; font-size: 15px; font-weight: 700; color: var(--zui-text-strong, #0f172a); }
+.ast-settings-app .ast-set-ts-fcard__desc { margin: 0; font-size: 13px; line-height: 1.55; color: var(--zui-text-muted, #64748b); }
+
+/*
+   Shipping Carriers — free-version refinements
+   The new admin_options_shipping_provider.php emits PRO-style
+   markup (.ast-set-carriers-toolbar, .ast-set-carriers-bulkbar
+   with __info / __remove, .ast-set-carrier-card with the
+   floating __check, .ast-set-carrier-add-tile) so the PRO
+   rules from lines 715-1166 already paint most of it. These
+   additions cover the legacy bits that PRO doesn't have:
+   the per-card 3-dot Edit/Delete dropdown (legacy free uses
+   shipping_row.js to toggle .provider-action-ul) and a few
+   tuning rules to keep .bulk_select_provider clicks working
+   inside the floating __check label.
+ */
+
+.ast-settings-app .ast-set-carrier-add-tile .dashicons-plus-alt { display: none; }
+.ast-settings-app .ast-set-carrier-add-tile .add-provider-label { margin: 0; }
+.ast-settings-app .ast-set-carrier-add-tile__plus { background: #f1f5f9; color: #475569; }
+.ast-settings-app .ast-set-carrier-add-tile__plus::before { content: '+'; font-size: 16px; font-weight: 700; line-height: 1; }
+.ast-settings-app .ast-set-carrier-add-tile__plus .dashicons { display: none; }
+
+.ast-settings-app .ast-set-carrier-check { display: inline-flex; }
+.ast-settings-app .ast-set-carrier-check input.bulk_select_provider {
+	position: absolute;
+	opacity: 0;
+	width: 18px;
+	height: 18px;
+	margin: 0;
+	cursor: pointer;
+	z-index: 2;
+}
+
+/* ---- Toolbar 3-dot menu: use zui-menu chrome from menu.css; ensure flyout sits to
+   the left edge of the button (right-aligned) and clears the toolbar height. ---- */
+.ast-settings-app .ast-set-carriers-toolbar .provider-settings-ul {
+	right: 0;
+	top: calc(100% + 6px);
+	min-width: 220px;
+	border-radius: 12px;
+	padding: 6px;
+	box-shadow: 0 14px 30px -10px rgba(15, 23, 42, 0.18);
+}
+.ast-settings-app .ast-set-carriers-toolbar .provider-settings-ul::before { display: none; }
+.ast-settings-app .ast-set-carriers-toolbar .provider-settings-ul li { margin: 0; list-style: none; }
+.ast-settings-app .ast-set-carriers-toolbar .provider-settings-ul li a.zui-menu__item {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	width: 100%;
+	padding: 8px 10px;
+	border-radius: 8px;
+	font-size: 12px;
+	font-weight: 600;
+	color: #334155;
+	text-decoration: none;
+}
+.ast-settings-app .ast-set-carriers-toolbar .provider-settings-ul li a.zui-menu__item:hover { background: #f1f5f9; color: #0f172a; }
+.ast-settings-app .ast-set-carriers-toolbar .provider-settings-ul li a.zui-menu__item .zui-icon { width: 15px; height: 15px; color: #64748b; }
+.ast-settings-app .ast-set-carriers-toolbar .provider-settings-ul li a.zui-menu__item--accent { color: var(--ast-primary, #3b64d3); }
+.ast-settings-app .ast-set-carriers-toolbar .provider-settings-ul li .zui-menu__sep { height: 1px; background: #e2e8f0; margin: 4px 0; }
+.ast-settings-app .ast-set-carriers-toolbar .provider_settings_icon.zui-menu__btn { color: #64748b; }
+
+.ast-settings-app :is(.ast-set-carriers-bulkbar.shipping-carriers-selected-provider-message, .ast-set-carriers-bulkbar.all-shipping-carriers-selected) { display: none; }
+/* Legacy JS toggles these via jQuery .show()/.hide() which sets inline display:block.
+   When inline display:block is present, the bulkbar renders. We just need the
+   flex layout to apply to its CHILDREN regardless. */
+.ast-settings-app .ast-set-carriers-bulkbar[style*="display: block"],
+.ast-settings-app .ast-set-carriers-bulkbar[style*="display:block"] { display: flex !important; align-items: center; justify-content: space-between; gap: 12px; }
+
+.ast-settings-app .hip-pagination { display: flex; gap: 6px; margin-top: 14px; justify-content: center; }
+.ast-settings-app .hip-pagination a {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 30px;
+	height: 30px;
+	padding: 0 8px;
+	border-radius: 8px;
+	font-size: 12px;
+	font-weight: 600;
+	color: #475569;
+	background: #f8fafc;
+	border: 1px solid #e2e8f0;
+	text-decoration: none;
+	cursor: pointer;
+}
+.ast-settings-app .hip-pagination :is(a.active, a:hover) { background: var(--ast-primary, #3b64d3); border-color: var(--ast-primary, #3b64d3); color: #fff; }
+
+/* ---- Hide legacy duplicate 'add-provider-box' inner div content ----
+   The PHP emits the legacy nested .add-provider-box with the dashicon-plus
+   span and label INSIDE the new .ast-set-carrier-add-tile. Keep the
+   click hooks but visually rely on .ast-set-carrier-add-tile__plus. */
+.ast-settings-app .ast-set-carrier-add-tile .add-provider-box { position: static; transform: none; }
+
+/* Shipping Carriers — pixel match to AST PRO design ------------------------------------------------------------ Narrows the toolbar search to PRO's compact width, tightens the card grid (responsive 2/3/4/5 cols matching PRO), and adds the soft-grey letter fallback used by PRO when a carrier has no logo asset. All visual — no JS / endpoint touched. */
+
+.ast-settings-app :is(.ast-set-carriers-toolbar, .ast-set-carriers-toolbar.provider_top) {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 0;
+	background: transparent;
+	border: 0;
+	margin: 0 0 20px;
+	border-radius: 0;
+	height: auto;
+	min-height: 36px;
+}
+/* Reset the legacy .provider-grid-row top margin so the grid sits flush
+   under the toolbar / bulkbar at the consistent .ast-set-carriers gap. */
+.ast-settings-app .shipping_provider_container .provider-grid-row { margin-top: 0; }
+.ast-settings-app .ast-set-carriers-toolbar :is(.ast-set-carriers-search, .search_section) { position: relative; flex: 0 1 280px; max-width: 280px; width: 100%; }
+.ast-settings-app .ast-set-carriers-toolbar .ast-set-carriers-search__icon {
+	position: absolute;
+	inset-inline-start: 12px;
+	top: 50%;
+	transform: translateY(-50%);
+	display: inline-flex;
+	color: #94a3b8;
+	pointer-events: none;
+}
+.ast-settings-app .ast-set-carriers-toolbar .ast-set-carriers-search__icon .zui-icon { width: 15px; height: 15px; }
+/* Carriers-specific search input override — same pattern as PRO,
+   uses library tokens (--zui-*) so chrome stays in sync with ZUI. */
+.ast-settings-app .ast-set-carriers-search__input,
+.ast-settings-app .ast-set-carriers-toolbar input#search_provider {
+	width: 100%;
+	height: 36px;
+	min-height: 0;
+	padding: 0 12px 0 32px;
+	background: var(--zui-bg);
+	border: 1px solid var(--zui-border);
+	border-radius: var(--zui-radius-xl);
+	font-size: 12px;
+	color: var(--zui-text);
+	box-shadow: var(--zui-shadow-xs);
+}
+[dir="rtl"] .ast-settings-app .ast-set-carriers-search__input,
+[dir="rtl"] .ast-settings-app .ast-set-carriers-toolbar input#search_provider { padding: 0 32px 0 12px; }
+.ast-settings-app .ast-set-carriers-search__input:focus,
+.ast-settings-app .ast-set-carriers-toolbar input#search_provider:focus { outline: none; border-color: var(--zui-primary); box-shadow: 0 0 0 3px var(--zui-primary-100); }
+
+/* 3-dot menu button — inherits chrome from .zui-menu__btn (library) */
+.ast-settings-app .ast-set-carriers-toolbar :is(.zui-menu__btn:hover, .provider_settings_icon:hover) { background: #f8fafc; color: #0f172a; }
+
+/* ---- Grid: responsive 2/3/4/5 cols matching PRO exactly.
+   Selector intentionally compounds .provider-grid-row.ast-set-carriers-grid
+   to beat the legacy admin.css `.grid-row` rules + the earlier auto-fill
+   override above. */
+.ast-settings-app .shipping_provider_container :is(.provider-grid-row.ast-set-carriers-grid, .ast-set-carriers-grid) { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 16px; }
+@media (min-width: 768px) {
+.ast-settings-app .shipping_provider_container :is(.provider-grid-row.ast-set-carriers-grid, .ast-set-carriers-grid) {
+		grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+	}
+}
+@media (min-width: 1100px) {
+.ast-settings-app .shipping_provider_container :is(.provider-grid-row.ast-set-carriers-grid, .ast-set-carriers-grid) {
+		grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+	}
+}
+@media (min-width: 1400px) {
+.ast-settings-app .shipping_provider_container :is(.provider-grid-row.ast-set-carriers-grid, .ast-set-carriers-grid) {
+		grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+	}
+}
+
+/* ---- Carrier cards: compact PRO layout (74px min-height) ----
+   Override admin.css `.provider-grid-row .grid-item { height: 58px;
+   margin: 0 10px 10px 0; }` which would otherwise squash the cards
+   and add weird outer spacing. Specificity bumped via .provider-grid-row
+   so the legacy rule loses cleanly without !important on every prop. */
+.ast-settings-app .shipping_provider_container .provider-grid-row .grid-item.ast-set-carrier-card,
+.ast-settings-app .shipping_provider_container .ast-set-carrier-card.grid-item {
+	min-height: 72px;
+	height: auto;
+	padding: 10px 12px;
+	margin: 0 !important;
+	border-radius: 12px;
+	border: 1px solid #e2e8f0;
+	background: #ffffff;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+	box-sizing: border-box;
+	box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+	transition: box-shadow 0.15s ease, border-color 0.15s ease;
+}
+.ast-settings-app .shipping_provider_container .ast-set-carrier-card.grid-item:hover { box-shadow: 0 6px 16px -10px rgba(15, 23, 42, 0.18); }
+.ast-settings-app .shipping_provider_container .ast-set-carrier-card .ast-set-carrier-main.grid-top {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	min-width: 0;
+	flex: 1 1 auto;
+}
+
+.ast-settings-app .shipping_provider_container .ast-set-carrier-logo.grid-provider-img {
+	width: 46px;
+	height: 46px;
+	flex: 0 0 auto;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: #f8fafc;
+	border: 1px solid #e2e8f0;
+	border-radius: 12px;
+	overflow: hidden;
+	padding: 0;
+}
+.ast-settings-app .shipping_provider_container .ast-set-carrier-logo img.provider-thumb { width: 100%; height: 100%; object-fit: contain; padding: 6px; }
+.ast-settings-app .shipping_provider_container .ast-set-carrier-logo__fallback {
+	width: 100%;
+	height: 100%;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 13px;
+	font-weight: 800;
+	color: #64748b;
+	letter-spacing: -0.02em;
+	background: transparent;
+}
+
+.ast-settings-app .shipping_provider_container .ast-set-carrier-info.grid-provider-name { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.ast-settings-app .shipping_provider_container .ast-set-carrier-name.provider_name {
+	font-size: 13px;
+	font-weight: 700;
+	color: #0f172a;
+	line-height: 1.2;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.ast-settings-app .shipping_provider_container .ast-set-carrier-meta {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	flex-wrap: wrap;
+	min-width: 0;
+}
+.ast-settings-app .shipping_provider_container .ast-set-carrier-country.provider_country {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	font-size: 11px;
+	font-weight: 500;
+	color: #64748b;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+/* Remove the previous bullet circle that the older CSS injected — PRO uses a globe icon. */
+.ast-settings-app .shipping_provider_container .ast-set-carrier-country.provider_country::before { display: none !important; content: none !important; }
+.ast-settings-app .shipping_provider_container .ast-set-carrier-country .zui-icon { width: 11px; height: 11px; color: #cbd5e1; flex: 0 0 auto; }
+.ast-settings-app .shipping_provider_container .ast-set-carrier-aliases {
+	display: inline-block;
+	padding: 1px 6px;
+	font-size: 10px;
+	font-weight: 600;
+	color: #4338ca;
+	background: #eef2ff;
+	border-radius: var(--ast-radius-pill);
+	white-space: nowrap;
+}
+
+/* ---- Right action: edit pencil (28x28) — matches PRO's edit button.
+   negative margin right pulls the pencil flush to PRO's tight padding. ---- */
+.ast-settings-app .shipping_provider_container .ast-set-carrier-actions.grid-provider-settings {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	flex: 0 0 auto;
+	position: relative;
+	margin-right: -2px;
+}
+
+.ast-settings-app .shipping_provider_container .provider-grid-row .grid-item.ast-set-carrier-add-tile,
+.ast-settings-app .shipping_provider_container .ast-set-carrier-add-tile.grid-item {
+	min-height: 72px;
+	height: auto;
+	padding: 10px 12px;
+	margin: 0 !important;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	background: #ffffff;
+	border: 1px dashed #cbd5e1;
+	border-radius: 12px;
+	font-size: 12px;
+	font-weight: 700;
+	color: #475569;
+	cursor: pointer;
+	box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+	box-sizing: border-box;
+}
+.ast-settings-app .shipping_provider_container .ast-set-carrier-add-tile.grid-item:hover { border-color: #94a3b8; color: #0f172a; }
+.ast-settings-app .shipping_provider_container .ast-set-carrier-add-tile__plus {
+	width: 26px;
+	height: 26px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: #f1f5f9;
+	color: #475569;
+	border-radius: 10px;
+	font-size: 16px;
+	font-weight: 700;
+}
+.ast-settings-app .shipping_provider_container .ast-set-carrier-add-tile__plus::before { content: ''; }
+.ast-settings-app .shipping_provider_container .ast-set-carrier-add-tile__plus .dashicons-plus-alt {
+	display: inline-block !important;
+	font-size: 16px;
+	width: 16px;
+	height: 16px;
+	line-height: 16px;
+	color: #475569;
+	background: transparent;
+}
+.ast-settings-app .shipping_provider_container .ast-set-carrier-add-tile .add-provider-box {
+	position: static;
+	transform: none;
+	width: auto;
+	height: auto;
+	min-height: 0;
+	display: contents;
+}
+.ast-settings-app .shipping_provider_container .ast-set-carrier-add-tile .add-provider-label { font-size: 13px; font-weight: 700; color: #475569; margin: 0; }
+
+.ast-settings-app .shipping_provider_container .ast-set-carrier-check {
+	position: absolute;
+	top: -7px;
+	left: -7px;
+	z-index: 5;
+	cursor: pointer;
+	opacity: 0;
+	transform: scale(0.9);
+	transition: opacity 0.15s ease, transform 0.15s ease;
+}
+.ast-settings-app .shipping_provider_container .ast-set-carrier-card:hover .ast-set-carrier-check,
+.ast-settings-app .shipping_provider_container .ast-set-carrier-card.is-selected .ast-set-carrier-check { opacity: 1; transform: scale(1); }
+.ast-settings-app .shipping_provider_container .ast-set-carrier-check input.bulk_select_provider {
+	position: absolute;
+	opacity: 0;
+	width: 18px;
+	height: 18px;
+	margin: 0;
+	cursor: pointer;
+	z-index: 2;
+}
+.ast-settings-app .shipping_provider_container .ast-set-carrier-check__box {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 18px;
+	height: 18px;
+	background: #ffffff;
+	border: 1px solid #cbd5e1;
+	border-radius: 6px;
+	color: transparent;
+	box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+}
+.ast-settings-app .shipping_provider_container .ast-set-carrier-check__box .zui-icon { width: 12px; height: 12px; }
+.ast-settings-app .shipping_provider_container .ast-set-carrier-check input.bulk_select_provider:checked + .ast-set-carrier-check__box { background: #4338ca; border-color: #4338ca; color: #ffffff; }
+
+/* Selected card highlight (when bulk-checkbox is checked) */
+.ast-settings-app .shipping_provider_container .ast-set-carrier-card:has(input.bulk_select_provider:checked) { border-color: #c7d2fe; background: rgba(238, 242, 255, 0.4); }
+
+/* Shipping Carriers - toggle + pencil (PRO match) ------------------------------------------------------------ The per-card right action is now: enable toggle + edit pencil (no more 3-dot dropdown). Toggle off = delete (wired via inline JS in admin_options_shipping_provider.php to the hidden .remove link). Matches PRO exactly. */
+
+.ast-settings-app .shipping_provider_container .ast-set-carrier-actions.grid-provider-settings {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	flex: 0 0 auto;
+	position: relative;
+	margin-right: -2px;
+}
+
+.ast-settings-app .shipping_provider_container .ast-set-carrier-toggle {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	cursor: pointer;
+	margin: 0;
+	padding: 0;
+	flex: 0 0 auto;
+}
+.ast-settings-app .shipping_provider_container .ast-set-carrier-toggle .zui-toggle__input {
+	position: absolute;
+	width: 0;
+	height: 0;
+	opacity: 0;
+	pointer-events: none;
+}
+.ast-settings-app .shipping_provider_container .ast-set-carrier-toggle .zui-toggle__track {
+	position: relative;
+	display: inline-block;
+	width: 32px;
+	height: 18px;
+	background: #e2e8f0;
+	border-radius: var(--ast-radius-pill);
+	transition: background 0.18s ease;
+	cursor: pointer;
+}
+.ast-settings-app .shipping_provider_container .ast-set-carrier-toggle .zui-toggle__thumb {
+	position: absolute;
+	top: 2px;
+	left: 2px;
+	width: 14px;
+	height: 14px;
+	background: #ffffff;
+	border-radius: var(--ast-radius-pill);
+	box-shadow: 0 1px 2px rgba(15, 23, 42, 0.18);
+	transition: transform 0.18s ease;
+}
+.ast-settings-app .shipping_provider_container .ast-set-carrier-toggle .zui-toggle__input:checked + .zui-toggle__track { background: var(--ast-primary); }
+.ast-settings-app .shipping_provider_container .ast-set-carrier-toggle .zui-toggle__input:checked + .zui-toggle__track .zui-toggle__thumb { transform: translateX(14px); }
+
+.ast-settings-app .shipping_provider_container .ast-set-carrier-edit.edit_provider {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	background: transparent;
+	border: 1px solid transparent;
+	border-radius: 8px;
+	color: #64748b;
+	cursor: pointer;
+	text-decoration: none;
+	padding: 0;
+	transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+.ast-settings-app .shipping_provider_container .ast-set-carrier-edit.edit_provider:hover { background: #f8fafc; border-color: #e2e8f0; color: #4338ca; }
+.ast-settings-app .shipping_provider_container .ast-set-carrier-edit.edit_provider .zui-icon { width: 15px; height: 15px; }
+
+/* Enable Shipping Carriers modal - PRO match ------------------------------------------------------------ Restyles the existing free Enable Carriers slide-out (now a centered modal) to mirror the PRO zui-modal structure: head + search + scrollable body + foot with pagination. No JS / endpoint changes - .search_section, .provider_search_bar, #search_default_provider, .default_privder_list, .add_default_provider, .arrow_pagination, .shipping_carriers_arrow_pagination all preserved as JS hooks. */
+
+.ast-settings-app .add_provider_popup :is(.zui-modal__search, .ast-set-enable-search) {
+	position: relative;
+	padding: 14px 24px;
+	border-bottom: 1px solid var(--zui-divider, #e2e8f0);
+	background: #ffffff;
+}
+.ast-settings-app .add_provider_popup :is(.zui-modal__search-icon, .search-carrier-icon) {
+	position: absolute;
+	left: 36px;
+	top: 50%;
+	transform: translateY(-50%);
+	color: #94a3b8;
+	pointer-events: none;
+	display: inline-flex;
+	width: 16px;
+	height: 16px;
+	z-index: 2;
+}
+.ast-settings-app .add_provider_popup .zui-modal__search-icon .zui-icon,
+.ast-settings-app .add_provider_popup .search-carrier-icon .zui-icon { width: 16px; height: 16px; }
+.ast-settings-app .add_provider_popup :is(#search_default_provider, .provider_search_bar) {
+	width: 100%;
+	height: 40px;
+	padding: 0 14px 0 36px;
+	background: #ffffff;
+	border: 1px solid #e2e8f0;
+	border-radius: var(--ast-radius-pill);
+	font-size: 13px;
+	color: #0f172a;
+	box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+.ast-settings-app .add_provider_popup :is(#search_default_provider:focus, .provider_search_bar:focus) { outline: none; border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.18); }
+
+.ast-settings-app .add_provider_popup .slidout_body.zui-modal__body {
+	padding: 14px 24px 18px;
+	max-height: 55vh;
+	min-height: 360px;
+	overflow-y: auto;
+	background: #ffffff;
+}
+.ast-settings-app .add_provider_popup .default_privder_list { display: flex; flex-direction: column; gap: 14px; max-height: none; }
+.ast-settings-app .add_provider_popup .default_privder_list :is(.provider-grid-row, .provider-grid-row.grid-row) {
+	display: flex !important;
+	flex-direction: column;
+	gap: 14px;
+	grid-template-columns: none !important;
+	padding: 0;
+	margin: 0 !important;
+}
+
+.ast-settings-app .add_provider_popup .default_privder_list .grid-item.hip-item {
+	display: flex !important;
+	align-items: center;
+	justify-content: space-between;
+	gap: 14px;
+	padding: 14px 18px;
+	min-height: 68px;
+	height: auto;
+	background: var(--zui-surface);
+	border: 1px solid var(--zui-border);
+	border-radius: var(--zui-radius-xl);
+	margin: 0 !important;
+	box-shadow: var(--zui-shadow-xs);
+	transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.ast-settings-app .add_provider_popup .default_privder_list .grid-item.hip-item:hover { border-color: #c4b5fd; box-shadow: 0 6px 16px -10px rgba(15, 23, 42, 0.18); }
+.ast-settings-app .add_provider_popup .default_privder_list .grid-left { flex: 1 1 auto; min-width: 0; }
+.ast-settings-app .add_provider_popup .default_privder_list .grid-top { display: flex !important; align-items: center; gap: 12px; width: 100%; }
+.ast-settings-app .add_provider_popup .default_privder_list .grid-provider-img {
+	width: 50px;
+	height: 50px;
+	flex: 0 0 auto;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: #f8fafc;
+	border: 1px solid var(--ast-divider);
+	border-radius: var(--ast-radius-xl);
+	overflow: hidden;
+	font-size: 11px;
+	font-weight: 800;
+	color: var(--ast-text-soft);
+	letter-spacing: -0.02em;
+}
+.ast-settings-app .add_provider_popup .default_privder_list .grid-provider-img img.provider-thumb { width: 100%; height: 100%; object-fit: contain; padding: 5px; }
+.ast-settings-app .add_provider_popup .default_privder_list .grid-provider-name { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.ast-settings-app .add_provider_popup .default_privder_list .provider_name {
+	font-size: 13px;
+	font-weight: 700;
+	color: #0f172a;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.ast-settings-app .add_provider_popup .default_privder_list .provider_country {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	font-size: 11px;
+	font-weight: 500;
+	color: #64748b;
+}
+.ast-settings-app .add_provider_popup .default_privder_list .provider_country::before {
+	content: '';
+	display: inline-block;
+	width: 11px;
+	height: 11px;
+	flex: 0 0 auto;
+	background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23cbd5e1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><path d='M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20'/><path d='M2 12h20'/></svg>") no-repeat center / contain;
+}
+
+/* Add (Enable) button on the right */
+.ast-settings-app .add_provider_popup .default_privder_list .grid-right { flex: 0 0 auto; }
+.ast-settings-app .add_provider_popup .default_privder_list .add_default_provider {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 72px;
+	height: 32px;
+	min-height: 32px;
+	padding: 0 16px;
+	background: var(--zui-bg);
+	color: var(--zui-primary);
+	border: 1px solid var(--zui-border);
+	border-radius: var(--zui-radius-lg);
+	font-size: 12px;
+	font-weight: 600;
+	cursor: pointer;
+	transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+.ast-settings-app .add_provider_popup .default_privder_list .add_default_provider:hover { background: var(--zui-primary); color: #ffffff; border-color: var(--zui-primary); }
+.ast-settings-app .add_provider_popup .default_privder_list :is(.add_default_provider[disabled], .add_default_provider:disabled) {
+	background: #f1f5f9;
+	color: #64748b;
+	border-color: #e2e8f0;
+	cursor: default;
+}
+
+.ast-settings-app .add_provider_popup .provider_msg {
+	padding: 24px 16px;
+	text-align: center;
+	font-size: 13px;
+	color: #64748b;
+	background: #f8fafc;
+	border: 1px dashed #e2e8f0;
+	border-radius: 12px;
+}
+.ast-settings-app .add_provider_popup .provider_note {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
+	padding: 16px;
+	margin-top: 10px;
+	font-size: 12px;
+	color: #475569;
+}
+
+.ast-settings-app .add_provider_popup .default_privder_list .zui-modal__loading {
+	padding: 60px 0;
+	min-height: 360px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 12px;
+	color: var(--zui-text-muted);
+}
+
+/* shipping_row.js calls $().block() during pagination/search AJAX which adds an
+   overlay + default spinner. Our "Loading…" text already conveys the busy state
+   (matches PRO), so hide block-ui's chrome inside the enable modal. */
+.ast-settings-app .add_provider_popup :is(.blockUI.blockOverlay, .blockUI.blockMsg, #add_default_carrier_section .blockUI, .default_privder_list .blockUI) { display: none !important; }
+
+.ast-settings-app .add_provider_popup .ast-set-enable-foot {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	padding: 12px 20px;
+	background: rgba(248, 250, 252, 0.8);
+	border-top: 1px solid var(--zui-divider);
+	flex: 0 0 auto;
+}
+.ast-settings-app .add_provider_popup .ast-set-enable-foot:empty { display: none; }
+/* Pagination element (moved into the foot via JS) takes the whole row.
+   Pageinfo sits left; arrow buttons group tight on the right (PRO pattern). */
+.ast-settings-app .add_provider_popup .ast-set-enable-foot .shipping_carriers_arrow_pagination {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	border-top: 0;
+	background: transparent;
+}
+/* Pageinfo takes its natural width and pushes arrows to the right */
+.ast-settings-app .add_provider_popup .ast-set-enable-foot .shipping_carriers_arrow_pagination .ast-set-enable-pageinfo { margin-right: auto; }
+.ast-settings-app .add_provider_popup .shipping_carriers_arrow_pagination .ast-set-enable-pageinfo { font-size: 12px; color: var(--zui-text-muted); }
+.ast-settings-app .add_provider_popup .shipping_carriers_arrow_pagination .ast-set-enable-pageinfo strong { color: var(--zui-text); font-weight: 800; margin: 0 2px; }
+.ast-settings-app .add_provider_popup .shipping_carriers_arrow_pagination .arrow_pagination {
+	width: 30px;
+	height: 30px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: var(--zui-surface);
+	border: 1px solid var(--zui-border);
+	border-radius: var(--zui-radius-lg);
+	cursor: pointer;
+	color: var(--zui-text-soft);
+	box-shadow: var(--zui-shadow-xs);
+}
+.ast-settings-app .add_provider_popup .shipping_carriers_arrow_pagination .arrow_pagination::before { font-size: 16px; }
+.ast-settings-app .add_provider_popup .shipping_carriers_arrow_pagination .arrow_pagination:hover { background: var(--zui-bg); }
+.ast-settings-app .add_provider_popup .shipping_carriers_arrow_pagination .arrow_pagination[disabled] { opacity: 0.4; cursor: not-allowed; }
+
+.ast-settings-app .add_provider_popup .slidout_header { flex-direction: column; align-items: stretch; }
+.ast-settings-app .add_provider_popup .slidout_header_action { position: absolute; right: 18px; top: 18px; }
+/* PRO-style close X — outlined square button with hover */
+.ast-settings-app :is(.add_provider_popup, .sync_provider_popup, .add_custom_carriers_popup, .edit_provider_popup) .slidout_close {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	background: var(--zui-bg);
+	border: 1px solid var(--zui-border);
+	border-radius: var(--zui-radius-lg);
+	color: var(--zui-text-muted);
+	cursor: pointer;
+	transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+.ast-settings-app :is(.add_provider_popup, .sync_provider_popup, .add_custom_carriers_popup, .edit_provider_popup) .slidout_close:hover { background: var(--zui-surface); border-color: var(--zui-border-strong, #cbd5e1); color: var(--zui-text-strong); }
+.ast-settings-app :is(.add_provider_popup, .sync_provider_popup, .add_custom_carriers_popup, .edit_provider_popup) .slidout_close .zui-icon { width: 16px; height: 16px; }
+
+/* Constrain the enable modal width a bit wider for the carrier list */
+.ast-settings-app .zui-modal.add_provider_popup .zui-modal__dialog { max-width: 440px; }
+
+/* .zui-modal show/hide — interop with legacy slideOutForm/slideInForm ------------------------------------------------------------ admin.js defines $.fn.slideOutForm to add .slideout class to the target element (and append .append_slideout backdrop). shipping_row.js calls slideOutForm on .add_provider_popup etc. Our modals carry .zui-modal class. Use .slideout as the show indicator so legacy JS opens the modal without modification. */
+
+/* Force modal visible when .slideout is added (overrides [hidden] attr) */
+/* shipping_row.js calls slideOutForm() which adds .slideout class.
+   slideout.css's `.slideout { right: 0 !important }` would mis-position
+   our centered modal — neutralise it and force the modal visible. */
+.ast-settings-app .zui-modal.slideout { display: flex !important; inset: 0 !important; width: auto !important; height: auto !important; }
+.append_slideout { display: none !important; }
+
+/* Edit Carrier modal — preview chip + upsell card (free version) ------------------------------------------------------------ Free version doesn't allow editing custom carriers, so the body shows a PRO upsell card. The head + preview chip mirror PRO so the visual chrome reads as siblings. */
+
+/* Preview chip — logo + name + country (PRO-style card on tinted bg) */
+.ast-settings-app #ast-modal-edit .ast-set-edit-preview {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 12px;
+	margin-top: 14px;
+	background: var(--zui-surface);
+	border: 1px solid var(--zui-border);
+	border-radius: var(--zui-radius-xl);
+	box-shadow: var(--zui-shadow-xs);
+}
+.ast-settings-app #ast-modal-edit .ast-set-edit-preview .ast-set-carrier-logo {
+	width: 44px;
+	height: 44px;
+	flex: 0 0 auto;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: #f8fafc;
+	border: 1px solid var(--zui-divider);
+	border-radius: var(--zui-radius-lg);
+	overflow: hidden;
+}
+.ast-settings-app #ast-modal-edit .ast-set-edit-preview .ast-set-carrier-logo img { width: 100%; height: 100%; object-fit: contain; padding: 6px; }
+.ast-settings-app #ast-modal-edit .ast-set-edit-preview .ast-set-carrier-logo__fallback {
+	width: 100%;
+	height: 100%;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 12px;
+	font-weight: 800;
+	color: var(--zui-text-soft);
+	letter-spacing: -0.02em;
+}
+.ast-settings-app #ast-modal-edit .ast-set-edit-preview .min-w-0 { min-width: 0; flex: 1 1 auto; }
+.ast-settings-app #ast-modal-edit .ast-edit-carrier-name-2 {
+	margin: 0;
+	font-size: 14px;
+	font-weight: 700;
+	color: var(--zui-text);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.ast-settings-app #ast-modal-edit .ast-edit-carrier-country { margin: 2px 0 0; font-size: 12px; color: var(--zui-text-muted); }
+
+/* Upsell card in body (free can't edit — PRO upgrade) */
+.ast-settings-app #ast-modal-edit .ast-set-upsell {
+	padding: 24px 22px;
+	background: linear-gradient(135deg, #eef2ff 0%, #f5f3ff 100%);
+	border: 1px solid #c7d2fe;
+	border-radius: var(--zui-radius-xl);
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
+}
+.ast-settings-app #ast-modal-edit .ast-set-upsell__badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 4px 12px;
+	background: #ffffff;
+	border: 1px solid #c7d2fe;
+	border-radius: var(--ast-radius-pill);
+	font-size: 10px;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: #4338ca;
+}
+.ast-settings-app #ast-modal-edit .ast-set-upsell__badge .zui-icon { width: 12px; height: 12px; color: #f59e0b; }
+.ast-settings-app #ast-modal-edit .ast-set-upsell__title { margin: 4px 0 0; font-size: 15px; font-weight: 800; color: #312e81; }
+.ast-settings-app #ast-modal-edit .ast-set-upsell__text {
+	margin: 0;
+	font-size: 12px;
+	line-height: 1.55;
+	color: #4338ca;
+	opacity: 0.85;
+}
+.ast-settings-app #ast-modal-edit .ast-set-upsell .zui-btn-primary {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	margin-top: 8px;
+	padding: 9px 18px;
+	background: #4338ca;
+	border: 0;
+	color: #ffffff;
+	font-size: 12px;
+	font-weight: 700;
+	border-radius: var(--ast-radius-pill);
+	text-decoration: none;
+	cursor: pointer;
+}
+.ast-settings-app #ast-modal-edit .ast-set-upsell .zui-btn-primary:hover { background: #312e81; }
+.ast-settings-app #ast-modal-edit .ast-set-upsell .zui-btn-primary .zui-icon { width: 14px; height: 14px; }
+
+/* Sync Shipping Carriers modal — 3 states (idle / syncing / done), PRO design */
+.ast-settings-app .ast-set-sync-state[data-sync-state="idle"] { display: flex; flex-direction: column; gap: 16px; }
+.ast-settings-app .ast-set-sync-desc { margin: 0; font-size: 12px; line-height: 1.6; color: var(--ast-text-muted); }
+.ast-settings-app .ast-set-sync-state[data-sync-state="syncing"],
+.ast-settings-app .ast-set-sync-state[data-sync-state="done"] { text-align: center; }
+
+.ast-settings-app .ast-set-sync-spinner {
+	width: 64px;
+	height: 64px;
+	margin: 12px auto 0;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: var(--ast-primary-50);
+	border: 1px solid var(--ast-primary-100);
+	border-radius: var(--ast-radius-pill);
+	color: var(--ast-primary);
+	animation: ast-spin 1s linear infinite;
+}
+.ast-settings-app .ast-set-sync-spinner .zui-icon { width: 28px; height: 28px; }
+.ast-settings-app .ast-set-sync-heading { margin: 16px 0 0; font-size: 12px; font-weight: 700; color: var(--ast-text-soft); }
+.ast-settings-app .ast-set-sync-note { margin: 4px 0 0; font-size: 11px; color: var(--ast-text-muted); }
+
+.ast-settings-app .ast-set-sync-steps {
+	margin: 16px auto 0;
+	max-width: 280px;
+	text-align: start;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	padding: 14px;
+	background: rgba(248, 250, 252, 0.6);
+	border: 1px solid var(--ast-divider);
+	border-radius: var(--ast-radius-xl);
+}
+.ast-settings-app .ast-set-sync-step { display: flex; align-items: flex-start; gap: 8px; font-size: 10px; color: var(--ast-text-soft); }
+.ast-settings-app .ast-set-sync-step .zui-icon { width: 14px; height: 14px; color: #10b981; flex: 0 0 auto; margin-top: 1px; }
+
+.ast-settings-app .ast-set-sync-success {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	text-align: start;
+	padding: 14px;
+	background: rgba(16, 185, 129, 0.08);
+	border: 1px solid rgba(16, 185, 129, 0.2);
+	border-radius: var(--ast-radius-xl);
+}
+.ast-settings-app .ast-set-sync-success__icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 40px;
+	height: 40px;
+	background: #d1fae5;
+	color: #059669;
+	border-radius: var(--ast-radius-pill);
+	flex: 0 0 auto;
+}
+.ast-settings-app .ast-set-sync-success__icon .zui-icon { width: 20px; height: 20px; }
+.ast-settings-app .ast-set-sync-success__title { margin: 0; font-size: 12px; font-weight: 800; color: var(--ast-text); }
+.ast-settings-app .ast-set-sync-success__sub { margin: 2px 0 0; font-size: 10px; color: var(--ast-text-muted); }
+
+.ast-settings-app .ast-set-sync-stats { margin-top: 16px; border: 1px solid var(--ast-divider); border-radius: var(--ast-radius-xl); overflow: hidden; }
+.ast-settings-app .ast-set-sync-stat {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 12px 14px;
+	font-size: 12px;
+	border-block-end: 1px solid var(--ast-divider);
+}
+.ast-settings-app .ast-set-sync-stat:last-child { border-block-end: 0; }
+.ast-settings-app .ast-set-sync-stat span { color: var(--ast-text-muted); font-weight: 500; }
+.ast-settings-app .ast-set-sync-stat strong {
+	color: var(--ast-text);
+	font-weight: 700;
+	font-size: 14px;
+	font-variant-numeric: tabular-nums slashed-zero;
+	min-width: 16px;
+	text-align: end;
+}
+.ast-settings-app .ast-set-sync-state[data-sync-state="done"] .zui-btn-block { margin-top: 16px; }
+
+.ast-settings-app .ast-set-sync-detailswrap { margin-top: 16px; text-align: center; }
+.ast-settings-app .ast-set-sync-detailstoggle {
+	background: transparent;
+	border: 0;
+	padding: 0;
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--ast-primary-600);
+	text-decoration: underline;
+	cursor: pointer;
+}
+.ast-settings-app .ast-set-sync-detailstoggle:hover { color: var(--ast-primary-hover); }
+
+.ast-settings-app .ast-set-sync-details {
+	margin-top: 12px;
+	text-align: start;
+	padding: 12px;
+	background: rgba(248, 250, 252, 0.7);
+	border: 1px solid var(--ast-divider);
+	border-radius: var(--ast-radius-xl);
+	font-family: 'JetBrains Mono', ui-monospace, monospace;
+	font-size: 10px;
+	line-height: 1.6;
+	color: var(--ast-text-muted);
+}
+.ast-settings-app .ast-set-sync-details__head { display: flex; align-items: center; gap: 6px; font-weight: 700; color: var(--ast-text-soft); margin-block-end: 6px; }
+.ast-settings-app .ast-set-sync-details__head .zui-icon { width: 14px; height: 14px; }
+.ast-settings-app .ast-set-sync-details ul { margin: 0; padding-inline-start: 16px; }
+.ast-settings-app .ast-set-sync-details a { color: var(--ast-primary-600); }
+.ast-settings-app .ast-set-sync-details__section { margin-block-start: 8px; padding-block-start: 8px; border-block-start: 1px dashed var(--ast-divider); }
+.ast-settings-app .ast-set-sync-details__section:first-of-type { margin-block-start: 0; padding-block-start: 0; border-block-start: 0; }
+.ast-settings-app .ast-set-sync-details__sectionhead { font-weight: 700; color: var(--ast-text-strong); margin-block-end: 4px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; }
+.ast-settings-app .ast-set-sync-details ul li { color: var(--ast-text-soft); font-weight: 600; }
+
+/* PRO row layout: the .zui-pro-feature library component owns the badge +
+   lock chip pair. AST positions the disabled toggle next to it by turning
+   the .zui-row__control into an inline-flex container with an 8px gap. */
+.ast-settings-app .ast-pro-feature-row .zui-row__control { display: inline-flex; align-items: center; gap: 8px; }
+
+/* ── Shipping Carriers: DB update notice (above search) ──────────────────
+   Layout-only glue. The banner itself is the shared .zui-notice library
+   component — colour tokens, icon slot, close button styling all come from
+   assets/zui/css/components/notice.css. This block only:
+   - reserves bottom spacing so the toolbar below breathes,
+   - centres the icon vertically (library uses flex-start by default so the
+     inline actions row and dismiss X sit in a straight line),
+   - places the primary action button between the message body and the close. */
+.ast-settings-app .ast-carriers-update-notice {
+	align-items: center;
+	margin-bottom: 16px;
+}
+.ast-settings-app .ast-carriers-update-notice__actions {
+	flex: 0 0 auto;
+	margin-inline-start: auto;
+}

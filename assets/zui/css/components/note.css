@@ -1,0 +1,73 @@
+/* ============================================================
+   Zorem UI — Note
+   ------------------------------------------------------------
+   Inline informational callout box. Variants:
+     --info     light blue
+     --success  light green
+     --warning  light amber
+     --danger   light red
+
+   Phase: 1
+   ============================================================ */
+
+.zui-scope .zui-note {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--zui-space-sm);
+	padding: var(--zui-space-md);
+	border-radius: var(--zui-radius-md);
+	border: 1px solid transparent;
+	font-size: var(--zui-fs-body);
+	color: var(--zui-text);
+}
+
+.zui-scope .zui-note .dashicons {
+	flex-shrink: 0;
+	margin-top: 2px;
+	font-size: 18px;
+	width: 18px;
+	height: 18px;
+}
+
+.zui-scope .zui-note p {
+	flex: 1;
+	margin: 0;
+}
+
+/* Variants */
+
+.zui-scope .zui-note--info {
+	background: var(--zui-info-bg);
+	border-color: rgba(59, 130, 246, 0.2);
+}
+
+.zui-scope .zui-note--info .dashicons {
+	color: var(--zui-info);
+}
+
+.zui-scope .zui-note--success {
+	background: var(--zui-success-bg);
+	border-color: rgba(34, 197, 94, 0.2);
+}
+
+.zui-scope .zui-note--success .dashicons {
+	color: var(--zui-success);
+}
+
+.zui-scope .zui-note--warning {
+	background: var(--zui-warning-bg);
+	border-color: rgba(245, 158, 11, 0.2);
+}
+
+.zui-scope .zui-note--warning .dashicons {
+	color: var(--zui-warning);
+}
+
+.zui-scope .zui-note--danger {
+	background: var(--zui-danger-bg);
+	border-color: rgba(239, 68, 68, 0.2);
+}
+
+.zui-scope .zui-note--danger .dashicons {
+	color: var(--zui-danger);
+}

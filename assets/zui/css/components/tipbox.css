@@ -1,0 +1,68 @@
+/* ============================================================
+   Zorem UI — Tip Box (inline info card)
+   ------------------------------------------------------------
+   Tinted info card with icon-and-title head + body text.
+   Used for contextual help / inline documentation cues
+   (e.g. "Tracking URL Parameters Tip" in carrier modals).
+
+   Markup:
+     <div class="zui-tipbox">
+       <div class="zui-tipbox__head">
+         <svg class="zui-icon"><!-- help-circle --></svg>
+         <span>Tip title</span>
+       </div>
+       <p class="zui-tipbox__text">
+         Body text with optional <code>%placeholder%</code> tokens
+         and inline <a href="...">documentation link</a>.
+       </p>
+     </div>
+
+   ============================================================ */
+
+.zui-scope .zui-tipbox {
+	padding: 12px;
+	background: var(--zui-bg);
+	border: 1px solid var(--zui-divider);
+	border-radius: var(--zui-radius-xl);
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.zui-scope .zui-tipbox__head {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 12px;
+	font-weight: 700;
+	color: var(--zui-text-soft);
+}
+
+.zui-scope .zui-tipbox__head .zui-icon {
+	width: 15px;
+	height: 15px;
+	color: var(--zui-text-muted);
+}
+
+.zui-scope .zui-tipbox__text {
+	margin: 0;
+	font-size: 10px;
+	line-height: 1.9;
+	color: var(--zui-text-muted);
+}
+
+.zui-scope .zui-tipbox__text code {
+	font-family: 'JetBrains Mono', ui-monospace, monospace;
+	color: var(--zui-text);
+	font-weight: 700;
+}
+
+.zui-scope .zui-tipbox__text a {
+	color: var(--zui-primary-600);
+	font-weight: 700;
+	text-decoration: none;
+}
+
+.zui-scope .zui-tipbox__text a:hover {
+	text-decoration: underline;
+}

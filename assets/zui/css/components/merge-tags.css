@@ -1,0 +1,43 @@
+/* ============================================================
+   Zorem UI — Merge Tags
+   ------------------------------------------------------------
+   Row of clickable mono-font chip tags for inserting template
+   tokens like {customer_first_name} into a textarea. Used in
+   SMS templates, RETURN guidelines.
+
+   Phase: 1
+   ============================================================ */
+
+.zui-scope .zui-merge-tags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--zui-space-xs);
+	margin-top: var(--zui-space-sm);
+}
+
+.zui-scope .zui-merge-tag {
+	display: inline-flex;
+	align-items: center;
+	padding: 3px 8px;
+	font-family: var(--zui-font-mono);
+	font-size: var(--zui-fs-sm);
+	color: var(--zui-text-muted);
+	background: var(--zui-surface);
+	border: 1px solid var(--zui-border);
+	border-radius: var(--zui-radius-sm);
+	cursor: pointer;
+	transition: border-color var(--zui-dur) var(--zui-ease), color var(--zui-dur) var(--zui-ease), background var(--zui-dur) var(--zui-ease);
+}
+
+.zui-scope .zui-merge-tag:hover {
+	border-color: var(--zui-primary);
+	color: var(--zui-primary);
+	background: var(--zui-info-bg);
+}
+
+.zui-scope .zui-merge-tags-hint {
+	font-family: var(--zui-font-mono);
+	font-size: var(--zui-fs-sm);
+	color: var(--zui-text-faint);
+	margin-top: var(--zui-space-xs);
+}

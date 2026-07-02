@@ -1,0 +1,63 @@
+/* ============================================================
+   Zorem UI — License Card (slotted card variant)
+   ------------------------------------------------------------
+   Composes with `.zui-card` chrome. Adds `overflow: hidden`
+   (so the slotted head's background doesn't bleed beyond
+   the radius) plus the License-specific head/body slots
+   (head + bar + title + body, optional --row modifier).
+
+   Markup:
+     <div class="zui-card zui-lic-card">
+       <div class="zui-lic-card__head">
+         <span class="zui-lic-card__bar"></span>
+         <span class="zui-lic-card__title">Title</span>
+       </div>
+       <div class="zui-lic-card__body">…</div>
+     </div>
+
+   ============================================================ */
+
+.zui-scope .zui-lic-card {
+	overflow: hidden;
+}
+
+.zui-scope .zui-lic-card__head {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 16px 22px;
+	border-block-end: 1px solid var(--zui-divider);
+	background: rgba(248, 250, 252, 0.5);
+}
+
+.zui-scope .zui-lic-card__head--row {
+	justify-content: space-between;
+}
+
+.zui-scope .zui-lic-card__bar {
+	width: 4px;
+	height: 18px;
+	background: var(--zui-primary);
+	border-radius: 999px;
+}
+
+.zui-scope .zui-lic-card__title {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 11px;
+	font-weight: 800;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--zui-text-soft);
+}
+
+.zui-scope .zui-lic-card__title .zui-icon {
+	width: 15px;
+	height: 15px;
+	color: var(--zui-text-muted);
+}
+
+.zui-scope .zui-lic-card__body {
+	padding: 22px;
+}

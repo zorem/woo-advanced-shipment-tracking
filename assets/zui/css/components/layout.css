@@ -1,0 +1,42 @@
+/* ============================================================
+   Zorem UI — Layout (sidebar + content row)
+   ------------------------------------------------------------
+   Two-column row inside a tab panel: sidebar (Step 6) on the
+   left, main content (content.css) on the right.
+
+   Variants:
+     .zui-layout            default (sidebar + content)
+     .zui-layout--full      full-width (no sidebar)
+
+   ============================================================ */
+
+.zui-scope .zui-layout {
+	flex: 1 1 auto;
+	display: flex;
+	gap: 16px;
+	/* The page gutter now lives on .zui-tab-panel so layout-less tabs
+	   (License, Analytics) get the same inset. Layout adds none. */
+	padding: 0;
+	min-height: 0;
+	align-items: flex-start;
+}
+
+.zui-scope .zui-layout--full {
+	/* No additional styling — `.zui-content--full` inside handles the full-width affordance. */
+}
+
+/* Sidebar mobile drawer overlay — hidden by default, shown when
+   `.zui-sidebar-open` is set on the scope root (mobile only). */
+.zui-scope .zui-sidebar__overlay {
+	display: none;
+}
+
+@media (max-width: 782px) {
+	.zui-scope.zui-sidebar-open .zui-sidebar__overlay {
+		display: block;
+		position: fixed;
+		inset: 0;
+		z-index: 99999;
+		background: rgba(15, 23, 42, 0.4);
+	}
+}

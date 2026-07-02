@@ -13,7 +13,7 @@ $ast_tab_notices = array(
 		'line1'       => 'Upgrade to AST PRO to white-label shipping carriers, create custom carriers, and map carrier names from external shipping services.',
 		'line2'       => '',
 	),
-	'bulk-upload'        => array(
+	'csv-import'         => array(
 		'heading'     => '🚀 Upgrade to AST PRO! 🎉',
 		'line1'       => 'Upgrade to AST PRO to automate CSV tracking imports via FTP and SFTP&mdash;no more manual uploads.',
 		'line2'       => '',

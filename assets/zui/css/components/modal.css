@@ -1,0 +1,248 @@
+/* ============================================================
+   Zorem UI — Modal (centered dialog overlay)
+   ------------------------------------------------------------
+   Full overlay with backdrop + centered dialog. Dialog has
+   slot structure: head (title + sub + close) + body + foot
+   (with actions).
+
+   Variants / extra slots (Carriers / Integrations):
+     .zui-modal__head--edit       alt head background for edit modal
+     .zui-modal__head-row         flex row inside edit head
+     .zui-modal__navbtn           prev/next icon buttons in modal head
+     .zui-modal__search           search field strip at top of body
+     .zui-modal__search-icon      search icon
+     .zui-modal__loading          loading state
+
+   JS hook: `data-modal-close` attribute on close button + backdrop.
+
+   ============================================================ */
+
+.zui-scope .zui-modal {
+	position: fixed;
+	inset: 0;
+	z-index: 100050;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 16px;
+}
+
+.zui-scope .zui-modal[hidden] {
+	display: none;
+}
+
+.zui-scope .zui-modal__backdrop {
+	position: absolute;
+	inset: 0;
+	background: rgba(15, 23, 42, 0.45);
+	cursor: pointer;
+}
+
+/* ---- Dialog box ---- */
+
+.zui-scope .zui-modal__dialog {
+	position: relative;
+	z-index: 1;
+	width: 100%;
+	max-width: 440px;
+	max-height: 90vh;
+	display: flex;
+	flex-direction: column;
+	background: var(--zui-surface);
+	border: 1px solid var(--zui-border);
+	border-radius: var(--zui-radius-2xl);
+	box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.35);
+	overflow: hidden;
+	animation: zui-modal-in 0.15s ease;
+}
+
+@keyframes zui-modal-in {
+	from { opacity: 0; transform: scale(0.96); }
+	to   { opacity: 1; transform: scale(1); }
+}
+
+/* ---- Head ---- */
+
+.zui-scope .zui-modal__head {
+	position: relative;        /* enable z-index so head sits above .zui-loader-overlay--dialog */
+	z-index: 7;
+	background: var(--zui-surface);
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 18px 20px;
+	padding-inline-end: 56px;
+	border-block-end: 1px solid var(--zui-divider);
+	flex: 0 0 auto;
+}
+
+.zui-scope .zui-modal__head--edit {
+	flex-direction: column;
+	gap: 14px;
+	background: rgba(248, 250, 252, 0.6);
+	padding-inline-end: 20px;
+}
+
+.zui-scope .zui-modal__head-row {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 12px;
+	padding-inline-end: 40px;
+}
+
+.zui-scope .zui-modal__title {
+	margin: 0;
+	font-size: 14px;
+	font-weight: 800;
+	color: var(--zui-text);
+}
+
+.zui-scope .zui-modal__sub {
+	margin: 3px 0 0;
+	font-size: 11px;
+	color: var(--zui-text-muted);
+}
+
+/* ---- Close button (absolutely positioned top-right) ---- */
+
+.zui-scope .zui-modal__close {
+	position: absolute;
+	top: 14px;
+	inset-inline-end: 14px;
+	z-index: 3;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 30px;
+	height: 30px;
+	background: #fff;
+	border: 1px solid var(--zui-border);
+	border-radius: var(--zui-radius-lg);
+	color: var(--zui-text-muted);
+	cursor: pointer;
+	flex: 0 0 auto;
+	box-shadow: var(--zui-shadow-xs);
+}
+
+.zui-scope .zui-modal__close:hover {
+	background: var(--zui-bg);
+	color: var(--zui-text);
+	border-color: #cbd5e1;
+}
+
+.zui-scope .zui-modal__close .zui-icon {
+	width: 16px;
+	height: 16px;
+}
+
+/* ---- Optional search strip (top of body) ---- */
+
+.zui-scope .zui-modal__search {
+	position: relative;
+	padding: 14px 16px;
+	background: var(--zui-bg);
+	border-block-end: 1px solid var(--zui-divider);
+	flex: 0 0 auto;
+}
+
+.zui-scope .zui-modal__search-icon {
+	position: absolute;
+	inset-inline-start: 28px;
+	top: 50%;
+	transform: translateY(-50%);
+	display: inline-flex;
+	color: var(--zui-text-muted);
+	pointer-events: none;
+}
+
+.zui-scope .zui-modal__search-icon .zui-icon {
+	width: 15px;
+	height: 15px;
+}
+
+.zui-scope .zui-modal__search input {
+	width: 100%;
+	height: 38px;
+	padding: 0 12px 0 34px;
+	background: var(--zui-surface);
+	border: 1px solid var(--zui-border);
+	border-radius: var(--zui-radius-xl);
+	font-size: 12px;
+	color: var(--zui-text);
+}
+
+.zui-scope .zui-modal__search input:focus {
+	outline: none;
+	border-color: var(--zui-primary);
+	box-shadow: 0 0 0 3px var(--zui-primary-100);
+}
+
+/* ---- Body (scrollable) ---- */
+
+.zui-scope .zui-modal__body {
+	position: relative;        /* anchor for .zui-loader-overlay when content is fetched async */
+	padding: 20px;
+	overflow-y: auto;
+	flex: 1 1 auto;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+/* ---- Foot ---- */
+
+.zui-scope .zui-modal__foot {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 14px 16px;
+	border-block-start: 1px solid var(--zui-divider);
+	background: rgba(248, 250, 252, 0.8);
+	flex: 0 0 auto;
+}
+
+.zui-scope .zui-modal__actions {
+	display: flex;
+	gap: 8px;
+	padding-top: 4px;
+}
+
+/* ---- Optional navigation icon buttons (prev/next in modal head) ---- */
+
+.zui-scope .zui-modal__navbtn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 30px;
+	height: 30px;
+	background: var(--zui-surface);
+	border: 1px solid var(--zui-border);
+	border-radius: var(--zui-radius-lg);
+	color: var(--zui-text-soft);
+	cursor: pointer;
+}
+
+.zui-scope .zui-modal__navbtn:hover {
+	background: var(--zui-bg);
+}
+
+.zui-scope .zui-modal__navbtn:disabled {
+	opacity: 0.4;
+	cursor: not-allowed;
+}
+
+.zui-scope .zui-modal__navbtn .zui-icon {
+	width: 16px;
+	height: 16px;
+}
+
+/* ---- Loading state ---- */
+
+.zui-scope .zui-modal__loading {
+	padding: 40px 0;
+	text-align: center;
+	font-size: 12px;
+	color: var(--zui-text-muted);
+}

@@ -1,0 +1,119 @@
+/* ============================================================
+   Zorem UI — Badge / Status pill
+   ------------------------------------------------------------
+   .zui-badge        pill with semantic colour variants
+   .zui-status-dot   small filled dot + coloured text label
+
+   Variants:
+     --success  green
+     --info     blue
+     --warning  amber
+     --danger   red
+     --neutral  grey
+     --accent   primary blue (e.g. PRO badge)
+     --count    inverted-style number badge (e.g. tab count)
+     --outline  border-only neutral pill
+   ============================================================ */
+
+.zui-scope .zui-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	padding: 2px 8px;
+	font-size: var(--zui-fs-xs);
+	font-weight: var(--zui-fw-semibold);
+	border-radius: var(--zui-radius-pill);
+	background: var(--zui-neutral-bg);
+	color: var(--zui-text-muted);
+	line-height: 1.4;
+	white-space: nowrap;
+	text-transform: uppercase;
+	letter-spacing: 0.02em;
+}
+
+/* Variants */
+
+.zui-scope .zui-badge--success {
+	background: var(--zui-success-bg);
+	color: #15803d;
+}
+
+.zui-scope .zui-badge--info {
+	background: var(--zui-info-bg);
+	color: #1d4ed8;
+}
+
+.zui-scope .zui-badge--warning {
+	background: var(--zui-warning-bg);
+	color: #b45309;
+}
+
+.zui-scope .zui-badge--danger {
+	background: var(--zui-danger-bg);
+	color: #b91c1c;
+}
+
+.zui-scope .zui-badge--neutral {
+	background: var(--zui-neutral-bg);
+	color: var(--zui-text-muted);
+}
+
+.zui-scope .zui-badge--accent {
+	background: var(--zui-primary);
+	color: var(--zui-text-on-accent);
+}
+
+/* Count badge — inverted, used on tabs */
+
+.zui-scope .zui-badge--count {
+	min-width: 22px;
+	height: 22px;
+	padding: 0 6px;
+	justify-content: center;
+	background: var(--zui-primary);
+	color: var(--zui-text-on-accent);
+	font-size: var(--zui-fs-xs);
+	text-transform: none;
+	letter-spacing: 0;
+}
+
+/* Outline variant — used for version pills */
+
+.zui-scope .zui-badge--outline {
+	background: transparent;
+	border: 1px solid var(--zui-border);
+	color: var(--zui-text-muted);
+	text-transform: none;
+	letter-spacing: 0;
+	font-family: var(--zui-font-mono);
+	font-size: var(--zui-fs-xs);
+}
+
+/* ------- Status dot ------- */
+
+.zui-scope .zui-status-dot {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	font-size: var(--zui-fs-sm);
+	font-weight: var(--zui-fw-semibold);
+	color: var(--zui-text-muted);
+	text-transform: uppercase;
+	letter-spacing: 0.02em;
+}
+
+.zui-scope .zui-status-dot::before {
+	content: "";
+	display: inline-block;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: currentColor;
+	box-shadow: 0 0 0 3px rgba(100, 116, 139, 0.15);
+}
+
+.zui-scope .zui-status-dot--success { color: var(--zui-success); }
+.zui-scope .zui-status-dot--info    { color: var(--zui-info); }
+.zui-scope .zui-status-dot--warning { color: var(--zui-warning); }
+.zui-scope .zui-status-dot--danger  { color: var(--zui-danger); }
+.zui-scope .zui-status-dot--neutral { color: var(--zui-neutral); }

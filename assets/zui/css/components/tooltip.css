@@ -1,0 +1,84 @@
+/* ============================================================
+   Zorem UI — Tooltip (help icon with hover bubble)
+   ------------------------------------------------------------
+   Question-mark icon trigger + dark bubble on hover/focus.
+   Bubble + arrow are explicit DOM elements (NOT pseudo-element
+   attr() trick) so they can hold rich content + accurate styling.
+
+   Markup:
+     <span class="zui-tooltip" tabindex="0" role="img" aria-label="...">
+       <svg class="zui-icon"><!-- help-circle --></svg>
+       <span class="zui-tooltip__bubble">
+         Hover/focus body text
+         <span class="zui-tooltip__arrow"></span>
+       </span>
+     </span>
+
+   ============================================================ */
+
+.zui-scope .zui-tooltip {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	margin-inline-start: 6px;
+	color: var(--zui-text-muted);
+	cursor: help;
+	vertical-align: middle;
+}
+
+.zui-scope .zui-tooltip .zui-icon {
+	width: 16px;
+	height: 16px;
+	cursor: pointer;
+}
+
+.zui-scope .zui-tooltip:hover,
+.zui-scope .zui-tooltip:focus {
+	color: var(--zui-primary);
+	outline: none;
+}
+
+/* ---- Bubble (hidden by default, shown on hover/focus) ---- */
+
+.zui-scope .zui-tooltip__bubble {
+	position: absolute;
+	bottom: calc(100% + 8px);
+	left: 50%;
+	transform: translateX(-50%);
+	width: 256px;
+	background: #0f172a;
+	color: #fff;
+	font-size: 11px;
+	font-weight: 500;
+	line-height: 1.5;
+	text-align: center;
+	padding: 10px;
+	border: 1px solid #334155;
+	border-radius: var(--zui-radius-xl);
+	box-shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.25);
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.12s ease;
+	z-index: 50;
+	pointer-events: none;
+}
+
+.zui-scope .zui-tooltip:hover .zui-tooltip__bubble,
+.zui-scope .zui-tooltip:focus .zui-tooltip__bubble {
+	opacity: 1;
+	visibility: visible;
+}
+
+/* ---- Arrow (tail under the bubble) ---- */
+
+.zui-scope .zui-tooltip__arrow {
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	transform: translateX(-50%) translateY(-40%) rotate(45deg);
+	width: 10px;
+	height: 10px;
+	background: #0f172a;
+	border-right: 1px solid #334155;
+	border-bottom: 1px solid #334155;
+}

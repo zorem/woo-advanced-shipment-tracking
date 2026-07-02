@@ -46,6 +46,7 @@ class AST_Integration {
 		};
 		$form_data = array(
 			'ordoro'					=> $fun( __( 'Ordoro', $text_domin ), 'ordoro-icon.png', 'ordoro/'),
+			'extensiv'					=> $fun( __( 'Extensiv', $text_domin ), 'extensiv-icon.png', 'extensiv/' ),
 			'cartrover'					=> $fun( __( 'CartRover', $text_domin ), 'cart-rover-icon.png', 'cartrover/' ),
 			'parcelforce'				=> $fun( __( 'ParcelForce', $text_domin ), 'parcelfoce-icon.png', 'parcelforce/' ),
 			'zenventory'				=> $fun( __( 'Zenventory', $text_domin ), 'zenventory-icon.png', 'zenventory/' ),
@@ -71,6 +72,8 @@ class AST_Integration {
 			'sendcloud'					=> $fun( __( 'Sendcloud', $text_domin ), 'sendcloud-icon.png', 'sendcloud/' ),
 			'shiptheory'				=> $fun( __( 'Shiptheory', $text_domin ), 'shiptheory-icon.png', 'shiptheory/' ),
 			'stamps_com'				=> $fun( __( 'Stamps.com', $text_domin ), 'stamps-com-icon.png', 'stamps-com/' ),
+			'chitchats'					=> $fun( __( 'Chit Chats', $text_domin ), 'chitchats-icon.png', 'chit-chats/' ),
+			'dripshipper'				=> $fun( __( 'Dripshipper', $text_domin ), 'dripshipper-icon.png', 'dripshipper/' ),
 			'shippo'					=> $fun( __( 'Shippo', $text_domin ), 'shippo-icon.png', 'shippo/' ),
 			'inventory_source'			=> $fun( __( 'Inventory source', $text_domin ), 'inventory-source-icon.png', 'inventory-source/' ),
 			'gls_sell_send_italy'		=> $fun( __( 'GLS Sell & Send Italy', $text_domin ), 'gls.png', 'gls-sell-send-italy/' ),
@@ -108,6 +111,18 @@ class AST_Integration {
 			'ups_ecommerce_dashboard'	=> $fun( __( 'UPS Ecommerce Dashboard', $text_domin ), 'ups-ecommerce-dashboard-icon.png', 'ups-ecommerce-dashboard/' ),
 			'shippit'					=> $fun( __( 'shippit', $text_domin ), 'shippit-icon.png', 'shippit/' ),
 			'boostmyshop'				=> $fun( __( 'BoostMyShop', $text_domin ), 'boostmyshop-icon.png', 'boostmyshop/' ),
+			'dpd_shipping_label'		=> $fun( __( 'DPD Shipping Label', $text_domin ), 'dpd-sl-icon.png', 'dpd-shipping-label/' ),
+			'flagship'					=> $fun( __( 'FlagShip', $text_domin ), 'flagship-icon.png', 'flagship/' ),
+			'flxpoint'					=> $fun( __( 'Flxpoint', $text_domin ), 'flxpoint-icon.png', 'flxpoint/' ),
+			'bosta'						=> $fun( __( 'Bosta', $text_domin ), 'bosta-icon.png', 'bosta/' ),
+			'the_courier_guy'			=> $fun( __( 'The Courier Guy', $text_domin ), 'the-courier-guy-icon.png', 'the-courier-guy/' ),
+			'colissimo'					=> $fun( __( 'Colissimo', $text_domin ), 'colissimo.png', 'colissimo-shipping-methods-for-woocommerce/' ),
+			'mondial_relay'				=> $fun( __( 'Mondial Relay (InPost)', $text_domin ), 'mondial-relay-icon.png', 'mondial-relay/' ),
+			'transglobal_express'		=> $fun( __( 'Transglobal Express', $text_domin ), 'transglobal-express.png', 'transglobal-express/' ),
+			'delhivery'					=> $fun( __( 'Delhivery', $text_domin ), 'delhivery.png', 'delhivery/' ),
+			'shiprocket'				=> $fun( __( 'Shiprocket', $text_domin ), 'shiprocket.png', 'shiprocket/' ),
+			'veeqo'						=> $fun( __( 'Veeqo', $text_domin ), 'veeqo-icon.png', 'veeqo/' ),
+			'swisspost'					=> $fun( __( 'Swiss Post', $text_domin ), 'swisspost-icon.png', 'swisspost/' ),
 		);
 		
 		return $form_data;

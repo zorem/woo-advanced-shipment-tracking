@@ -1,0 +1,78 @@
+/* ============================================================
+   Zorem UI — Radio Cards (large card-style radio group)
+   ------------------------------------------------------------
+   2-column grid of clickable radio cards (title + description).
+   Each card is a `<label>` wrapping the native radio + visible
+   body content.
+
+   Markup:
+     <div class="zui-radio-cards">
+       <label class="zui-radio-card is-selected">
+         <input type="radio" class="zui-radio-card__input">
+         <span class="zui-radio-card__body">
+           <span class="zui-radio-card__label">Title</span>
+           <span class="zui-radio-card__desc">Description</span>
+         </span>
+       </label>
+     </div>
+
+   ============================================================ */
+
+.zui-scope .zui-radio-cards {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 16px;
+	max-width: 640px;
+}
+
+.zui-scope .zui-radio-card {
+	display: flex;
+	align-items: flex-start;
+	gap: 12px;
+	padding: 16px;
+	border: 1px solid var(--zui-border);
+	border-radius: var(--zui-radius-xl);
+	cursor: pointer;
+	background: #fff;
+	transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.zui-scope .zui-radio-card.is-selected {
+	border-color: var(--zui-primary-300);
+	background: rgba(240, 244, 255, 0.2);
+}
+
+.zui-scope .zui-radio-card__input {
+	margin: 2px 0 0;
+	width: 16px;
+	height: 16px;
+	accent-color: var(--zui-primary);
+	flex: 0 0 auto;
+}
+
+.zui-scope .zui-radio-card__body {
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+	min-width: 0;
+}
+
+.zui-scope .zui-radio-card__label {
+	font-size: 12px;
+	font-weight: 700;
+	color: #172033;
+	line-height: 1.4;
+}
+
+.zui-scope .zui-radio-card__desc {
+	font-size: 10px;
+	color: var(--zui-text-muted);
+	line-height: 1.45;
+}
+
+/* ---- Responsive: single column on mobile ---- */
+@media (max-width: 782px) {
+	.zui-scope .zui-radio-cards {
+		grid-template-columns: 1fr;
+	}
+}

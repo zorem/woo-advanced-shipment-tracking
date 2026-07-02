@@ -80,21 +80,3 @@ jQuery(document).on("change", "#wc_ast_status_partial_shipped_label_font_color",
 	jQuery('.order-status-table .order-label.wc-partially-shipped').css('color',font_color);
 });
 
-/* activity-panel custom popup create start */
-document.addEventListener('DOMContentLoaded', () => {
-    const menuButton = document.querySelector('.menu-button');
-    const popupMenu = document.querySelector('.popup-menu');
-
-    // Toggle menu visibility on button click
-    menuButton.addEventListener('click', () => {
-        popupMenu.style.display = popupMenu.style.display === 'block' ? 'none' : 'block';
-    });
-
-    // Close menu when clicking outside of it
-    document.addEventListener('click', (e) => {
-        if (!menuButton.contains(e.target) && !popupMenu.contains(e.target)) {
-            popupMenu.style.display = 'none';
-        }
-    });
-});
-/* activity-panel custom popup create end */

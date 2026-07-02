@@ -1,0 +1,88 @@
+/* ============================================================
+   Zorem UI — Filter Bar
+   ------------------------------------------------------------
+   Toolbar above data tables: row of <select> filters + search
+   field + right-aligned action button.
+
+   Used in:
+     SMS Logs            All statuses · All types · search · 🔍
+     CEV Unverified Users   Bulk Action select · Apply · Export CSV
+
+   The CEV bulk-actions variant is a separate component
+   (.zui-bulk-bar, Phase 2 — defer) — keep them distinct so
+   each plugin's filter UX evolves independently.
+
+   Phase: 1 (moved up from Phase 2 — used in SMS + CEV)
+   ============================================================ */
+
+.zui-scope .zui-filter-bar {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--zui-space-sm);
+	padding: var(--zui-space-md);
+	background: var(--zui-surface);
+	border: 1px solid var(--zui-border);
+	border-radius: var(--zui-radius-lg);
+}
+
+/* Each filter slot (select or search) gets a flexible width */
+
+.zui-scope .zui-filter-bar .zui-select,
+.zui-scope .zui-filter-bar .zui-input,
+.zui-scope .zui-filter-bar .zui-search-field {
+	flex: 1 1 200px;
+	min-width: 160px;
+	max-width: 280px;
+}
+
+/* Push trailing buttons (Apply / Export / search icon) to the right */
+
+.zui-scope .zui-filter-bar > .zui-btn,
+.zui-scope .zui-filter-bar > .zui-filter-actions {
+	margin-left: auto;
+}
+
+.zui-scope .zui-filter-actions {
+	display: flex;
+	align-items: center;
+	gap: var(--zui-space-sm);
+}
+
+/* Loading affordance — small inline spinner + status text */
+
+.zui-scope .zui-filter-loading {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--zui-space-xs);
+	font-size: var(--zui-fs-sm);
+	color: var(--zui-text-muted);
+}
+
+.zui-scope .zui-filter-loading .zui-spinner {
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	border: 2px solid var(--zui-border);
+	border-top-color: var(--zui-primary);
+	border-radius: 50%;
+	animation: zui-filter-spin 700ms linear infinite;
+}
+
+@keyframes zui-filter-spin {
+	to { transform: rotate(360deg); }
+}
+
+@media (max-width: 700px) {
+	.zui-scope .zui-filter-bar .zui-select,
+	.zui-scope .zui-filter-bar .zui-input,
+	.zui-scope .zui-filter-bar .zui-search-field {
+		flex-basis: 100%;
+		max-width: none;
+	}
+	.zui-scope .zui-filter-bar > .zui-btn,
+	.zui-scope .zui-filter-bar > .zui-filter-actions {
+		margin-left: 0;
+		width: 100%;
+	}
+}

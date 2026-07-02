@@ -1,0 +1,118 @@
+/* ============================================================
+   Zorem UI — License Active State
+   ------------------------------------------------------------
+   Active-license display inside `.zui-lic-card__body`. Shows
+   green-tinted card with check icon + license name + licensed
+   domain on the right.
+
+   Includes the deactivate row at the bottom + license message line.
+
+   ============================================================ */
+
+.zui-scope .zui-lic-active {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	flex-wrap: wrap;
+	padding: 18px;
+	background: rgba(16, 185, 129, 0.06);
+	border: 1px solid rgba(16, 185, 129, 0.2);
+	border-radius: var(--zui-radius-2xl);
+}
+
+.zui-scope .zui-lic-active__left {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+}
+
+.zui-scope .zui-lic-active__icon {
+	display: flex;
+	width: 44px;
+	height: 44px;
+	background: #10b981;
+	color: #fff;
+	border-radius: var(--zui-radius-xl);
+	align-items: center;
+	justify-content: center;
+	box-shadow: var(--zui-shadow-sm);
+}
+
+.zui-scope .zui-lic-active__icon .zui-icon {
+	width: 24px;
+	height: 24px;
+}
+
+.zui-scope .zui-lic-active__eyebrow {
+	font-size: 10px;
+	font-weight: 800;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: #059669;
+}
+
+.zui-scope .zui-lic-active__name {
+	margin: 2px 0 0;
+	font-size: 16px;
+	font-weight: 800;
+	color: var(--zui-text-strong);
+}
+
+.zui-scope .zui-lic-active__domain {
+	font-family: 'JetBrains Mono', ui-monospace, monospace;
+	font-size: 11px;
+	color: var(--zui-text-muted);
+	text-align: right;
+	display: flex;
+	flex-direction: column;
+}
+
+.zui-scope .zui-lic-active__domain-val {
+	font-weight: 700;
+	color: var(--zui-text-soft);
+}
+
+/* ---- Deactivate row below the active card ---- */
+
+.zui-scope .zui-lic-deactivate-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	flex-wrap: wrap;
+	margin-top: 20px;
+	padding-top: 18px;
+	border-top: 1px solid var(--zui-divider);
+}
+
+.zui-scope .zui-lic-deactivate-row p {
+	margin: 0;
+	font-size: 12px;
+	color: var(--zui-text-muted);
+}
+
+.zui-scope .zui-lic-deactivate-row form {
+	margin: 0;
+}
+
+.zui-scope .zui-lic-deactivate {
+	padding: 9px 16px;
+	background: #fff;
+	border: 1px solid #fecdd3;
+	border-radius: var(--zui-radius-xl);
+	color: #e11d48;
+	font-size: 12px;
+	font-weight: 800;
+	cursor: pointer;
+}
+
+.zui-scope .zui-lic-deactivate:hover {
+	background: #fff1f2;
+}
+
+.zui-scope .zui-lic-deactivate.is-saving {
+	cursor: wait;
+	opacity: 0.55;
+	pointer-events: none;
+}

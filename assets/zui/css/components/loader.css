@@ -1,0 +1,127 @@
+/* ============================================================
+   Zorem UI — Loader Overlay (loading state for AJAX content)
+   ------------------------------------------------------------
+   A translucent overlay + centered spinner shown while a panel,
+   modal body, drawer, card, or section is fetching data.
+
+   Use cases: integration modal open (waits for slideout AJAX),
+   FTP test-connection, sync details fetch, edit-carrier modal,
+   any AJAX-populated container.
+
+   Markup (drop inside any `position: relative` parent):
+
+     <div class="zui-loader-overlay" data-zui-loader hidden>
+       <div class="zui-loader-spinner" aria-hidden="true"></div>
+       <span class="zui-loader-label">Loading…</span>
+     </div>
+
+   The parent container MUST be `position: relative` (or absolute)
+   so the overlay anchors to its bounding box.
+
+   Toggle via `hidden` attribute (preferred — pairs cleanly with
+   `aria-busy` on the parent):
+
+     parent.setAttribute('aria-busy', 'true');
+     overlay.removeAttribute('hidden');   // show
+
+     parent.setAttribute('aria-busy', 'false');
+     overlay.setAttribute('hidden', '');  // hide
+
+   Optional helpers:
+   - `.zui-loader-overlay--solid` → fully opaque white bg (use when
+     the underlying content is sensitive/unfinished and should be
+     completely masked)
+   - `.zui-loader-overlay--fade` → adds a 200 ms fade-out transition
+     when the `hidden` attribute is added back
+   ============================================================ */
+
+.zui-scope .zui-loader-overlay,
+.zui-loader-overlay {
+	position: absolute;
+	inset: 0;
+	z-index: 5;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 12px;
+	background: rgba(255, 255, 255, 0.55);    /* slightly less opaque so the blur behind reads clearly */
+	-webkit-backdrop-filter: blur(8px) saturate(150%);
+	backdrop-filter: blur(8px) saturate(150%);  /* stronger blur — content behind is clearly diffused */
+	pointer-events: auto;        /* block clicks while loading */
+}
+
+.zui-scope .zui-loader-overlay[hidden],
+.zui-loader-overlay[hidden] {
+	display: none;
+}
+
+.zui-scope .zui-loader-overlay--solid,
+.zui-loader-overlay--solid {
+	background: #fff;
+	-webkit-backdrop-filter: none;
+	backdrop-filter: none;
+}
+
+.zui-scope .zui-loader-overlay--fade,
+.zui-loader-overlay--fade {
+	transition: opacity 200ms ease;
+}
+
+/* `--dialog` modifier: when the loader is placed as a direct child of
+   `.zui-modal__dialog` (sibling to `.zui-modal__head` + `.zui-modal__body`),
+   it stretches over the WHOLE dialog so it covers both the scrollable body
+   AND the actions row below — useful on long forms where the body's own
+   absolute overlay would scroll out of view. */
+.zui-scope .zui-loader-overlay--dialog,
+.zui-loader-overlay--dialog {
+	position: absolute;
+	inset: 0;
+	z-index: 6;
+	border-radius: inherit;
+}
+
+/* ---- Spinner (CSS-only circular arc rotation) ---- */
+.zui-scope .zui-loader-spinner,
+.zui-loader-spinner {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	border: 3px solid rgba(15, 23, 42, 0.08);     /* faint track ring */
+	border-top-color: var(--zui-primary, #3b64d3); /* the spinning arc */
+	animation: zui-loader-spin 0.8s linear infinite;
+	box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);  /* subtle lift over the blurred bg */
+}
+
+.zui-scope .zui-loader-spinner--sm,
+.zui-loader-spinner--sm {
+	width: 18px;
+	height: 18px;
+	border-width: 2px;
+}
+
+.zui-scope .zui-loader-spinner--lg,
+.zui-loader-spinner--lg {
+	width: 48px;
+	height: 48px;
+	border-width: 4px;
+}
+
+@keyframes zui-loader-spin {
+	to { transform: rotate(360deg); }
+}
+
+/* ---- Optional label below the spinner ---- */
+.zui-scope .zui-loader-label,
+.zui-loader-label {
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--zui-text-muted, #94a3b8);
+	letter-spacing: 0.02em;
+}
+
+/* ---- Reduced-motion fallback (don't spin endlessly) ---- */
+@media (prefers-reduced-motion: reduce) {
+	.zui-scope .zui-loader-spinner,
+	.zui-loader-spinner { animation-duration: 3s; }
+}

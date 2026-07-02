@@ -1,0 +1,97 @@
+/* ============================================================
+   Zorem UI — Table
+   ------------------------------------------------------------
+   Data table with sortable columns + selectable rows + actions
+   column. Two-line cells supported. Wrap in .zui-table-scroll
+   for horizontally-overflowing tables.
+
+   Phase: 1
+   ============================================================ */
+
+.zui-scope .zui-table-scroll {
+	width: 100%;
+	overflow-x: auto;
+	border-radius: var(--zui-radius-lg);
+}
+
+.zui-scope .zui-table {
+	width: 100%;
+	border-collapse: separate;
+	border-spacing: 0;
+	font-size: var(--zui-fs-body);
+	background: var(--zui-surface);
+}
+
+/* ------- Head ------- */
+
+.zui-scope .zui-table thead th {
+	padding: var(--zui-space-md) var(--zui-space-md);
+	text-align: left;
+	font-size: var(--zui-fs-xs);
+	font-weight: var(--zui-fw-semibold);
+	color: var(--zui-text-muted);
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	border-bottom: 1px solid var(--zui-border);
+	background: var(--zui-surface);
+	white-space: nowrap;
+}
+
+.zui-scope .zui-table th.zui-sortable {
+	cursor: pointer;
+	user-select: none;
+}
+
+.zui-scope .zui-table th.zui-sortable::after {
+	content: "↕";
+	margin-left: 4px;
+	color: var(--zui-text-faint);
+	font-size: 12px;
+}
+
+.zui-scope .zui-table th.zui-sortable[data-zui-sort-dir="asc"]::after  { content: "↑"; color: var(--zui-primary); }
+.zui-scope .zui-table th.zui-sortable[data-zui-sort-dir="desc"]::after { content: "↓"; color: var(--zui-primary); }
+
+/* ------- Body ------- */
+
+.zui-scope .zui-table tbody td {
+	padding: var(--zui-space-md);
+	border-bottom: 1px solid var(--zui-divider);
+	color: var(--zui-text);
+	vertical-align: middle;
+}
+
+.zui-scope .zui-table tbody tr:last-child td {
+	border-bottom: 0;
+}
+
+.zui-scope .zui-table tbody tr:hover td {
+	background: var(--zui-bg);
+}
+
+.zui-scope .zui-table tbody tr.is-selected td {
+	background: var(--zui-info-bg);
+}
+
+/* Two-line cell support */
+.zui-scope .zui-table td strong {
+	display: block;
+	font-weight: var(--zui-fw-semibold);
+	color: var(--zui-text);
+}
+
+.zui-scope .zui-table td small {
+	display: block;
+	font-size: var(--zui-fs-sm);
+	color: var(--zui-text-muted);
+	margin-top: 2px;
+}
+
+/* Checkbox + actions columns: shrink to content */
+.zui-scope .zui-table th:first-child,
+.zui-scope .zui-table td:first-child,
+.zui-scope .zui-table th:last-child,
+.zui-scope .zui-table td:last-child {
+	width: 1%;
+	white-space: nowrap;
+}

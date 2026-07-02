@@ -1,0 +1,84 @@
+/* ============================================================
+   Zorem UI — Selection Card (checkcard)
+   ------------------------------------------------------------
+   Clickable card with hidden checkbox + visible check box +
+   text cluster (strong + small). Used for opt-in selections.
+
+   Markup:
+     <label class="zui-checkcard">
+       <input type="hidden" name="..." value="0">
+       <input type="checkbox" name="..." value="1">
+       <span class="zui-checkcard__box">
+         <svg class="zui-icon"><!-- check --></svg>
+       </span>
+       <span class="zui-checkcard__text">
+         <strong>Card title</strong>
+         <small>Card description</small>
+       </span>
+     </label>
+
+   ============================================================ */
+
+.zui-scope .zui-checkcard {
+	display: flex;
+	align-items: flex-start;
+	gap: 12px;
+	padding: 14px;
+	background: var(--zui-bg);
+	border: 1px solid var(--zui-divider);
+	border-radius: var(--zui-radius-xl);
+	cursor: pointer;
+}
+
+.zui-scope .zui-checkcard:hover {
+	background: #eef2f7;
+}
+
+.zui-scope .zui-checkcard input {
+	position: absolute;
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+
+.zui-scope .zui-checkcard__box {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 18px;
+	height: 18px;
+	margin-top: 1px;
+	background: #fff;
+	border: 1px solid #cbd5e1;
+	border-radius: 6px;
+	color: transparent;
+	flex: 0 0 auto;
+}
+
+.zui-scope .zui-checkcard__box .zui-icon {
+	width: 12px;
+	height: 12px;
+}
+
+.zui-scope .zui-checkcard input:checked + .zui-checkcard__box {
+	background: var(--zui-primary);
+	border-color: var(--zui-primary);
+	color: #fff;
+}
+
+.zui-scope .zui-checkcard__text {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.zui-scope .zui-checkcard__text strong {
+	font-size: 12px;
+	font-weight: 700;
+	color: var(--zui-text-soft);
+}
+
+.zui-scope .zui-checkcard__text small {
+	font-size: 10px;
+	color: var(--zui-text-muted);
+}

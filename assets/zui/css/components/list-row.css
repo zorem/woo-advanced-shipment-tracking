@@ -1,0 +1,86 @@
+/* ============================================================
+   Zorem UI — List Row
+   ------------------------------------------------------------
+   Reorderable list row: drag handle + toggle + title + meta +
+   status pill + action icons. Used for pickup locations, CBR
+   rules, RETURN reasons, notification rows.
+
+   Phase: 1
+   ============================================================ */
+
+.zui-scope .zui-list-row {
+	display: flex;
+	align-items: center;
+	gap: var(--zui-space-sm);
+	padding: var(--zui-space-md);
+	background: var(--zui-surface);
+	border: 1px solid var(--zui-border);
+	border-radius: var(--zui-radius-md);
+	transition: border-color var(--zui-dur) var(--zui-ease), box-shadow var(--zui-dur) var(--zui-ease);
+}
+
+.zui-scope .zui-list-row + .zui-list-row {
+	margin-top: var(--zui-space-xs);
+}
+
+.zui-scope .zui-list-row:hover {
+	border-color: var(--zui-primary);
+	box-shadow: var(--zui-shadow-sm);
+}
+
+.zui-scope .zui-list-row.is-collapsed {
+	background: var(--zui-surface-alt);
+}
+
+/* Drag handle */
+
+.zui-scope .zui-drag-handle {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 18px;
+	height: 18px;
+	color: var(--zui-text-faint);
+	font-size: 14px;
+	cursor: grab;
+	user-select: none;
+	flex-shrink: 0;
+}
+
+.zui-scope .zui-drag-handle:active {
+	cursor: grabbing;
+}
+
+/* Body — title + meta */
+
+.zui-scope .zui-list-row-body {
+	flex: 1;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.zui-scope .zui-list-row-body strong {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--zui-space-xs);
+	font-size: var(--zui-fs-md);
+	font-weight: var(--zui-fw-semibold);
+	color: var(--zui-text);
+}
+
+.zui-scope .zui-list-row-body span,
+.zui-scope .zui-list-row-meta {
+	font-size: var(--zui-fs-sm);
+	color: var(--zui-text-muted);
+}
+
+/* Right-side actions cluster */
+
+.zui-scope .zui-list-row > .zui-badge,
+.zui-scope .zui-list-row > .zui-status-dot,
+.zui-scope .zui-list-row > .zui-btn--icon,
+.zui-scope .zui-list-row > .zui-toggle + label {
+	flex-shrink: 0;
+}

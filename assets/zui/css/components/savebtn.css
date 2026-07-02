@@ -1,0 +1,64 @@
+/* ============================================================
+   Zorem UI — Save Button (section-header save banner)
+   ------------------------------------------------------------
+   Primary save button used inside a section header banner.
+   Composes with the WC AJAX hook `.woocommerce-save-button`
+   when the section is live. The `.zui-savebtn-wrap` <span>
+   carries the legacy dirty-state JS hook (`.ast-accordion-btn`)
+   that toggles `disabled` on the inner button.
+
+   Inert variant (`--inert`) is the pre-Phase-3 placeholder
+   shown while a section isn't yet live.
+
+   ============================================================ */
+
+.zui-scope .zui-savebtn-wrap {
+	display: inline-flex;
+}
+
+.zui-scope .zui-section-header .woocommerce-save-button,
+.zui-scope .zui-section-header .zui-savebtn {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 10px 20px;
+	background: var(--zui-primary);
+	color: #fff;
+	border: 0;
+	border-radius: var(--zui-radius-xl);
+	font-size: 12px;
+	font-weight: 700;
+	cursor: pointer;
+	box-shadow: var(--zui-shadow-sm);
+	line-height: 1;
+}
+
+.zui-scope .zui-section-header .woocommerce-save-button:hover {
+	background: var(--zui-primary-hover);
+}
+
+.zui-scope .zui-section-header .woocommerce-save-button[disabled],
+.zui-scope .zui-section-header .zui-savebtn[disabled] {
+	opacity: 0.55;
+	cursor: not-allowed;
+}
+
+.zui-scope .zui-savebtn__spinner {
+	display: none;
+}
+
+.zui-scope .zui-section-header .zui-savebtn.is-saving {
+	cursor: wait;
+	opacity: 0.55;
+	pointer-events: none;
+}
+
+.zui-scope .zui-section-header .zui-savebtn.is-saved {
+	background: var(--zui-success, #16a34a);
+	opacity: 1;
+	cursor: default;
+	pointer-events: none;
+}
+.zui-scope .zui-section-header .zui-savebtn.is-saved:hover {
+	background: var(--zui-success, #16a34a);
+}

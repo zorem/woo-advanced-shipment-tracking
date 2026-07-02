@@ -1,0 +1,92 @@
+/* ============================================================
+   Zorem UI — Toggle (on/off switch)
+   ------------------------------------------------------------
+   Custom label-wrap toggle. The label wraps the input + explicit
+   track/thumb spans (no pseudo-element trickery — cleaner DOM,
+   works across all browsers).
+
+   Markup:
+     <label class="zui-toggle">
+       <input type="hidden" name="..." value="0">
+       <input type="checkbox" class="zui-toggle__input" name="..." value="1">
+       <span class="zui-toggle__track">
+         <span class="zui-toggle__thumb"></span>
+       </span>
+     </label>
+
+   ============================================================ */
+
+.zui-scope .zui-toggle {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	cursor: pointer;
+	flex: 0 0 auto;
+}
+
+.zui-scope .zui-toggle .zui-toggle__input {
+	position: absolute;
+	opacity: 0;
+	width: 44px;
+	height: 24px;
+	margin: 0;
+	cursor: pointer;
+	z-index: 1;
+}
+
+.zui-scope .zui-toggle__track {
+	width: 44px;
+	height: 24px;
+	border-radius: 999px;
+	background: var(--zui-border);
+	position: relative;
+	transition: background 0.15s ease;
+	flex: 0 0 auto;
+}
+
+.zui-scope .zui-toggle__thumb {
+	position: absolute;
+	top: 2px;
+	inset-inline-start: 2px;
+	width: 20px;
+	height: 20px;
+	background: #fff;
+	border: 1px solid #cbd5e1;
+	border-radius: 999px;
+	transition: transform 0.15s ease;
+	box-shadow: var(--zui-shadow-xs);
+}
+
+/* On */
+.zui-scope .zui-toggle__input:checked + .zui-toggle__track {
+	background: var(--zui-primary);
+}
+
+.zui-scope .zui-toggle__input:checked + .zui-toggle__track .zui-toggle__thumb {
+	transform: translateX(20px);
+	border-color: #fff;
+}
+
+[dir="rtl"] .zui-scope .zui-toggle__input:checked + .zui-toggle__track .zui-toggle__thumb {
+	transform: translateX(-20px);
+}
+
+/* Focus ring */
+.zui-scope .zui-toggle__input:focus-visible + .zui-toggle__track {
+	box-shadow: 0 0 0 3px var(--zui-primary-100);
+}
+
+/* Disabled — when the input is :disabled, gray-out the track + thumb and
+   show a not-allowed cursor so the user gets visual feedback that the
+   toggle is locked. Used when a parent setting forces the
+   Shipped toggle to stay off (mutual exclusion). */
+.zui-scope .zui-toggle__input:disabled + .zui-toggle__track {
+	opacity: 0.55;
+	cursor: not-allowed;
+}
+.zui-scope .zui-toggle__input:disabled {
+	cursor: not-allowed;
+}
+.zui-scope .zui-toggle:has(.zui-toggle__input:disabled) {
+	cursor: not-allowed;
+}

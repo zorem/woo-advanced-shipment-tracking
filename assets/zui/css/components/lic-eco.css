@@ -1,0 +1,157 @@
+/* ============================================================
+   Zorem UI — License Ecosystem Section
+   ------------------------------------------------------------
+   The bottom section of the License page: heading + filter pills +
+   search field + responsive grid of plugin promo cards.
+
+   ============================================================ */
+
+.zui-scope .zui-lic-eco {
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+	padding-top: 8px;
+	border-top: 1px solid var(--zui-divider);
+}
+
+/* ---- Header (icon + heading on left, filters on right) ---- */
+
+.zui-scope .zui-lic-eco__head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	flex-wrap: wrap;
+	padding-top: 16px;
+}
+
+.zui-scope .zui-lic-eco__heading {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.zui-scope .zui-lic-eco__icon {
+	display: inline-flex;
+	padding: 7px;
+	background: var(--zui-primary-50);
+	border-radius: var(--zui-radius-lg);
+	color: var(--zui-primary);
+}
+
+.zui-scope .zui-lic-eco__icon .zui-icon {
+	width: 18px;
+	height: 18px;
+}
+
+.zui-scope .zui-lic-eco__heading h3 {
+	margin: 0;
+	font-size: 16px;
+	font-weight: 800;
+	color: var(--zui-text-strong);
+}
+
+.zui-scope .zui-lic-eco__heading p {
+	margin: 2px 0 0;
+	font-size: 12px;
+	color: var(--zui-text-muted);
+}
+
+/* ---- Filter pills (segmented control) ---- */
+
+.zui-scope .zui-lic-eco__filters {
+	display: inline-flex;
+	gap: 4px;
+	padding: 4px;
+	background: #f1f5f9;
+	border: 1px solid var(--zui-border);
+	border-radius: var(--zui-radius-xl);
+}
+
+.zui-scope .zui-lic-eco__filter {
+	padding: 5px 12px;
+	background: transparent;
+	border: 0;
+	border-radius: var(--zui-radius-lg);
+	font-size: 11px;
+	font-weight: 700;
+	color: var(--zui-text-muted);
+	cursor: pointer;
+}
+
+.zui-scope .zui-lic-eco__filter.is-active {
+	background: #fff;
+	color: var(--zui-text-strong);
+	box-shadow: var(--zui-shadow-xs);
+}
+
+/* ---- Search field ---- */
+
+.zui-scope .zui-lic-eco__search {
+	position: relative;
+	max-width: 380px;
+}
+
+.zui-scope .zui-lic-eco__search-icon {
+	position: absolute;
+	inset-inline-start: 12px;
+	top: 50%;
+	transform: translateY(-50%);
+	display: inline-flex;
+	color: var(--zui-text-muted);
+	pointer-events: none;
+}
+
+.zui-scope .zui-lic-eco__search-icon .zui-icon {
+	width: 15px;
+	height: 15px;
+}
+
+.zui-scope .zui-lic-eco__search input {
+	width: 100%;
+	height: 38px;
+	padding: 0 14px 0 36px;
+	background: var(--zui-surface);
+	border: 1px solid var(--zui-border);
+	border-radius: var(--zui-radius-xl);
+	font-size: 12px;
+	color: var(--zui-text);
+	box-shadow: var(--zui-shadow-xs);
+}
+
+.zui-scope .zui-lic-eco__search input:focus {
+	outline: none;
+	border-color: var(--zui-primary);
+	box-shadow: 0 0 0 3px var(--zui-primary-100);
+}
+
+/* ---- Responsive plugin grid ---- */
+
+.zui-scope .zui-lic-eco__grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 20px;
+}
+
+@media (min-width: 760px) {
+	.zui-scope .zui-lic-eco__grid {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+
+@media (min-width: 1180px) {
+	.zui-scope .zui-lic-eco__grid {
+		grid-template-columns: repeat(3, 1fr);
+	}
+}
+
+.zui-scope .zui-lic-eco__empty {
+	grid-column: 1 / -1;
+	padding: 40px;
+	text-align: center;
+	font-size: 12px;
+	color: var(--zui-text-muted);
+	background: rgba(248, 250, 252, 0.6);
+	border: 1px dashed var(--zui-border);
+	border-radius: var(--zui-radius-2xl);
+}

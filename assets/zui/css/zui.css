@@ -1,0 +1,93 @@
+/*!
+ * Zorem UI — Aggregator
+ * -----------------------------------------------------------------
+ * Single source of truth for the Zorem plugin family's admin UI.
+ * Consumer plugins enqueue this file (or pick & choose components).
+ *
+ * Load order matters (cascade) — keep this order intact.
+ */
+
+/* ---- Foundation ---- */
+@import url("./tokens.css");
+@import url("./reset.css");
+
+/* ---- Helpers (used everywhere — load before consumers) ---- */
+@import url("./components/icon.css");
+
+/* ---- Page chrome ---- */
+@import url("./components/header.css");
+@import url("./components/tabs.css");
+@import url("./components/tab-panel.css");
+
+/* ---- Layout shell ---- */
+@import url("./components/layout.css");
+@import url("./components/content.css");
+@import url("./components/section.css");
+@import url("./components/sidebar.css");
+@import url("./components/quickhelp.css");
+
+/* ---- Section + cards ---- */
+@import url("./components/card.css");
+@import url("./components/section-header.css");
+@import url("./components/savebtn.css");
+
+/* ---- Form primitives ---- */
+@import url("./components/form-row.css");
+@import url("./components/input.css");
+@import url("./components/select.css");
+@import url("./components/multiselect.css");
+@import url("./components/toggle.css");
+@import url("./components/checkbox.css");
+@import url("./components/radio.css");
+@import url("./components/checkgrid.css");
+@import url("./components/segmented.css");
+@import url("./components/calendar.css");
+@import url("./components/tooltip.css");
+
+/* ---- Buttons ---- */
+@import url("./components/button.css");
+
+/* ---- Modal stack ---- */
+@import url("./components/modal.css");
+@import url("./components/field.css");
+@import url("./components/upload.css");
+@import url("./components/checkcard.css");
+
+/* ---- Inline info helpers ---- */
+@import url("./components/tipbox.css");
+@import url("./components/lock-section.css");
+@import url("./components/pro-feature.css");
+
+/* ---- Overlays ---- */
+@import url("./components/menu.css");
+
+/* ---- Feedback ---- */
+@import url("./components/snackbar.css");
+@import url("./components/loader.css");
+@import url("./components/notice.css");
+
+/* ---- License page (cross-plugin shared template) ---- */
+@import url("./components/lic-page.css");
+@import url("./components/lic-card.css");
+@import url("./components/lic-active.css");
+@import url("./components/lic-inactive.css");
+@import url("./components/lic-help.css");
+@import url("./components/lic-eco.css");
+@import url("./components/lic-plugin.css");
+
+/* =================================================================
+   Phase 2 (deferred) — kept on disk, not imported yet.
+   Each one ships when its target plugin gets styled / migrated.
+   Uncomment the import when a real consumer ships:
+
+   @import url("./components/badge.css");           // standalone badge primitive
+   @import url("./components/card-grid.css");       // responsive plugin/carrier grid
+   @import url("./components/color-input.css");     // color picker (OSM today)
+   @import url("./components/filter-bar.css");      // filter toolbar (CEV/SMS)
+   @import url("./components/list-row.css");        // draggable row (ALP/CBR)
+   @import url("./components/merge-tags.css");      // mono {token} chips (RETURN/SMS)
+   @import url("./components/note.css");            // info/success/warning callouts
+   @import url("./components/pagination.css");      // page nav
+   @import url("./components/table.css");           // data tables
+   @import url("./components/textarea.css");        // multi-line input
+   ================================================================ */

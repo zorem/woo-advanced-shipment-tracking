@@ -1,0 +1,17 @@
+/* ============================================================
+   Zorem UI — Section (per-section panel inside content)
+   ------------------------------------------------------------
+   Vertical stack of (section-header + cards). One per sidebar
+   item. Hidden when not the active section (via [hidden] attr).
+
+   ============================================================ */
+
+.zui-scope .zui-section {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.zui-scope .zui-section[hidden] {
+	display: none;
+}
