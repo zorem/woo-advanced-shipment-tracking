@@ -31,8 +31,7 @@ if ( ! function_exists( 'is_plugin_active' ) ) {
 do_action( 'ast_addon_license_form' );
 
 $plugin_url      = wc_advanced_shipment_tracking()->plugin_dir_url();
-$ast_upgrade_url = 'https://www.zorem.com/ast-pro/?utm_source=wp-admin&utm_medium=ast-go-pro&utm_campaign=get-started';
-$ast_demo_url    = 'https://www.zorem.com/ast-pro/?utm_source=wp-admin&utm_medium=ast-go-pro&utm_campaign=view-demo';
+$ast_upgrade_url = 'https://www.zorem.com/product/woocommerce-advanced-shipment-tracking/?utm_source=wp-admin&utm_medium=plugin-setting&utm_campaign=upgrade-to-pro';
 
 $ast_opt_email_key = 'ast_optin_email_notification';
 $ast_opt_env_key   = 'ast_enable_usage_data';
@@ -151,7 +150,7 @@ $ast_addons = array(
 		'name'   => 'TrackShip for WooCommerce',
 		'desc'   => __( 'Take control of your post-shipping workflows, reduce time spent on customer service and provide a superior post-purchase experience to your customers.', 'woo-advanced-shipment-tracking' ),
 		'url'    => 'https://wordpress.org/plugins/trackship-for-woocommerce/#utm_source=wp-admin&utm_medium=ast-addons&utm_campaign=add-ons',
-		'icon'   => 'truck',
+		'image'  => 'trackship.png',
 		'file'   => 'trackship-for-woocommerce/trackship-for-woocommerce.php',
 		'tint'   => '#CCFBF1',
 		'accent' => '#0d9488',
@@ -228,10 +227,6 @@ $ast_addons = array(
 					<a class="ast-gp-btn ast-gp-btn--primary" href="<?php echo esc_url( $ast_upgrade_url ); ?>" target="_blank" rel="noopener noreferrer">
 						<?php zui_icon( 'zap' ); ?>
 						<span><?php esc_html_e( 'Get AST PRO', 'woo-advanced-shipment-tracking' ); ?></span>
-					</a>
-					<a class="ast-gp-btn ast-gp-btn--ghost" href="<?php echo esc_url( $ast_demo_url ); ?>" target="_blank" rel="noopener noreferrer">
-						<?php zui_icon( 'play-circle' ); ?>
-						<span><?php esc_html_e( 'See it in action', 'woo-advanced-shipment-tracking' ); ?></span>
 					</a>
 				</div>
 
@@ -433,7 +428,11 @@ $ast_addons = array(
 						<div class="zui-card zui-lic-plugin" data-name="<?php echo esc_attr( $ast_addon['name'] ); ?>" data-active="<?php echo $ast_addon_active ? '1' : '0'; ?>">
 							<div class="zui-lic-plugin__head">
 								<span class="zui-lic-plugin__logo" style="background: <?php echo esc_attr( $ast_addon['tint'] ); ?>; color: <?php echo esc_attr( $ast_addon['accent'] ); ?>;">
-									<?php zui_icon( $ast_addon['icon'] ); ?>
+									<?php if ( ! empty( $ast_addon['image'] ) ) : ?>
+										<img src="<?php echo esc_url( $plugin_url ); ?>assets/images/<?php echo esc_attr( $ast_addon['image'] ); ?>" alt="<?php echo esc_attr( $ast_addon['name'] ); ?>">
+									<?php else : ?>
+										<?php zui_icon( $ast_addon['icon'] ); ?>
+									<?php endif; ?>
 								</span>
 								<div class="zui-lic-plugin__id">
 									<h4 class="zui-lic-plugin__name"><?php echo esc_html( $ast_addon['name'] ); ?></h4>

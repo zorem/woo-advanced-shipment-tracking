@@ -409,45 +409,6 @@ jQuery(document).on("click", ".pagination_link", function(){
 	$( document ).on( 'click', '.search-icon', runShippingProviderSearch );
 })( jQuery );
 
-jQuery(document).on("change", ".make_provider_default", function(){	
-	jQuery("#content1 ").block({
-		message: null,
-		overlayCSS: {
-			background: "#fff",
-			opacity: .6
-		}	
-	});
-	if(jQuery(this).prop("checked") == true){
-	   jQuery('.make_provider_default').removeAttr('checked');
-	   var checked = 1;	   
-	   jQuery(this).prop('checked',true);	   
-	} else{
-		var checked = 0;		
-	}
-	var id = jQuery(this).data('id');
-	var nonce = jQuery( '#nonce_shipping_provider' ).val();
-	var error;	
-	var default_provider = jQuery(this).val();
-	var ajax_data = {
-		action: 'update_default_provider',
-		default_provider: default_provider,	
-		id: id,
-		checked: checked,	
-		security: nonce,	
-	};
-	jQuery.ajax({
-		url: ajaxurl,		
-		data: ajax_data,		
-		type: 'POST',
-		success: function(response) {
-			jQuery("#content1 ").unblock();			
-		},
-		error: function(response) {
-			console.log(response);			
-		}
-	});
-});
-
 jQuery(document).on("click", ".popupclose", function(){			
 	jQuery('.ts_video_popup').hide();	
 	jQuery('.upgrade_to_pro_popup').hide();	
@@ -499,43 +460,20 @@ jQuery(document).on("click", ".remove", function(){
 	});
 });
 
-jQuery(document).on("click", ".edit_provider", function(){		
-	var id = jQuery(this).data('pid');
-	var provider = jQuery(this).data('provider');
-	var nonce = jQuery( '#nonce_shipping_provider' ).val();
-	
-	jQuery("#content1").block({
-		message: null,
-		overlayCSS: {
-			background: "#fff",
-			opacity: .6
-		}	
-	});
+jQuery(document).on("click", ".edit_provider", function(){
+	// The edit modal is a STATIC PRO upsell pre-rendered in the page — no AJAX needed.
+	// Just copy the carrier name / country / logo from the clicked card and open instantly.
+	var $card = jQuery(this).closest('.ast-set-carrier-card');
+	var name = jQuery.trim( $card.find('.ast-set-carrier-name').text() );
+	var country = jQuery.trim( $card.find('.ast-set-carrier-country').text() );
+	var logoHtml = $card.find('.ast-set-carrier-logo').html();
 
-	var ajax_data = {
-		action: 'get_provider_details',
-		provder_type: provider,	
-		provider_id: id,
-		security: nonce,
-	};
-	
-	jQuery.ajax({
-		url: ajaxurl,		
-		data: ajax_data,		
-		type: 'POST',
-		//dataType: "json",
-		success: function(response) {
-			jQuery(".edit_provider_popup").html(response);
-			jQuery( '.tipTip' ).tipTip( {
-				'attribute': 'data-tip'		
-			} );		
-			jQuery('.edit_provider_popup').slideOutForm();	
-			jQuery("#content1").unblock();							
-		},
-		error: function(response) {
-			console.log(response);			
-		}
-	});
+	var $popup = jQuery('#ast-modal-edit .edit_provider_popup');
+	$popup.find('.ast-edit-carrier-name, .ast-edit-carrier-name-2').text( name );
+	$popup.find('.ast-edit-carrier-country').text( country );
+	if ( logoHtml ) { $popup.find('.ast-edit-carrier-logo').html( logoHtml ); }
+
+	jQuery('.edit_provider_popup').slideOutForm();
 });
 
 function IsValidJSONString(str) {
@@ -546,118 +484,6 @@ function IsValidJSONString(str) {
 	}
 	return true;
 }
-
-jQuery(document).on("click", ".reset_default_provider", function(){
-	var form = jQuery('#edit_provider_form');
-	
-	jQuery(".edit_provider_popup").block({
-		message: null,
-		overlayCSS: {
-			background: "#fff",
-			opacity: .6
-		}	
-	});
-	
-	jQuery('#search_provider').removeAttr('value');
-	var provider_id = jQuery(form).find('#provider_id').val();
-	var nonce = jQuery( '#nonce_shipping_provider' ).val();
-	var ajax_data = {
-		action: 'reset_default_provider',		
-		provider_id: provider_id,
-		security: nonce,	
-	};
-	
-	jQuery.ajax({
-		url: ajaxurl,		
-		data: ajax_data,
-		type: 'POST',		
-		success: function(response) {					
-			jQuery(".provider_list").replaceWith(response);	
-			form[0].reset();												
-			jQuery('.edit_provider_popup').hide();			
-			jQuery(".edit_provider_popup").unblock();		
-		},
-		error: function(response) {
-			console.log(response);			
-		}
-	});
-	return false;
-});
-
-jQuery(document).on("submit", "#edit_provider_form", function(){
-	
-	var form = jQuery('#edit_provider_form');
-	var error;
-	var shipping_provider = jQuery("#edit_provider_form .shipping_provider");
-	var shipping_country = jQuery("#edit_provider_form .shipping_country");
-	var api_provider_name = jQuery(".api_provider_new .api_provider_name");
-	var thumb_url = jQuery("#edit_provider_form .thumb_url");
-	var tracking_url = jQuery("#edit_provider_form .tracking_url");	
-	var provider_type = jQuery("#edit_provider_form #provider_type");	
-	
-	if(provider_type.val() == 'custom_provider'){
-		if( shipping_provider.val() === '' ){				
-			showerror(shipping_provider);
-			error = true;
-		} else{		
-			hideerror(shipping_provider);
-		}	
-		
-		if( shipping_country.val() === '' ){				
-			showerror(shipping_country);
-			error = true;
-		} else{		
-			hideerror(shipping_country);
-		}		
-	}	
-
-	if(provider_type.val() == 'default_provider'){				
-		for(var i=0; i<api_provider_name.length; i++) {					
-			if(validate(api_provider_name[i]) == false){
-				showerror(jQuery(api_provider_name[i]));
-				error = true;
-			} else{
-				hideerror(jQuery(api_provider_name[i]));
-			}			
-		}
-	}
-	
-	if(error == true){
-		return false;
-	}	
-	jQuery(".edit_provider_popup").block({
-		message: null,
-		overlayCSS: {
-			background: "#fff",
-			opacity: .6
-		}	
-	});
-	
-	jQuery('#search_provider').removeAttr('value');
-	
-	jQuery.ajax({
-		url: ajaxurl,		
-		data: form.serialize(),
-		type: 'POST',		
-		success: function(response) {					
-			jQuery(".provider_list").replaceWith(response);	
-			form[0].reset();												
-			jQuery('.edit_provider_popup').hide();			
-			jQuery(".edit_provider_popup").unblock();	
-		},
-		error: function(response) {
-			console.log(response);			
-		}
-	});
-	return false;
-});
-
-jQuery( ".thumb_url" ).blur(function() {
-  var url = jQuery(this).val();
-  if(url == ''){
-	  jQuery('.thumb_id').val('');
-  }
-});
 
 jQuery(document).on("click", ".bulk_select_provider", function(){
 	jQuery('#delete_provider_bulk').attr('data-remove', 'selected-page');
@@ -698,7 +524,8 @@ jQuery(document).on("click", ".reset_providers", function(){
 	jQuery('#selected_provider_total').text(counter);
 
 	jQuery('.provider-settings-ul').hide();
-	jQuery('div.shipping-carriers-selected-provider-message').show();	
+	jQuery('div.all-shipping-carriers-selected').hide();
+	jQuery('div.shipping-carriers-selected-provider-message').show();
 });
 
 jQuery(document).on("click", ".reset_providers.deselect", function(){	
@@ -718,7 +545,7 @@ jQuery(document).on("click", ".remove_selected_shipping_carrier", function(){
 	jQuery('#selected_provider_total').text(length_get);
 });
 
-jQuery(document).on("click", "#delete_provider_bulk", function(){
+jQuery(document).on("click", "#delete_provider_bulk, .delete_provider_bulk", function(){
 
 	jQuery('div.all-shipping-carriers-selected').hide();
 	jQuery('div.shipping-carriers-selected-provider-message').hide();
@@ -948,52 +775,57 @@ jQuery(document).on( "click", ".search-carrier-icon", function(){
 
 jQuery(document).on("click", ".add_default_provider", function(){
 	var button = jQuery(this);
+	if ( button.prop('disabled') ) { return; }
 	var id = jQuery(this).data('id');
-	var checked = 1;	
+	var checked = 1;
 	var nonce = jQuery( '#nonce_shipping_provider' ).val();
 
-	var error;	
 	var ajax_data = {
 		action: 'update_shipment_status',
 		id: id,
 		checked: checked,
-		security: nonce,	
+		security: nonce,
 	};
 	jQuery.ajax({
-		url: ajaxurl,		
-		data: ajax_data,		
+		url: ajaxurl,
+		data: ajax_data,
 		type: 'POST',
-		success: function(response) {	
-			refresh_shipping_carriers_list();						
+		success: function(response) {
 			button.html('Added');
-			button.prop('disabled', true);			
+			button.prop('disabled', true);
+			refresh_shipping_carriers_list();
 		},
 		error: function(response) {
-			console.log(response);			
+			console.log(response);
 		}
 	});
 });
 
+var _ast_refresh_timer = null;
 function refresh_shipping_carriers_list() {
-	var search_term = '';
-	var nonce = jQuery( '#nonce_shipping_provider' ).val();
-	var ajax_data = {
-		action: 'filter_shipping_provider_list',
-		search_term: search_term,
-		security: nonce,	
-	};
+	// Debounce: enabling several carriers in a row coalesces into ONE grid re-render
+	// instead of a full server round-trip + DOM replace after every single click.
+	clearTimeout( _ast_refresh_timer );
+	_ast_refresh_timer = setTimeout( function() {
+		var nonce = jQuery( '#nonce_shipping_provider' ).val();
+		var ajax_data = {
+			action: 'filter_shipping_provider_list',
+			search_term: '',
+			security: nonce,
+		};
 
-	jQuery.ajax({
-		url: ajaxurl,		
-		data: ajax_data,
-		type: 'POST',
-		success: function(response) {	
-			jQuery(".provider_list").replaceWith(response);								
-		},
-		error: function(response) {	
-			console.log(response);				
-		}
-	});	
+		jQuery.ajax({
+			url: ajaxurl,
+			data: ajax_data,
+			type: 'POST',
+			success: function(response) {
+				jQuery(".provider_list").replaceWith(response);
+			},
+			error: function(response) {
+				console.log(response);
+			}
+		});
+	}, 500 );
 }
 
 jQuery(document).on("click", ".add_slidout_close", function(){

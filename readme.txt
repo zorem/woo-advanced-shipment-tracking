@@ -3,7 +3,7 @@ Contributors: zorem, gaurav1092, eranzorem, satishzorem
 Tags: shipment tracking, order tracking, tracking number, fulfillment, shipping notifications
 Requires at least: 5.3
 Tested up to: 7.0
-Stable tag: 4.0
+Stable tag: 4.0.1
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -196,8 +196,12 @@ Yes. If you use external shipping services or fulfillment tools that work with t
 
 == Changelog ==
 
+= 4.0.1 =
+* Dev – Tested with WooCommerce 10.9.3
+* Fix – Hardened the CSV import against a SQL injection vulnerability (CVE-2026-57773).
+
 = 4.0 =
-* Dev – Tested with WooCommerce 10.9.1 and WordPress 7.0
+* Dev – Tested with WooCommerce 10.8.1 and WordPress 7.0
 * New – Completely redesigned the AST FREE admin interface with a modern, cleaner look.
 
 = 3.9.2 =

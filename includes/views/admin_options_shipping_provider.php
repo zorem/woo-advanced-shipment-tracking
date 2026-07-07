@@ -88,7 +88,7 @@ if ( isset( $_GET['open'] ) && 'synch_providers' == $_GET['open'] ) {
 						<a class="ast-set-carriers-bulkbar__all remove_selected_shipping_carrier"><?php esc_html_e( 'Undo', 'woo-advanced-shipment-tracking' ); ?></a>
 					</span>
 				</p>
-				<button type="button" class="ast-set-carriers-bulkbar__remove delete_provider_bulk" data-remove="selected-page">
+				<button type="button" class="ast-set-carriers-bulkbar__remove delete_provider_bulk" data-remove="all">
 					<?php zui_icon( 'trash-2' ); ?><span><?php esc_html_e( 'Remove Selected', 'woo-advanced-shipment-tracking' ); ?></span>
 				</button>
 			</div>
@@ -163,16 +163,56 @@ if ( isset( $_GET['open'] ) && 'synch_providers' == $_GET['open'] ) {
 			</div>
 		</div>
 
-		<?php /* ===== Modal: Edit Carrier (HTML injected by AJAX) =====
-			 shipping_row.js does $('.edit_provider_popup').html(response) and then
-			 $('.edit_provider_popup').slideOutForm(). So .edit_provider_popup must
-			 be on a CHILD of the dialog (NOT the outer .zui-modal), otherwise the
-			 .html() wipes out backdrop + dialog chrome. Inline JS below mirrors the
-			 .slideout / hidden state from the inner div onto the outer modal. */ ?>
+		<?php /* ===== Modal: Edit Carrier (STATIC PRO upsell — pre-rendered) =====
+			 The body is a fixed PRO upsell; only the carrier name / country / logo vary
+			 and are filled from the clicked card by shipping_row.js (.edit_provider) — no
+			 AJAX, instant open. Inline JS below mirrors the .slideout / hidden state from
+			 this inner div onto the outer modal. */
+			$ast_edit_upgrade_url = 'https://www.zorem.com/product/woocommerce-advanced-shipment-tracking/?utm_source=wp-admin&utm_medium=edit-carrier&utm_campaign=upgrad-to-pro';
+			?>
 		<div class="zui-modal" id="ast-modal-edit" data-modal="edit" hidden>
 			<div class="zui-modal__backdrop" data-modal-close></div>
 			<div class="zui-modal__dialog" role="dialog" aria-modal="true">
-				<div class="edit_provider_popup ast-modal-edit-content"></div>
+				<div class="edit_provider_popup ast-modal-edit-content">
+
+					<div class="zui-modal__head zui-modal__head--edit slidout_header">
+						<div class="zui-modal__head-row">
+							<div class="slidout_header_title">
+								<h3 class="zui-modal__title slidout_title"><?php esc_html_e( 'Edit Shipping Carrier', 'woo-advanced-shipment-tracking' ); ?></h3>
+								<p class="zui-modal__sub slidout_subtitle">
+									<?php esc_html_e( 'Customize display preferences for', 'woo-advanced-shipment-tracking' ); ?>
+									<span class="ast-edit-carrier-name"></span>
+								</p>
+							</div>
+							<button type="button" class="zui-modal__close slidout_close edit_slidout_close" data-modal-close aria-label="<?php esc_attr_e( 'Close', 'woo-advanced-shipment-tracking' ); ?>"><?php zui_icon( 'x' ); ?></button>
+						</div>
+
+						<div class="ast-set-edit-preview">
+							<span class="ast-set-carrier-logo ast-edit-carrier-logo"></span>
+							<div class="min-w-0">
+								<h4 class="ast-edit-carrier-name-2"></h4>
+								<p class="ast-edit-carrier-country"></p>
+							</div>
+						</div>
+					</div>
+
+					<div class="zui-modal__body slidout_body">
+						<div class="zui-lock-section">
+							<div class="zui-lock-section__icon"><?php zui_icon( 'lock' ); ?></div>
+							<h3 class="zui-lock-section__title">
+								<?php esc_html_e( 'Unlock Edit Shipping Carrier', 'woo-advanced-shipment-tracking' ); ?>
+								<span class="zui-locked__badge">PRO</span>
+							</h3>
+							<p class="zui-lock-section__desc">
+								<?php esc_html_e( 'Upgrade to Advanced Shipment Tracking Pro to set a default carrier, override display names, map API alias names, upload custom logos and customise the tracking URL pattern.', 'woo-advanced-shipment-tracking' ); ?>
+							</p>
+							<a class="zui-btn-primary zui-lock-section__cta get_feature_span" href="<?php echo esc_url( $ast_edit_upgrade_url ); ?>" target="_blank" rel="noopener noreferrer">
+								<?php esc_html_e( 'Upgrade to PRO', 'woo-advanced-shipment-tracking' ); ?>
+							</a>
+						</div>
+					</div>
+
+				</div>
 			</div>
 		</div>
 

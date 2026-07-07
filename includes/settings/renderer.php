@@ -390,24 +390,6 @@ if ( ! function_exists( 'ast_free_settings_render_field' ) ) {
 				<?php
 				break;
 
-			/* ---- FTP/SFTP test connection (no save; own nonce + action) ---- */
-			case 'button_test_connection':
-				$btn_text = isset( $field['text'] ) ? $field['text'] : __( 'Test', 'woo-advanced-shipment-tracking' );
-				?>
-				<div class="zui-row <?php echo esc_attr( $row_class ); ?>">
-					<div class="zui-row__head">
-						<span class="zui-row__label"><?php echo esc_html( $title ); ?><?php ast_free_settings_tooltip( $field ); ?></span><?php ast_free_settings_help_line( $field ); ?>
-					</div>
-					<div class="zui-row__control ftp_test_container">
-						<button type="button" class="ftp_test_button zui-btn-secondary"><?php echo esc_html( $btn_text ); ?><span class="spinner workflow_spinner"></span></button>
-						<span class="zui-row__notice ftp_test_msg"></span>
-						<?php wp_nonce_field( 'ftp_data', 'ftp_data_nonce' ); ?>
-						<input type="hidden" name="action" value="ftp_data_settings">
-					</div>
-				</div>
-				<?php
-				break;
-
 			default:
 				/*
 				 * Unknown type: extension point so custom field types can render without
