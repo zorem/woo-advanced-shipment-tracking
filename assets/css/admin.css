@@ -947,9 +947,6 @@ p.form-field.form-50 {
 .custom_provider_instruction p{
 	margin: 0 0 1em;
 }
-a.reset_default_provider {
-	margin-left: 10px;
-}
 .change_order_to_shipped_field ul{
 	margin: 5px 0 0 10px;
 	display: inline-block;
@@ -1755,19 +1752,7 @@ ul.csv_error_details_ul li:before{
 .wp-core-ui .button-primary.enable_carriers{
 	margin-left: 10px;
 }
-.popupwrapper input[type=text].api_provider_name{
-	margin-bottom: 5px;
-}
-.woocommerce_page_woocommerce-advanced-shipment-tracking .popupwrapper .add_more_api_provider{
-	vertical-align: text-top;
-	cursor: pointer;
-	color: #005b9a;
-	font-size: 25px;
-	height: 25px;
-	width: 25px;
-}
-
-.ast-row {    
+.ast-row {
 	-js-display: flex;
 	display: -ms-flexbox;
 	display: flex;
@@ -1894,9 +1879,6 @@ ul.csv_error_details_ul li:before{
 }
 .wc-wp-version-gte-53 .multiple_select_container .select2-container .select2-selection--multiple{
 	border-color: #e0e0e0;
-}
-.popupwrapper input[type=text].api_provider_name {
-	width: calc(100% - 33px);
 }
 .ui-datepicker{
 	z-index: 10000000 !important;
@@ -2876,11 +2858,6 @@ span.dashicons.dashicons-arrow-up-alt{
 }
 .rtl .popupwrapper .popuprow .button-primary, .rtl .trackingpopup_wrapper .trackingpopup_row .button-primary{
 	float: right;
-}
-.rtl a.reset_default_provider{
-	float: right;
-	margin-right: 10px;    
-	line-height: 37px;
 }
 .rtl .popupwrapper .popuprow p{
 	text-align: right;

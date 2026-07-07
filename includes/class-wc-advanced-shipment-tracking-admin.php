@@ -87,13 +87,9 @@ class WC_Advanced_Shipment_Tracking_Admin {
 
 		add_action( 'wp_ajax_shipping_pagination', array( $this, 'shipping_pagination_fun_callback') );
 
-		add_action( 'wp_ajax_reset_default_provider', array( $this, 'reset_default_provider_fun') );
-
 		add_action( 'wp_ajax_woocommerce_shipping_provider_delete', array( $this, 'woocommerce_shipping_provider_delete' ) );
 
 		add_action( 'wp_ajax_update_provider_status', array( $this, 'update_provider_status_fun') );
-
-		add_action( 'wp_ajax_update_default_provider', array( $this, 'update_default_provider_fun') );
 
 		add_action( 'wp_ajax_update_shipment_status', array( $this, 'update_shipment_status_fun') );
 
@@ -1250,15 +1246,7 @@ class WC_Advanced_Shipment_Tracking_Admin {
 
 		global $wpdb;					
 		
-		$shippment_provider = $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM %1s WHERE api_provider_name = %s', $this->table, $tracking_provider ) );
-		
-		if ( 0 == $shippment_provider ) {
-			$shippment_provider = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM %1s WHERE JSON_CONTAINS(api_provider_name, '[" . '"' . $tracking_provider . '"' . "]')", $this->table ) );
-		}	
-		
-		if ( 0 == $shippment_provider ) {
-			$shippment_provider = $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM %1s WHERE provider_name = %s', $this->table, $tracking_provider ) );
-		}
+		$shippment_provider = $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM %1s WHERE provider_name = %s', $this->table, $tracking_provider ) );
 		
 		if ( 0 == $shippment_provider ) {
 			$shippment_provider = $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM %1s WHERE ts_slug = %s', $this->table, $tracking_provider ) );
@@ -1726,28 +1714,6 @@ class WC_Advanced_Shipment_Tracking_Admin {
 		exit;	
 	}
 	
-	/**
-	* Update default provider function 
-	*/
-	public function update_default_provider_fun() {
-		
-		if ( ! current_user_can( AST_FREE_PLUGIN_ACCESS ) ) {
-			exit( 'You are not allowed' );
-		}
-		
-		check_ajax_referer( 'nonce_shipping_provider', 'security' );
-		
-		$default_provider = isset( $_POST['default_provider'] ) ? wc_clean( $_POST['default_provider'] ) : '';
-		$checked = isset( $_POST['checked'] ) ? wc_clean( $_POST['checked'] ) : '';
-		
-		if ( 1 == $checked ) {
-			update_option( 'wc_ast_default_provider', $default_provider );
-		} else {
-			update_option( 'wc_ast_default_provider', '' );
-		}
-		exit;
-	}
-	
 	/*
 	* Delet provide by ajax
 	*/
@@ -1903,36 +1869,6 @@ class WC_Advanced_Shipment_Tracking_Admin {
 	}
 
 	/**
-	* Reset default provider
-	*/
-	public function reset_default_provider_fun() {
-		
-		if ( ! current_user_can( AST_FREE_PLUGIN_ACCESS ) ) {
-			exit( 'You are not allowed' );
-		}
-		
-		check_ajax_referer( 'nonce_shipping_provider', 'security' );
-		
-		global $wpdb;		
-		
-		$provider_id = isset( $_POST['provider_id'] ) ? wc_clean( $_POST['provider_id'] ) : '';
-		
-		$data_array = array(				
-			'custom_provider_name' => null,				
-			'custom_thumb_id' => null,
-			'api_provider_name' => null,			
-		);	
-		
-		$where_array = array(
-			'id' => $provider_id,			
-		);
-		
-		$wpdb->update( $this->table, $data_array, $where_array );
-		$html = $this->get_provider_html( 1 );
-		exit;
-	}	
-	
-	/**
 	* Update bulk status of providers to active
 	*/
 	public function update_provider_status_fun() {
@@ -2063,20 +1999,7 @@ class WC_Advanced_Shipment_Tracking_Admin {
 		
 		global $wpdb;
 		
-		$tracking_provider = $wpdb->get_var( $wpdb->prepare( 'SELECT ts_slug FROM %1s WHERE api_provider_name = %s', $this->table, $tracking_provider_name ) );				
-		
-		if ( !$tracking_provider ) {			
-			// $tracking_provider = $wpdb->get_var(  $wpdb->prepare( "SELECT ts_slug FROM %1s WHERE JSON_CONTAINS(LOWER(api_provider_name), LOWER('[" . '"' . $tracking_provider_name . '"' . "]') )", $this->table ) );
-			$tracking_provider = $wpdb->get_var( $wpdb->prepare(
-				"SELECT ts_slug FROM %1s WHERE JSON_CONTAINS(LOWER(api_provider_name), LOWER(%s))",
-				$this->table,
-				'["' . esc_sql( $tracking_provider_name ) . '"]'
-			) );
-		}
-		
-		if ( !$tracking_provider ) {
-			$tracking_provider = $wpdb->get_var( $wpdb->prepare( 'SELECT ts_slug FROM %1s WHERE provider_name = %s', $this->table, $tracking_provider_name ) );
-		}		
+		$tracking_provider = $wpdb->get_var( $wpdb->prepare( 'SELECT ts_slug FROM %1s WHERE provider_name = %s', $this->table, $tracking_provider_name ) );				
 		
 		if ( !$tracking_provider ) {
 			$tracking_provider =  $tracking_provider_name ;
