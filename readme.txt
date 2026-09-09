@@ -2,11 +2,11 @@
 Contributors: zorem, gaurav1092, eranzorem, satishzorem
 Tags: shipment tracking, order tracking, tracking number, shipping, fulfillment
 Requires at least: 5.3
-Tested up to: 7.0.4
-Stable tag: 4.0.2
+Tested up to: 7.1
+Stable tag: 4.0.3
 Requires PHP: 7.2
 WC requires at least: 5.0
-WC tested up to: 11.0.1
+WC tested up to: 11.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -225,6 +225,9 @@ Yes. AST is compatible with popular custom order number plugins. You can use cus
 
 
 == Changelog ==
+
+= 4.0.3 =
+* Dev – Tested with WooCommerce 11.1.0 and WordPress 7.1
 
 = 4.0.2 =
 * Dev – Tested with WooCommerce 11.0.1 and WordPress 7.0.4
