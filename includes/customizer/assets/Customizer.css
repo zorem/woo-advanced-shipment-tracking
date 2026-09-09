@@ -255,11 +255,11 @@ input[type=text] {
 	box-shadow: none;
 }
 .wp-core-ui .button-trackship.btn_large {
-	background: #3b64d3;
-    border-color: #3b64d3;
-	color: #fff;
-	font-size: 14px;
-	line-height: 16px;
+	box-sizing: border-box;
+	height: 30px;
+	min-height: 30px;
+	line-height: 28px;
+	padding: 0 12px;
 	margin: 8px;
 }
 .wp-core-ui button.btn_large.button-primary[disabled] {
@@ -529,6 +529,3 @@ input[type=checkbox].tgl {
     background: #ed1c24;
 }
 /*** Snackbar css END ***/
-.zoremmail-layout .select2-container{
-    height: 30px;
-}

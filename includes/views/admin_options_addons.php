@@ -333,7 +333,7 @@ $ast_addons = array(
 					<?php zui_icon( 'zap' ); ?>
 					<span><?php esc_html_e( 'Get Started With PRO', 'woo-advanced-shipment-tracking' ); ?></span>
 				</a>
-				<span class="ast-gp-cta__note"><?php esc_html_e( '60,000+ stores already shipping faster', 'woo-advanced-shipment-tracking' ); ?></span>
+				<span class="ast-gp-cta__note"><?php esc_html_e( '70,000+ stores already shipping faster', 'woo-advanced-shipment-tracking' ); ?></span>
 			</div>
 		</div>
 

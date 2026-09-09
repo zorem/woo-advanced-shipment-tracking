@@ -386,6 +386,10 @@ input.inner_tab_input:checked + label.ts_tabs_label{
 .wp-core-ui .btn_full{
 	width: 100%;
 }
+.wp-core-ui .add_tracking_inside{
+	margin-top: 10px;
+	text-align: center;
+}
 
 .wp-core-ui .btn_red {
 	background: red;
@@ -577,7 +581,7 @@ ul.wcast-tracking-number-list, ul.wcast-shipment-status-list {
 	background: #f5f7fb;
 }
 .woocommerce_page_woocommerce-advanced-shipment-tracking #wpcontent{
-	padding-left: 0;	
+	padding-left: 0;
 }
 /* .woocommerce_page_woocommerce-advanced-shipment-tracking #wpbody-content{
 	padding-bottom: 40px;

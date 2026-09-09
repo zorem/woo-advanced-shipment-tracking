@@ -217,6 +217,15 @@ class WC_Advanced_Shipment_Tracking_Admin {
 			remove_all_actions( 'network_admin_notices' );
 			remove_all_actions( 'all_admin_notices' );
 			remove_all_actions( 'user_admin_notices' );
+
+			// The sweep above exists to keep third-party clutter off AST's own
+			// screen, not to silence AST. Put the review request back — it has
+			// its own dismiss flag, so re-registering it here cannot resurrect
+			// a notice the user already dismissed.
+			add_action(
+				'admin_notices',
+				array( WC_Advanced_Shipment_Tracking_Admin_Notice::get_instance(), 'ast_review_admin_notice_4_0_2' )
+			);
 		}
 	}
 	/*

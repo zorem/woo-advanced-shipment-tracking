@@ -65,6 +65,7 @@
 @import url("./components/snackbar.css");
 @import url("./components/loader.css");
 @import url("./components/notice.css");
+@import url("./components/plugin-notice.css");
 
 /* ---- License page (cross-plugin shared template) ---- */
 @import url("./components/lic-page.css");
