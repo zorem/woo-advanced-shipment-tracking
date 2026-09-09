@@ -12,13 +12,6 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 	 */
 	private static $instance;
 
-	/**
-	 * Whether shared notice styles have already been emitted on this request.
-	 *
-	 * @var bool
-	 */
-	private $styles_emitted = false;
-
 	public function __construct() {
 		$this->init();
 	}
@@ -39,9 +32,8 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 
 		add_action( 'admin_notices', array( $this, 'ast_review_admin_notice_4_0_2' ) );
 
-		$page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
-		if ( 'woocommerce-advanced-shipment-tracking' !== $page ) {
-			add_action( 'admin_notices', array( $this, 'ast_pro_notice_4_0' ) );
+		if ( ! $this->is_ast_settings_screen() ) {
+			add_action( 'admin_notices', array( $this, 'ast_pro_notice_4_0_3' ) );
 		}
 
 		// Shortcode used by the settings screen to inject a status message inline.
@@ -61,9 +53,9 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 	 */
 	public function handle_dismissals() {
 		$map = array(
-			'ast-review-update-notice-4-0-2'      => array( 'ast_review_dismiss_notice_4_0_2', 'ast_review_update_ignore_4_0_2' ),
-			'ast-pro-notice-4-0'                => array( 'ast_pro_dismiss_notice_4_0',    'ast_notice_ignore_4_0' ),
-			'ast-3-9-2-db-update-notice-ignore' => array( 'ast_db_update_dismiss_notice',  'ast_3_9_2_db_update_notice_ignore' ),
+			'ast-review-update-notice-4-0-2'    => array( 'ast_review_dismiss_notice_4_0_2', 'ast_review_update_ignore_4_0_2' ),
+			'ast-pro-notice-4-0-3'              => array( 'ast_pro_dismiss_notice_4_0_3',    'ast_notice_ignore_4_0_3' ),
+			'ast-3-9-2-db-update-notice-ignore' => array( 'ast_db_update_dismiss_notice',    'ast_3_9_2_db_update_notice_ignore' ),
 		);
 		foreach ( $map as $query_arg => list( $action, $option ) ) {
 			if ( isset( $_GET[ $query_arg ], $_GET['nonce'] )
@@ -90,13 +82,34 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 	}
 
 	/**
+	 * The AST settings screen renders its own in-page upsells, so the PRO card
+	 * is suppressed there. Kept as one predicate because both the hook
+	 * registration and the asset gate have to agree on it.
+	 */
+	private function is_ast_settings_screen() {
+		$page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only screen check.
+		return 'woocommerce-advanced-shipment-tracking' === $page;
+	}
+
+	private function review_notice_visible() {
+		return ! get_option( 'ast_review_update_ignore_4_0_2' );
+	}
+
+	private function pro_notice_visible() {
+		return ! get_option( 'ast_notice_ignore_4_0_3' ) && ! $this->is_ast_settings_screen();
+	}
+
+	/**
 	 * Load the .zui-pnotice component for notices that render on every admin
 	 * screen. The settings screens already pull it in through the zui.css
 	 * aggregator, so this only fires where that bundle is absent — the file is
 	 * authored to work outside `.zui-scope` with hardcoded token fallbacks.
 	 */
 	public function enqueue_notice_assets() {
-		if ( get_option( 'ast_review_update_ignore_4_0_2' ) ) {
+		// Both .zui-pnotice cards need this file, and they are dismissed
+		// independently — gating on the review flag alone left the PRO card
+		// unstyled for anyone who had already dismissed the review notice.
+		if ( ! $this->review_notice_visible() && ! $this->pro_notice_visible() ) {
 			return;
 		}
 
@@ -134,88 +147,99 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 	}
 
 	/**
-	 * Emit the shared notice + button CSS exactly once per request. The banner
-	 * itself is the WP core `.notice` element; button styling bypasses
-	 * `.button-primary` so WooCommerce admin CSS can't inject height/line-height
-	 * on our CTAs. Accent color is driven by the `--ast-notice-accent` custom
-	 * property so every notice reuses the same rules with only a color swap.
+	 * Open a .zui-pnotice card with the library's documented shell: brand
+	 * emblem, then the body wrapper the caller fills. Both cards carry the same
+	 * emblem, so building it in one place keeps them in sync with the
+	 * settings-header emblem via brand.php.
+	 *
+	 * @param string $id          DOM id, also used by the behaviour script.
+	 * @param string $dismiss_url Raw nonced dismiss URL.
 	 */
-	private function emit_shared_notice_styles() {
-		if ( $this->styles_emitted ) {
-			return;
-		}
-		$this->styles_emitted = true;
+	private function open_pnotice( $id, $dismiss_url ) {
+		$brand        = $this->zui_brand();
+		$emblem_style = sprintf(
+			'--zui-pnotice-avatar-bg:%s;--zui-pnotice-avatar-color:%s;',
+			$brand['emblem_bg'],
+			$brand['emblem_color']
+		);
 		?>
-		<style>
-		.wp-core-ui .notice.ast-dismissable-notice {
-			position: relative;
-			padding-right: 38px;
-			border-left-color: var(--ast-notice-accent, #3b64d3);
-		}
-		.wp-core-ui .notice.ast-dismissable-notice h2,
-		.wp-core-ui .notice.ast-dismissable-notice h3 { margin-bottom: 5px; }
-		.wp-core-ui .notice.ast-dismissable-notice a.notice-dismiss {
-			padding: 9px;
-			text-decoration: none;
-		}
-		.ast-dismissable-notice strong { font-weight: bold; }
-		.ast-dismissable-notice .ts-updated-notice { margin: 1em 0 !important; }
-		.ast-dismissable-notice .ast-notice-btn {
-			display: inline-block !important;
-			background: var(--ast-notice-accent, #3b64d3) !important;
-			color: #fff !important;
-			border: 1px solid var(--ast-notice-accent, #3b64d3) !important;
-			border-radius: 3px !important;
-			text-transform: uppercase !important;
-			text-decoration: none !important;
-			padding: 6px 14px !important;
-			font-size: 12px !important;
-			font-weight: 600 !important;
-			height: auto !important;
-			min-height: 0 !important;
-			box-shadow: none !important;
-			margin: 5px 6px 10px 0 !important;
-			cursor: pointer;
-			vertical-align: middle;
-		}
-		.ast-dismissable-notice .ast-notice-btn:hover,
-		.ast-dismissable-notice .ast-notice-btn:focus {
-			filter: brightness(0.88);
-			color: #fff !important;
-		}
-		</style>
+		<div class="zui-pnotice" id="<?php echo esc_attr( $id ); ?>" role="status" data-dismiss-url="<?php echo esc_attr( $dismiss_url ); ?>">
+
+			<span class="zui-pnotice__avatar" aria-hidden="true" style="<?php echo esc_attr( $emblem_style ); ?>">
+				<?php zui_icon( $brand['icon'] ); ?>
+			</span>
+
+			<div class="zui-pnotice__body">
 		<?php
 	}
 
 	/**
-	 * Render a dismissible promotional notice.
+	 * Close the card started by open_pnotice() and emit its behaviour script.
 	 *
-	 * @param array $args {
-	 *     @type string $query_arg     GET flag used to dismiss the notice.
-	 *     @type string $nonce_action  Nonce action paired with $query_arg.
-	 *     @type string $accent        Accent color hex (drives --ast-notice-accent).
-	 *     @type string $content       Trusted HTML for the notice body (heading + copy).
-	 *     @type string $primary_url   Optional primary CTA href.
-	 *     @type string $primary_label Optional primary CTA label.
-	 *     @type string $primary_target Optional primary CTA target attribute.
-	 * }
+	 * @param string $id DOM id passed to open_pnotice().
 	 */
-	private function render_dismissible_notice( $args ) {
-		$this->emit_shared_notice_styles();
-		$dismiss_url    = $this->dismiss_url( $args['query_arg'], $args['nonce_action'] );
-		$accent         = isset( $args['accent'] ) ? $args['accent'] : '#3b64d3';
-		$primary_url    = isset( $args['primary_url'] ) ? $args['primary_url'] : '';
-		$primary_label  = isset( $args['primary_label'] ) ? $args['primary_label'] : '';
-		$primary_target = isset( $args['primary_target'] ) ? $args['primary_target'] : '_self';
+	private function close_pnotice( $id ) {
 		?>
-		<div class="notice updated notice-success ast-dismissable-notice" style="--ast-notice-accent: <?php echo esc_attr( $accent ); ?>;">
-			<a href="<?php echo esc_url( $dismiss_url ); ?>" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></a>
-			<?php echo $args['content']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- trusted internal markup ?>
-			<?php if ( $primary_url ) : ?>
-				<a class="ast-notice-btn" target="<?php echo esc_attr( $primary_target ); ?>" href="<?php echo esc_url( $primary_url ); ?>"><?php echo esc_html( $primary_label ); ?></a>
-			<?php endif; ?>
-			<a class="ast-notice-btn" href="<?php echo esc_url( $dismiss_url ); ?>"><?php esc_html_e( 'Dismiss', 'woo-advanced-shipment-tracking' ); ?></a>
+			</div>
+
+			<button type="button" class="zui-pnotice__close" aria-label="<?php esc_attr_e( 'Dismiss', 'woo-advanced-shipment-tracking' ); ?>">&times;</button>
 		</div>
+		<?php
+		$this->pnotice_behavior_script( $id );
+	}
+
+	/**
+	 * Gutter fix + dismissal for one .zui-pnotice card, matching the
+	 * component's JS contract (nothing is auto-wired; the consumer decides).
+	 * Printed per card rather than once at admin_footer so the margin is set
+	 * before the card is painted — at footer time the browser has already laid
+	 * the notice out and the correction shows up as a visible sideways jump.
+	 *
+	 * @param string $id DOM id of the card.
+	 */
+	private function pnotice_behavior_script( $id ) {
+		?>
+		<script>
+		( function () {
+			var notice = document.getElementById( <?php echo wp_json_encode( $id ); ?> );
+			if ( ! notice ) {
+				return;
+			}
+
+			// Left gutter. wp-admin normally supplies it through #wpcontent's
+			// 20px padding-left, but any plugin screen running a full-bleed app
+			// zeroes that padding — and CSS cannot ask whether it is still
+			// there. Naming those screens breaks the moment another plugin uses
+			// a different wrapper, so measure what the page actually has and top
+			// it up to 20px. Works on every screen without knowing any of them.
+			var content = document.getElementById( 'wpcontent' );
+			var pad     = content ? parseFloat( getComputedStyle( content ).paddingLeft ) || 0 : 0;
+			if ( pad < 20 ) {
+				notice.style.marginLeft = ( 20 - pad ) + 'px';
+			}
+
+			notice.addEventListener( 'click', function ( e ) {
+				// The CTA opens in a new tab and must leave this page alone.
+				// Nothing here touches it, but admin screens are full of
+				// document-level click handlers from other plugins, so the event
+				// is stopped at the card rather than left to bubble into one.
+				if ( e.target.closest( '.zui-pnotice__btn' ) ) {
+					e.stopPropagation();
+					return;
+				}
+
+				// Only the explicit dismiss controls store the flag. Opening the
+				// review or pricing page is not proof the user acted on it —
+				// plenty of people get sidetracked on the way — so the card
+				// stays until the user says so themselves.
+				if ( ! e.target.closest( '.zui-pnotice__close, .zui-pnotice__link' ) ) {
+					return;
+				}
+				notice.setAttribute( 'hidden', '' );
+				fetch( notice.dataset.dismissUrl, { credentials: 'same-origin' } );
+			} );
+		}() );
+		</script>
 		<?php
 	}
 
@@ -249,25 +273,13 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 	 * that URL, matching the component's JS contract.
 	 */
 	public function ast_review_admin_notice_4_0_2() {
-		if ( get_option( 'ast_review_update_ignore_4_0_2' ) ) {
+		if ( ! $this->review_notice_visible() ) {
 			return;
 		}
 
-		$dismiss_url  = $this->dismiss_url( 'ast-review-update-notice-4-0-2', 'ast_review_dismiss_notice_4_0_2' );
-		$brand        = $this->zui_brand();
-		$emblem_style = sprintf(
-			'--zui-pnotice-avatar-bg:%s;--zui-pnotice-avatar-color:%s;',
-			$brand['emblem_bg'],
-			$brand['emblem_color']
-		);
+		$dismiss_url = $this->dismiss_url( 'ast-review-update-notice-4-0-2', 'ast_review_dismiss_notice_4_0_2' );
+		$this->open_pnotice( 'ast-review-notice', $dismiss_url );
 		?>
-		<div class="zui-pnotice" id="ast-review-notice" role="status" data-dismiss-url="<?php echo esc_attr( $dismiss_url ); ?>">
-
-			<span class="zui-pnotice__avatar" aria-hidden="true" style="<?php echo esc_attr( $emblem_style ); ?>">
-				<?php zui_icon( $brand['icon'] ); ?>
-			</span>
-
-			<div class="zui-pnotice__body">
 				<strong class="zui-pnotice__title"><?php esc_html_e( '⭐ Enjoying AST? Leave Us a Review!', 'woo-advanced-shipment-tracking' ); ?></strong>
 				<p class="zui-pnotice__text"><?php echo wp_kses_post( __( 'We hope <strong>Advanced Shipment Tracking</strong> has improved your order fulfillment workflow! Your feedback helps us grow and continue improving the plugin.', 'woo-advanced-shipment-tracking' ) ); ?></p>
 				<p class="zui-pnotice__text"><?php esc_html_e( 'If you love using AST, we\'d really appreciate it if you could take a moment to leave us a 5-star review. It helps us keep improving and providing the best experience for you!', 'woo-advanced-shipment-tracking' ); ?></p>
@@ -277,87 +289,48 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 					<a class="zui-pnotice__btn" href="https://wordpress.org/support/plugin/woo-advanced-shipment-tracking/reviews/#new-post" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Leave a Review', 'woo-advanced-shipment-tracking' ); ?></a>
 					<button type="button" class="zui-pnotice__link"><?php esc_html_e( 'Dismiss', 'woo-advanced-shipment-tracking' ); ?></button>
 				</div>
-			</div>
-
-			<button type="button" class="zui-pnotice__close" aria-label="<?php esc_attr_e( 'Dismiss', 'woo-advanced-shipment-tracking' ); ?>">&times;</button>
-		</div>
-		<script>
-		( function () {
-			var notice = document.getElementById( 'ast-review-notice' );
-			if ( ! notice ) {
-				return;
-			}
-
-			// Left gutter. wp-admin normally supplies it through #wpcontent's
-			// 20px padding-left, but any plugin screen running a full-bleed app
-			// zeroes that padding — and CSS cannot ask whether it is still
-			// there. Naming those screens breaks the moment another plugin uses
-			// a different wrapper, so measure what the page actually has and top
-			// it up to 20px. Works on every screen without knowing any of them.
-			var content = document.getElementById( 'wpcontent' );
-			var pad     = content ? parseFloat( getComputedStyle( content ).paddingLeft ) || 0 : 0;
-			if ( pad < 20 ) {
-				notice.style.marginLeft = ( 20 - pad ) + 'px';
-			}
-
-			notice.addEventListener( 'click', function ( e ) {
-				// The review link opens in a new tab and must leave this page
-				// alone. Nothing here touches it, but admin screens are full of
-				// document-level click handlers from other plugins, so the event
-				// is stopped at the card rather than left to bubble into one.
-				if ( e.target.closest( '.zui-pnotice__btn' ) ) {
-					e.stopPropagation();
-					return;
-				}
-
-				// Only the explicit dismiss controls store the flag. Opening the
-				// review page is not proof a review was written — plenty of
-				// people get sidetracked on the way — so the card stays until
-				// the user says so themselves.
-				if ( ! e.target.closest( '.zui-pnotice__close, .zui-pnotice__link' ) ) {
-					return;
-				}
-				notice.setAttribute( 'hidden', '' );
-				fetch( notice.dataset.dismissUrl, { credentials: 'same-origin' } );
-			} );
-		}() );
-		</script>
 		<?php
+		$this->close_pnotice( 'ast-review-notice' );
 	}
 
 	/* -----------------------------------------------------------------
 	 * Notice: AST PRO upsell (🚀)
 	 * ----------------------------------------------------------------- */
 
-	public function ast_pro_notice_4_0() {
-		if ( get_option( 'ast_notice_ignore_4_0' ) ) {
+	/**
+	 * Rebuilt in 4.0.3 on the shared .zui-pnotice component, so the upsell card
+	 * matches the review notice and the redesigned settings screens instead of
+	 * the old core `.notice` banner with its own inline button CSS.
+	 *
+	 * The copy moved from a five-item checklist to two short paragraphs: the
+	 * component styles a title and `__text` runs, not lists, and a bare `<ul>`
+	 * in the body inherits whatever wp-admin happens to apply. Every feature
+	 * from the old list is still named — auto-import, PayPal/Stripe sync,
+	 * one-click updates, item-level tracking, CSV import, the dashboard.
+	 *
+	 * The dismiss option is version-tagged (4_0_3), following the same pattern
+	 * as the other notices, so the refreshed card surfaces once for users who
+	 * had dismissed the 4.0 version.
+	 */
+	public function ast_pro_notice_4_0_3() {
+		if ( ! $this->pro_notice_visible() ) {
 			return;
 		}
 
-		ob_start();
+		$dismiss_url = $this->dismiss_url( 'ast-pro-notice-4-0-3', 'ast_pro_dismiss_notice_4_0_3' );
+		$this->open_pnotice( 'ast-pro-notice', $dismiss_url );
 		?>
-		<h3 class="ts-updated-notice"><?php esc_html_e( '🚀 Upgrade to AST PRO – Automate Your Shipping Workflow', 'woo-advanced-shipment-tracking' ); ?></h3>
-		<p><?php esc_html_e( 'Stop copy-pasting tracking numbers:', 'woo-advanced-shipment-tracking' ); ?></p>
-		<ul>
-			<li><?php esc_html_e( '✅ Auto-import tracking from 70+ shipping providers', 'woo-advanced-shipment-tracking' ); ?></li>
-			<li><?php esc_html_e( '✅ Sync tracking to PayPal & Stripe to release funds faster', 'woo-advanced-shipment-tracking' ); ?></li>
-			<li><?php esc_html_e( '✅ Update orders & notify customers in one click', 'woo-advanced-shipment-tracking' ); ?></li>
-			<li><?php esc_html_e( '✅ Item-level tracking, custom statuses & bulk CSV import', 'woo-advanced-shipment-tracking' ); ?></li>
-			<li><?php esc_html_e( '✅ Manage everything from one fulfillment dashboard', 'woo-advanced-shipment-tracking' ); ?></li>
-		</ul>
-		<p><?php echo wp_kses_post( __( '🎁 <strong>20% OFF</strong> with code <strong>ASTPRO20</strong> — new customers only!', 'woo-advanced-shipment-tracking' ) ); ?></p>
-		<?php
-		$content = ob_get_clean();
+				<strong class="zui-pnotice__title"><?php esc_html_e( '🚀 Upgrade to AST PRO — Automate Your Shipping Workflow', 'woo-advanced-shipment-tracking' ); ?></strong>
+				<p class="zui-pnotice__text"><?php echo wp_kses_post( __( 'Still adding tracking numbers by hand? <strong>AST PRO</strong> imports them automatically from ShipStation, WooCommerce Shipping, Sendcloud, Pirate Ship, Ordoro, Royal Mail Click &amp; Drop, Stamps.com and Printful — the moment your shipping label is created.', 'woo-advanced-shipment-tracking' ) ); ?></p>
+				<p class="zui-pnotice__text"><?php echo wp_kses_post( __( 'It also syncs tracking to <strong>PayPal and Stripe</strong> to release payment holds and reduce &ldquo;Item Not Received&rdquo; disputes, auto-detects the carrier from the tracking number, and adds item-level tracking, custom and white-labeled carriers, scheduled FTP/SFTP imports, and one fulfillment dashboard for every shipment.', 'woo-advanced-shipment-tracking' ) ); ?></p>
+				<p class="zui-pnotice__text"><?php echo wp_kses_post( __( '🎁 <strong>20% OFF</strong> with code <strong>ASTPRO20</strong> — new customers only.', 'woo-advanced-shipment-tracking' ) ); ?></p>
 
-		$this->render_dismissible_notice( array(
-			'query_arg'      => 'ast-pro-notice-4-0',
-			'nonce_action'   => 'ast_pro_dismiss_notice_4_0',
-			'accent'         => '#3b64d3',
-			'content'        => $content,
-			'primary_url'    => 'https://www.zorem.com/product/woocommerce-advanced-shipment-tracking/',
-			'primary_label'  => __( '👉 Upgrade to AST PRO', 'woo-advanced-shipment-tracking' ),
-			'primary_target' => '_blank',
-		) );
+				<div class="zui-pnotice__actions">
+					<a class="zui-pnotice__btn" href="https://www.zorem.com/product/woocommerce-advanced-shipment-tracking/" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Upgrade to AST PRO', 'woo-advanced-shipment-tracking' ); ?></a>
+					<button type="button" class="zui-pnotice__link"><?php esc_html_e( 'Maybe later', 'woo-advanced-shipment-tracking' ); ?></button>
+				</div>
+		<?php
+		$this->close_pnotice( 'ast-pro-notice' );
 	}
 
 	/* -----------------------------------------------------------------
