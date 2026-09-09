@@ -1,0 +1,385 @@
+/* ============================================================
+   Zorem UI — Plugin Notice (branded admin call-out)
+   ------------------------------------------------------------
+   Wide, branded notice card used for plugin-level announcements
+   inside wp-admin: onboarding prompts, "connect your account",
+   feature announcements, migration warnings, upgrade nudges.
+
+   Same shell as the review-request notice (white card, 4 px
+   brand accent on the inline start, round plugin emblem, title +
+   copy, action row) — but with NO star row and NO signature /
+   attribution line above the buttons. The emblem carries the
+   plugin's icon instead of a person's initials, so the notice
+   reads as coming from the plugin, not from a person.
+
+   The icon key + emblem colors come straight out of the brand
+   registry, so the circle matches the plugin's header emblem:
+
+     <?php $brand = \Zorem\UI\get_plugin_brand( $slug ); ?>
+     <span class="zui-pnotice__avatar" aria-hidden="true">
+       <?php \Zorem\UI\icon( $brand['icon'] ); ?>
+     </span>
+
+   A short form (`AST` / `CBR` / `SMS`) still renders correctly if
+   a plugin has no icon key — same circle, uppercase 700 text.
+
+   Rendered in the `admin_notices` hook it lands OUTSIDE
+   `.zui-scope`, so — like `.zui-notice` — every rule is written
+   twice (scoped + unscoped) and every token has a hardcoded
+   fallback. Nothing here depends on `button.css` or `icon.css`.
+
+   Markup:
+
+     <div class="zui-pnotice" role="status">
+
+       <span class="zui-pnotice__avatar" aria-hidden="true">
+         <svg><!-- globe / package / mail / phone … --></svg>
+       </span>
+
+       <div class="zui-pnotice__body">
+         <strong class="zui-pnotice__title">Title line</strong>
+         <p class="zui-pnotice__text">One or two sentences of copy.</p>
+
+         <div class="zui-pnotice__actions">
+           <a class="zui-pnotice__btn" href="#">Primary action</a>
+           <button type="button" class="zui-pnotice__btn zui-pnotice__btn--ghost">
+             Secondary
+           </button>
+           <button type="button" class="zui-pnotice__link">Maybe later</button>
+         </div>
+       </div>
+
+       <button type="button" class="zui-pnotice__close"
+               aria-label="Dismiss">&times;</button>
+     </div>
+
+   Variants (drive `--zui-pnotice-accent` — the inline-start bar
+   and the default emblem fill):
+     (none)      brand blue — the default
+     --success   green
+     --warning   amber
+     --danger    red
+
+   Emblem colors resolve in this order:
+
+     1. --zui-pnotice-avatar-bg / --zui-pnotice-avatar-color
+        (set on this notice only)
+     2. --zui-brand-emblem-bg / --zui-brand-emblem-color
+        (the plugin-wide pair — if the consumer sets them on
+        `.zui-scope` instead of inline on `.zui-brand__emblem`,
+        this notice inherits the plugin's colors automatically)
+     3. the notice accent, with a white icon (default)
+
+   Level 2 is the "set once" path — put the registry pair on the
+   scope wrapper and the header emblem and every plugin notice on
+   the page stay in sync with no per-notice markup:
+
+     <div class="zui-scope"
+          style="--zui-brand-emblem-bg:#FFEDD5;
+                 --zui-brand-emblem-color:#EA580C;">
+
+   Level 1 overrides one notice — same `emblem_bg` / `emblem_color`
+   pair out of `\Zorem\UI\get_plugin_brand()`:
+
+     <span class="zui-pnotice__avatar" aria-hidden="true"
+           style="--zui-pnotice-avatar-bg:#FFEDD5;
+                  --zui-pnotice-avatar-color:#EA580C;">
+       <svg><!-- globe --></svg>
+     </span>
+
+   JS contract:
+   - Nothing is auto-wired. The consuming plugin decides what the
+     buttons do and whether dismissal is local (`hidden`) or
+     persistent (AJAX + option / user-meta).
+   ============================================================ */
+
+/* ---- Root card ---- */
+
+.zui-scope .zui-pnotice,
+.zui-pnotice {
+	--zui-pnotice-accent: var(--zui-primary, #3b64d3);
+	display: flex;
+	align-items: flex-start;
+	gap: 16px;
+	margin-block: 12px;
+	padding: 18px 20px;
+	background: var(--zui-surface, #ffffff);
+	border: 1px solid var(--zui-border, #e2e8f0);
+	border-inline-start: 4px solid var(--zui-pnotice-accent);
+	border-radius: var(--zui-radius-xl, 12px);
+	box-shadow: var(--zui-shadow-xs, 0 1px 2px rgba(15, 23, 42, 0.04));
+	font-family: var(--zui-font, 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+	color: var(--zui-text-strong, #0f172a);
+	box-sizing: border-box;
+}
+
+.zui-scope .zui-pnotice *,
+.zui-pnotice * {
+	box-sizing: border-box;
+}
+
+.zui-scope .zui-pnotice[hidden],
+.zui-pnotice[hidden] {
+	display: none;
+}
+
+/* ---- Plugin emblem (icon; short form as fallback) ---- */
+
+.zui-scope .zui-pnotice__avatar,
+.zui-pnotice__avatar {
+	flex: 0 0 auto;
+	width: 44px;
+	height: 44px;
+	border-radius: 50%;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	/* Resolution order: notice-specific override → the plugin-wide
+	   `--zui-brand-emblem-*` pair (set once on `.zui-scope`, shared with
+	   the header emblem) → the notice accent with a white icon. */
+	background: var(--zui-pnotice-avatar-bg, var(--zui-brand-emblem-bg, var(--zui-pnotice-accent)));
+	color: var(--zui-pnotice-avatar-color, var(--zui-brand-emblem-color, #ffffff));
+	font-size: 13px;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	line-height: 1;
+	text-transform: uppercase;
+	user-select: none;
+}
+
+/* Icon emblem — `\Zorem\UI\icon()` output or any inline SVG. */
+.zui-scope .zui-pnotice__avatar svg,
+.zui-scope .zui-pnotice__avatar .zui-icon,
+.zui-pnotice__avatar svg,
+.zui-pnotice__avatar .zui-icon {
+	width: 22px;
+	height: 22px;
+	display: block;
+	flex: 0 0 auto;
+	stroke-width: 2;
+}
+
+/* Optional image emblem (plugin logo) instead of the icon. */
+.zui-scope .zui-pnotice__avatar img,
+.zui-pnotice__avatar img {
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+	object-fit: cover;
+	display: block;
+}
+
+/* ---- Body ---- */
+
+.zui-scope .zui-pnotice__body,
+.zui-pnotice__body {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+.zui-scope .zui-pnotice__title,
+.zui-pnotice__title {
+	display: block;
+	margin: 0 0 4px;
+	font-size: 15px;
+	font-weight: 700;
+	line-height: 1.4;
+	color: var(--zui-text-strong, #0f172a);
+}
+
+.zui-scope .zui-pnotice__text,
+.zui-pnotice__text {
+	margin: 0;
+	font-size: 13px;
+	line-height: 1.55;
+	color: var(--zui-text-soft, #475569);
+}
+
+.zui-scope .zui-pnotice__text + .zui-pnotice__text,
+.zui-pnotice__text + .zui-pnotice__text {
+	margin-block-start: 6px;
+}
+
+/* ---- Action row ---- */
+
+.zui-scope .zui-pnotice__actions,
+.zui-pnotice__actions {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin-block-start: 14px;
+}
+
+.zui-scope .zui-pnotice__btn,
+.zui-pnotice__btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	padding: 9px 18px;
+	background: var(--zui-primary, #3b64d3);
+	color: #ffffff;
+	border: 1px solid transparent;
+	border-radius: var(--zui-radius-lg, 8px);
+	font-family: inherit;
+	font-size: 13px;
+	font-weight: 600;
+	line-height: 1.3;
+	text-decoration: none;
+	cursor: pointer;
+	white-space: nowrap;
+	transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+
+.zui-scope .zui-pnotice__btn:hover,
+.zui-pnotice__btn:hover {
+	background: var(--zui-primary-hover, #2d4db5);
+	color: #ffffff;
+}
+
+.zui-scope .zui-pnotice__btn:focus-visible,
+.zui-scope .zui-pnotice__link:focus-visible,
+.zui-scope .zui-pnotice__close:focus-visible,
+.zui-pnotice__btn:focus-visible,
+.zui-pnotice__link:focus-visible,
+.zui-pnotice__close:focus-visible {
+	outline: 2px solid var(--zui-primary, #3b64d3);
+	outline-offset: 2px;
+}
+
+.zui-scope .zui-pnotice__btn--ghost,
+.zui-pnotice__btn--ghost {
+	background: var(--zui-surface, #ffffff);
+	color: var(--zui-text, #1e293b);
+	border-color: var(--zui-border, #e2e8f0);
+}
+
+.zui-scope .zui-pnotice__btn--ghost:hover,
+.zui-pnotice__btn--ghost:hover {
+	background: var(--zui-bg, #f8fafc);
+	color: var(--zui-text-strong, #0f172a);
+}
+
+.zui-scope .zui-pnotice__btn:disabled,
+.zui-scope .zui-pnotice__btn[disabled],
+.zui-pnotice__btn:disabled,
+.zui-pnotice__btn[disabled] {
+	opacity: 0.55;
+	cursor: not-allowed;
+}
+
+/* Plain text link — lowest-weight action ("Maybe later"). */
+.zui-scope .zui-pnotice__link,
+.zui-pnotice__link {
+	padding: 0 4px;
+	background: none;
+	border: 0;
+	color: var(--zui-text-soft, #475569);
+	font-family: inherit;
+	font-size: 13px;
+	font-weight: 400;
+	line-height: 1.3;
+	text-decoration: underline;
+	cursor: pointer;
+	transition: color 160ms ease;
+}
+
+.zui-scope .zui-pnotice__link:hover,
+.zui-pnotice__link:hover {
+	color: var(--zui-text-strong, #0f172a);
+}
+
+/* ---- Close (optional) ---- */
+
+.zui-scope .zui-pnotice__close,
+.zui-pnotice__close {
+	flex: 0 0 auto;
+	width: 24px;
+	height: 24px;
+	padding: 0;
+	border: 0;
+	border-radius: 6px;
+	background: transparent;
+	color: var(--zui-text-muted, #94a3b8);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 18px;
+	line-height: 1;
+	cursor: pointer;
+	transition: background-color 160ms ease, color 160ms ease;
+}
+
+.zui-scope .zui-pnotice__close:hover,
+.zui-pnotice__close:hover {
+	background: rgba(15, 23, 42, 0.06);
+	color: var(--zui-text-strong, #0f172a);
+}
+
+/* ---- Accent variants ---- */
+
+.zui-scope .zui-pnotice--success,
+.zui-pnotice--success {
+	--zui-pnotice-accent: var(--zui-success, #10b981);
+}
+
+.zui-scope .zui-pnotice--warning,
+.zui-pnotice--warning {
+	--zui-pnotice-accent: var(--zui-warning, #f59e0b);
+}
+
+.zui-scope .zui-pnotice--danger,
+.zui-pnotice--danger {
+	--zui-pnotice-accent: var(--zui-danger, #f43f5e);
+}
+
+/* ---- Responsive ---- */
+
+@media (max-width: 600px) {
+	.zui-scope .zui-pnotice,
+	.zui-pnotice {
+		gap: 12px;
+		padding: 16px;
+	}
+
+	.zui-scope .zui-pnotice__avatar,
+	.zui-pnotice__avatar {
+		width: 36px;
+		height: 36px;
+		font-size: 11px;
+	}
+
+	.zui-scope .zui-pnotice__avatar svg,
+	.zui-scope .zui-pnotice__avatar .zui-icon,
+	.zui-pnotice__avatar svg,
+	.zui-pnotice__avatar .zui-icon {
+		width: 18px;
+		height: 18px;
+	}
+
+	.zui-scope .zui-pnotice__actions,
+	.zui-pnotice__actions {
+		gap: 8px;
+	}
+}
+
+/* ---- wp-admin placement ----
+   The card ships with vertical margins only, so rendered straight into the
+   `admin_notices` hook it runs flush against the screen edges. wp-admin gives
+   the left gutter through #wpcontent's 20px padding-left, so on an ordinary
+   admin screen only the right one is missing.
+
+   The left gutter is not settable here: full-bleed plugin screens zero that
+   padding to run edge to edge, and CSS cannot ask whether the padding is
+   present — while naming the screens that drop it (a page slug, an app wrapper
+   class) only works until the next plugin uses a different name. So the
+   consumer tops the left side up at runtime instead, against the measured
+   padding. See the snippet in the guide.
+
+   Scoped to `#wpcontent` so a card placed inside `.zui-scope` — in a settings
+   card, a modal — keeps the library's own edge-to-edge behaviour. */
+
+#wpcontent .zui-pnotice {
+	margin-right: 20px;
+}

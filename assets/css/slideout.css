@@ -233,6 +233,8 @@ input.tab_input_carrier:checked + label {
 }
 .add_tracking_popup .select2-container .select2-selection--single .select2-selection__rendered,.add_inside_tracking_popup .select2-container .select2-selection--single .select2-selection__rendered{
 	padding-left: 0;
+	/* WooCommerce admin.css (.wc-wp-version-gte-70) forces line-height: 38px, which breaks the 36px box */
+	line-height: 28px !important;
 }
 .add_inside_tracking_popup p.form-field.tracking_number_field {
 	margin: 0;

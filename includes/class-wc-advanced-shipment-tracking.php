@@ -402,7 +402,7 @@ class WC_Advanced_Shipment_Tracking_Actions {
 			}
 		}
 		echo '</div>';
-		echo '<a class="button button-primary btn_ast2 btn_full add_tracking_inside" style="line-height: 32px;margin-top: 10px;text-align: center;" href="javascript:void(0)">' . esc_html__( 'Add Tracking Info', 'woo-advanced-shipment-tracking' ) . '</a>';
+		echo '<a class="button button-primary btn_ast2 btn_full add_tracking_inside" href="javascript:void(0)">' . esc_html__( 'Add Tracking Info', 'woo-advanced-shipment-tracking' ) . '</a>';
 		?>
 		<div id="" class="slidout_container add_inside_tracking_popup">
 			<div class="slidout_header">

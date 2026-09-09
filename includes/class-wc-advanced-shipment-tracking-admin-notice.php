@@ -33,7 +33,11 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 	public function init() {
 		add_action( 'admin_init', array( $this, 'handle_dismissals' ) );
 
-		add_action( 'admin_notices', array( $this, 'ast_review_admin_notice_388' ) );
+		// Priority 20 so admin_styles() (priority 4) has already run and
+		// wp_style_is( 'zui' ) reports the settings-screen bundle correctly.
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_notice_assets' ), 20 );
+
+		add_action( 'admin_notices', array( $this, 'ast_review_admin_notice_4_0_2' ) );
 
 		$page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
 		if ( 'woocommerce-advanced-shipment-tracking' !== $page ) {
@@ -57,7 +61,7 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 	 */
 	public function handle_dismissals() {
 		$map = array(
-			'ast-review-update-notice-388'      => array( 'ast_review_dismiss_notice_388', 'ast_review_update_ignore_388' ),
+			'ast-review-update-notice-4-0-2'      => array( 'ast_review_dismiss_notice_4_0_2', 'ast_review_update_ignore_4_0_2' ),
 			'ast-pro-notice-4-0'                => array( 'ast_pro_dismiss_notice_4_0',    'ast_notice_ignore_4_0' ),
 			'ast-3-9-2-db-update-notice-ignore' => array( 'ast_db_update_dismiss_notice',  'ast_3_9_2_db_update_notice_ignore' ),
 		);
@@ -83,6 +87,50 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 			$query_arg => 'true',
 			'nonce'    => wp_create_nonce( $nonce_action ),
 		) );
+	}
+
+	/**
+	 * Load the .zui-pnotice component for notices that render on every admin
+	 * screen. The settings screens already pull it in through the zui.css
+	 * aggregator, so this only fires where that bundle is absent — the file is
+	 * authored to work outside `.zui-scope` with hardcoded token fallbacks.
+	 */
+	public function enqueue_notice_assets() {
+		if ( get_option( 'ast_review_update_ignore_4_0_2' ) ) {
+			return;
+		}
+
+		$zui_dir  = wc_advanced_shipment_tracking()->plugin_dir_url() . 'assets/zui/';
+		$zui_path = wc_advanced_shipment_tracking()->get_plugin_path() . '/assets/zui/';
+		$css_file = $zui_path . 'css/components/plugin-notice.css';
+		// Versioned off the file itself, not the library VERSION: a consumer-side
+		// edit to the component leaves that version untouched, so browsers keep
+		// serving the stale copy and the card renders half-styled until a manual
+		// reload. The mtime changes with every edit and stays cacheable after.
+		$zui_ver  = file_exists( $css_file ) ? filemtime( $css_file ) : wc_advanced_shipment_tracking()->version;
+		wp_enqueue_style( 'zui-pnotice', $zui_dir . 'css/components/plugin-notice.css', array(), $zui_ver );
+	}
+
+	/**
+	 * AST's entry from the shared ZUI brand registry — icon key plus the emblem
+	 * colour pair, so a notice emblem matches the settings-header emblem without
+	 * hardcoding either. Falls back to the AST values if the lookup ever misses.
+	 *
+	 * @return array
+	 */
+	private function zui_brand() {
+		require_once SHIPMENT_TRACKING_PATH . '/assets/zui/brand.php';
+		require_once SHIPMENT_TRACKING_PATH . '/assets/zui/icons.php';
+
+		$brand = zui_get_plugin_brand( 'woo-advanced-shipment-tracking/woocommerce-advanced-shipment-tracking.php' );
+		if ( ! is_array( $brand ) ) {
+			$brand = array(
+				'icon'         => 'package',
+				'emblem_bg'    => '#DBEAFE',
+				'emblem_color' => '#2563EB',
+			);
+		}
+		return $brand;
 	}
 
 	/**
@@ -185,29 +233,96 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 	 * Notice: review request (⭐)
 	 * ----------------------------------------------------------------- */
 
-	public function ast_review_admin_notice_388() {
-		if ( get_option( 'ast_review_update_ignore_388' ) ) {
+	/**
+	 * Built on the shared .zui-pnotice library component
+	 * (assets/zui/css/components/plugin-notice.css) — the branded plugin
+	 * call-out card: round brand emblem, title, copy, action row, close.
+	 *
+	 * Markup follows the library's documented structure exactly. Core's
+	 * `.notice` classes are deliberately absent — the guide calls that out,
+	 * because wp-admin's notice CSS fights the card's border, padding and
+	 * margins. Emblem icon + colours come from brand.php so the circle stays
+	 * in sync with the settings-header emblem.
+	 *
+	 * Dismissal reuses the same nonced endpoint as the other notices
+	 * (handle_dismissals()); the inline script just hides the card and pings
+	 * that URL, matching the component's JS contract.
+	 */
+	public function ast_review_admin_notice_4_0_2() {
+		if ( get_option( 'ast_review_update_ignore_4_0_2' ) ) {
 			return;
 		}
 
-		ob_start();
+		$dismiss_url  = $this->dismiss_url( 'ast-review-update-notice-4-0-2', 'ast_review_dismiss_notice_4_0_2' );
+		$brand        = $this->zui_brand();
+		$emblem_style = sprintf(
+			'--zui-pnotice-avatar-bg:%s;--zui-pnotice-avatar-color:%s;',
+			$brand['emblem_bg'],
+			$brand['emblem_color']
+		);
 		?>
-		<h2><?php esc_html_e( '⭐ Enjoying AST? Leave Us a Review!', 'woo-advanced-shipment-tracking' ); ?></h2>
-		<p><?php echo wp_kses_post( __( 'We hope <strong>Advanced Shipment Tracking</strong> has improved your order fulfillment workflow! Your feedback helps us grow and continue improving the plugin.', 'woo-advanced-shipment-tracking' ) ); ?></p>
-		<p><?php esc_html_e( 'If you love using AST, we\'d really appreciate it if you could take a moment to leave us a 5-star review. It helps us keep improving and providing the best experience for you!', 'woo-advanced-shipment-tracking' ); ?></p>
-		<p><?php esc_html_e( '👍 Support AST & Share Your Experience!', 'woo-advanced-shipment-tracking' ); ?></p>
-		<?php
-		$content = ob_get_clean();
+		<div class="zui-pnotice" id="ast-review-notice" role="status" data-dismiss-url="<?php echo esc_attr( $dismiss_url ); ?>">
 
-		$this->render_dismissible_notice( array(
-			'query_arg'      => 'ast-review-update-notice-388',
-			'nonce_action'   => 'ast_review_dismiss_notice_388',
-			'accent'         => '#3b64d3',
-			'content'        => $content,
-			'primary_url'    => 'https://wordpress.org/support/plugin/woo-advanced-shipment-tracking/reviews/#new-post',
-			'primary_label'  => __( 'Leave a Review', 'woo-advanced-shipment-tracking' ),
-			'primary_target' => '_blank',
-		) );
+			<span class="zui-pnotice__avatar" aria-hidden="true" style="<?php echo esc_attr( $emblem_style ); ?>">
+				<?php zui_icon( $brand['icon'] ); ?>
+			</span>
+
+			<div class="zui-pnotice__body">
+				<strong class="zui-pnotice__title"><?php esc_html_e( '⭐ Enjoying AST? Leave Us a Review!', 'woo-advanced-shipment-tracking' ); ?></strong>
+				<p class="zui-pnotice__text"><?php echo wp_kses_post( __( 'We hope <strong>Advanced Shipment Tracking</strong> has improved your order fulfillment workflow! Your feedback helps us grow and continue improving the plugin.', 'woo-advanced-shipment-tracking' ) ); ?></p>
+				<p class="zui-pnotice__text"><?php esc_html_e( 'If you love using AST, we\'d really appreciate it if you could take a moment to leave us a 5-star review. It helps us keep improving and providing the best experience for you!', 'woo-advanced-shipment-tracking' ); ?></p>
+				<p class="zui-pnotice__text"><?php esc_html_e( '👍 Support AST & Share Your Experience!', 'woo-advanced-shipment-tracking' ); ?></p>
+
+				<div class="zui-pnotice__actions">
+					<a class="zui-pnotice__btn" href="https://wordpress.org/support/plugin/woo-advanced-shipment-tracking/reviews/#new-post" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Leave a Review', 'woo-advanced-shipment-tracking' ); ?></a>
+					<button type="button" class="zui-pnotice__link"><?php esc_html_e( 'Dismiss', 'woo-advanced-shipment-tracking' ); ?></button>
+				</div>
+			</div>
+
+			<button type="button" class="zui-pnotice__close" aria-label="<?php esc_attr_e( 'Dismiss', 'woo-advanced-shipment-tracking' ); ?>">&times;</button>
+		</div>
+		<script>
+		( function () {
+			var notice = document.getElementById( 'ast-review-notice' );
+			if ( ! notice ) {
+				return;
+			}
+
+			// Left gutter. wp-admin normally supplies it through #wpcontent's
+			// 20px padding-left, but any plugin screen running a full-bleed app
+			// zeroes that padding — and CSS cannot ask whether it is still
+			// there. Naming those screens breaks the moment another plugin uses
+			// a different wrapper, so measure what the page actually has and top
+			// it up to 20px. Works on every screen without knowing any of them.
+			var content = document.getElementById( 'wpcontent' );
+			var pad     = content ? parseFloat( getComputedStyle( content ).paddingLeft ) || 0 : 0;
+			if ( pad < 20 ) {
+				notice.style.marginLeft = ( 20 - pad ) + 'px';
+			}
+
+			notice.addEventListener( 'click', function ( e ) {
+				// The review link opens in a new tab and must leave this page
+				// alone. Nothing here touches it, but admin screens are full of
+				// document-level click handlers from other plugins, so the event
+				// is stopped at the card rather than left to bubble into one.
+				if ( e.target.closest( '.zui-pnotice__btn' ) ) {
+					e.stopPropagation();
+					return;
+				}
+
+				// Only the explicit dismiss controls store the flag. Opening the
+				// review page is not proof a review was written — plenty of
+				// people get sidetracked on the way — so the card stays until
+				// the user says so themselves.
+				if ( ! e.target.closest( '.zui-pnotice__close, .zui-pnotice__link' ) ) {
+					return;
+				}
+				notice.setAttribute( 'hidden', '' );
+				fetch( notice.dataset.dismissUrl, { credentials: 'same-origin' } );
+			} );
+		}() );
+		</script>
+		<?php
 	}
 
 	/* -----------------------------------------------------------------
