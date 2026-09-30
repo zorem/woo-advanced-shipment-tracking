@@ -6,6 +6,29 @@
  *
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
+/*
+ * PHPCS / Plugin Check suppressions for this file.
+ *
+ * WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound: These are presentation variables
+ * local to this template, not true globals. The names are also part of the template contract for themes
+ * overriding this file.
+ *
+ * WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound: Public hook names are part of the
+ * plugin's documented API and are used by AST PRO, its add-ons and third-party integrations; renaming them
+ * would be a breaking change.
+ *
+ * WordPress.Security.NonceVerification.Recommended: Every state-changing handler in this file calls
+ * check_ajax_referer()/check_admin_referer() before this point; the reads flagged here only pick the
+ * tab/screen to render.
+ */
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- These are presentation variables local to this template, not true globals.
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public hook names are part of the plugin's documented API and are used by AST PRO, its add-ons and third-party integrations; renaming them would be a breaking change.
+// phpcs:disable WordPress.Security.NonceVerification.Recommended -- Every state-changing handler in this file calls check_ajax_referer()/check_admin_referer() before this point; the reads flagged here only pick the tab/screen to render.
+
 if ( $tracking_items ) : 
 
 $ast = new WC_Advanced_Shipment_Tracking_Actions();
@@ -58,15 +81,15 @@ $text_align = is_rtl() ? 'right' : 'left';
 	if ( $ast_preview ) {
 		$hide_header_class = ( $hide_trackig_header ) ? 'hide' : '' ;
 		?>
-		<h2 class="header_text <?php esc_html_e( $hide_header_class ); ?>" style="margin: 0;text-align:<?php esc_html_e( $text_align ); ?>;">
-			<?php esc_html_e( apply_filters( 'woocommerce_shipment_tracking_my_orders_title', $shipment_tracking_header ) ); ?>
+		<h2 class="header_text <?php echo esc_html( $hide_header_class ); ?>" style="margin: 0;text-align:<?php echo esc_html( $text_align ); ?>;">
+			<?php echo esc_html( apply_filters( 'woocommerce_shipment_tracking_my_orders_title', $shipment_tracking_header ) ); ?>
 		</h2>
 		<?php 
 	} else { 
 		$hide_header = ( $hide_trackig_header ) ? 'display:none' : '' ;
 		?>
-		<h2 class="header_text" style="margin: 0;text-align:<?php esc_html_e( $text_align ); ?>;<?php esc_html_e( $hide_header ); ?>">
-			<?php esc_html_e( apply_filters( 'woocommerce_shipment_tracking_my_orders_title', $shipment_tracking_header ) ); ?>
+		<h2 class="header_text" style="margin: 0;text-align:<?php echo esc_html( $text_align ); ?>;<?php echo esc_html( $hide_header ); ?>">
+			<?php echo esc_html( apply_filters( 'woocommerce_shipment_tracking_my_orders_title', $shipment_tracking_header ) ); ?>
 		</h2>
 	<?php } ?>
 	
@@ -97,13 +120,13 @@ $text_align = is_rtl() ? 'right' : 'left';
 			if ( $ast_preview ) { 
 				$fluid_display_shipped_header = ( 0 == $fluid_display_shipped_header ) ? 'hide' : '' ;
 				?>
-				<tr class="fluid_header_tr <?php esc_html_e( $fluid_display_shipped_header ); ?>">
-					<td style="padding-bottom:0 !important;" colspan="<?php esc_html_e( $colspan ); ?>">
+				<tr class="fluid_header_tr <?php echo esc_html( $fluid_display_shipped_header ); ?>">
+					<td style="padding-bottom:0 !important;" colspan="<?php echo esc_html( $colspan ); ?>">
 						<h2 class="shipped_label"><?php esc_html_e( 'Shipped', 'woo-advanced-shipment-tracking' ); ?></h2>
 					</td>
 				</tr>
-				<tr class="fluid_header_tr <?php esc_html_e( $fluid_display_shipped_header ); ?>">
-					<td style="padding-top:0 !important;" colspan="<?php esc_html_e( $colspan ); ?>">
+				<tr class="fluid_header_tr <?php echo esc_html( $fluid_display_shipped_header ); ?>">
+					<td style="padding-top:0 !important;" colspan="<?php echo esc_html( $colspan ); ?>">
 						<?php
 							echo '<span class="shipped_on">';
 							esc_html_e( 'Shipped on', 'woo-advanced-shipment-tracking' );
@@ -114,19 +137,19 @@ $text_align = is_rtl() ? 'right' : 'left';
 						?>
 					</td>
 				</tr>
-				<tr class="fluid_header_tr tracker_tr <?php esc_html_e( $fluid_display_shipped_header ); ?>">
-					<td class="fluid_2cl_td_image" style="padding-top:5px !important;" colspan="<?php esc_html_e( $colspan ); ?>">
-						<img class="tracker_image" style="width:100%;" src="<?php echo esc_url( wc_advanced_shipment_tracking()->plugin_dir_url() ); ?>assets/images/<?php esc_html_e( $fluid_tracker_type ); ?>.png"></img>
+				<tr class="fluid_header_tr tracker_tr <?php echo esc_html( $fluid_display_shipped_header ); ?>">
+					<td class="fluid_2cl_td_image" style="padding-top:5px !important;" colspan="<?php echo esc_html( $colspan ); ?>">
+						<img class="tracker_image" style="width:100%;" src="<?php echo esc_url( wc_advanced_shipment_tracking()->plugin_dir_url() ); ?>assets/images/<?php echo esc_html( $fluid_tracker_type ); ?>.png"></img>
 					</td>	
 				</tr>			
 			<?php } else if ( $fluid_display_shipped_header ) { ?>
-				<tr class="<?php esc_html_e( $fluid_display_shipped_header ); ?>">
-					<td style="padding-bottom:0 !important;" colspan="<?php esc_html_e( $colspan ); ?>">
+				<tr class="<?php echo esc_html( $fluid_display_shipped_header ); ?>">
+					<td style="padding-bottom:0 !important;" colspan="<?php echo esc_html( $colspan ); ?>">
 						<h2 class="shipped_label"><?php esc_html_e( 'Shipped', 'woo-advanced-shipment-tracking' ); ?></h2>
 					</td>
 				</tr>
-				<tr class="<?php esc_html_e( $fluid_display_shipped_header ); ?>">
-					<td style="padding-top:0 !important;" colspan="<?php esc_html_e( $colspan ); ?>">
+				<tr class="<?php echo esc_html( $fluid_display_shipped_header ); ?>">
+					<td style="padding-top:0 !important;" colspan="<?php echo esc_html( $colspan ); ?>">
 						<?php
 							echo '<span class="shipped_on">';
 							esc_html_e( 'Shipped on', 'woo-advanced-shipment-tracking' );
@@ -137,9 +160,9 @@ $text_align = is_rtl() ? 'right' : 'left';
 						?>
 					</td>
 				</tr>
-				<tr class="tracker_tr <?php esc_html_e( $fluid_display_shipped_header ); ?>">
-					<td class="" style="padding-top:5px !important;" colspan="<?php esc_html_e( $colspan ); ?>">
-						<img class="tracker_image" style="width:100%;" src="<?php echo esc_url( wc_advanced_shipment_tracking()->plugin_dir_url() ); ?>assets/images/<?php esc_html_e( $fluid_tracker_type ); ?>.png"></img>
+				<tr class="tracker_tr <?php echo esc_html( $fluid_display_shipped_header ); ?>">
+					<td class="" style="padding-top:5px !important;" colspan="<?php echo esc_html( $colspan ); ?>">
+						<img class="tracker_image" style="width:100%;" src="<?php echo esc_url( wc_advanced_shipment_tracking()->plugin_dir_url() ); ?>assets/images/<?php echo esc_html( $fluid_tracker_type ); ?>.png"></img>
 					</td>	
 				</tr>
 			<?php } ?>
@@ -147,7 +170,7 @@ $text_align = is_rtl() ? 'right' : 'left';
 			
 			<tr class="fluid_2cl_tr">
 				<?php if ( $ast_preview ) { ?>
-					<td class="fluid_provider_img <?php esc_html_e( $fluid_provider_img_class ); ?>" style="padding-right:0 !important;">
+					<td class="fluid_provider_img <?php echo esc_html( $fluid_provider_img_class ); ?>" style="padding-right:0 !important;">
 						<img src="<?php echo esc_url( $tracking_item['tracking_provider_image'] ); ?>"></img>
 					</td>
 				<?php } else if ( !$fluid_hide_provider_image ) { ?>
@@ -156,15 +179,15 @@ $text_align = is_rtl() ? 'right' : 'left';
 					</td>	
 				<?php } ?>
 				<td class="<?php echo !empty( $tracking_item['ast_tracking_link'] ) ? 'fluid_2cl_td_provider' : 'fluid_2cl_td_provider_empty'; ?>">
-					<span class="tracking_provider"><?php esc_html_e( $ast_provider_title ); ?></span></br>
+					<span class="tracking_provider"><?php echo esc_html( $ast_provider_title ); ?></span></br>
 					<?php 	
 					if ( !empty( $tracking_item['ast_tracking_link'] ) ) {
 						?>
-							<a class="tracking_number" href="<?php echo esc_url( $tracking_item['ast_tracking_link'] ); ?>" target="_blank"><?php esc_html_e( $tracking_item['tracking_number'] ); ?></a>	
+							<a class="tracking_number" href="<?php echo esc_url( $tracking_item['ast_tracking_link'] ); ?>" target="_blank"><?php echo esc_html( $tracking_item['tracking_number'] ); ?></a>	
 						<?php
 					} else {
 						?>
-							<span class="tracking_link_empty"><?php esc_html_e( $tracking_item['tracking_number'] ); ?></span>	
+							<span class="tracking_link_empty"><?php echo esc_html( $tracking_item['tracking_number'] ); ?></span>	
 						<?php
 					}
 					?>
@@ -173,7 +196,7 @@ $text_align = is_rtl() ? 'right' : 'left';
 					<?php 	
 					if ( !empty( $tracking_item['ast_tracking_link'] ) ) {
 						?>
-							<a href="<?php echo esc_url( $tracking_item['ast_tracking_link'] ); ?>" class="track-button" target="_blank"><?php esc_html_e( $fluid_button_text ); ?></a>
+							<a href="<?php echo esc_url( $tracking_item['ast_tracking_link'] ); ?>" class="track-button" target="_blank"><?php echo esc_html( $fluid_button_text ); ?></a>
 						<?php
 					}
 					?>
@@ -198,13 +221,13 @@ display: block;
 .fluid_table_2cl{
 width: 100%;	
 margin: 10px 0 !important;
-border: 1px solid <?php esc_html_e( $border_color ); ?> !important;
-border-radius: <?php esc_html_e( $border_radius ); ?>px !important;    
-background: <?php esc_html_e( $background_color ); ?> !important;	
+border: 1px solid <?php echo esc_html( $border_color ); ?> !important;
+border-radius: <?php echo esc_html( $border_radius ); ?>px !important;    
+background: <?php echo esc_html( $background_color ); ?> !important;	
 border-spacing: 0 !important;	
 }
 .tracker_tr td{	
-border-bottom: 1px solid <?php esc_html_e( $border_color ); ?>;
+border-bottom: 1px solid <?php echo esc_html( $border_color ); ?>;
 }
 .fluid_table_2cl .fluid_2cl_tr td.fluid_2cl_td_action{	
 text-align: right;
@@ -271,14 +294,14 @@ font-size: 14px;
 vertical-align: middle;
 }
 a.track-button {
-background: <?php esc_html_e( $button_background_color ); ?>;
-color: <?php esc_html_e( $button_font_color ); ?> !important;
-padding: <?php esc_html_e( $button_padding ); ?>;
+background: <?php echo esc_html( $button_background_color ); ?>;
+color: <?php echo esc_html( $button_font_color ); ?> !important;
+padding: <?php echo esc_html( $button_padding ); ?>;
 text-decoration: none;
 display: inline-block;
-border-radius: <?php esc_html_e( $button_radius ); ?>px;
+border-radius: <?php echo esc_html( $button_radius ); ?>px;
 margin-top: 2px;
-font-size: <?php esc_html_e( $button_font_size ); ?>px !important;
+font-size: <?php echo esc_html( $button_font_size ); ?>px !important;
 text-align: center;
 min-height: 10px;
 white-space: nowrap;

@@ -20,6 +20,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/*
+ * PHPCS / Plugin Check suppressions for this file.
+ *
+ * WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound: These are presentation variables
+ * local to this template, not true globals. The names are also part of the template contract for themes
+ * overriding this file.
+ *
+ * WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound: Public hook names are part of the
+ * plugin's documented API and are used by AST PRO, its add-ons and third-party integrations; renaming them
+ * would be a breaking change.
+ */
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- These are presentation variables local to this template, not true globals.
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public hook names are part of the plugin's documented API and are used by AST PRO, its add-ons and third-party integrations; renaming them would be a breaking change.
+
 if ( ! function_exists( 'zui_icon' ) ) {
 	require_once dirname( __DIR__, 2 ) . '/assets/zui/icons.php';
 }

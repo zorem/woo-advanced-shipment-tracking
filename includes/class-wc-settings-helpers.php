@@ -12,6 +12,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/*
+ * PHPCS / Plugin Check suppressions for this file.
+ *
+ * WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound: Public helper functions are part
+ * of the plugin's documented API and are called by AST PRO and its add-ons; renaming them would be a
+ * breaking change.
+ */
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Public helper functions are part of the plugin's documented API and are called by AST PRO and its add-ons; renaming them would be a breaking change.
+
 /**
  * Get a value from the AST settings option.
  *

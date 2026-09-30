@@ -3,6 +3,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/*
+ * PHPCS / Plugin Check suppressions for this file.
+ *
+ * WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound: Class name is part of the plugin's
+ * public API (extended by AST PRO / referenced by WooCommerce email settings); renaming it would be a
+ * breaking change.
+ *
+ * WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound: Public hook names are part of the
+ * plugin's documented API and are used by AST PRO, its add-ons and third-party integrations; renaming them
+ * would be a breaking change.
+ */
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- Class name is part of the plugin's public API (extended by AST PRO / referenced by WooCommerce email settings); renaming it would be a breaking change.
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public hook names are part of the plugin's documented API and are used by AST PRO, its add-ons and third-party integrations; renaming them would be a breaking change.
+
 /**
  * REST API shipment tracking controller.
  *
@@ -102,7 +116,7 @@ class WC_Advanced_Shipment_Tracking_REST_API_Controller extends WC_REST_Controll
 	 */
 	public function get_items_permissions_check( $request ) {
 		if ( ! wc_rest_check_post_permissions( $this->post_type, 'read' ) ) {
-			return new WP_Error( 'woocommerce_rest_cannot_view', __( 'Sorry, you cannot list resources.', 'woocommerce-shipment-tracking' ), array( 'status' => rest_authorization_required_code() ) );
+			return new WP_Error( 'woocommerce_rest_cannot_view', __( 'Sorry, you cannot list resources.', 'woo-advanced-shipment-tracking' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 		return true;
 	}
@@ -120,7 +134,7 @@ class WC_Advanced_Shipment_Tracking_REST_API_Controller extends WC_REST_Controll
 		}
 		
 		if ( ! wc_rest_check_post_permissions( $this->post_type, 'create' ) ) {
-			return new WP_Error( 'woocommerce_rest_cannot_create', __( 'Sorry, you are not allowed to create resources.', 'woocommerce-shipment-tracking' ), array( 'status' => rest_authorization_required_code() ) );
+			return new WP_Error( 'woocommerce_rest_cannot_create', __( 'Sorry, you are not allowed to create resources.', 'woo-advanced-shipment-tracking' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 		return true;
 	}
@@ -133,7 +147,7 @@ class WC_Advanced_Shipment_Tracking_REST_API_Controller extends WC_REST_Controll
 	 */
 	public function get_item_permissions_check( $request ) {
 		if ( ! wc_rest_check_post_permissions( $this->post_type, 'read', (int) $request['order_id'] ) ) {
-			return new WP_Error( 'woocommerce_rest_cannot_view', __( 'Sorry, you cannot view this resource.', 'woocommerce-shipment-tracking' ), array( 'status' => rest_authorization_required_code() ) );
+			return new WP_Error( 'woocommerce_rest_cannot_view', __( 'Sorry, you cannot view this resource.', 'woo-advanced-shipment-tracking' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 		return true;
 	}
@@ -146,7 +160,7 @@ class WC_Advanced_Shipment_Tracking_REST_API_Controller extends WC_REST_Controll
 	 */
 	public function delete_item_permissions_check( $request ) {
 		if ( ! wc_rest_check_post_permissions( $this->post_type, 'delete', (int) $request['order_id'] ) ) {
-			return new WP_Error( 'woocommerce_rest_cannot_delete', __( 'Sorry, you are not allowed to delete this resource.', 'woocommerce-shipment-tracking' ), array( 'status' => rest_authorization_required_code() ) );
+			return new WP_Error( 'woocommerce_rest_cannot_delete', __( 'Sorry, you are not allowed to delete this resource.', 'woo-advanced-shipment-tracking' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 		return true;
 	}
@@ -185,7 +199,7 @@ class WC_Advanced_Shipment_Tracking_REST_API_Controller extends WC_REST_Controll
 		$order_id = (int) $request['order_id'];
 		
 		if ( ! $this->is_valid_order_id( $order_id ) ) {
-			return new WP_Error( 'woocommerce_rest_order_invalid_id', __( 'Invalid order ID.', 'woocommerce-shipment-tracking' ), array( 'status' => 404 ) );
+			return new WP_Error( 'woocommerce_rest_order_invalid_id', __( 'Invalid order ID.', 'woo-advanced-shipment-tracking' ), array( 'status' => 404 ) );
 		}
 
 		$st             = WC_Advanced_Shipment_Tracking_Actions::get_instance();
@@ -310,14 +324,14 @@ class WC_Advanced_Shipment_Tracking_REST_API_Controller extends WC_REST_Controll
 
 		$order_id = (int) $request['order_id'];
 		if ( ! $this->is_valid_order_id( $order_id ) ) {
-			return new WP_Error( 'woocommerce_rest_order_invalid_id', __( 'Invalid order ID.', 'woocommerce-advanced-shipment-tracking' ), array( 'status' => 404 ) );
+			return new WP_Error( 'woocommerce_rest_order_invalid_id', __( 'Invalid order ID.', 'woo-advanced-shipment-tracking' ), array( 'status' => 404 ) );
 		}
 
 		$st            = WC_Advanced_Shipment_Tracking_Actions::get_instance();
 		$tracking_item = $st->get_tracking_item( $order_id, $tracking_id, true );
 
 		if ( ! $tracking_item ) {
-			return new WP_Error( 'woocommerce_rest_order_shipment_tracking_invalid_id', __( 'Invalid shipment tracking ID.', 'woocommerce-advanced-shipment-tracking' ), array( 'status' => 404 ) );
+			return new WP_Error( 'woocommerce_rest_order_shipment_tracking_invalid_id', __( 'Invalid shipment tracking ID.', 'woo-advanced-shipment-tracking' ), array( 'status' => 404 ) );
 		}
 
 		$tracking_item['order_id'] = $order_id;
@@ -339,14 +353,14 @@ class WC_Advanced_Shipment_Tracking_REST_API_Controller extends WC_REST_Controll
 		$order_id = (int) $request['order_id'];
 				
 		if ( ! $this->is_valid_order_id( $order_id ) ) {
-			return new WP_Error( 'woocommerce_rest_order_invalid_id', __( 'Invalid order ID.', 'woocommerce-advanced-shipment-tracking' ), array( 'status' => 404 ) );
+			return new WP_Error( 'woocommerce_rest_order_invalid_id', __( 'Invalid order ID.', 'woo-advanced-shipment-tracking' ), array( 'status' => 404 ) );
 		}
 
 		$st            = WC_Advanced_Shipment_Tracking_Actions::get_instance();
 		$tracking_item = $st->get_tracking_item( $order_id, $tracking_id, true );
 
 		if ( ! $tracking_item ) {
-			return new WP_Error( 'woocommerce_rest_order_shipment_tracking_invalid_id', __( 'Invalid shipment tracking ID.', 'woocommerce-advanced-shipment-tracking' ), array( 'status' => 404 ) );
+			return new WP_Error( 'woocommerce_rest_order_shipment_tracking_invalid_id', __( 'Invalid shipment tracking ID.', 'woo-advanced-shipment-tracking' ), array( 'status' => 404 ) );
 		}
 
 		$tracking_item['order_id'] = $order_id;
@@ -355,7 +369,7 @@ class WC_Advanced_Shipment_Tracking_REST_API_Controller extends WC_REST_Controll
 
 		$result = $st->delete_tracking_item( $order_id, $tracking_id );
 		if ( ! $result ) {
-			return new WP_Error( 'woocommerce_rest_cannot_delete_order_shipment_tracking', __( 'The shipment tracking cannot be deleted.', 'woocommerce-advanced-shipment-tracking' ), array( 'status' => 500 ) );
+			return new WP_Error( 'woocommerce_rest_cannot_delete_order_shipment_tracking', __( 'The shipment tracking cannot be deleted.', 'woo-advanced-shipment-tracking' ), array( 'status' => 500 ) );
 		}
 
 		return $response;
@@ -442,37 +456,37 @@ class WC_Advanced_Shipment_Tracking_REST_API_Controller extends WC_REST_Controll
 			'type'       => 'shipment_tracking',
 			'properties' => array(
 				'tracking_id' => array(
-					'description' => __( 'Unique identifier for shipment tracking.', 'woocommerce-shipment-tracking' ),
+					'description' => __( 'Unique identifier for shipment tracking.', 'woo-advanced-shipment-tracking' ),
 					'type'        => 'string',
 					'context'     => array( 'view', 'edit' ),
 					'readonly'    => true,
 				),
 				'tracking_provider' => array(
-					'description' => __( 'Tracking provider name.', 'woocommerce-shipment-tracking' ),
+					'description' => __( 'Tracking provider name.', 'woo-advanced-shipment-tracking' ),
 					'type'        => 'string',
 					'context'     => array( 'view', 'edit' ),
 					'readonly'    => false,
 				),
 				'custom_tracking_provider' => array(
-					'description' => __( 'Custom tracking provider name.', 'woocommerce-shipment-tracking' ),
+					'description' => __( 'Custom tracking provider name.', 'woo-advanced-shipment-tracking' ),
 					'type'        => 'string',
 					'context'     => array( 'edit' ),
 					'readonly'    => false,
 				),
 				'custom_tracking_link' => array(
-					'description' => __( 'Custom tracking provider link.', 'woocommerce-shipment-tracking' ),
+					'description' => __( 'Custom tracking provider link.', 'woo-advanced-shipment-tracking' ),
 					'type'        => 'url',
 					'context'     => array( 'edit' ),
 					'readonly'    => false,
 				),
 				'tracking_number' => array(
-					'description' => __( 'Tracking number.', 'woocommerce-shipment-tracking' ),
+					'description' => __( 'Tracking number.', 'woo-advanced-shipment-tracking' ),
 					'type'        => 'string',
 					'context'     => array( 'view', 'edit' ),
 					'readonly'    => false,
 				),
 				'date_shipped' => array(
-					'description' => __( 'Date when package was shipped.', 'woocommerce-shipment-tracking' ),
+					'description' => __( 'Date when package was shipped.', 'woo-advanced-shipment-tracking' ),
 					'type'        => 'date',
 					'context'     => array( 'view', 'edit' ),
 					'readonly'    => false,

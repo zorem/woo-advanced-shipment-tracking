@@ -18,6 +18,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/*
+ * PHPCS / Plugin Check suppressions for this file.
+ *
+ * WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound: These are presentation variables
+ * local to this template, not true globals. The names are also part of the template contract for themes
+ * overriding this file.
+ */
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- These are presentation variables local to this template, not true globals.
+
 // Pull the tab definitions from the plugin's admin class so this header stays in sync
 // with whatever tabs the legacy UI registers (and any third-party hooks on ast_menu_tab_options).
 $ast_tabs     = wc_advanced_shipment_tracking()->admin->get_ast_tab_settings_data();

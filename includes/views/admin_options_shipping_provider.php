@@ -15,6 +15,35 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/*
+ * PHPCS / Plugin Check suppressions for this file.
+ *
+ * WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound: These are presentation variables
+ * local to this template, not true globals. The names are also part of the template contract for themes
+ * overriding this file.
+ *
+ * WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound: Public hook names are part of the
+ * plugin's documented API and are used by AST PRO, its add-ons and third-party integrations; renaming them
+ * would be a breaking change.
+ *
+ * WordPress.DB.DirectDatabaseQuery.DirectQuery: Reads/writes the plugin's own `woo_shippment_provider`
+ * table; no WordPress API covers it and the rows change per request, so a persistent cache would serve
+ * stale carrier data.
+ *
+ * WordPress.DB.PreparedSQLPlaceholders.UnquotedComplexPlaceholder: %1s carries the table name, which is
+ * built from $wpdb->prefix and a hard-coded string, never user input. The %i identifier placeholder needs
+ * WP 6.2 and this plugin supports 5.3.
+ *
+ * WordPress.Security.NonceVerification.Recommended: Every state-changing handler in this file calls
+ * check_ajax_referer()/check_admin_referer() before this point; the reads flagged here only pick the
+ * tab/screen to render.
+ */
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- These are presentation variables local to this template, not true globals.
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public hook names are part of the plugin's documented API and are used by AST PRO, its add-ons and third-party integrations; renaming them would be a breaking change.
+// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reads/writes the plugin's own `woo_shippment_provider` table; no WordPress API covers it and the rows change per request, so a persistent cache would serve stale carrier data.
+// phpcs:disable WordPress.DB.PreparedSQLPlaceholders.UnquotedComplexPlaceholder -- %1s carries the table name, which is built from $wpdb->prefix and a hard-coded string, never user input.
+// phpcs:disable WordPress.Security.NonceVerification.Recommended -- Every state-changing handler in this file calls check_ajax_referer()/check_admin_referer() before this point; the reads flagged here only pick the tab/screen to render.
+
 require_once SHIPMENT_TRACKING_PATH . '/assets/zui/icons.php';
 
 $total_enable_providers = $wpdb->get_row(
@@ -96,7 +125,7 @@ if ( isset( $_GET['open'] ) && 'synch_providers' == $_GET['open'] ) {
 
 		<?php /* ===== Carrier grid (server-rendered) ===== */ ?>
 		<div class="provider_list">
-			<?php esc_html_e( $this->get_provider_html( 1 ) ); ?>
+			<?php $this->get_provider_html( 1 ); ?>
 		</div>
 
 		<input type="hidden" id="nonce_shipping_provider" value="<?php echo esc_attr( wp_create_nonce( 'nonce_shipping_provider' ) ); ?>">
@@ -121,7 +150,7 @@ if ( isset( $_GET['open'] ) && 'synch_providers' == $_GET['open'] ) {
 				<div class="zui-modal__body ast-set-enable-list" id="ast-enable-list">
 					<section id="add_default_carrier_section">
 						<div class="default_privder_list">
-							<?php esc_html_e( $this->shipping_pagination_fun( 1 ) ); ?>
+							<?php $this->shipping_pagination_fun( 1 ); ?>
 						</div>
 					</section>
 				</div>

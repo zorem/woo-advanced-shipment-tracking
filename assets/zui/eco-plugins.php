@@ -17,6 +17,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/*
+ * PHPCS / Plugin Check suppressions for this file.
+ *
+ * WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound: Public helper functions are part
+ * of the plugin's documented API and are called by AST PRO and its add-ons; renaming them would be a
+ * breaking change.
+ */
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Public helper functions are part of the plugin's documented API and are called by AST PRO and its add-ons; renaming them would be a breaking change.
+
 if ( ! function_exists( 'zui_get_ecosystem_plugins' ) ) {
 	/**
 	 * Return the ordered ecosystem-plugin list for the License tab grid.
@@ -46,9 +55,9 @@ if ( ! function_exists( 'zui_get_ecosystem_plugins' ) ) {
 				'logo'   => $images_url . 'trackship.png',
 				'accent' => '#0d9488',
 				'tint'   => '#CCFBF1',
-				'desc'   => __( 'Take control of your post-shipping workflows, reduce customer service overhead and provide a premium post-purchase tracking experience directly inside WooCommerce. Keeps your tracking data up-to-date and sends automated status changes automatically.', 'zorem-ui' ),
+				'desc'   => __( 'Take control of your post-shipping workflows, reduce customer service overhead and provide a premium post-purchase tracking experience directly inside WooCommerce. Keeps your tracking data up-to-date and sends automated status changes automatically.', 'woo-advanced-shipment-tracking' ),
 				'url'    => 'https://wordpress.org/plugins/trackship-for-woocommerce/',
-				'badge'  => __( 'Recommended', 'zorem-ui' ),
+				'badge'  => __( 'Recommended', 'woo-advanced-shipment-tracking' ),
 				'stat'   => '6,000+ active stores',
 			),
 			'sms-for-woocommerce/sms-for-woocommerce.php' => array(
@@ -58,7 +67,7 @@ if ( ! function_exists( 'zui_get_ecosystem_plugins' ) ) {
 				'logo'   => '',
 				'accent' => '#2563EB',
 				'tint'   => '#DBEAFE',
-				'desc'   => __( 'Keep your shoppers perfectly aligned and updated with lightning fast automated SMS notifications for status updates, dispatched parcels, custom notes, and imminent local drop-offs. Integrates seamlessly with domestic and international gateways.', 'zorem-ui' ),
+				'desc'   => __( 'Keep your shoppers perfectly aligned and updated with lightning fast automated SMS notifications for status updates, dispatched parcels, custom notes, and imminent local drop-offs. Integrates seamlessly with domestic and international gateways.', 'woo-advanced-shipment-tracking' ),
 				'url'    => 'https://www.zorem.com/product/sms-for-woocommerce/',
 				'badge'  => '',
 				'stat'   => '6k+ stores',
@@ -70,7 +79,7 @@ if ( ! function_exists( 'zui_get_ecosystem_plugins' ) ) {
 				'logo'   => '',
 				'accent' => '#16A34A',
 				'tint'   => '#DCFCE7',
-				'desc'   => __( 'Supercharge pickup schedules, offer precise contact-free local pickup times, assign inventory reserves across dynamic multiple regional coordinates, configure localized discounts and split operational hours effortlessly.', 'zorem-ui' ),
+				'desc'   => __( 'Supercharge pickup schedules, offer precise contact-free local pickup times, assign inventory reserves across dynamic multiple regional coordinates, configure localized discounts and split operational hours effortlessly.', 'woo-advanced-shipment-tracking' ),
 				'url'    => 'https://www.zorem.com/product/zorem-local-pickup-pro/',
 				'badge'  => '',
 				'stat'   => '4k+ stores',
@@ -82,7 +91,7 @@ if ( ! function_exists( 'zui_get_ecosystem_plugins' ) ) {
 				'logo'   => '',
 				'accent' => '#EA580C',
 				'tint'   => '#FFEDD5',
-				'desc'   => __( 'Control catalog visibility dynamically. Use safe IP geolocation heuristics to easily allow, restrict, or filter selected product availability across specific global geo environments and border codes.', 'zorem-ui' ),
+				'desc'   => __( 'Control catalog visibility dynamically. Use safe IP geolocation heuristics to easily allow, restrict, or filter selected product availability across specific global geo environments and border codes.', 'woo-advanced-shipment-tracking' ),
 				'url'    => 'https://www.zorem.com/product/country-based-restriction-pro/',
 				'badge'  => '',
 				'stat'   => '3k+ active',
@@ -94,9 +103,9 @@ if ( ! function_exists( 'zui_get_ecosystem_plugins' ) ) {
 				'logo'   => '',
 				'accent' => '#DC2626',
 				'tint'   => '#FEE2E2',
-				'desc'   => __( 'Block dummy checkouts, malicious registration scripts and spam sign-up queues by requiring multi-step verification code validation before customers complete purchases or establish accounts.', 'zorem-ui' ),
+				'desc'   => __( 'Block dummy checkouts, malicious registration scripts and spam sign-up queues by requiring multi-step verification code validation before customers complete purchases or establish accounts.', 'woo-advanced-shipment-tracking' ),
 				'url'    => 'https://www.zorem.com/product/customer-email-verification/',
-				'badge'  => __( 'Highly Rated', 'zorem-ui' ),
+				'badge'  => __( 'Highly Rated', 'woo-advanced-shipment-tracking' ),
 				'stat'   => '11k+ stores',
 			),
 			'sales-report-email-pro/sales-report-email-pro.php' => array(
@@ -106,7 +115,7 @@ if ( ! function_exists( 'zui_get_ecosystem_plugins' ) ) {
 				'logo'   => '',
 				'accent' => '#9333EA',
 				'tint'   => '#F3E8FF',
-				'desc'   => __( 'Receive high-fidelity operational digests directly in your inbox. Deliver elegant daily, weekly or custom periodic sales charts, average cart tracking metrics and order analytics on auto-pilot.', 'zorem-ui' ),
+				'desc'   => __( 'Receive high-fidelity operational digests directly in your inbox. Deliver elegant daily, weekly or custom periodic sales charts, average cart tracking metrics and order analytics on auto-pilot.', 'woo-advanced-shipment-tracking' ),
 				'url'    => 'https://www.zorem.com/product/woocommerce-sales-report-email-pro/',
 				'badge'  => '',
 				'stat'   => '2k+ stores',
@@ -127,7 +136,7 @@ if ( ! function_exists( 'zui_get_ecosystem_plugins' ) ) {
 			// store" badge. The caller's own plugin is unset just below so we
 			// never mark the host plugin as active in its own grid.
 			if ( is_plugin_active( $key ) ) {
-				$plugins[ $key ]['stat'] = __( 'Active in this store', 'zorem-ui' );
+				$plugins[ $key ]['stat'] = __( 'Active in this store', 'woo-advanced-shipment-tracking' );
 			}
 		}
 

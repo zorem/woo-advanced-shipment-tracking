@@ -1,4 +1,8 @@
-
+<?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+?>
 <div id="ast_usagedata_connect" class="ud-box-container">
 	<div class="ud-content">
 	   <h2>Thank you for installing the Advanced Shipment Tracking (AST) plugin</h2>

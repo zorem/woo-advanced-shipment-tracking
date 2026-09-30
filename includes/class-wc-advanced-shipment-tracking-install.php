@@ -3,6 +3,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/*
+ * PHPCS / Plugin Check suppressions for this file.
+ *
+ * WordPress.DB.DirectDatabaseQuery.DirectQuery: Reads/writes the plugin's own `woo_shippment_provider`
+ * table; no WordPress API covers it and the rows change per request, so a persistent cache would serve
+ * stale carrier data.
+ *
+ * WordPress.DB.DirectDatabaseQuery.SchemaChange: Schema migration for the plugin's own table, run once on
+ * install/upgrade.
+ *
+ * WordPress.DB.PreparedSQLPlaceholders.UnquotedComplexPlaceholder: %1s carries the table name, which is
+ * built from $wpdb->prefix and a hard-coded string, never user input. The %i identifier placeholder needs
+ * WP 6.2 and this plugin supports 5.3.
+ */
+// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reads/writes the plugin's own `woo_shippment_provider` table; no WordPress API covers it and the rows change per request, so a persistent cache would serve stale carrier data.
+// phpcs:disable WordPress.DB.DirectDatabaseQuery.SchemaChange -- Schema migration for the plugin's own table, run once on install/upgrade.
+// phpcs:disable WordPress.DB.PreparedSQLPlaceholders.UnquotedComplexPlaceholder -- %1s carries the table name, which is built from $wpdb->prefix and a hard-coded string, never user input.
+
 class WC_Advanced_Shipment_Tracking_Install {
 
 	/**
@@ -500,7 +518,7 @@ class WC_Advanced_Shipment_Tracking_Install {
 		// The URL of the zip file
 		$url = 'https://api.trackship.com/images/shipping-carriers/60x60.zip';
 
-		$version = date('YmdHis'); // Current date and time as version
+		$version = gmdate( 'YmdHis' ); // Current date and time as version
 		$url_with_version = $url . '?v=' . $version;
 
 		$upload_dir   = wp_upload_dir();	
@@ -522,14 +540,14 @@ class WC_Advanced_Shipment_Tracking_Install {
 				// Extract to the specified directory
 				$zip->extractTo($ast_directory);
 				$zip->close();
-				unlink($zipFilePath); // Delete the zip file after extraction				
+				wp_delete_file( $zipFilePath ); // Delete the zip file after extraction				
 			}
 		} else {
 			// ZipArchive isn't available, use PclZip
 			require_once(ABSPATH . 'wp-admin/includes/class-pclzip.php');
 			$archive = new PclZip($zipFilePath);
 			if ($archive->extract(PCLZIP_OPT_PATH, $ast_directory) != 0) {
-				unlink($zipFilePath); // Delete the zip file after extraction
+				wp_delete_file( $zipFilePath ); // Delete the zip file after extraction
 			}						
 		}
 	}

@@ -19,6 +19,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/*
+ * PHPCS / Plugin Check suppressions for this file.
+ *
+ * WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound: These are presentation variables
+ * local to this template, not true globals. The names are also part of the template contract for themes
+ * overriding this file.
+ */
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- These are presentation variables local to this template, not true globals.
+
 $ast = new WC_Advanced_Shipment_Tracking_Actions();
 
 $default_content = __( "Hi there. we thought you'd like to know that the shipment tracking for your recent order from {site_title} has been updated.", 'woo-advanced-shipment-tracking' );

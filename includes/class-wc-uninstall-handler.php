@@ -3,6 +3,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+/*
+ * PHPCS / Plugin Check suppressions for this file.
+ *
+ * WordPress.Security.ValidatedSanitizedInput.InputNotSanitized: Input is sanitized with wc_clean() or
+ * wp_kses_post() after wp_unslash(); PHPCS does not recognise WooCommerce's sanitizer.
+ */
+// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Input is sanitized with wc_clean() or wp_kses_post() after wp_unslash(); PHPCS does not recognise WooCommerce's sanitizer.
+
 /**
  * Handles plugin uninstall popup and reassigning order statuses.
  *
@@ -114,9 +122,9 @@ class AST_Uninstall_Handler {
 							</p>
 
 							<select id="reassign_ps_order" name="reassign_ps_order" class="reassign_select">
-								<option value=""><?php esc_html_e('Select', 'woocommerce'); ?></option>
+								<option value=""><?php esc_html_e('Select', 'woo-advanced-shipment-tracking'); ?></option>
 								<?php foreach ( $order_statuses as $key => $status ) { ?>
-									<option value="<?php esc_html_e( $key ); ?>"><?php esc_html_e( $status ); ?></option>
+									<option value="<?php echo esc_html( $key ); ?>"><?php echo esc_html( $status ); ?></option>
 								<?php } ?>
 							</select>
 
@@ -127,14 +135,14 @@ class AST_Uninstall_Handler {
 							<p>
 							<?php 
 								/* translators: %s: replace with Partially Shipped order count */
-								printf( esc_html__('We detected %s orders that use the Delivered order status, You can reassign these orders to a different status', 'woo-advanced-shipment-tracking'), esc_html__( $delivered_count ) ); 
+								printf( esc_html__('We detected %s orders that use the Delivered order status, You can reassign these orders to a different status', 'woo-advanced-shipment-tracking'), esc_html( $delivered_count ) ); 
 							?>
 							</p>
 							
 							<select id="reassign_delivered_order" name="reassign_delivered_order" class="reassign_select">
-								<option value=""><?php esc_html_e('Select', 'woocommerce'); ?></option>
+								<option value=""><?php esc_html_e('Select', 'woo-advanced-shipment-tracking'); ?></option>
 								<?php foreach ( $order_statuses as $key => $status ) { ?>
-									<option value="<?php esc_html_e( $key ); ?>"><?php esc_html_e( $status ); ?></option>
+									<option value="<?php echo esc_html( $key ); ?>"><?php echo esc_html( $status ); ?></option>
 								<?php } ?>
 							</select>
 						
@@ -142,8 +150,8 @@ class AST_Uninstall_Handler {
 						<p>	
 							<?php wp_nonce_field( 'ast_reassign_order_status', 'ast_reassign_order_status_nonce' ); ?>
 							<input type="hidden" name="action" value="reassign_order_status">
-							<input type="button" value="<?php esc_html_e( 'Deactivate' ); ?>" class="uninstall_plugin button-primary btn_ast2">
-							<input type="button" value="<?php esc_html_e( 'Close', 'woocommerce' ); ?>" class="uninstall_close button-primary btn_red">
+							<input type="button" value="<?php esc_html_e( 'Deactivate', 'woo-advanced-shipment-tracking' ); ?>" class="uninstall_plugin button-primary btn_ast2">
+							<input type="button" value="<?php esc_html_e( 'Close', 'woo-advanced-shipment-tracking' ); ?>" class="uninstall_close button-primary btn_red">
 						</p>
 					</form>	
 				</div>	
@@ -162,8 +170,8 @@ class AST_Uninstall_Handler {
 	public function reassign_order_status() {
 		check_ajax_referer( 'ast_reassign_order_status', 'ast_reassign_order_status_nonce' );
 		
-		$reassign_ps_order = isset(	$_POST['reassign_ps_order']	) ? wc_clean( $_POST['reassign_ps_order'] ) : '';
-		$reassign_delivered_order = isset(	$_POST['reassign_delivered_order']	) ? wc_clean( $_POST['reassign_delivered_order'] ) : '';
+		$reassign_ps_order = isset(	$_POST['reassign_ps_order']	) ? wc_clean( wp_unslash( $_POST['reassign_ps_order'] ) ) : '';
+		$reassign_delivered_order = isset(	$_POST['reassign_delivered_order']	) ? wc_clean( wp_unslash( $_POST['reassign_delivered_order'] ) ) : '';
 		
 		if ( '' != $reassign_ps_order ) {
 			

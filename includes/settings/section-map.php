@@ -23,6 +23,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/*
+ * PHPCS / Plugin Check suppressions for this file.
+ *
+ * WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound: Public helper functions are part
+ * of the plugin's documented API and are called by AST PRO and its add-ons; renaming them would be a
+ * breaking change.
+ *
+ * WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound: Public hook names are part of the
+ * plugin's documented API and are used by AST PRO, its add-ons and third-party integrations; renaming them
+ * would be a breaking change.
+ */
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Public helper functions are part of the plugin's documented API and are called by AST PRO and its add-ons; renaming them would be a breaking change.
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public hook names are part of the plugin's documented API and are used by AST PRO, its add-ons and third-party integrations; renaming them would be a breaking change.
+
 if ( ! function_exists( 'ast_free_settings_section_map' ) ) {
 	/**
 	 * Return the ordered, filterable list of Settings sections for the free plugin.

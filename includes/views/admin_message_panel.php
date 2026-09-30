@@ -2,6 +2,24 @@
 /**
  * Tab-specific admin notice content.
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
+/*
+ * PHPCS / Plugin Check suppressions for this file.
+ *
+ * WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound: These are presentation variables
+ * local to this template, not true globals. The names are also part of the template contract for themes
+ * overriding this file.
+ *
+ * WordPress.Security.NonceVerification.Recommended: Every state-changing handler in this file calls
+ * check_ajax_referer()/check_admin_referer() before this point; the reads flagged here only pick the
+ * tab/screen to render.
+ */
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- These are presentation variables local to this template, not true globals.
+// phpcs:disable WordPress.Security.NonceVerification.Recommended -- Every state-changing handler in this file calls check_ajax_referer()/check_admin_referer() before this point; the reads flagged here only pick the tab/screen to render.
 $ast_tab_notices = array(
 	'settings'           => array(
 		'heading'     => '🚀 Upgrade to AST PRO! 🎉',
@@ -35,7 +53,7 @@ $ast_tab_notices = array(
 	),
 );
 
-$current_tab = isset( $_GET['tab'] ) ? sanitize_text_field( $_GET['tab'] ) : 'settings';
+$current_tab = isset( $_GET['tab'] ) ? sanitize_text_field( wp_unslash( $_GET['tab'] ) ) : 'settings';
 $notice      = isset( $ast_tab_notices[ $current_tab ] ) ? $ast_tab_notices[ $current_tab ] : $ast_tab_notices['settings'];
 ?>
 <div class="admin-message-panel">

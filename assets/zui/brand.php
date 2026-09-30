@@ -20,6 +20,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/*
+ * PHPCS / Plugin Check suppressions for this file.
+ *
+ * WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound: Public helper functions are part
+ * of the plugin's documented API and are called by AST PRO and its add-ons; renaming them would be a
+ * breaking change.
+ */
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Public helper functions are part of the plugin's documented API and are called by AST PRO and its add-ons; renaming them would be a breaking change.
+
 if ( ! function_exists( 'zui_get_plugin_brand' ) ) {
 	/**
 	 * Return the chrome brand info for a given plugin slug.

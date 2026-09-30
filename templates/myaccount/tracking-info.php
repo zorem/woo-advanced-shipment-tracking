@@ -1,5 +1,23 @@
 <?php 
 
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
+/*
+ * PHPCS / Plugin Check suppressions for this file.
+ *
+ * WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound: These are presentation variables
+ * local to this template, not true globals. The names are also part of the template contract for themes
+ * overriding this file.
+ *
+ * WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound: Public hook names are part of the
+ * plugin's documented API and are used by AST PRO, its add-ons and third-party integrations; renaming them
+ * would be a breaking change.
+ */
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- These are presentation variables local to this template, not true globals.
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public hook names are part of the plugin's documented API and are used by AST PRO, its add-ons and third-party integrations; renaming them would be a breaking change.
 if ( $tracking_items ) : 
 
 $ast = new WC_Advanced_Shipment_Tracking_Actions();
@@ -34,13 +52,13 @@ $order_data = wc_get_order( $order_id );
 
 	if ( 1 != $hide_trackig_header ) {
 		?>
-	<h2><?php esc_html_e( apply_filters( 'woocommerce_shipment_tracking_my_orders_title', $shipment_tracking_header ) ); ?></h2>
+	<h2><?php echo esc_html( apply_filters( 'woocommerce_shipment_tracking_my_orders_title', $shipment_tracking_header ) ); ?></h2>
 <?php 
 	}
 
 	if ( '' != $hide_trackig_header) {
 		?>
-	<p><?php esc_html_e( $shipment_tracking_header_text ); ?></p>
+	<p><?php echo esc_html( $shipment_tracking_header_text ); ?></p>
 <?php } ?>
 
 <div class="fluid_section">
@@ -72,20 +90,20 @@ $order_data = wc_get_order( $order_id );
 						<?php } ?>
 						<div class="provider_name">
 							<div>
-								<strong class="tracking_provider"><?php esc_html_e( $ast_provider_title ); ?></strong>
+								<strong class="tracking_provider"><?php echo esc_html( $ast_provider_title ); ?></strong>
 								<?php 	
 								if ( !empty( $tracking_item['ast_tracking_link'] ) ) {
 									?>
-										<a class="tracking_number" href="<?php echo esc_url( $tracking_item['ast_tracking_link'] ); ?>" target="_blank"><?php esc_html_e( $tracking_item['tracking_number'] ); ?></a>	
+										<a class="tracking_number" href="<?php echo esc_url( $tracking_item['ast_tracking_link'] ); ?>" target="_blank"><?php echo esc_html( $tracking_item['tracking_number'] ); ?></a>	
 									<?php
 								} else {
 									?>
-										<span class="tracking_link_empty"><?php esc_html_e( $tracking_item['tracking_number'] ); ?></span>	
+										<span class="tracking_link_empty"><?php echo esc_html( $tracking_item['tracking_number'] ); ?></span>	
 									<?php
 								}
 								?>
 							</div>
-							<div class="order_status <?php esc_html_e( $order_status ); ?>" style="display: block;">
+							<div class="order_status <?php echo esc_html( $order_status ); ?>" style="display: block;">
 								<?php 
 									esc_html_e( 'Shipped on:', 'woo-advanced-shipment-tracking' ); 
 									echo '<strong> ' . esc_html( date_i18n( get_option( 'date_format' ), $tracking_item['date_shipped'] ) ) . '</strong>'; 
@@ -95,7 +113,7 @@ $order_data = wc_get_order( $order_id );
 					<?php do_action( 'ast_fluid_left_cl_end', $tracking_item, $order_id ); ?>	
 				</div>
 				<div class="mb_fluid_shipping_date" style="display: none;">
-					<div class="order_status <?php esc_html_e( $order_status ); ?>">
+					<div class="order_status <?php echo esc_html( $order_status ); ?>">
 						<?php 
 							esc_html_e( 'Shipped on:', 'woo-advanced-shipment-tracking' ); 
 							echo '<strong> ' . esc_html( date_i18n( get_option( 'date_format' ), $tracking_item['date_shipped'] ) ) . '</strong>'; 
@@ -108,7 +126,7 @@ $order_data = wc_get_order( $order_id );
 				if ( !empty( $tracking_item['ast_tracking_link'] ) ) {
 					?>
 						<div>
-							<a target="blank" href="<?php echo esc_url( $tracking_item['ast_tracking_link'] ); ?>" class="button track-button" data-order="<?php esc_html_e( $order_id ); ?>" data-tracking="<?php echo esc_html( $tracking_item['tracking_number'] ); ?>" target="_blank"><?php esc_html_e( $fluid_button_text ); ?></a>
+							<a target="blank" href="<?php echo esc_url( $tracking_item['ast_tracking_link'] ); ?>" class="button track-button" data-order="<?php echo esc_html( $order_id ); ?>" data-tracking="<?php echo esc_html( $tracking_item['tracking_number'] ); ?>" target="_blank"><?php echo esc_html( $fluid_button_text ); ?></a>
 						</div>
 					<?php
 				}
@@ -123,9 +141,9 @@ $order_data = wc_get_order( $order_id );
 	margin-bottom: 10px;
 }
 .fluid_container {
-	background: <?php esc_html_e( $background_color ); ?>;
-	border: 1px solid <?php esc_html_e( $border_color ); ?>;
-	border-radius: <?php esc_html_e( $border_radius ); ?>px;
+	background: <?php echo esc_html( $background_color ); ?>;
+	border: 1px solid <?php echo esc_html( $border_color ); ?>;
+	border-radius: <?php echo esc_html( $border_radius ); ?>px;
 	margin-bottom: 10px;
 	display: inline-block;
 	/* width: 49%; */
@@ -137,7 +155,7 @@ $order_data = wc_get_order( $order_id );
 	display: block;
 }
 .fluid_cl {	
-	padding: <?php esc_html_e( $table_padding ); ?>px;
+	padding: <?php echo esc_html( $table_padding ); ?>px;
 	vertical-align: middle;
 }
 .fluid_right_cl{
@@ -177,20 +195,20 @@ $order_data = wc_get_order( $order_id );
 		display: table-cell;
 	}	
 	.fluid_right_cl{
-		padding-top: <?php esc_html_e( $table_padding ); ?>px;
+		padding-top: <?php echo esc_html( $table_padding ); ?>px;
 		text-align: right;
 		vertical-align: top;
 	}
 <?php } ?>
 a.button.track-button {
-	background: <?php esc_html_e( $button_background_color ); ?>;
-	color: <?php esc_html_e( $button_font_color ); ?>;
-	padding: <?php esc_html_e( $button_padding ); ?>;
+	background: <?php echo esc_html( $button_background_color ); ?>;
+	color: <?php echo esc_html( $button_font_color ); ?>;
+	padding: <?php echo esc_html( $button_padding ); ?>;
 	text-decoration: none;
 	display: inline-block;
-	border-radius: <?php esc_html_e( $button_radius ); ?>px;
+	border-radius: <?php echo esc_html( $button_radius ); ?>px;
 	margin-top: 0;
-	font-size: <?php esc_html_e( $button_font_size ); ?>px;
+	font-size: <?php echo esc_html( $button_font_size ); ?>px;
 	text-align: center;
 	margin-bottom: 0;   
 	margin-right: 0; 

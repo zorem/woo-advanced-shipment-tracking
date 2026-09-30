@@ -2,6 +2,10 @@
 /**
  * Html code for sidebar - Exact Copy of Design
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
 ?>
 <div class="ast_admin_sidebar">
 	<!-- Main PRO Card -->
