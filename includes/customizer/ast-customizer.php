@@ -3,6 +3,28 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/*
+ * PHPCS / Plugin Check suppressions for this file.
+ *
+ * WordPress.Security.NonceVerification.Recommended: Every state-changing handler in this file calls
+ * check_ajax_referer()/check_admin_referer() before this point; the reads flagged here only pick the
+ * tab/screen to render.
+ *
+ * WordPress.Security.ValidatedSanitizedInput.InputNotSanitized: Input is sanitized with wc_clean() or
+ * wp_kses_post() after wp_unslash(); PHPCS does not recognise WooCommerce's sanitizer.
+ *
+ * WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound: Public hook names are part of the
+ * plugin's documented API and are used by AST PRO, its add-ons and third-party integrations; renaming them
+ * would be a breaking change.
+ *
+ * WordPress.DB.SlowDBQuery.slow_db_query_meta_key: Orders must be looked up by tracking meta; there is no
+ * taxonomy equivalent for this data.
+ */
+// phpcs:disable WordPress.Security.NonceVerification.Recommended -- Every state-changing handler in this file calls check_ajax_referer()/check_admin_referer() before this point; the reads flagged here only pick the tab/screen to render.
+// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Input is sanitized with wc_clean() or wp_kses_post() after wp_unslash(); PHPCS does not recognise WooCommerce's sanitizer.
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public hook names are part of the plugin's documented API and are used by AST PRO, its add-ons and third-party integrations; renaming them would be a breaking change.
+// phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_meta_key, WordPress.DB.SlowDBQuery.slow_db_query_meta_value, WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- Orders must be looked up by tracking meta; there is no taxonomy equivalent for this data.
+
 class Ast_Customizer {
 
 	public $defaults;
@@ -114,19 +136,19 @@ class Ast_Customizer {
 	*/
 	public function settingsPage() {
 
-		$page = isset( $_GET['page'] ) ? wc_clean( $_GET['page'] ) : '' ;
+		$page = isset( $_GET['page'] ) ? wc_clean( wp_unslash( $_GET['page'] ) ) : '' ;
 		
 		// Add condition for css & js include for admin page  
 		if ( 'ast_customizer' != $page ) {
 			return;
 		}
 	
-		$email_type = !empty( $_GET['email_type'] ) ? sanitize_text_field($_GET['email_type']) : 'completed';
+		$email_type = !empty( $_GET['email_type'] ) ? sanitize_text_field( wp_unslash( $_GET['email_type'] ) ) : 'completed';
 		$iframe_url = $this->get_email_preview_url( $email_type ) ;
 		
 		$rename_shipped_status = get_ast_settings( 'ast_general_settings', 'wc_ast_status_shipped', 1 );
 
-		$completed_label = ( $rename_shipped_status ) ? esc_html__( 'Shipped', 'woo-advanced-shipment-tracking' ) : esc_html__( 'Completed', 'woocommerce' );		
+		$completed_label = ( $rename_shipped_status ) ? esc_html__( 'Shipped', 'woo-advanced-shipment-tracking' ) : esc_html__( 'Completed', 'woo-advanced-shipment-tracking' );		
 		
 		$email_types = array(
 			'completed'		  => $completed_label,
@@ -203,7 +225,7 @@ class Ast_Customizer {
 					<div class="zoremmail-layout-content-container">
 						<section class="zoremmail-layout-content-preview customize-preview">
 							<div id="overlay"></div>
-							<iframe id="email_preview" src="<?php esc_attr_e( $iframe_url ); ?>" style="width: 100%;height: 100%;display: block;margin: 0 auto;"></iframe>
+							<iframe id="email_preview" src="<?php echo esc_attr( $iframe_url ); ?>" style="width: 100%;height: 100%;display: block;margin: 0 auto;"></iframe>
 						</section>						
 					</div>
 				</section>
@@ -219,7 +241,7 @@ class Ast_Customizer {
 	*/	
 	public function customizer_enqueue_scripts( $hook ) {
 		
-		$page = isset( $_GET['page'] ) ? wc_clean( $_GET['page'] ) : '' ;
+		$page = isset( $_GET['page'] ) ? wc_clean( wp_unslash( $_GET['page'] ) ) : '' ;
 		
 		// Add condition for css & js include for admin page  
 		if ( 'ast_customizer' != $page ) {
@@ -232,7 +254,7 @@ class Ast_Customizer {
 		}
 		wp_enqueue_style( 'woocommerce_admin_styles' );
 		if ( ! wp_script_is( 'select2', 'registered' ) ) {
-			wp_register_script( 'select2', WC()->plugin_url() . '/assets/js/select2/select2.full' . $suffix . '.js', array( 'jquery' ), '4.0.3' );
+			wp_register_script( 'select2', WC()->plugin_url() . '/assets/js/select2/select2.full' . $suffix . '.js', array( 'jquery' ), '4.0.3', false );
 		}
 		wp_enqueue_script( 'select2' );
 
@@ -283,7 +305,7 @@ class Ast_Customizer {
 						$option_data[$key] = wp_kses_post( wp_unslash( $_POST[$key] ) );
 						update_option( $val['option_name'], $option_data );
 					} elseif ( isset( $val['option_type'] ) && 'key' == $val['option_type'] ) {
-						update_option( $key, wc_clean( $_POST[$key] ) );					
+						update_option( $key, wc_clean( wp_unslash( $_POST[$key] ) ) );					
 					} elseif ( isset( $val['option_type'] ) && 'array' == $val['option_type'] ) {					
 						if ( isset( $val['option_key'] ) ) {
 							$option_data = get_option( $val['option_name'], array() );
@@ -338,9 +360,9 @@ class Ast_Customizer {
 			'fluid_button_padding' => '10',
 			'fluid_button_radius' => '3',
 			'fluid_button_expand' => 1,
-			'completed_subject' => __( 'Your {site_title} order is now complete', 'woocommerce' ),
-			'completed_heading' => __( 'Your order is Complete!', 'woocommerce' ),
-			'completed_email_content' => __( 'We have finished processing your order.', 'woocommerce' ),						
+			'completed_subject' => __( 'Your {site_title} order is now complete', 'woo-advanced-shipment-tracking' ),
+			'completed_heading' => __( 'Your order is Complete!', 'woo-advanced-shipment-tracking' ),
+			'completed_email_content' => __( 'We have finished processing your order.', 'woo-advanced-shipment-tracking' ),						
 			'partial_shipped_subject' => __( 'Your {site_title} order is now partially shipped', 'woo-advanced-shipment-tracking' ),
 			'partial_shipped_heading' => __( 'Your Order is Partially Shipped', 'woo-advanced-shipment-tracking' ),
 			'partial_shipped_email_content' => __( "Hi there. we thought you'd like to know that your recent order from {site_title} has been partially shipped.", 'woo-advanced-shipment-tracking' ),			
@@ -351,7 +373,7 @@ class Ast_Customizer {
 
 	public function customize_setting_options_func() {
 		
-		$email_type = isset( $_GET['email_type'] ) ? sanitize_text_field($_GET['email_type']) : get_option( 'orderStatus', 'completed' );	
+		$email_type = isset( $_GET['email_type'] ) ? sanitize_text_field( wp_unslash( $_GET['email_type'] ) ) : get_option( 'orderStatus', 'completed' );	
 		
 		$email_settings = get_option('woocommerce_customer_' . $email_type . '_order_settings', array());		
 		
@@ -364,7 +386,7 @@ class Ast_Customizer {
 		$rename_shipped_status = get_ast_settings( 'ast_general_settings', 'wc_ast_status_shipped', 1 );
 	
 		
-		$completed_label = ( $rename_shipped_status ) ? esc_html__( 'Shipped', 'woo-advanced-shipment-tracking' ) : esc_html__( 'Completed', 'woocommerce' );	
+		$completed_label = ( $rename_shipped_status ) ? esc_html__( 'Shipped', 'woo-advanced-shipment-tracking' ) : esc_html__( 'Completed', 'woo-advanced-shipment-tracking' );	
 		
 		$fluid_display_shipped_header_default = ( ( isset( $tracking_info_settings['fluid_display_shipped_header'] ) )  && ( !empty($tracking_info_settings['fluid_display_shipped_header']) || 0 == $tracking_info_settings['fluid_display_shipped_header'] ) ) ? $tracking_info_settings['fluid_display_shipped_header'] : $this->defaults['fluid_display_shipped_header'];
 		
@@ -629,7 +651,7 @@ class Ast_Customizer {
 		
 		//sections			
 		$all_statuses = array(
-			'completed'		=> esc_html__( 'Completed', 'woocommerce' ),
+			'completed'		=> esc_html__( 'Completed', 'woo-advanced-shipment-tracking' ),
 			'partial_shipped'			=> esc_html__( 'Partially Shipped', 'woo-advanced-shipment-tracking' ),			
 		);
 		
@@ -730,8 +752,8 @@ class Ast_Customizer {
 
 			if ( isset($array['type']) && 'panel' == $array['type'] ) {
 				?>
-				<li id="<?php isset($array['id']) ? esc_attr_e($array['id']) : ''; ?>" data-label="<?php isset($array['label']) ? esc_attr_e($array['label']) : ''; ?>" data-iframe_url="<?php isset($array['iframe_url']) ? esc_attr_e($array['iframe_url']) : ''; ?>" class="zoremmail-panel-title <?php isset($array['class']) ? esc_attr_e($array['class']) : ''; ?>">
-					<span><?php isset($array['title']) ? esc_html_e($array['title']) : ''; ?></span>
+				<li id="<?php echo isset($array['id']) ? esc_attr( $array['id'] ) : ''; ?>" data-label="<?php echo isset($array['label']) ? esc_attr( $array['label'] ) : ''; ?>" data-iframe_url="<?php echo isset($array['iframe_url']) ? esc_attr( $array['iframe_url'] ) : ''; ?>" class="zoremmail-panel-title <?php echo isset($array['class']) ? esc_attr( $array['class'] ) : ''; ?>">
+					<span><?php echo isset($array['title']) ? esc_html( $array['title'] ) : ''; ?></span>
 					<span class="dashicons dashicons-arrow-right-alt2"></span>
 				</li>
 				<?php
@@ -749,17 +771,17 @@ class Ast_Customizer {
 				
 			if ( isset($array['type']) && 'sub-panel-heading' == $array['type'] ) {
 				?>
-				<li data-id="<?php isset($array['parent']) ? esc_attr_e($array['parent']) : ''; ?>" class="zoremmail-sub-panel-heading <?php isset($array['class']) ? esc_attr_e($array['class']) : ''; ?> <?php isset($array['parent']) ? esc_attr_e($array['parent']) : ''; ?>">
+				<li data-id="<?php echo isset($array['parent']) ? esc_attr( $array['parent'] ) : ''; ?>" class="zoremmail-sub-panel-heading <?php echo isset($array['class']) ? esc_attr( $array['class'] ) : ''; ?> <?php echo isset($array['parent']) ? esc_attr( $array['parent'] ) : ''; ?>">
 					<div class="customize-section-title">
 						<button type="button" class="customize-section-back" tabindex="0">
 							<span class="screen-reader-text">Back</span>
 						</button>
 						<h3>
 							<span class="customize-action-default">
-								<?php esc_html_e( 'You are customizing', 'wooflow-email-customizer' ); ?>
+								<?php esc_html_e( 'You are customizing', 'woo-advanced-shipment-tracking' ); ?>
 							</span>
 							<span class="customize-action-changed"></span>
-							<span class="sub_heading"><?php esc_html_e( $array['title'] ); ?></span>
+							<span class="sub_heading"><?php echo esc_html( $array['title'] ); ?></span>
 						</h3>
 					</div>
 				</li>
@@ -768,8 +790,8 @@ class Ast_Customizer {
 
 			if ( isset($array['type']) && 'sub-panel' == $array['type'] ) {
 				?>
-				<li id="<?php isset($array['id']) ? esc_attr_e($array['id']) : ''; ?>"  data-type="<?php isset($array['parent']) ? esc_html_e($array['parent']) : ''; ?>" data-label="<?php isset($array['title']) ? esc_html_e($array['title']) : ''; ?>" class="zoremmail-sub-panel-title <?php isset($array['class']) ? esc_attr_e($array['class']) : ''; ?> <?php isset($array['parent']) ? esc_attr_e($array['parent']) : ''; ?>">
-					<span><?php isset($array['title']) ? esc_html_e($array['title']) : ''; ?></span>
+				<li id="<?php echo isset($array['id']) ? esc_attr( $array['id'] ) : ''; ?>"  data-type="<?php echo isset($array['parent']) ? esc_html( $array['parent'] ) : ''; ?>" data-label="<?php echo isset($array['title']) ? esc_html( $array['title'] ) : ''; ?>" class="zoremmail-sub-panel-title <?php echo isset($array['class']) ? esc_attr( $array['class'] ) : ''; ?> <?php echo isset($array['parent']) ? esc_attr( $array['parent'] ) : ''; ?>">
+					<span><?php echo isset($array['title']) ? esc_html( $array['title'] ) : ''; ?></span>
 					<span class="dashicons dashicons-arrow-right-alt2"></span>
 				</li>
 				<?php
@@ -798,8 +820,8 @@ class Ast_Customizer {
 			if ( isset($array['type']) && 'section' == $array['type'] ) {
 				echo 'heading' != $id ? '</div>' : '';
 				?>
-				<div data-id="<?php isset($array['parent']) ? esc_attr_e($array['parent']) : ''; ?>" class="zoremmail-menu-submenu-title <?php isset($array['class']) ? esc_attr_e($array['class']) : ''; ?>">
-					<span><?php esc_html_e( $array['title'] ); ?></span>
+				<div data-id="<?php echo isset($array['parent']) ? esc_attr( $array['parent'] ) : ''; ?>" class="zoremmail-menu-submenu-title <?php echo isset($array['class']) ? esc_attr( $array['class'] ) : ''; ?>">
+					<span><?php echo esc_html( $array['title'] ); ?></span>
 					<span class="dashicons dashicons-arrow-right-alt2"></span>
 				</div>
 				<div class="zoremmail-menu-contain">
@@ -807,53 +829,53 @@ class Ast_Customizer {
 			} else {
 				$array_default = isset( $array['default'] ) ? $array['default'] : '';
 				?>
-				<div class="zoremmail-menu zoremmail-menu-inline zoremmail-menu-sub <?php isset($array['class']) ? esc_attr_e($array['class']) : ''; ?>">
+				<div class="zoremmail-menu zoremmail-menu-inline zoremmail-menu-sub <?php echo isset($array['class']) ? esc_attr( $array['class'] ) : ''; ?>">
 					<div class="zoremmail-menu-item">
-						<div class="<?php esc_attr_e( $id ); ?> <?php esc_attr_e( $array['type'] ); ?>">
+						<div class="<?php echo esc_attr( $id ); ?> <?php echo esc_attr( $array['type'] ); ?>">
 							<?php if ( isset($array['title']) && 'checkbox' != $array['type'] ) { ?>
-								<div class="menu-sub-title"><?php esc_html_e( $array['title'] ); ?></div>
+								<div class="menu-sub-title"><?php echo esc_html( $array['title'] ); ?></div>
 							<?php } ?>
 							<?php if ( isset($array['type']) && 'text' == $array['type'] ) { ?>
 								<?php //echo '<pre>';print_r($array);echo '</pre>'; ?>
 								<?php $field_name = isset( $array['option_type'] ) && 'key' == $array['option_type'] ? $array['option_name'] : $id; ?>
 								<div class="menu-sub-field">
-									<input type="text" name="<?php esc_attr_e( $field_name ); ?>" id="<?php esc_attr_e( $field_name ); ?>" placeholder="<?php isset($array['placeholder']) ? esc_attr_e($array['placeholder']) : ''; ?>" value="<?php echo esc_html( $array_default ); ?>" class="zoremmail-input <?php esc_html_e($array['type']); ?> <?php isset($array['class']) ? esc_attr_e($array['class']) : ''; ?>">
+									<input type="text" name="<?php echo esc_attr( $field_name ); ?>" id="<?php echo esc_attr( $field_name ); ?>" placeholder="<?php echo isset($array['placeholder']) ? esc_attr( $array['placeholder'] ) : ''; ?>" value="<?php echo esc_html( $array_default ); ?>" class="zoremmail-input <?php echo esc_html( $array['type'] ); ?> <?php echo isset($array['class']) ? esc_attr( $array['class'] ) : ''; ?>">
 									<br>
-									<span class="menu-sub-tooltip"><?php isset($array['desc']) ? esc_html_e($array['desc']) : ''; ?></span>
+									<span class="menu-sub-tooltip"><?php echo isset($array['desc']) ? esc_html( $array['desc'] ) : ''; ?></span>
 								</div>
 							<?php } else if ( isset($array['type']) && 'textarea' == $array['type'] ) { ?>
 								<div class="menu-sub-field">
-									<textarea id="<?php esc_attr_e( $id ); ?>" rows="4" name="<?php esc_attr_e( $id ); ?>" placeholder="<?php isset($array['placeholder']) ? esc_attr_e($array['placeholder']) : ''; ?>" class="zoremmail-input <?php esc_html_e($array['type']); ?> <?php isset($array['class']) ? esc_attr_e($array['class']) : ''; ?>"><?php echo esc_html( $array_default ); ?></textarea>
+									<textarea id="<?php echo esc_attr( $id ); ?>" rows="4" name="<?php echo esc_attr( $id ); ?>" placeholder="<?php echo isset($array['placeholder']) ? esc_attr( $array['placeholder'] ) : ''; ?>" class="zoremmail-input <?php echo esc_html( $array['type'] ); ?> <?php echo isset($array['class']) ? esc_attr( $array['class'] ) : ''; ?>"><?php echo esc_html( $array_default ); ?></textarea>
 									<br>
-									<span class="menu-sub-tooltip"><?php isset($array['desc']) ? esc_html_e($array['desc']) : ''; ?></span>
+									<span class="menu-sub-tooltip"><?php echo isset($array['desc']) ? esc_html( $array['desc'] ) : ''; ?></span>
 								</div>
 							<?php } else if ( isset($array['type']) && 'codeinfo' == $array['type'] ) { ?>
 								<div class="menu-sub-field">
-									<span class="menu-sub-codeinfo <?php esc_html_e($array['type']); ?>"><?php echo isset($array['default']) ? wp_kses_post($array['default']) : ''; ?></span>
+									<span class="menu-sub-codeinfo <?php echo esc_html( $array['type'] ); ?>"><?php echo isset($array['default']) ? wp_kses_post($array['default']) : ''; ?></span>
 								</div>
 							<?php } else if ( isset($array['type']) && 'select' == $array['type'] ) { ?>
 								<div class="menu-sub-field">
-									<select name="<?php esc_attr_e( $id ); ?>" id="<?php esc_attr_e( $id ); ?>" class="zoremmail-input <?php esc_html_e($array['type']); ?> <?php isset($array['class']) ? esc_attr_e($array['class']) : ''; ?>">
+									<select name="<?php echo esc_attr( $id ); ?>" id="<?php echo esc_attr( $id ); ?>" class="zoremmail-input <?php echo esc_html( $array['type'] ); ?> <?php echo isset($array['class']) ? esc_attr( $array['class'] ) : ''; ?>">
 										<?php foreach ( (array) $array['options'] as $key => $val ) { ?>
 											<option value="<?php echo esc_html($key); ?>" <?php echo $array_default == $key ? 'selected' : ''; ?>><?php echo esc_html($val); ?></option>
 										<?php } ?>
 									</select>
 									<br>
-									<span class="menu-sub-tooltip"><?php isset($array['desc']) ? esc_html_e($array['desc']) : ''; ?></span>
+									<span class="menu-sub-tooltip"><?php echo isset($array['desc']) ? esc_html( $array['desc'] ) : ''; ?></span>
 								</div>
 							<?php } else if ( isset($array['type']) && 'color' == $array['type'] ) { ?>
 								<div class="menu-sub-field">
-									<input type="text" name="<?php esc_attr_e( $id ); ?>" id="<?php esc_attr_e( $id ); ?>" class="input-text regular-input zoremmail-input <?php esc_html_e($array['type']); ?> <?php isset($array['class']) ? esc_attr_e($array['class']) : ''; ?>" value="<?php echo esc_html( $array_default ); ?>" placeholder="<?php isset($array['placeholder']) ? esc_attr_e($array['placeholder']) : ''; ?>">
+									<input type="text" name="<?php echo esc_attr( $id ); ?>" id="<?php echo esc_attr( $id ); ?>" class="input-text regular-input zoremmail-input <?php echo esc_html( $array['type'] ); ?> <?php echo isset($array['class']) ? esc_attr( $array['class'] ) : ''; ?>" value="<?php echo esc_html( $array_default ); ?>" placeholder="<?php echo isset($array['placeholder']) ? esc_attr( $array['placeholder'] ) : ''; ?>">
 									<br>
-									<span class="menu-sub-tooltip"><?php isset($array['desc']) ? esc_html_e($array['desc']) : ''; ?></span>
+									<span class="menu-sub-tooltip"><?php echo isset($array['desc']) ? esc_html( $array['desc'] ) : ''; ?></span>
 								</div>
 							<?php } else if ( isset($array['type']) && 'checkbox' == $array['type'] ) { ?>
 								<?php //echo '<pre>';print_r($array['default']);echo '</pre>'; ?>
 								<div class="menu-sub-field">
 									<label class="menu-sub-title">
-										<input type="hidden" name="<?php esc_attr_e( $id ); ?>" value="0"/>
-										<input type="checkbox" id="<?php esc_attr_e( $id ); ?>" name="<?php esc_attr_e( $id ); ?>" class="zoremmail-checkbox <?php isset($array['class']) ? esc_attr_e($array['class']) : ''; ?>" value="1" <?php echo $array_default ? 'checked' : ''; ?>/>
-										<?php esc_html_e( $array['title'] ); ?>
+										<input type="hidden" name="<?php echo esc_attr( $id ); ?>" value="0"/>
+										<input type="checkbox" id="<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( $id ); ?>" class="zoremmail-checkbox <?php echo isset($array['class']) ? esc_attr( $array['class'] ) : ''; ?>" value="1" <?php echo $array_default ? 'checked' : ''; ?>/>
+										<?php echo esc_html( $array['title'] ); ?>
 										<?php if ( isset($array['tip-tip'] ) ) { ?>
 											<span class="woocommerce-help-tip tipTip" title="<?php echo esc_html( $array['tip-tip'] ); ?>"></span>
 										<?php } ?>
@@ -875,18 +897,18 @@ class Ast_Customizer {
 									<?php //echo $array_default; ?>
 									<label class="menu-sub-title">
 										<span class="tgl-btn-parent">
-											<input type="hidden" name="<?php esc_attr_e( $id ); ?>" value="0">
-											<input type="checkbox" id="<?php esc_attr_e( $id ); ?>" name="<?php esc_attr_e( $id ); ?>" class="tgl tgl-flat" <?php echo $array_default ? 'checked' : ''; ?> value="1">
-											<label class="tgl-btn" for="<?php esc_attr_e( $id ); ?>"></label>
+											<input type="hidden" name="<?php echo esc_attr( $id ); ?>" value="0">
+											<input type="checkbox" id="<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( $id ); ?>" class="tgl tgl-flat" <?php echo $array_default ? 'checked' : ''; ?> value="1">
+											<label class="tgl-btn" for="<?php echo esc_attr( $id ); ?>"></label>
 										</span>
-										<label for="<?php esc_attr_e( $id ); ?>" class="shipment_email_label"><?php esc_html_e( 'Enable email', 'woo-advanced-shipment-tracking' ); ?></label>
+										<label for="<?php echo esc_attr( $id ); ?>" class="shipment_email_label"><?php esc_html_e( 'Enable email', 'woo-advanced-shipment-tracking' ); ?></label>
 									</label>
 								</div>
 							<?php } else if ( isset($array['type']) && 'range' == $array['type'] ) { ?>
 								<div class="menu-sub-field">
 									<label class="menu-sub-title">
-										<input type="range" class="zoremmail-range" id="<?php esc_attr_e( $id ); ?>" name="<?php esc_attr_e( $id ); ?>" value="<?php echo esc_html( $array_default ); ?>" min="<?php esc_html_e( $array['min'] ); ?>" max="<?php esc_html_e( $array['max'] ); ?>" oninput="this.nextElementSibling.value = this.value">
-										<input style="width:50px;" class="slider__value" type="number" min="<?php esc_attr_e( $array['min'] ); ?>" max="<?php esc_attr_e( $array['max'] ); ?>" value="<?php echo esc_html( $array_default ); ?>">
+										<input type="range" class="zoremmail-range" id="<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( $id ); ?>" value="<?php echo esc_html( $array_default ); ?>" min="<?php echo esc_html( $array['min'] ); ?>" max="<?php echo esc_html( $array['max'] ); ?>" oninput="this.nextElementSibling.value = this.value">
+										<input style="width:50px;" class="slider__value" type="number" min="<?php echo esc_attr( $array['min'] ); ?>" max="<?php echo esc_attr( $array['max'] ); ?>" value="<?php echo esc_html( $array_default ); ?>">
 									</label>
 								</div>
 							<?php } ?>
@@ -937,13 +959,17 @@ class Ast_Customizer {
 	 * Get the email content
 	 *
 	 */
-	public function get_preview_email( $send_email = false, $email_addresses = null ) { 
-		
+	public function get_preview_email( $send_email = false, $email_addresses = null ) {
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( esc_html__( 'You do not have permission to view this preview.', 'woo-advanced-shipment-tracking' ), '', array( 'response' => 403 ) );
+		}
+
 		// Load WooCommerce emails.
 		$wc_emails      = WC_Emails::instance();
 		$emails         = $wc_emails->get_emails();		
 		
-		$email_template = isset( $_GET['email_type'] ) ? sanitize_text_field($_GET['email_type']) : get_option( 'orderStatus', 'completed' );
+		$email_template = isset( $_GET['email_type'] ) ? sanitize_text_field( wp_unslash( $_GET['email_type'] ) ) : get_option( 'orderStatus', 'completed' );
 		$preview_id = get_option( 'order_preview', 'mockup' );
 
 		$email_type = self::get_email_class_name( $email_template );
@@ -1003,7 +1029,7 @@ class Ast_Customizer {
 				
 			} else {
 				if ( false == $email->object ) {
-					$content = '<div style="padding: 35px 40px; background-color: white;">' . __( 'This email type can not be previewed please try a different order or email type.', 'advanced-email-customizer' ) . '</div>';
+					$content = '<div style="padding: 35px 40px; background-color: white;">' . __( 'This email type can not be previewed please try a different order or email type.', 'woo-advanced-shipment-tracking' ) . '</div>';
 				}
 			}
 		} else {

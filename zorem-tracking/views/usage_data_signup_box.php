@@ -1,3 +1,8 @@
+<?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+?>
 <div class="zorem-layout popupwrapper" style="text-align: left !important;">
 	<div id="ast_usagedata_connect" class="ud-box-container">
 		<div class="ud-content">

@@ -11,6 +11,24 @@
  *                                     		use current time.
  * @param int 		  $status_shipped		0=no,1=shipped,2=partial shipped(if partial shipped order status is enabled)
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
+/*
+ * PHPCS / Plugin Check suppressions for this file.
+ *
+ * WordPress.DB.DirectDatabaseQuery.DirectQuery: Reads/writes the plugin's own `woo_shippment_provider`
+ * table; no WordPress API covers it and the rows change per request, so a persistent cache would serve
+ * stale carrier data.
+ *
+ * WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound: Public helper functions are part
+ * of the plugin's documented API and are called by AST PRO and its add-ons; renaming them would be a
+ * breaking change.
+ */
+// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reads/writes the plugin's own `woo_shippment_provider` table; no WordPress API covers it and the rows change per request, so a persistent cache would serve stale carrier data.
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Public helper functions are part of the plugin's documented API and are called by AST PRO and its add-ons; renaming them would be a breaking change.
  
 function ast_insert_tracking_number( $order_id, $tracking_number, $tracking_provider, $date_shipped = null, $status_shipped = 0 ) {	
 	$args = array(

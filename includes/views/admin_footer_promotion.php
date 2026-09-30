@@ -2,6 +2,10 @@
 /**
  * Html code for footer promotion
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
 ?>
 <div class="ast_footer_promotion">
 	<div class="section-content trackship_addon_section ast_pro_addon_section">

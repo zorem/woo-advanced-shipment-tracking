@@ -1,3 +1,8 @@
+<?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+?>
 <div id="" class="popupwrapper upgrade_to_pro_popup" style="display:none;">
 	<div class="popuprow">
         <div class="popup_header">

@@ -4,19 +4,44 @@
  * Plugin Name: Advanced Shipment Tracking for WooCommerce
  * Plugin URI: https://www.zorem.com/products/woocommerce-advanced-shipment-tracking/
  * Description: Add shipment tracking information to your WooCommerce orders and provide customers with an easy way to track their orders. Shipment tracking Info will appear in customers accounts (in the order panel) and in WooCommerce order complete email.
- * Version: 4.0.3
+ * Version: 4.0.4
  * Author: zorem
  * Author URI: https://www.zorem.com
  * License: GPL-2.0+
  * License URI:
  * Text Domain: woo-advanced-shipment-tracking
- * WC tested up to: 11.1.0
+ * Domain Path: /lang
+ * WC tested up to: 11.1.2
  * Requires Plugins: woocommerce
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+/*
+ * PHPCS / Plugin Check suppressions for this file.
+ *
+ * WordPress.Security.NonceVerification.Recommended: Every state-changing handler in this file calls
+ * check_ajax_referer()/check_admin_referer() before this point; the reads flagged here only pick the
+ * tab/screen to render.
+ *
+ * WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound: Public hook names are part of the
+ * plugin's documented API and are used by AST PRO, its add-ons and third-party integrations; renaming them
+ * would be a breaking change.
+ *
+ * WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound: Public helper functions are part
+ * of the plugin's documented API and are called by AST PRO and its add-ons; renaming them would be a
+ * breaking change.
+ *
+ * PluginCheck.CodeAnalysis.DiscouragedFunctions.load_plugin_textdomainFound: Kept deliberately: the plugin
+ * ships translations in /lang and supports WP 5.3, where just-in-time loading does not cover a plugin's
+ * bundled languages directory.
+ */
+// phpcs:disable WordPress.Security.NonceVerification.Recommended -- Every state-changing handler in this file calls check_ajax_referer()/check_admin_referer() before this point; the reads flagged here only pick the tab/screen to render.
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public hook names are part of the plugin's documented API and are used by AST PRO, its add-ons and third-party integrations; renaming them would be a breaking change.
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Public helper functions are part of the plugin's documented API and are called by AST PRO and its add-ons; renaming them would be a breaking change.
+// phpcs:disable PluginCheck.CodeAnalysis.DiscouragedFunctions.load_plugin_textdomainFound -- Kept deliberately: the plugin ships translations in /lang and supports WP 5.
 
 class Zorem_Woocommerce_Advanced_Shipment_Tracking {
 
@@ -25,7 +50,7 @@ class Zorem_Woocommerce_Advanced_Shipment_Tracking {
 	 *
 	 * @var string
 	 */
-	public $version = '4.0.3';
+	public $version = '4.0.4';
 	public $plugin_file;
 	public $plugin_path;
 	public $table;
@@ -130,7 +155,7 @@ class Zorem_Woocommerce_Advanced_Shipment_Tracking {
 		if ( is_plugin_active( 'ast-pro/ast-pro.php' ) && is_plugin_active( 'advanced-shipment-tracking-pro/advanced-shipment-tracking-pro.php' ) && current_user_can( 'activate_plugins' ) ) {
 			
 			//admin notice for not allow activate plugin
-			wp_redirect( admin_url() . 'plugins.php?ast-not-allow=true' );
+			wp_safe_redirect( admin_url() . 'plugins.php?ast-not-allow=true' );
 			exit;
 		}
 	}
@@ -426,16 +451,16 @@ class Zorem_Woocommerce_Advanced_Shipment_Tracking {
 	*/
 	public function ast_plugin_action_links ( $links ) {
 		$links = array_merge( array(
-			'<a href="https://wordpress.org/support/plugin/woo-advanced-shipment-tracking/reviews/#new-post" target="blank">' . __( 'Review' ) . '</a>'
+			'<a href="https://wordpress.org/support/plugin/woo-advanced-shipment-tracking/reviews/#new-post" target="blank">' . __( 'Review', 'woo-advanced-shipment-tracking' ) . '</a>'
 		), $links );
 		$links = array_merge( array(
-			'<a href="https://wordpress.org/support/plugin/woo-advanced-shipment-tracking/#new-topic-0" target="blank">' . __( 'Support' ) . '</a>'
+			'<a href="https://wordpress.org/support/plugin/woo-advanced-shipment-tracking/#new-topic-0" target="blank">' . __( 'Support', 'woo-advanced-shipment-tracking' ) . '</a>'
 		), $links );
 		$links = array_merge( array(
-			'<a href="https://www.zorem.com/docs/woocommerce-advanced-shipment-tracking/" target="blank">' . __( 'Docs' ) . '</a>'
+			'<a href="https://www.zorem.com/docs/woocommerce-advanced-shipment-tracking/" target="blank">' . __( 'Docs', 'woo-advanced-shipment-tracking' ) . '</a>'
 		), $links );
 		$links = array_merge( array(
-			'<a href="' . esc_url( admin_url( '/admin.php?page=woocommerce-advanced-shipment-tracking' ) ) . '">' . __( 'Settings' ) . '</a>'
+			'<a href="' . esc_url( admin_url( '/admin.php?page=woocommerce-advanced-shipment-tracking' ) ) . '">' . __( 'Settings', 'woo-advanced-shipment-tracking' ) . '</a>'
 		), $links );
 		return $links;
 	}

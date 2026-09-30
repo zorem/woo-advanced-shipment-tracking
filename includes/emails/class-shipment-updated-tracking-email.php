@@ -9,6 +9,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+/*
+ * PHPCS / Plugin Check suppressions for this file.
+ *
+ * WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound: Class name is part of the plugin's
+ * public API (extended by AST PRO / referenced by WooCommerce email settings); renaming it would be a
+ * breaking change.
+ */
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- Class name is part of the plugin's public API (extended by AST PRO / referenced by WooCommerce email settings); renaming it would be a breaking change.
+
 if ( ! class_exists( 'WC_Email_Customer_Updated_Tracking_Order', false ) ) :
 
 	/**
@@ -29,8 +38,8 @@ if ( ! class_exists( 'WC_Email_Customer_Updated_Tracking_Order', false ) ) :
 		public function __construct() {
 			$this->id             = 'customer_updated_tracking_order';
 			$this->customer_email = true;
-			$this->title          = __( 'Updated Tracking order', 'woocommerce' );
-			$this->description    = __( 'Order updated tracking emails are sent to customers when their orders are marked updated tracking and usually indicate that their orders have been updated tracking.', 'woocommerce' );
+			$this->title          = __( 'Updated Tracking order', 'woo-advanced-shipment-tracking' );
+			$this->description    = __( 'Order updated tracking emails are sent to customers when their orders are marked updated tracking and usually indicate that their orders have been updated tracking.', 'woo-advanced-shipment-tracking' );
 			$this->template_html  = 'emails/customer-updated-tracking-order.php';
 			$this->template_plain = 'emails/plain/customer-updated-tracking-order.php';
 			$this->placeholders   = array(
@@ -79,7 +88,7 @@ if ( ! class_exists( 'WC_Email_Customer_Updated_Tracking_Order', false ) ) :
 		 * @return string
 		 */
 		public function get_default_subject() {
-			return __( 'Your {site_title} order is now updated tracking', 'woocommerce' );
+			return __( 'Your {site_title} order is now updated tracking', 'woo-advanced-shipment-tracking' );
 		}
 
 		/**
@@ -89,7 +98,7 @@ if ( ! class_exists( 'WC_Email_Customer_Updated_Tracking_Order', false ) ) :
 		 * @return string
 		 */
 		public function get_default_heading() {
-			return __( 'Tracking information Update', 'woocommerce' );
+			return __( 'Tracking information Update', 'woo-advanced-shipment-tracking' );
 		}
 
 		/**
@@ -100,7 +109,7 @@ if ( ! class_exists( 'WC_Email_Customer_Updated_Tracking_Order', false ) ) :
 		public function get_content_html() {
 			$template = $this->get_template( 'template_html' );			
 			$local_file    = $this->get_theme_template_file( $template );
-			if ( file_exists( $local_file ) && is_writable( $local_file )) {
+			if ( file_exists( $local_file ) && wp_is_writable( $local_file )) {
 				//echo $local_file;exit;			
 				return wc_get_template_html(
 					$this->template_html,
@@ -138,7 +147,7 @@ if ( ! class_exists( 'WC_Email_Customer_Updated_Tracking_Order', false ) ) :
 		public function get_content_plain() {
 			$template = $this->get_template( 'template_html' );			
 			$local_file    = $this->get_theme_template_file( $template );
-			if ( file_exists( $local_file ) && is_writable( $local_file )) {
+			if ( file_exists( $local_file ) && wp_is_writable( $local_file )) {
 				//echo $local_file;exit;			
 				return wc_get_template_html(
 					$this->template_html,
@@ -175,7 +184,7 @@ if ( ! class_exists( 'WC_Email_Customer_Updated_Tracking_Order', false ) ) :
 		 * @return string
 		 */
 		public function get_default_additional_content() {
-			return __( 'Thanks for shopping with us.', 'woocommerce' );
+			return __( 'Thanks for shopping with us.', 'woo-advanced-shipment-tracking' );
 		}
 	}
 

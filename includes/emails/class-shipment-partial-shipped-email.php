@@ -29,8 +29,8 @@ if ( ! class_exists( 'WC_Email_Customer_Partial_Shipped_Order', false ) ) :
 		public function __construct() {
 			$this->id             = 'customer_partial_shipped_order';
 			$this->customer_email = true;
-			$this->title          = __( 'Partially Shipped order', 'woocommerce' );
-			$this->description    = __( 'Order partially shipped emails are sent to customers when their orders are marked partially shipped and usually indicate that their orders have been partially shipped.', 'woocommerce' );
+			$this->title          = __( 'Partially Shipped order', 'woo-advanced-shipment-tracking' );
+			$this->description    = __( 'Order partially shipped emails are sent to customers when their orders are marked partially shipped and usually indicate that their orders have been partially shipped.', 'woo-advanced-shipment-tracking' );
 			$this->template_html  = 'emails/customer-partial-shipped-order.php';
 			$this->template_plain = 'emails/plain/customer-completed-order.php';
 			$this->placeholders   = array(
@@ -79,7 +79,7 @@ if ( ! class_exists( 'WC_Email_Customer_Partial_Shipped_Order', false ) ) :
 		 * @return string
 		 */
 		public function get_default_subject() {
-			return __( 'Your {site_title} order is now partially shipped', 'woocommerce' );
+			return __( 'Your {site_title} order is now partially shipped', 'woo-advanced-shipment-tracking' );
 		}
 
 		/**
@@ -89,7 +89,7 @@ if ( ! class_exists( 'WC_Email_Customer_Partial_Shipped_Order', false ) ) :
 		 * @return string
 		 */
 		public function get_default_heading() {
-			return __( 'Your Order is Partially Shipped', 'woocommerce' );
+			return __( 'Your Order is Partially Shipped', 'woo-advanced-shipment-tracking' );
 		}
 
 		/**
@@ -100,7 +100,7 @@ if ( ! class_exists( 'WC_Email_Customer_Partial_Shipped_Order', false ) ) :
 		public function get_content_html() {
 			$template = $this->get_template( 'template_html' );			
 			$local_file    = $this->get_theme_template_file( $template );
-			if ( file_exists( $local_file ) && is_writable( $local_file )) {							
+			if ( file_exists( $local_file ) && wp_is_writable( $local_file )) {							
 				return wc_get_template_html(
 					$this->template_html,
 					array(
@@ -151,7 +151,7 @@ if ( ! class_exists( 'WC_Email_Customer_Partial_Shipped_Order', false ) ) :
 		public function get_content_plain() {
 			$template = $this->get_template( 'template_html' );			
 			$local_file    = $this->get_theme_template_file( $template );
-			if ( file_exists( $local_file ) && is_writable( $local_file )) {	
+			if ( file_exists( $local_file ) && wp_is_writable( $local_file )) {	
 				//echo $local_file;exit;			
 				return wc_get_template_html(
 					$this->template_html,
@@ -188,7 +188,7 @@ if ( ! class_exists( 'WC_Email_Customer_Partial_Shipped_Order', false ) ) :
 		 * @return string
 		 */
 		public function get_default_additional_content() {
-			return __( 'Thanks for shopping with us.', 'woocommerce' );
+			return __( 'Thanks for shopping with us.', 'woo-advanced-shipment-tracking' );
 		}
 	}
 
