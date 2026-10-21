@@ -1277,3 +1277,123 @@
 	$(document).ready(initUpdateNotice);
 	$(document).on('ast:tabswapped', initUpdateNotice);
 })(jQuery);
+
+/* ---------------------------------------------------------------------------
+ * AST PRO offer card: live countdown (includes/settings/partials/pro-promo.php)
+ *
+ * PHP prints the correct remaining time, so the card is right before this runs
+ * and stays right without JS. This only keeps it ticking, and removes the card
+ * if the offer ends while the screen is open - the card has no dismiss control,
+ * so the clock is the only thing that takes it away.
+ * ------------------------------------------------------------------------- */
+(function () {
+	'use strict';
+
+	function pad(n) {
+		return (n < 10 ? '0' : '') + n;
+	}
+
+	function startPromoCountdown() {
+		var clock = document.querySelector('[data-ast-promo-countdown]');
+		if (!clock || clock.dataset.astPromoRunning) {
+			return;
+		}
+
+		var endsAt = parseInt(clock.getAttribute('data-ends'), 10);
+		if (!endsAt) {
+			return;
+		}
+
+		var card = clock.closest('.ast-promo');
+		var days = clock.querySelector('[data-ast-promo-days]');
+		var hours = clock.querySelector('[data-ast-promo-hours]');
+		var mins = clock.querySelector('[data-ast-promo-mins]');
+		var secs = clock.querySelector('[data-ast-promo-secs]');
+		if (!days || !hours || !mins || !secs) {
+			return;
+		}
+
+		clock.dataset.astPromoRunning = '1';
+
+		var timer = setInterval(function tick() {
+			var left = Math.floor((endsAt - Date.now()) / 1000);
+
+			if (left <= 0) {
+				clearInterval(timer);
+				if (card && card.parentNode) {
+					card.parentNode.removeChild(card);
+				}
+				return;
+			}
+
+			days.textContent = pad(Math.floor(left / 86400));
+			hours.textContent = pad(Math.floor(left / 3600) % 24);
+			mins.textContent = pad(Math.floor(left / 60) % 60);
+			secs.textContent = pad(left % 60);
+		}, 1000);
+	}
+
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', startPromoCountdown);
+	} else {
+		startPromoCountdown();
+	}
+})();
+
+/* ---------------------------------------------------------------------------
+ * AST PRO offer card: per-tab visibility
+ *
+ * The card is printed once, above every tab panel, and tabs swap client-side
+ * (pushState, no reload) - so PHP can only set the state for the tab the page
+ * loaded on. This keeps it in sync on every swap. The skip list lives on the
+ * card itself (data-ast-promo-skip-tabs), so PHP stays the single source for
+ * which tabs are excluded: Go Pro (addons) and TrackShip.
+ * ------------------------------------------------------------------------- */
+(function () {
+	'use strict';
+
+	function tabOf(url) {
+		var m = String(url).match(/[?&]tab=([^&#]+)/);
+		return m ? decodeURIComponent(m[1]) : 'settings';
+	}
+
+	function syncPromoCard(tab) {
+		var card = document.querySelector('[data-ast-promo-skip-tabs]');
+		if (!card) {
+			return;
+		}
+
+		var skip = (card.getAttribute('data-ast-promo-skip-tabs') || '').split(' ');
+		if (skip.indexOf(tab) !== -1) {
+			card.setAttribute('hidden', '');
+		} else {
+			card.removeAttribute('hidden');
+		}
+	}
+
+	function init() {
+		var app = document.getElementById('ast-settings-app');
+		if (!app) {
+			return;
+		}
+
+		// Runs after the tab module's own handler (same event, inner element
+		// first), so by this point the panel swap has already been decided.
+		app.addEventListener('click', function (e) {
+			var tab = e.target.closest('.zui-tabs__item');
+			if (tab && app.contains(tab)) {
+				syncPromoCard(tabOf(tab.href));
+			}
+		});
+
+		window.addEventListener('popstate', function () {
+			syncPromoCard(tabOf(window.location.href));
+		});
+	}
+
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', init);
+	} else {
+		init();
+	}
+})();

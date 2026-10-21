@@ -45,7 +45,7 @@ if ( ! function_exists( 'is_plugin_active' ) ) {
 do_action( 'ast_addon_license_form' );
 
 $plugin_url      = wc_advanced_shipment_tracking()->plugin_dir_url();
-$ast_upgrade_url = 'https://www.zorem.com/product/woocommerce-advanced-shipment-tracking/?utm_source=wp-admin&utm_medium=plugin-setting&utm_campaign=upgrade-to-pro';
+$ast_upgrade_url = ast_pro_upgrade_url( 'plugin-setting' );
 
 $ast_opt_email_key = 'ast_optin_email_notification';
 $ast_opt_env_key   = 'ast_enable_usage_data';
@@ -163,7 +163,7 @@ $ast_addons = array(
 	array(
 		'name'   => 'TrackShip for WooCommerce',
 		'desc'   => __( 'Take control of your post-shipping workflows, reduce time spent on customer service and provide a superior post-purchase experience to your customers.', 'woo-advanced-shipment-tracking' ),
-		'url'    => 'https://wordpress.org/plugins/trackship-for-woocommerce/#utm_source=wp-admin&utm_medium=ast-addons&utm_campaign=add-ons',
+		'url'    => 'https://wordpress.org/plugins/trackship-for-woocommerce/',
 		'image'  => 'trackship.png',
 		'file'   => 'trackship-for-woocommerce/trackship-for-woocommerce.php',
 		'tint'   => '#CCFBF1',
@@ -172,7 +172,7 @@ $ast_addons = array(
 	array(
 		'name'   => 'SMS for WooCommerce',
 		'desc'   => __( 'Keep your customers informed by sending them automated SMS text messages with order & delivery updates.', 'woo-advanced-shipment-tracking' ),
-		'url'    => 'https://www.zorem.com/products/sms-for-woocommerce/#utm_source=wp-admin&utm_medium=ast-addons&utm_campaign=add-ons',
+		'url'    => ast_utm_url( 'https://www.zorem.com/product/sms-for-woocommerce/', 'ast-addons', 'add-ons' ),
 		'icon'   => 'phone',
 		'file'   => 'sms-for-woocommerce/sms-for-woocommerce.php',
 		'tint'   => '#DBEAFE',
@@ -181,7 +181,7 @@ $ast_addons = array(
 	array(
 		'name'   => 'Zorem Local Pickup Pro',
 		'desc'   => __( 'The Advanced Local Pickup (ALP) helps you manage the local pickup orders workflow more conveniently by extending the WooCommerce Local Pickup shipping method.', 'woo-advanced-shipment-tracking' ),
-		'url'    => 'https://www.zorem.com/product/zorem-local-pickup-pro/#utm_source=wp-admin&utm_medium=ast-addons&utm_campaign=add-ons',
+		'url'    => ast_utm_url( 'https://www.zorem.com/product/zorem-local-pickup-pro/', 'ast-addons', 'add-ons' ),
 		'icon'   => 'store',
 		'file'   => 'advanced-local-pickup-pro/advanced-local-pickup-pro.php',
 		'tint'   => '#DCFCE7',
@@ -190,7 +190,7 @@ $ast_addons = array(
 	array(
 		'name'   => 'Country Based Restriction for WooCommerce',
 		'desc'   => __( 'Restrict products on your store to sell or not to sell to specific countries using WooCommerce Geolocation or shipping country.', 'woo-advanced-shipment-tracking' ),
-		'url'    => 'https://www.zorem.com/product/country-based-restriction-pro/#utm_source=wp-admin&utm_medium=ast-addons&utm_campaign=add-ons',
+		'url'    => ast_utm_url( 'https://www.zorem.com/product/country-based-restriction-pro/', 'ast-addons', 'add-ons' ),
 		'icon'   => 'globe',
 		'file'   => 'country-based-restriction-pro-addon/country-based-restriction-pro-addon.php',
 		'tint'   => '#FFEDD5',
@@ -199,7 +199,7 @@ $ast_addons = array(
 	array(
 		'name'   => 'Customer Email Verification',
 		'desc'   => __( 'Reduce registration and spam orders by requiring customers to verify their email address before they can place an order on your store.', 'woo-advanced-shipment-tracking' ),
-		'url'    => 'https://www.zorem.com/product/customer-email-verification/?utm_source=wp-admin&utm_medium=ast-addons&utm_campaign=more-info',
+		'url'    => ast_utm_url( 'https://www.zorem.com/product/customer-email-verification/', 'ast-addons', 'add-ons' ),
 		'icon'   => 'shield-check',
 		'file'   => 'customer-email-verification/customer-email-verification.php',
 		'tint'   => '#FEE2E2',
@@ -208,7 +208,7 @@ $ast_addons = array(
 	array(
 		'name'   => 'Email Reports for WooCommerce',
 		'desc'   => __( 'Know how well your store is performing by receiving daily, weekly, or monthly sales reports by email, directly from your WooCommerce store.', 'woo-advanced-shipment-tracking' ),
-		'url'    => 'https://www.zorem.com/product/email-reports-for-woocommerce/#utm_source=wp-admin&utm_medium=ast-addons&utm_campaign=add-ons',
+		'url'    => ast_utm_url( 'https://www.zorem.com/product/email-reports-for-woocommerce/', 'ast-addons', 'add-ons' ),
 		'icon'   => 'mail',
 		'file'   => 'sales-report-email-pro/sales-report-email-pro.php',
 		'tint'   => '#F3E8FF',

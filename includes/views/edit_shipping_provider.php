@@ -27,7 +27,7 @@ if ( ! function_exists( 'zui_icon' ) ) {
 
 $upload_dir       = wp_upload_dir();
 $ast_directory    = $upload_dir['baseurl'] . '/ast-shipping-providers/';
-$ast_upgrade_url  = 'https://www.zorem.com/product/woocommerce-advanced-shipment-tracking/?utm_source=wp-admin&utm_medium=edit-carrier&utm_campaign=upgrad-to-pro';
+$ast_upgrade_url  = ast_pro_upgrade_url( 'edit-carrier' );
 $ast_logo_letters = strtoupper( mb_substr( (string) $shippment_provider->provider_name, 0, 2 ) );
 $ast_logo_url     = ( 1 == $shippment_provider->shipping_default )
 	? $ast_directory . esc_html( $shippment_provider->ts_slug ) . '.png?v=' . wc_advanced_shipment_tracking()->version

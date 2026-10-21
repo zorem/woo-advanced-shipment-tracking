@@ -183,7 +183,7 @@ if ( isset( $_GET['open'] ) && 'synch_providers' == $_GET['open'] ) {
 							<p class="zui-lock-section__desc">
 								<?php esc_html_e( 'Upgrade to Advanced Shipment Tracking Pro and gain the power to add custom shipping carriers with your own tracking URLs.', 'woo-advanced-shipment-tracking' ); ?>
 							</p>
-							<a class="zui-btn-primary zui-lock-section__cta get_feature_span" href="https://www.zorem.com/product/woocommerce-advanced-shipment-tracking/?utm_source=wp-admin&utm_medium=provider-popup&utm_campaign=upgrad-to-pro" target="_blank" rel="noopener noreferrer">
+							<a class="zui-btn-primary zui-lock-section__cta get_feature_span" href="<?php echo esc_url( ast_pro_upgrade_url( 'provider-popup' ) ); ?>" target="_blank" rel="noopener noreferrer">
 								<?php esc_html_e( 'Upgrade to PRO', 'woo-advanced-shipment-tracking' ); ?>
 							</a>
 						</div>
@@ -197,7 +197,7 @@ if ( isset( $_GET['open'] ) && 'synch_providers' == $_GET['open'] ) {
 			 and are filled from the clicked card by shipping_row.js (.edit_provider) — no
 			 AJAX, instant open. Inline JS below mirrors the .slideout / hidden state from
 			 this inner div onto the outer modal. */
-			$ast_edit_upgrade_url = 'https://www.zorem.com/product/woocommerce-advanced-shipment-tracking/?utm_source=wp-admin&utm_medium=edit-carrier&utm_campaign=upgrad-to-pro';
+			$ast_edit_upgrade_url = ast_pro_upgrade_url( 'edit-carrier' );
 			?>
 		<div class="zui-modal" id="ast-modal-edit" data-modal="edit" hidden>
 			<div class="zui-modal__backdrop" data-modal-close></div>

@@ -2859,3 +2859,232 @@
 	flex: 0 0 auto;
 	margin-inline-start: auto;
 }
+
+/* "Enjoying AST?" review card under Quick Help in the settings sidebar
+   (includes/settings/partials/review-card.php). Same frame as the Quick Help
+   block; mirrors the AST PRO sidebar card. */
+.zui-scope .ast-review-card {
+	margin-block-start: 16px;
+	background: var(--zui-surface);
+	border: 1px solid var(--zui-border);
+	border-radius: var(--zui-radius-2xl);
+	padding: 20px;
+	box-shadow: var(--zui-shadow-xs);
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.zui-scope .ast-review-card__title {
+	margin: 0;
+	font-size: 12px;
+	font-weight: 700;
+	color: var(--zui-text-strong);
+}
+
+.zui-scope .ast-review-card__stars {
+	font-size: 14px;
+	line-height: 1;
+	letter-spacing: 2px;
+	color: var(--zui-warning);
+}
+
+.zui-scope .ast-review-card__text {
+	margin: 0;
+	font-size: 11px;
+	line-height: 1.5;
+	color: #64748b;
+}
+
+.zui-scope .ast-review-card__btn {
+	margin-block-start: 6px;
+}
+
+.zui-scope .ast-review-card__btn:hover,
+.zui-scope .ast-review-card__btn:focus {
+	color: #fff;
+}
+
+/* ── AST PRO offer card (includes/settings/partials/pro-promo.php) ───────
+   Sits between the tab bar and the settings body, full page width. Split
+   card: solid brand panel carrying the discount, body carrying the pitch,
+   the live countdown and the CTA. No dismiss control - the partial stops
+   rendering once the offer ends, and ast-settings.js removes the card if
+   the clock runs out while the screen is open. */
+.zui-scope .ast-promo[hidden] {
+	display: none;
+}
+
+.zui-scope .ast-promo {
+	display: flex;
+	align-items: stretch;
+	margin: 16px 20px 0;
+	background: var(--zui-surface);
+	border: 1px solid var(--zui-border);
+	border-radius: var(--zui-radius-xl);
+	box-shadow: var(--zui-shadow-xs);
+	overflow: hidden;
+}
+
+.zui-scope .ast-promo__panel {
+	flex: 0 0 auto;
+	width: 132px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 2px;
+	padding: 18px 10px;
+	background: linear-gradient(160deg, #3b64d3 0%, #243c94 100%);
+	color: #fff;
+	text-align: center;
+}
+
+.zui-scope .ast-promo__panel-label {
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+	color: rgba(255, 255, 255, 0.75);
+}
+
+.zui-scope .ast-promo__panel-num {
+	font-size: 34px;
+	font-weight: 800;
+	line-height: 1;
+}
+
+.zui-scope .ast-promo__panel-num small {
+	font-size: 18px;
+	font-weight: 700;
+	margin-inline-start: 1px;
+}
+
+.zui-scope .ast-promo__panel-sub {
+	font-size: 12px;
+	font-weight: 600;
+	color: rgba(255, 255, 255, 0.85);
+}
+
+.zui-scope .ast-promo__body {
+	flex: 1 1 auto;
+	min-width: 0;
+	padding: 16px 20px;
+}
+
+.zui-scope .ast-promo__title {
+	display: block;
+	margin-block-end: 4px;
+	font-size: 15px;
+	font-weight: 700;
+	color: var(--zui-text-strong);
+}
+
+.zui-scope .ast-promo__text {
+	margin: 0;
+	font-size: 13px;
+	line-height: 1.55;
+	color: var(--zui-text-soft);
+}
+
+.zui-scope .ast-promo__coupon {
+	padding: 1px 7px;
+	background: #f1f5f9;
+	border: 1px dashed #cbd5e1;
+	border-radius: 5px;
+	font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	color: var(--zui-text-strong);
+}
+
+.zui-scope .ast-promo__row {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 14px;
+	margin-block-start: 14px;
+}
+
+.zui-scope .ast-promo__clock-label {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--zui-text-soft);
+}
+
+.zui-scope .ast-promo__clock {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.zui-scope .ast-promo__unit {
+	display: inline-flex;
+	flex-direction: column;
+	align-items: center;
+	min-width: 42px;
+	padding: 5px 6px;
+	border: 1px solid var(--zui-border);
+	border-radius: 8px;
+	background: #f8fafc;
+	line-height: 1;
+}
+
+.zui-scope .ast-promo__unit b {
+	font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+	font-size: 15px;
+	font-weight: 700;
+	color: var(--zui-text-strong);
+}
+
+.zui-scope .ast-promo__unit i {
+	margin-block-start: 3px;
+	font-style: normal;
+	font-size: 9px;
+	font-weight: 600;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: #94a3b8;
+}
+
+.zui-scope .ast-promo__cta {
+	flex: 0 0 auto;
+	display: inline-flex;
+	align-items: center;
+	padding: 9px 18px;
+	border: 1px solid transparent;
+	border-radius: var(--zui-radius-lg);
+	background: var(--zui-primary);
+	color: #fff;
+	font-size: 13px;
+	font-weight: 600;
+	text-decoration: none;
+}
+
+.zui-scope .ast-promo__cta:hover,
+.zui-scope .ast-promo__cta:focus {
+	background: var(--zui-primary-hover);
+	color: #fff;
+}
+
+@media (max-width: 782px) {
+	.zui-scope .ast-promo {
+		flex-direction: column;
+		margin-inline: 12px;
+	}
+
+	.zui-scope .ast-promo__panel {
+		width: 100%;
+		flex-direction: row;
+		gap: 8px;
+		padding: 10px;
+	}
+
+	.zui-scope .ast-promo__panel-num {
+		font-size: 24px;
+	}
+}

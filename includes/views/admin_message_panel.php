@@ -64,7 +64,7 @@ $notice      = isset( $ast_tab_notices[ $current_tab ] ) ? $ast_tab_notices[ $cu
 				<p class="ast-notice-line1"><?php echo wp_kses_post( $notice['line1'] ); ?></p>
 				<p class="ast-notice-line2"><?php echo wp_kses_post( $notice['line2'] ); ?></p>
 				<p><strong>Get 20% Off*!</strong> Use code <strong>ASTPRO20</strong> at checkout.</p>
-				<a href="https://www.zorem.com/ast-pro/?utm_source=wp-admin&utm_medium=ast-pro-update-notice&utm_campaign=upgrad-now" class="button-primary btn_ast2" target="_blank">UPGRADE NOW</a>
+				<a href="<?php echo esc_url( ast_pro_upgrade_url( 'ast-pro-update-notice' ) ); ?>" class="button-primary btn_ast2" target="_blank">UPGRADE NOW</a>
 				<p><strong>★</strong> for new customers only</p>
 			</div>
 			<div class="admin_message_box_right">

@@ -67,6 +67,42 @@ if (!function_exists('delete_ast_settings')) {
 }
 
 /**
+ * Add the in-plugin UTM convention to a zorem.com link.
+ *
+ * Every outbound sales link in the plugin goes through here so placements
+ * can't drift into new spellings again. Source and medium are fixed — GA4's
+ * "In-Plugin" channel group matches on them — and the placement goes in
+ * utm_content, never in medium.
+ *
+ * @param string $url      Destination URL.
+ * @param string $content  Placement slug, unique per link location (e.g. plugin-setting).
+ * @param string $campaign Campaign slug.
+ * @return string
+ */
+if ( ! function_exists( 'ast_utm_url' ) ) {
+	function ast_utm_url( $url, $content, $campaign = 'upgrade-to-pro' ) {
+		return add_query_arg( array(
+			'utm_source'   => 'ast-free',
+			'utm_medium'   => 'in-plugin',
+			'utm_campaign' => $campaign,
+			'utm_content'  => $content,
+		), $url );
+	}
+}
+
+/**
+ * AST PRO product page link for one upgrade placement.
+ *
+ * @param string $content Placement slug for utm_content.
+ * @return string
+ */
+if ( ! function_exists( 'ast_pro_upgrade_url' ) ) {
+	function ast_pro_upgrade_url( $content ) {
+		return ast_utm_url( 'https://www.zorem.com/product/woocommerce-advanced-shipment-tracking/', $content );
+	}
+}
+
+/**
  * Initialize and return Zorem Tracking instance for AST PRO.
  *
  * This function loads the Zorem tracking utility, which helps collect

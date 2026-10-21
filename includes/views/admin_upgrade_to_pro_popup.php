@@ -51,7 +51,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 </div>
             </div>
             <div class="call_to_action_section">			
-			    <a href="https://www.zorem.com/ast-pro/?utm_source=wp-admin&utm_medium=pro-popup&utm_campaign=upgrad-to-pro" class="button-primary btn_ast2 btn_large" target="_blank"><?php esc_html_e( 'Upgrade To AST PRO', 'woo-advanced-shipment-tracking' ); ?> <span class="dashicons dashicons-arrow-right-alt2"></span></a>
+			    <a href="<?php echo esc_url( ast_pro_upgrade_url( 'pro-popup' ) ); ?>" class="button-primary btn_ast2 btn_large" target="_blank"><?php esc_html_e( 'Upgrade To AST PRO', 'woo-advanced-shipment-tracking' ); ?> <span class="dashicons dashicons-arrow-right-alt2"></span></a>
             </div>
 		</div>
 	</div>	
