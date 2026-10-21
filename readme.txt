@@ -2,11 +2,11 @@
 Contributors: zorem, gaurav1092, eranzorem, satishzorem
 Tags: shipment tracking, order tracking, tracking number, shipping, fulfillment
 Requires at least: 5.3
-Tested up to: 7.1.2
-Stable tag: 4.0.4
+Tested up to: 7.1.3
+Stable tag: 4.0.5
 Requires PHP: 7.2
 WC requires at least: 5.0
-WC tested up to: 11.1.2
+WC tested up to: 11.2.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -141,6 +141,15 @@ Upload the `woo-advanced-shipment-tracking` folder to `/wp-content/plugins/` and
 **Migrating from WooCommerce Shipment Tracking (official)?**
 AST automatically detects and migrates all existing tracking data when you activate it. No manual work needed.
 
+== Screenshots ==
+
+1. The shipment tracking widget in your customer's order email — carrier logo, tracking number, shipped date and a one-click Track Order button, with a progress bar showing where the parcel is.
+2. 1010+ pre-configured shipping carriers worldwide, from USPS, UPS, FedEx and DHL to Australia Post, India Post, La Poste and Japan Post. Switch on the ones you ship with and the tracking links are built for you.
+3. Add a tracking number to any WooCommerce order in seconds — pick the carrier, enter the number, and mark the order Shipped. The customer is emailed automatically.
+4. See tracking for every order at a glance: the Shipment Tracking column on the WooCommerce orders list shows the carrier, tracking number and who added it.
+5. Customers find their tracking on My Account > Orders too, with the same Track Order button — no support ticket, no "where is my order?" email.
+6. Import tracking numbers for hundreds of orders at once from a CSV file, matching the date format your shipping tool exports.
+
 == Frequently Asked Questions ==
 
 = How is AST different from the official WooCommerce Shipment Tracking extension? =
@@ -225,6 +234,10 @@ Yes. AST is compatible with popular custom order number plugins. You can use cus
 
 
 == Changelog ==
+
+= 4.0.5 =
+* Dev – Tested with WooCommerce 11.2.1 and WordPress 7.1.3
+* Fix – Date shipped field showed stray “Y-m-d” text and could use the wrong date format on translated sites.
 
 = 4.0.4 =
 * Dev – Tested with WooCommerce 11.1.2 and WordPress 7.1.2

@@ -63,6 +63,8 @@ if ( ! isset( $ast_app_tabs[ $ast_active_tab ] ) ) {
 
 	<?php require __DIR__ . '/header.php'; ?>
 
+	<?php require __DIR__ . '/partials/pro-promo.php'; ?>
+
 	<?php foreach ( $ast_app_tabs as $ast_tab => $ast_src ) : ?>
 		<div class="zui-tab-panel" data-tab="<?php echo esc_attr( $ast_tab ); ?>" <?php echo ( $ast_tab === $ast_active_tab ) ? '' : 'hidden'; ?>>
 			<?php

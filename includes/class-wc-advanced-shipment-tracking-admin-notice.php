@@ -12,6 +12,33 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 	 */
 	private static $instance;
 
+	/**
+	 * Orders shipped with tracking before the milestone upsell appears.
+	 */
+	const MILESTONE_ORDERS = 10;
+
+	/**
+	 * How long "Not now" / × hides the milestone upsell. AST is a daily tool,
+	 * so the card must not come back every week.
+	 */
+	const MILESTONE_SNOOZE = 60 * DAY_IN_SECONDS;
+
+	/**
+	 * Order screens the milestone upsell is limited to: legacy CPT list + edit,
+	 * and the HPOS orders page (list and edit share one screen id).
+	 */
+	const ORDER_SCREENS = array( 'edit-shop_order', 'shop_order', 'woocommerce_page_wc-orders' );
+
+	/**
+	 * AI Agent OS plugin basename — the launch card hides once it is active.
+	 */
+	const AGENT_OS_PLUGIN = 'ai-agent-os/ai-agent-os.php';
+
+	/**
+	 * Last moment of the AGENTOS40 launch offer, in the site's timezone.
+	 */
+	const AGENT_OS_OFFER_ENDS = '2026-11-15 23:59:59';
+
 	public function __construct() {
 		$this->init();
 	}
@@ -36,6 +63,14 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 			add_action( 'admin_notices', array( $this, 'ast_pro_notice_4_0_4' ) );
 		}
 
+		// Milestone upsell — counts every order's first tracking number,
+		// whichever path added it (meta box, CSV, REST API, helper functions).
+		add_action( 'update_order_status_after_adding_tracking', array( $this, 'count_shipped_order' ), 20, 2 );
+		add_action( 'admin_notices', array( $this, 'ast_milestone_notice' ) );
+
+		// AI Agent OS launch announcement (one-off, permanently dismissible).
+		add_action( 'admin_notices', array( $this, 'ast_agent_os_notice' ) );
+
 		// Shortcode used by the settings screen to inject a status message inline.
 		add_shortcode( 'ast_settings_admin_notice', array( $this, 'ast_settings_admin_notice' ) );
 
@@ -56,12 +91,19 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 			'ast-review-update-notice-4-0-2'    => array( 'ast_review_dismiss_notice_4_0_2', 'ast_review_update_ignore_4_0_2' ),
 			'ast-pro-notice-4-0-4'              => array( 'ast_pro_dismiss_notice_4_0_4',    'ast_notice_ignore_4_0_4' ),
 			'ast-3-9-2-db-update-notice-ignore' => array( 'ast_db_update_dismiss_notice',    'ast_3_9_2_db_update_notice_ignore' ),
+			'ast-agent-os-notice'               => array( 'ast_agent_os_dismiss_notice',     'ast_agent_os_notice_ignore' ),
 		);
 		foreach ( $map as $query_arg => list( $action, $option ) ) {
 			if ( isset( $_GET[ $query_arg ], $_GET['nonce'] )
 				&& wp_verify_nonce( sanitize_key( wp_unslash( $_GET['nonce'] ) ), $action ) ) {
 				update_option( $option, 'true' );
 			}
+		}
+
+		// The milestone card snoozes instead of setting a permanent flag.
+		if ( isset( $_GET['ast-milestone-notice-snooze'], $_GET['nonce'] )
+			&& wp_verify_nonce( sanitize_key( wp_unslash( $_GET['nonce'] ) ), 'ast_milestone_notice_snooze' ) ) {
+			update_option( 'ast_milestone_notice_snoozed_until', time() + self::MILESTONE_SNOOZE, false );
 		}
 	}
 
@@ -96,7 +138,44 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 	}
 
 	private function pro_notice_visible() {
-		return ! get_option( 'ast_notice_ignore_4_0_4' ) && ! $this->is_ast_settings_screen();
+		// Two upsell cards stacked on one screen read as nagging, so the
+		// generic card steps aside wherever the milestone card is showing.
+		// The Agent OS launch card takes the promo slot while it is up; the
+		// PRO card comes back once that one is dismissed.
+		return ! get_option( 'ast_notice_ignore_4_0_4' ) && ! $this->is_ast_settings_screen() && ! $this->milestone_notice_visible() && ! $this->agent_os_notice_visible();
+	}
+
+	/**
+	 * AI Agent OS is a site-level purchase, so only administrators see it.
+	 * Skipped on the AST settings screen (own upsells), wherever the
+	 * milestone card is up (one promo card per screen), and once the plugin
+	 * is already active.
+	 */
+	private function agent_os_notice_visible() {
+		// The card is the coupon offer, so it retires itself when the offer ends.
+		$offer_ends = new DateTime( self::AGENT_OS_OFFER_ENDS, wp_timezone() );
+		if ( time() > $offer_ends->getTimestamp() ) {
+			return false;
+		}
+		if ( get_option( 'ast_agent_os_notice_ignore' ) || $this->is_ast_settings_screen() || ! current_user_can( 'manage_options' ) ) {
+			return false;
+		}
+		if ( function_exists( 'is_plugin_active' ) && is_plugin_active( self::AGENT_OS_PLUGIN ) ) {
+			return false;
+		}
+		return ! $this->milestone_notice_visible();
+	}
+
+	private function is_orders_screen() {
+		$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+		return $screen && in_array( $screen->id, self::ORDER_SCREENS, true );
+	}
+
+	private function milestone_notice_visible() {
+		return $this->is_orders_screen()
+			&& current_user_can( 'manage_woocommerce' )
+			&& (int) get_option( 'ast_shipped_orders_count', 0 ) >= self::MILESTONE_ORDERS
+			&& (int) get_option( 'ast_milestone_notice_snoozed_until', 0 ) < time();
 	}
 
 	/**
@@ -109,7 +188,7 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 		// Both .zui-pnotice cards need this file, and they are dismissed
 		// independently — gating on the review flag alone left the PRO card
 		// unstyled for anyone who had already dismissed the review notice.
-		if ( ! $this->review_notice_visible() && ! $this->pro_notice_visible() ) {
+		if ( ! $this->review_notice_visible() && ! $this->pro_notice_visible() && ! $this->milestone_notice_visible() && ! $this->agent_os_notice_visible() ) {
 			return;
 		}
 
@@ -152,11 +231,14 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 	 * emblem, so building it in one place keeps them in sync with the
 	 * settings-header emblem via brand.php.
 	 *
-	 * @param string $id          DOM id, also used by the behaviour script.
-	 * @param string $dismiss_url Raw nonced dismiss URL.
+	 * @param string     $id          DOM id, also used by the behaviour script.
+	 * @param string     $dismiss_url Raw nonced dismiss URL.
+	 * @param array|null $brand       Emblem override (icon, emblem_bg, emblem_color) for
+	 *                                cards about another product. Defaults to AST's.
 	 */
-	private function open_pnotice( $id, $dismiss_url ) {
-		$brand        = $this->zui_brand();
+	private function open_pnotice( $id, $dismiss_url, $brand = null ) {
+		$this->zui_brand(); // Loads icons.php even when the emblem is overridden.
+		$brand        = $brand ? $brand : $this->zui_brand();
 		$emblem_style = sprintf(
 			'--zui-pnotice-avatar-bg:%s;--zui-pnotice-avatar-color:%s;',
 			$brand['emblem_bg'],
@@ -331,11 +413,125 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 				<p class="zui-pnotice__text"><?php echo wp_kses_post( __( '🎁 <strong>20% OFF</strong> with code <strong>ASTPRO20</strong> — new customers only!', 'woo-advanced-shipment-tracking' ) ); ?></p>
 
 				<div class="zui-pnotice__actions">
-					<a class="zui-pnotice__btn" href="https://www.zorem.com/product/woocommerce-advanced-shipment-tracking/" target="_blank" rel="noopener noreferrer"><?php esc_html_e( '👉 Upgrade to AST PRO', 'woo-advanced-shipment-tracking' ); ?></a>
+					<a class="zui-pnotice__btn" href="<?php echo esc_url( ast_pro_upgrade_url( 'admin-notice' ) ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( '👉 Upgrade to AST PRO', 'woo-advanced-shipment-tracking' ); ?></a>
 					<button type="button" class="zui-pnotice__link"><?php esc_html_e( 'Dismiss', 'woo-advanced-shipment-tracking' ); ?></button>
 				</div>
 		<?php
 		$this->close_pnotice( 'ast-pro-notice' );
+	}
+
+	/* -----------------------------------------------------------------
+	 * Notice: shipped-orders milestone upsell (🎉)
+	 * ----------------------------------------------------------------- */
+
+	/**
+	 * Count an order the first time it gets a tracking number. Runs after the
+	 * item is saved, so a single stored item means this was the order's first —
+	 * extra tracking numbers on the same order don't inflate the count.
+	 *
+	 * @param string   $status_shipped Unused.
+	 * @param WC_Order $order          Order the tracking was added to.
+	 */
+	public function count_shipped_order( $status_shipped, $order ) {
+		$items = $order->get_meta( '_wc_shipment_tracking_items', true );
+		if ( ! is_array( $items ) || 1 !== count( $items ) ) {
+			return;
+		}
+		update_option( 'ast_shipped_orders_count', (int) get_option( 'ast_shipped_orders_count', 0 ) + 1, false );
+	}
+
+	/**
+	 * Second upgrade trigger, shown at a moment of value rather than during
+	 * setup: once the store has shipped MILESTONE_ORDERS orders with AST, on
+	 * the order screens where that work happens. The settings-screen prompt
+	 * only reaches people while they configure, which most do once.
+	 *
+	 * Dismissal snoozes for MILESTONE_SNOOZE rather than hiding forever; when
+	 * it returns, the count in the title has grown, so the card isn't a repeat.
+	 *
+	 * utm_content is unique to this placement so GA4 can compare it against
+	 * the settings-screen prompt (utm_medium=plugin-setting).
+	 */
+	public function ast_milestone_notice() {
+		if ( ! $this->milestone_notice_visible() ) {
+			return;
+		}
+
+		$count       = (int) get_option( 'ast_shipped_orders_count', 0 );
+		$upgrade_url = ast_pro_upgrade_url( 'orders-shipped-milestone' );
+
+		$dismiss_url = $this->dismiss_url( 'ast-milestone-notice-snooze', 'ast_milestone_notice_snooze' );
+		$this->open_pnotice( 'ast-milestone-notice', $dismiss_url );
+		?>
+				<strong class="zui-pnotice__title">
+					<?php
+					/* translators: %s: number of orders shipped with tracking */
+					echo esc_html( sprintf( _n( '🎉 You\'ve shipped %s order with AST', '🎉 You\'ve shipped %s orders with AST', $count, 'woo-advanced-shipment-tracking' ), number_format_i18n( $count ) ) );
+					?>
+				</strong>
+				<p class="zui-pnotice__text"><?php esc_html_e( 'Let AST PRO take the copy-pasting off your hands: auto-import tracking from 70+ shipping providers, sync it to PayPal & Stripe to release funds faster, and track individual items in an order.', 'woo-advanced-shipment-tracking' ); ?></p>
+
+				<div class="zui-pnotice__actions">
+					<a class="zui-pnotice__btn" href="<?php echo esc_url( $upgrade_url ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'See what AST PRO automates', 'woo-advanced-shipment-tracking' ); ?></a>
+					<button type="button" class="zui-pnotice__link"><?php esc_html_e( 'Not now', 'woo-advanced-shipment-tracking' ); ?></button>
+				</div>
+		<?php
+		$this->close_pnotice( 'ast-milestone-notice' );
+	}
+
+	/* -----------------------------------------------------------------
+	 * Notice: AI Agent OS launch (🤖)
+	 * ----------------------------------------------------------------- */
+
+	/**
+	 * Launch announcement for AI Agent OS, zorem's MCP governance plugin.
+	 * Same .zui-pnotice shell as the other cards, re-coloured indigo with its
+	 * own emblem so it reads as a different product rather than another AST
+	 * upsell. The offer strip is local to this card — the component has no
+	 * coupon slot — so its few rules are printed with the card, scoped by id.
+	 *
+	 * The link goes through ast_utm_url() with its own campaign, so launch
+	 * traffic from AST shows up separately from the AST PRO upgrade links.
+	 */
+	public function ast_agent_os_notice() {
+		if ( ! $this->agent_os_notice_visible() ) {
+			return;
+		}
+
+		$product_url = ast_utm_url( 'https://www.zorem.com/product/ai-agent-os/', 'admin-notice', 'agent-os-launch' );
+		$dismiss_url = $this->dismiss_url( 'ast-agent-os-notice', 'ast_agent_os_dismiss_notice' );
+		?>
+		<style>
+			#ast-agent-os-notice { --zui-pnotice-accent: #4F5BD5; }
+			#ast-agent-os-notice .zui-pnotice__btn { background: #4F5BD5; }
+			#ast-agent-os-notice .zui-pnotice__btn:hover { background: #3F49B8; }
+			#ast-agent-os-notice .ast-agent-os-offer { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-block-start: 12px; padding: 10px 16px; background: #FFF5EB; border: 1px solid #F8C99B; border-radius: 8px; font-size: 14px; color: #475569; }
+			#ast-agent-os-notice .ast-agent-os-offer strong { color: #C2410C; font-weight: 600; }
+			#ast-agent-os-notice .ast-agent-os-offer code { padding: 3px 10px; background: #FFFFFF; border: 1px dashed #EA7A3F; border-radius: 6px; color: #C2410C; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; }
+		</style>
+		<?php
+		$this->open_pnotice( 'ast-agent-os-notice', $dismiss_url, array(
+			'icon'         => 'shield-check',
+			'emblem_bg'    => '#4F5BD5',
+			'emblem_color' => '#FFFFFF',
+		) );
+		?>
+				<strong class="zui-pnotice__title"><?php esc_html_e( 'New from zorem: AI Agent OS — MCP Governance for WordPress AI Agents', 'woo-advanced-shipment-tracking' ); ?></strong>
+				<p class="zui-pnotice__text"><?php esc_html_e( 'See every tool your plugins expose to AI agents and set clear permissions for each agent. Customer details stay hidden from agents that don\'t need them, and every action is logged.', 'woo-advanced-shipment-tracking' ); ?></p>
+
+				<div class="ast-agent-os-offer">
+					<strong><?php esc_html_e( 'Launch offer: 40% off', 'woo-advanced-shipment-tracking' ); ?></strong>
+					<span><?php esc_html_e( '— use coupon code', 'woo-advanced-shipment-tracking' ); ?></span>
+					<code>AGENTOS40</code>
+					<span><?php esc_html_e( 'Valid until November 15, 2026.', 'woo-advanced-shipment-tracking' ); ?></span>
+				</div>
+
+				<div class="zui-pnotice__actions">
+					<a class="zui-pnotice__btn" href="<?php echo esc_url( $product_url ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Get AI Agent OS', 'woo-advanced-shipment-tracking' ); ?></a>
+					<button type="button" class="zui-pnotice__link"><?php esc_html_e( 'No thanks', 'woo-advanced-shipment-tracking' ); ?></button>
+				</div>
+		<?php
+		$this->close_pnotice( 'ast-agent-os-notice' );
 	}
 
 	/* -----------------------------------------------------------------

@@ -601,7 +601,7 @@ class WC_Advanced_Shipment_Tracking_Settings {
 					</p>
 					<p class="form-field date_shipped_field">
 						<label for="date_shipped"><?php esc_html_e( 'Date shipped:', 'woo-advanced-shipment-tracking'); ?></label>
-						<input type="text" class="ast-date-picker-field" name="date_shipped" id="date_shipped" value="<?php echo esc_html( date_i18n( __( 'Y-m-d', 'woo-advanced-shipment-tracking' ), current_time( 'timestamp' ) ) ); ?>" placeholder="<?php echo esc_html( date_i18n( esc_html_e( 'Y-m-d', 'woo-advanced-shipment-tracking' ), time() ) ); ?>">						
+						<input type="text" class="ast-date-picker-field" name="date_shipped" id="date_shipped" value="<?php echo esc_html( date_i18n( 'Y-m-d', current_time( 'timestamp' ) ) ); ?>" placeholder="<?php echo esc_html( date_i18n( 'Y-m-d', time() ) ); ?>">						
 					</p>								
 					<?php do_action( 'ast_after_tracking_field', $order_id ); ?>					
 					<?php wc_advanced_shipment_tracking()->actions->mark_order_as_fields_html(); ?>

@@ -28,7 +28,7 @@ if ( ! function_exists( 'ast_free_settings_icon' ) ) {
 $ast_integration = AST_Integration::get_instance();
 $integrations    = $ast_integration->integrations_settings_options();
 $plugin_url      = wc_advanced_shipment_tracking()->plugin_dir_url();
-$ast_upgrade_url = 'https://www.zorem.com/product/woocommerce-advanced-shipment-tracking/?utm_source=wp-admin&utm_medium=integration&utm_campaign=upgrad-now';
+$ast_upgrade_url = ast_pro_upgrade_url( 'integration' );
 ?>
 <section class="tab_section" id="integrations-tab">
 

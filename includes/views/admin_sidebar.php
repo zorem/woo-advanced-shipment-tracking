@@ -35,7 +35,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</ul>
 
 		<!-- Upgrade Button -->
-		<a href="https://www.zorem.com/ast-pro/?utm_source=wp-admin&utm_medium=plugin-setting&utm_campaign=upgrad-to-pro" class="button-primary btn_ast2 ast-upgrade-button" target="_blank">
+		<a href="<?php echo esc_url( ast_pro_upgrade_url( 'plugin-setting' ) ); ?>" class="button-primary btn_ast2 ast-upgrade-button" target="_blank">
 			<?php esc_html_e( 'Upgrade to', 'woo-advanced-shipment-tracking' ); ?> AST PRO →
 		</a>
 

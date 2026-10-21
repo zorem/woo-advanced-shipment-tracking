@@ -66,4 +66,6 @@ if ( ! isset( $ast_active_section ) ) {
 
 	<?php require __DIR__ . '/partials/quick-help.php'; ?>
 
+	<?php require __DIR__ . '/partials/review-card.php'; ?>
+
 </aside>

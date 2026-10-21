@@ -26,7 +26,7 @@ if ( ! function_exists( 'ast_free_settings_icon' ) ) {
 	require_once SHIPMENT_TRACKING_PATH . '/includes/settings/partials/icons.php';
 }
 
-$ast_upgrade_url = 'https://www.zorem.com/product/woocommerce-advanced-shipment-tracking/?utm_source=wp-admin&utm_medium=plugin-setting&utm_campaign=upgrade-to-pro';
+$ast_upgrade_url = ast_pro_upgrade_url( 'plugin-setting' );
 ?>
 <section class="tab_section" id="bulk-paste-tab">
 	<div class="ast-set-csv ast-set-bp ast-locked-bp" aria-disabled="true">

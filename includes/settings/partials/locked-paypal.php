@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 // phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- These are presentation variables local to this template, not true globals.
 
-$ast_upgrade_url = 'https://www.zorem.com/product/woocommerce-advanced-shipment-tracking/?utm_source=wp-admin&utm_medium=plugin-setting&utm_campaign=upgrade-to-pro';
+$ast_upgrade_url = ast_pro_upgrade_url( 'plugin-setting' );
 ?>
 
 <div class="zui-lock-section">
