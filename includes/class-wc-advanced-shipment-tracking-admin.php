@@ -36,6 +36,39 @@ if ( ! defined( 'ABSPATH' ) ) {
 // phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Input is sanitized with wc_clean() or wp_kses_post() after wp_unslash(); PHPCS does not recognise WooCommerce's sanitizer.
 // phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public hook names are part of the plugin's documented API and are used by AST PRO, its add-ons and third-party integrations; renaming them would be a breaking change.
 
+/*
+ * Safety net for the upgrade-link helpers.
+ *
+ * Every "upgrade to PRO" link in the admin views goes through ast_pro_upgrade_url() /
+ * ast_utm_url(), which live in includes/class-wc-settings-helpers.php and are loaded at
+ * plugin boot. A half-finished update - new view files sitting next to an older copy of
+ * that helpers file, or an opcache still serving the old one - leaves those functions
+ * missing, and every admin view that links to PRO fatals the screen it is on.
+ *
+ * So: load the helpers here if they are not in yet, and if they still are not (stale
+ * file), define plain-link versions. The links lose their UTM parameters in that case,
+ * which is a reporting gap, not a broken screen.
+ */
+if ( ! function_exists( 'ast_pro_upgrade_url' ) && defined( 'SHIPMENT_TRACKING_PATH' ) ) {
+	require_once SHIPMENT_TRACKING_PATH . '/includes/class-wc-settings-helpers.php';
+}
+
+if ( ! function_exists( 'ast_utm_url' ) ) {
+	// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Fallback for a public helper; the name has to match the real one.
+	function ast_utm_url( $url, $content, $campaign = 'upgrade-to-pro' ) {
+		return $url;
+	}
+	// phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
+}
+
+if ( ! function_exists( 'ast_pro_upgrade_url' ) ) {
+	// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Fallback for a public helper; the name has to match the real one.
+	function ast_pro_upgrade_url( $content ) {
+		return 'https://www.zorem.com/product/woocommerce-advanced-shipment-tracking/';
+	}
+	// phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
+}
+
 class WC_Advanced_Shipment_Tracking_Admin {
 
 	public $table;
