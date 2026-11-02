@@ -41,6 +41,7 @@ jQuery(document).on("submit", "#wc_ast_upload_csv_form", function(){
 			reader.onload = function (e) {
 				
 				var trackings = new Array();
+				var skipped_rows = 0;
 				var rows = e.target.result.split("\n");						 
 				
 				if(rows.length <= 1){
@@ -65,12 +66,21 @@ jQuery(document).on("submit", "#wc_ast_upload_csv_form", function(){
 						 }
 						 if(tracking.order_id){
 							trackings.push(tracking);	
+						 } else {
+							skipped_rows++;	// row with no order id - nothing to import, and it used to vanish silently
 						 }						
+					} else if ( rows[i].replace(/[\s,]/g, '') !== '' ) {
+						skipped_rows++;	// not a CSV row at all (no comma) - a stray line in the file
 					}
 				}  				
  			
+				if (skipped_rows > 0) {
+					jQuery('.csv_upload_status').append('<li class="skipped_row_error">Skipped - ' + skipped_rows + ' line(s) in the file are not valid CSV rows and were not imported</li>');
+				}
+
 				var csv_length = trackings.length;
 				var run_data = 0; 
+				var done_rows = 0;
 				
 				jQuery("#wc_ast_upload_csv_form")[0].reset();												
 				jQuery(".progress-moved .progress-bar2").css('width',0+'%');
@@ -116,15 +126,17 @@ jQuery(document).on("submit", "#wc_ast_upload_csv_form", function(){
 						security: nonce,	
 					};
 				
-					var option = {
-						url: ajaxurl,
-						data: data,
-						type: 'POST',
-						success:function(data){								
-							jQuery('.progress_number').html((index+1)+'/'+csv_length);
-							
-							jQuery('.csv_upload_status').append(data);
-							var progress = (index+1)*100/csv_length;
+					/* One row = one request. A request that never came back (host timeout, 502,
+					   PHP fatal) used to leave nothing behind: no log line, and the row counted
+					   as neither success nor failure, so the summary still read "all successful".
+					   Both outcomes now go through this one finish step, and progress is counted
+					   off finished rows instead of the row index - with the index, a failing last
+					   row left the import stuck at "in progress" forever. */
+					var finishRow = function(html){
+						done_rows++;
+						jQuery('.csv_upload_status').append(html);
+						jQuery('.progress_number').html(done_rows+'/'+csv_length);
+						var progress = done_rows*100/csv_length;
 							jQuery('.bulk_upload_status_tr').show();
 							jQuery('.progress_title').show();	
 							
@@ -136,10 +148,11 @@ jQuery(document).on("submit", "#wc_ast_upload_csv_form", function(){
 							var invalid_date_shipped_error_class = 0;
 							var invalid_order_id_error_class = 0;
 							var invalid_tracking_data_error_class = 0;
+							var request_failed_error_class = 0;
 							
 							if(progress == 100){
 								jQuery( ".csv_upload_status li" ).each(function( index ) {
-									if( this.className == 'shipping_provider_error' || this.className == 'tracking_number_error' || this.className == 'empty_date_shipped_error' || this.className == 'invalid_date_shipped_error' || this.className == 'invalid_order_id_error' || this.className == 'invalid_tracking_data_error' ){
+									if( this.className == 'shipping_provider_error' || this.className == 'tracking_number_error' || this.className == 'empty_date_shipped_error' || this.className == 'invalid_date_shipped_error' || this.className == 'invalid_order_id_error' || this.className == 'invalid_tracking_data_error' || this.className == 'request_failed_error' || this.className == 'skipped_row_error' ){
 										error_class++;
 									}
 									if(this.className == 'success'){										
@@ -151,6 +164,7 @@ jQuery(document).on("submit", "#wc_ast_upload_csv_form", function(){
 									if( this.className == 'invalid_date_shipped_error' )invalid_date_shipped_error_class++;
 									if( this.className == 'invalid_order_id_error' )invalid_order_id_error_class++;
 									if( this.className == 'invalid_tracking_data_error' )invalid_tracking_data_error_class++;
+										if( this.className == 'request_failed_error' )request_failed_error_class++;
 								});									
 								
 								jQuery('.progress_title').hide();
@@ -193,6 +207,9 @@ jQuery(document).on("submit", "#wc_ast_upload_csv_form", function(){
 								}
 								if(invalid_tracking_data_error_class > 0){
 									jQuery(".csv_error_details_ul").append('<li>'+invalid_tracking_data_error_class+' tracking numbers import failed due to invalid tracking data</li>');	
+								}
+								if(request_failed_error_class > 0){
+									jQuery(".csv_error_details_ul").append('<li>'+request_failed_error_class+' tracking numbers import failed because the server did not respond (try a smaller file, or check the error log)</li>');
 								}	
 																
 								jQuery(".bulk_upload_status_heading_tr h2").html("Import Completed!");								
@@ -201,10 +218,29 @@ jQuery(document).on("submit", "#wc_ast_upload_csv_form", function(){
 								jQuery(".csv_upload_status").hide();	
 								jQuery('.bulk_upload_status_tr').hide();
 							}												
-						},
-				
 					};
-				
+
+					var option = {
+						url: ajaxurl,
+						data: data,
+						type: 'POST',
+						success: function(response){
+							finishRow(response);
+						},
+						error: function(jqXHR, textStatus){
+							/* The server said nothing we can show - it timed out, died, or the
+							   host cut the request - so report what the browser saw instead,
+							   which is what the store owner has to give support. */
+							var reason = 'no response from the server';
+							if (textStatus === 'timeout') {
+								reason = 'the request timed out';
+							} else if (jqXHR && jqXHR.status) {
+								reason = 'server error ' + jqXHR.status;
+							}
+							finishRow('<li class="request_failed_error">Failed - ' + reason + ' - Order ' + order_id + '</li>');
+						},
+					};
+
 					jQuery.ajaxQueue.addRequest(option);
 				
 					jQuery.ajaxQueue.run();					

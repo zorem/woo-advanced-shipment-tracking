@@ -39,6 +39,12 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 	 */
 	const AGENT_OS_OFFER_ENDS = '2026-11-15 23:59:59';
 
+	/**
+	 * Last moment of the EDDPRO40 launch offer, in the site's timezone. The card
+	 * retires itself on its own once this passes - nothing else hides it.
+	 */
+	const EDD_PRO_OFFER_ENDS = '2026-11-15 23:59:59';
+
 	public function __construct() {
 		$this->init();
 	}
@@ -71,6 +77,9 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 		// AI Agent OS launch announcement (one-off, permanently dismissible).
 		add_action( 'admin_notices', array( $this, 'ast_agent_os_notice' ) );
 
+		// Estimated Delivery Date PRO launch announcement (one-off, permanently dismissible).
+		add_action( 'admin_notices', array( $this, 'ast_edd_pro_notice' ) );
+
 		// Shortcode used by the settings screen to inject a status message inline.
 		add_shortcode( 'ast_settings_admin_notice', array( $this, 'ast_settings_admin_notice' ) );
 
@@ -92,6 +101,7 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 			'ast-pro-notice-4-0-4'              => array( 'ast_pro_dismiss_notice_4_0_4',    'ast_notice_ignore_4_0_4' ),
 			'ast-3-9-2-db-update-notice-ignore' => array( 'ast_db_update_dismiss_notice',    'ast_3_9_2_db_update_notice_ignore' ),
 			'ast-agent-os-notice'               => array( 'ast_agent_os_dismiss_notice',     'ast_agent_os_notice_ignore' ),
+			'ast-edd-pro-notice'                => array( 'ast_edd_pro_dismiss_notice',      'ast_edd_pro_notice_ignore' ),
 		);
 		foreach ( $map as $query_arg => list( $action, $option ) ) {
 			if ( isset( $_GET[ $query_arg ], $_GET['nonce'] )
@@ -142,7 +152,7 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 		// generic card steps aside wherever the milestone card is showing.
 		// The Agent OS launch card takes the promo slot while it is up; the
 		// PRO card comes back once that one is dismissed.
-		return ! get_option( 'ast_notice_ignore_4_0_4' ) && ! $this->is_ast_settings_screen() && ! $this->milestone_notice_visible() && ! $this->agent_os_notice_visible();
+		return ! get_option( 'ast_notice_ignore_4_0_4' ) && ! $this->is_ast_settings_screen() && ! $this->milestone_notice_visible() && ! $this->agent_os_notice_visible() && ! $this->edd_pro_notice_visible();
 	}
 
 	/**
@@ -151,6 +161,24 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 	 * milestone card is up (one promo card per screen), and once the plugin
 	 * is already active.
 	 */
+	/**
+	 * Estimated Delivery Date PRO launch card. Same rules as the other promo
+	 * cards: administrators only, never on the AST settings screen (that screen
+	 * runs its own upsells), and one promo card per screen - so it stands down
+	 * wherever the milestone card is showing.
+	 */
+	private function edd_pro_notice_visible() {
+		// The card is the coupon offer, so it retires itself when the offer ends.
+		$offer_ends = new DateTime( self::EDD_PRO_OFFER_ENDS, wp_timezone() );
+		if ( time() > $offer_ends->getTimestamp() ) {
+			return false;
+		}
+		if ( get_option( 'ast_edd_pro_notice_ignore' ) || $this->is_ast_settings_screen() || ! current_user_can( 'manage_options' ) ) {
+			return false;
+		}
+		return ! $this->milestone_notice_visible();
+	}
+
 	private function agent_os_notice_visible() {
 		// The card is the coupon offer, so it retires itself when the offer ends.
 		$offer_ends = new DateTime( self::AGENT_OS_OFFER_ENDS, wp_timezone() );
@@ -188,7 +216,7 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 		// Both .zui-pnotice cards need this file, and they are dismissed
 		// independently — gating on the review flag alone left the PRO card
 		// unstyled for anyone who had already dismissed the review notice.
-		if ( ! $this->review_notice_visible() && ! $this->pro_notice_visible() && ! $this->milestone_notice_visible() && ! $this->agent_os_notice_visible() ) {
+		if ( ! $this->review_notice_visible() && ! $this->pro_notice_visible() && ! $this->milestone_notice_visible() && ! $this->agent_os_notice_visible() && ! $this->edd_pro_notice_visible() ) {
 			return;
 		}
 
@@ -532,6 +560,64 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 				</div>
 		<?php
 		$this->close_pnotice( 'ast-agent-os-notice' );
+	}
+
+	/* -----------------------------------------------------------------
+	 * Notice: Estimated Delivery Date PRO launch (EDDPRO40)
+	 * ----------------------------------------------------------------- */
+
+	/**
+	 * Launch announcement for the newest zorem plugin, built on the same
+	 * .zui-pnotice card as the review and PRO notices. EDD PRO is a store-level
+	 * purchase, so only administrators see it, and like the other promo cards it
+	 * stays off the AST settings screen, which runs its own upsells.
+	 *
+	 * The offer strip is local to this card - the component has no coupon slot -
+	 * so its few rules are printed with the card, scoped by id. The link carries
+	 * its own campaign so EDD traffic from AST is separable in GA4.
+	 */
+	public function ast_edd_pro_notice() {
+		if ( ! $this->edd_pro_notice_visible() ) {
+			return;
+		}
+
+		$product_url = ast_utm_url( 'https://www.zorem.com/product/estimated-delivery-date-pro/', 'admin-notice', 'edd-pro-launch' );
+		$dismiss_url = $this->dismiss_url( 'ast-edd-pro-notice', 'ast_edd_pro_dismiss_notice' );
+		$offer_ends  = new DateTime( self::EDD_PRO_OFFER_ENDS, wp_timezone() );
+		?>
+		<style>
+			#ast-edd-pro-notice .ast-edd-pro-offer { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-block-start: 12px; padding: 10px 16px; background: #FFF5EB; border: 1px solid #F8C99B; border-radius: 8px; font-size: 14px; color: #475569; }
+			#ast-edd-pro-notice .ast-edd-pro-offer strong { color: #C2410C; font-weight: 600; }
+			#ast-edd-pro-notice .ast-edd-pro-offer code { padding: 3px 10px; background: #FFFFFF; border: 1px dashed #EA7A3F; border-radius: 6px; color: #C2410C; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; }
+		</style>
+		<?php
+		$this->open_pnotice( 'ast-edd-pro-notice', $dismiss_url, array(
+			'icon'         => 'truck',
+			'emblem_bg'    => '#DBEAFE',
+			'emblem_color' => '#2563EB',
+		) );
+		?>
+				<strong class="zui-pnotice__title"><?php esc_html_e( 'New from zorem: Estimated Delivery Date PRO for WooCommerce', 'woo-advanced-shipment-tracking' ); ?></strong>
+				<p class="zui-pnotice__text"><?php esc_html_e( 'Show accurate delivery dates on your product, cart and checkout pages, worked out from postal-code distance, your working days and a live order cut-off countdown. Fewer delivery questions from customers, and less cart abandonment.', 'woo-advanced-shipment-tracking' ); ?></p>
+
+				<div class="ast-edd-pro-offer">
+					<strong><?php esc_html_e( 'Launch offer: 40% off', 'woo-advanced-shipment-tracking' ); ?></strong>
+					<span><?php esc_html_e( '— use coupon code', 'woo-advanced-shipment-tracking' ); ?></span>
+					<code>EDDPRO40</code>
+					<span>
+						<?php
+						/* translators: %s: date the launch offer ends. */
+						printf( esc_html__( 'Valid until %s.', 'woo-advanced-shipment-tracking' ), esc_html( wp_date( 'F j, Y', $offer_ends->getTimestamp() ) ) );
+						?>
+					</span>
+				</div>
+
+				<div class="zui-pnotice__actions">
+					<a class="zui-pnotice__btn" href="<?php echo esc_url( $product_url ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Get Estimated Delivery Date PRO', 'woo-advanced-shipment-tracking' ); ?></a>
+					<button type="button" class="zui-pnotice__link"><?php esc_html_e( 'No thanks', 'woo-advanced-shipment-tracking' ); ?></button>
+				</div>
+		<?php
+		$this->close_pnotice( 'ast-edd-pro-notice' );
 	}
 
 	/* -----------------------------------------------------------------

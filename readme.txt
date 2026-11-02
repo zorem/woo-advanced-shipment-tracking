@@ -1,9 +1,9 @@
 === Advanced Shipment Tracking for WooCommerce ===
 Contributors: zorem, gaurav1092, eranzorem, satishzorem
-Tags: shipment tracking, order tracking, tracking number, shipping, fulfillment
+Tags: shipment tracking, order tracking, tracking number, fulfillment, shipping notifications
 Requires at least: 5.3
-Tested up to: 7.1.3
-Stable tag: 4.0.5
+Tested up to: 7.1.4
+Stable tag: 4.0.6
 Requires PHP: 7.2
 WC requires at least: 5.0
 WC tested up to: 11.2.1
@@ -14,13 +14,13 @@ The #1 WooCommerce shipment tracking plugin. Add tracking numbers, auto-update o
 
 == Description ==
 
-**Trusted by 80,000+ WooCommerce stores worldwide.** Advanced Shipment Tracking (AST) is the #1 WooCommerce shipment tracking plugin. Add tracking numbers to orders and automatically share them with customers — stopping "Where is my order?" support tickets before they start and keeping shoppers informed from checkout to delivery.
+**Trusted by 70,000+ WooCommerce stores worldwide.** Advanced Shipment Tracking (AST) is the #1 WooCommerce shipment tracking plugin. Add tracking numbers to orders and automatically share them with customers — stopping "Where is my order?" support tickets before they start and keeping shoppers informed from checkout to delivery.
 
 When you ship an order, your customer instantly gets a tracking link in their order email and on their **My Account > Orders** page. No external accounts. No complex setup. No monthly fees.
 
 **HPOS Compatible** · **Block Checkout Compatible** · **1010+ Carriers** · **Free & Open Source**
 
-= Why 80,000+ Stores Choose AST =
+= Why 70,000+ Stores Choose AST =
 
 Whether you ship 5 orders a day or 5,000, AST fits your workflow without adding complexity.
 
@@ -35,6 +35,25 @@ Whether you ship 5 orders a day or 5,000, AST fits your workflow without adding 
 * **PayPal Tracking Ready** — AST stores tracking data in the correct structure for PayPal syncing. Automated PayPal tracking sync (to release holds and reduce disputes) is available in AST PRO.
 * **Built for Performance** — Lightweight, optimized code. Zero measurable impact on page load speed, Core Web Vitals, or checkout performance.
 
+= 1010+ Shipping Carriers Worldwide =
+
+AST ships with tracking links already built for more than 1,010 carriers, so you select the ones you use and the Track button works immediately. A selection of what's included:
+
+* **United States & Canada** — USPS, UPS, FedEx, DHL Express, OnTrac, LaserShip, Canada Post, Purolator, Canpar
+* **Mexico, Central & South America** — Estafeta, Correos de México, Correios (Brazil), Jadlog, Loggi, Blue Express, Chilexpress, Correo Argentino, OCA, Andreani, Servientrega, Coordinadora
+* **United Kingdom & Ireland** — Royal Mail, Parcelforce, DPD UK, Evri, Yodel, DHL Parcel UK, An Post, Fastway
+* **Western Europe** — DHL Paket, Deutsche Post, Hermes Germany, DPD, GLS, La Poste, Colissimo, Chronopost, Mondial Relay, Colis Privé, PostNL, bpost, Swiss Post, Austrian Post
+* **Southern Europe** — Correos, Correos Express, SEUR, MRW, Nacex, CTT, Poste Italiane, BRT, SDA, Hellenic Post (ELTA)
+* **Northern & Eastern Europe** — PostNord, Posti, Bring, Poczta Polska, InPost, Česká pošta, Magyar Posta, Nova Poshta, Russian Post
+* **India** — India Post, Delhivery, Blue Dart, DTDC, Ecom Express, Xpressbees, Shadowfax, Gati
+* **China & East Asia** — China Post, China EMS, SF Express, YTO, ZTO, STO, Yunda, 4PX, Yanwen, Yun Express, ePacket, Japan Post, Yamato, Sagawa, Korea Post, CJ Logistics
+* **Southeast Asia & Oceania** — Singapore Post, Pos Malaysia, J&T Express, Ninja Van, Thailand Post, Kerry Express, Vietnam Post, Giao Hang Nhanh, Australia Post, StarTrack, Sendle, CouriersPlease, New Zealand Post
+* **Middle East & Africa** — Aramex, Emirates Post, Saudi Post (SPL), Qatar Post, Israel Post, PTT, Yurtiçi Kargo, MNG Kargo, South African Post Office, The Courier Guy, Jumia
+
+[View the full carrier list →](https://docs.zorem.com/docs/ast-free/shipping-carriers/#shipping-carriers-list-options/)
+
+If a carrier you ship with is missing, request it on the [feature request board](https://feedback.zorem.com/ast). Adding your own carrier with a custom name, logo and tracking URL is available in AST PRO.
+
 = How It Works =
 
 1. Install and activate AST — it takes under 2 minutes.
@@ -43,6 +62,21 @@ Whether you ship 5 orders a day or 5,000, AST fits your workflow without adding 
 4. AST automatically includes the tracking info and a clickable "Track" link in the customer's order email and My Account page.
 
 No complex setup. No external accounts. It just works.
+
+= Who Uses Advanced Shipment Tracking =
+
+AST is used across every kind of WooCommerce store that ships physical goods:
+
+* **Dropshipping stores** — tracking arrives from suppliers as a CSV or an API push, often from Chinese logistics providers like ePacket, Yanwen, Yun Express and 4PX. Import it in bulk rather than pasting numbers one at a time.
+* **High-volume and multi-warehouse stores** — hundreds of shipments a day, split across couriers, imported by CSV or REST API.
+* **Subscription boxes** — a recurring shipment every cycle, each one needing its own tracking link and its own notification.
+* **Made-to-order, handmade and print-on-demand stores** — long lead times make the "Shipped" status the moment the customer has been waiting for.
+* **Multi-vendor marketplaces** — vendors add tracking to their own orders on Dokan, WCFM or Product Vendors, and customers see it in the standard WooCommerce flow.
+* **Cross-border and international sellers** — one order might move through a domestic courier, an international line haul and a last-mile carrier, each with its own tracking number. Add as many as the shipment needs.
+* **Cash-on-delivery markets** — in India, Southeast Asia and the Middle East, a visible tracking link reduces refused deliveries and the returns to origin that follow.
+* **Stores leaving the official WooCommerce Shipment Tracking extension** — existing tracking data migrates automatically on activation, so no customer loses their link.
+
+Whatever the volume, the job is the same: the customer should be able to find out where their parcel is without emailing you.
 
 = Free vs PRO — What's the Difference? =
 
@@ -118,7 +152,7 @@ Want to contribute? [Submit a translation →](https://docs.zorem.com/docs/ast-f
 = More Plugins by Zorem =
 
 * [SMS for WooCommerce](https://www.zorem.com/product/sms-for-woocommerce/) — Automated SMS order and shipping notifications via Twilio, WhatsApp, and 18 other providers.
-* [Local Pickup PRO](https://www.zorem.com/product/zorem-local-pickup-pro/) — Advanced local pickup with multiple locations, appointment scheduling, and ready-for-pickup notifications.
+* [Advanced Local Pickup PRO](https://www.zorem.com/product/zorem-local-pickup-pro/) — Advanced local pickup with multiple locations, appointment scheduling, and ready-for-pickup notifications.
 * [Zorem Returns](https://www.zorem.com/product/zorem-returns/) — Self-service returns, exchanges, and store credit management for WooCommerce.
 * [Customer Email Verification PRO](https://www.zorem.com/product/customer-email-verification/) — Block fake accounts and spam orders with OTP-based email verification.
 * [Country Based Restrictions PRO](https://www.zorem.com/product/country-based-restriction-pro/) — Restrict products and payment gateways by customer country using WooCommerce geolocation.
@@ -154,7 +188,7 @@ AST automatically detects and migrates all existing tracking data when you activ
 
 = How is AST different from the official WooCommerce Shipment Tracking extension? =
 
-AST is built for store owners who want a real fulfillment workflow, not just a basic tracking link. Compared to the official WooCommerce Shipment Tracking extension, AST adds: 1010+ pre-configured shipping carriers (vs ~50), a customizable tracking widget with live preview, a complete Shipped / Partially Shipped fulfillment workflow, bulk CSV import, a Shipment Tracking REST API, and automatic data migration. AST is free, open source, and trusted by 80,000+ active WooCommerce stores.
+AST is built for store owners who want a real fulfillment workflow, not just a basic tracking link. Compared to the official WooCommerce Shipment Tracking extension, AST adds: 1010+ pre-configured shipping carriers (vs ~50), a customizable tracking widget with live preview, a complete Shipped / Partially Shipped fulfillment workflow, bulk CSV import, a Shipment Tracking REST API, and automatic data migration. AST is free, open source, and trusted by 70,000+ active WooCommerce stores.
 
 = I'm migrating from WooCommerce Shipment Tracking (by WooCommerce). Will my data carry over? =
 
@@ -233,7 +267,19 @@ No. AST is built for performance. It loads tracking assets only on admin order p
 Yes. AST is compatible with popular custom order number plugins. You can use custom order numbers in the CSV import. See the [compatibility list](https://docs.zorem.com/docs/ast-free/compatibility/) for supported plugins.
 
 
+== Upgrade Notice ==
+
+= 4.0.6 =
+Fixes a fatal error on the Shipment Tracking settings page after an incomplete update, and a CSV import that could report failed rows as successful. Recommended for all stores that import tracking from CSV.
+
+= 4.0.5 =
+Fixes a stray "Y-m-d" in the Date shipped field and a wrong date format on translated sites. Recommended for all stores, required for anyone running a non-English admin.
+
 == Changelog ==
+
+= 4.0.6 =
+* Fix – Settings page could fail to load with a fatal error after an incomplete plugin update.
+* Fix – CSV import reported rows as successful when they had actually failed. Rows that fail, and lines skipped from the file, are now listed in the import result.
 
 = 4.0.5 =
 * Dev – Tested with WooCommerce 11.2.1 and WordPress 7.1.3
