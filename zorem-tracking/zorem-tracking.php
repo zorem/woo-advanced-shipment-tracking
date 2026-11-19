@@ -1,31 +1,22 @@
 <?php
 
-use Automattic\Jetpack\Constants;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-
-/*
- * PHPCS / Plugin Check suppressions for this file.
- *
- * WordPress.DB.DirectDatabaseQuery.DirectQuery: Reads/writes the plugin's own `woo_shippment_provider`
- * table; no WordPress API covers it and the rows change per request, so a persistent cache would serve
- * stale carrier data.
- *
- * WordPress.Security.NonceVerification.Recommended: Every state-changing handler in this file calls
- * check_ajax_referer()/check_admin_referer() before this point; the reads flagged here only pick the
- * tab/screen to render.
- *
- * WordPress.Security.ValidatedSanitizedInput.InputNotSanitized: Input is sanitized with wc_clean() or
- * wp_kses_post() after wp_unslash(); PHPCS does not recognise WooCommerce's sanitizer.
- */
-// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reads/writes the plugin's own `woo_shippment_provider` table; no WordPress API covers it and the rows change per request, so a persistent cache would serve stale carrier data.
-// phpcs:disable WordPress.Security.NonceVerification.Recommended -- Every state-changing handler in this file calls check_ajax_referer()/check_admin_referer() before this point; the reads flagged here only pick the tab/screen to render.
-// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Input is sanitized with wc_clean() or wp_kses_post() after wp_unslash(); PHPCS does not recognise WooCommerce's sanitizer.
 if ( !class_exists( 'WC_Trackers' ) ) {
 	class WC_Trackers {
 		
+		/**
+		 * Library version, used as the asset cache-buster.
+		 *
+		 * This folder is shared by every Zorem plugin, so it must never call a
+		 * host plugin's global (e.g. cev_pro()). Bump this when the CSS/JS changes.
+		 *
+		 * @var string
+		 */
+		const VERSION = '1.1.0';
+
 		/**
 		 * URL to the AST Tracker API endpoint.
 		 *
@@ -41,6 +32,7 @@ if ( !class_exists( 'WC_Trackers' ) ) {
 		public $menu_slug;
 		public $plugin_id;
 		public $plugin_slug_with_hyphens;
+		public $option_prefix;
 		/**
 		 * Initialize the main plugin function
 		*/
@@ -68,7 +60,7 @@ if ( !class_exists( 'WC_Trackers' ) ) {
 		/**
 		 * Get the class instance
 		 *
-		 * @return WC_Advanced_Shipment_Tracking_Settings
+		 * @return WC_Trackers
 		*/
 		public static function get_instance( $plugin_name, $plugin_slug, $user_id, $setting_page_type, $setting_page_location, $parent_menu_type, $menu_slug, $plugin_id ) {
 		
@@ -78,12 +70,6 @@ if ( !class_exists( 'WC_Trackers' ) ) {
 		
 			return self::$instance;
 		}
-		/**
-		 * Set custom data for tracking
-		 *
-		 * @param array $data Custom data array
-		 */
-		
 		/*
 		* init from parent mail class
 		*/
@@ -93,15 +79,15 @@ if ( !class_exists( 'WC_Trackers' ) ) {
 			add_action( 'wp_ajax_' . $this->plugin_slug_with_hyphens . '_activate_usage_data', array( $this, 'ast_activate_usage_data_fun') );
 			add_action( 'wp_ajax_' . $this->plugin_slug_with_hyphens . '_skip_usage_data', array( $this, 'ast_skip_usage_data_fun') );	
 			add_action( 'zorem_usage_data_' . $this->plugin_slug_with_hyphens, array( $this, 'send_tracking_data' ) );	
-			add_action( 'init' , array( $this, 'load_admin_page' ) );
+			add_action( 'admin_notices' , array( $this, 'load_admin_page' ) );
 			
 			add_action( 'admin_init', array( $this, 'set_unset_usage_data_cron') );
 		
 		}
 		public function enqueue_plugin_styles() {
 			// Enqueue your CSS file
-			wp_enqueue_style('plugin-css', plugin_dir_url(__FILE__) . 'assets/css/style.css', array(), time());
-			wp_enqueue_script('plugin-js', plugin_dir_url(__FILE__) . 'assets/js/main.js', array(), time(), false );
+			wp_enqueue_style('plugin-css', plugin_dir_url(__FILE__) . 'assets/css/style.css', array(), self::VERSION);
+			wp_enqueue_script('plugin-js', plugin_dir_url(__FILE__) . 'assets/js/main.js', array( 'jquery' ), self::VERSION, true);
 			 
 			wp_localize_script('plugin-js', 'zorem_tracking_data', [
 				'plugin_slug_with_hyphens' => $this->plugin_slug_with_hyphens,
@@ -110,7 +96,9 @@ if ( !class_exists( 'WC_Trackers' ) ) {
 		}
 		public function load_admin_page() {
 		
-			if (isset($_GET['page']) && $_GET['page'] === $this->menu_slug) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.NonceVerification.Recommended -- Read-only admin-page check; no state change.
+			$zt_page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
+			if ( $zt_page === $this->menu_slug ) {
 				if (!get_option($this->plugin_slug_with_hyphens . '_usage_data_selector')) {
 					
 					$this->usage_data_signup_box();
@@ -124,37 +112,41 @@ if ( !class_exists( 'WC_Trackers' ) ) {
 		}
 	
 		public function ast_activate_usage_data_fun() {
-			
-			if ( ! current_user_can( 'manage_woocommerce' ) ) {
-				exit( 'You are not allowed' );
-			}
-			
 			check_ajax_referer( $this->plugin_slug_with_hyphens . '_usage_data_form', $this->plugin_slug_with_hyphens . '_usage_data_form_nonce' );
-		
-			if ( isset( $_POST[ $this->plugin_slug_with_hyphens . '_optin_email_notification' ] ) && 0 == $_POST[ $this->plugin_slug_with_hyphens . '_optin_email_notification' ] && isset( $_POST[ 	$this->plugin_slug_with_hyphens . '_enable_usage_data' ] ) && 0 == $_POST[ $this->plugin_slug_with_hyphens . '_enable_usage_data' ] ) {
+
+			// Read before saving so we can detect a first-time opt-in.
+			$was_already_opted_in = (bool) get_option( $this->plugin_slug_with_hyphens . '_optin_confirmation_sent', false );
+
+			if ( isset( $_POST[ $this->plugin_slug_with_hyphens . '_optin_email_notification' ] ) && 0 === (int) sanitize_text_field( wp_unslash( $_POST[ $this->plugin_slug_with_hyphens . '_optin_email_notification' ] ) ) && isset( $_POST[ 	$this->plugin_slug_with_hyphens . '_enable_usage_data' ] ) && 0 === (int) sanitize_text_field( wp_unslash( $_POST[ $this->plugin_slug_with_hyphens . '_enable_usage_data' ] ) ) ) {
 				update_option( $this->plugin_slug_with_hyphens . '_usage_data_selector', true );
 				die();
 			}
-		
-			if ( isset( $_POST[ $this->plugin_slug_with_hyphens . '_optin_email_notification' ] ) ) {						
-				update_option( $this->plugin_slug_with_hyphens . '_optin_email_notification', wc_clean( wp_unslash( $_POST[ $this->plugin_slug_with_hyphens . '_optin_email_notification' ] ) ) );
+
+			if ( isset( $_POST[ $this->plugin_slug_with_hyphens . '_optin_email_notification' ] ) ) {
+				update_option( $this->plugin_slug_with_hyphens . '_optin_email_notification', sanitize_text_field( wp_unslash( $_POST[ $this->plugin_slug_with_hyphens . '_optin_email_notification' ] ) ) );
 			}
-		
-			if ( isset( $_POST[ $this->plugin_slug_with_hyphens . '_enable_usage_data' ] ) ) {						
-				update_option( $this->plugin_slug_with_hyphens . '_enable_usage_data', wc_clean( wp_unslash( $_POST[ $this->plugin_slug_with_hyphens . '_enable_usage_data' ] ) ) );			
+
+			if ( isset( $_POST[ $this->plugin_slug_with_hyphens . '_enable_usage_data' ] ) ) {
+				update_option( $this->plugin_slug_with_hyphens . '_enable_usage_data', sanitize_text_field( wp_unslash( $_POST[ $this->plugin_slug_with_hyphens . '_enable_usage_data' ] ) ) );
 			}
-		
+
 			$this->set_unset_usage_data_cron();
-		
-			update_option( $this->plugin_slug_with_hyphens . '_usage_data_selector', true );		
+
+			update_option( $this->plugin_slug_with_hyphens . '_usage_data_selector', true );
+
+			// Send one-time opt-in confirmation email.
+			$new_optin = isset( $_POST[ $this->plugin_slug_with_hyphens . '_optin_email_notification' ] )
+				? (int) sanitize_text_field( wp_unslash( $_POST[ $this->plugin_slug_with_hyphens . '_optin_email_notification' ] ) )
+				: 0;
+
+
+			if ( 1 === $new_optin && ! $was_already_opted_in ) {
+				$this->send_optin_confirmation_email();
+				update_option( $this->plugin_slug_with_hyphens . '_optin_confirmation_sent', true );
+			}
 		}
 	
 		public function ast_skip_usage_data_fun() {
-		
-			if ( ! current_user_can( 'manage_woocommerce' ) ) {
-				exit( 'You are not allowed' );
-			}
-		
 			check_ajax_referer( $this->plugin_slug_with_hyphens . '_usage_skip_form', $this->plugin_slug_with_hyphens . '_usage_skip_form_nonce' );
 		
 			update_option( $this->plugin_slug_with_hyphens . '_usage_data_selector', true );
@@ -177,7 +169,7 @@ if ( !class_exists( 'WC_Trackers' ) ) {
 		public function send_tracking_data() {
 			
 			// Don't trigger this on AJAX Requests.
-			if ( Constants::is_true( 'DOING_AJAX' ) ) {
+			if ( wp_doing_ajax() ) {
 				return;
 			}
 			
@@ -192,7 +184,10 @@ if ( !class_exists( 'WC_Trackers' ) ) {
 			update_option( $this->plugin_slug_with_hyphens . '_usage_tracker_last_send', time() );
 		
 			$params = $this->get_tracking_data();
-			
+			// $content = print_r($params, true);
+			// $logger = wc_get_logger();
+			// $context = array( 'source' => 'usage_tracker_last_send' );
+			// $logger->info( "usage_tracker_last_send \n" . $content . "\n", $context );
 			wp_safe_remote_post(
 				self::$api_url,
 				array(
@@ -253,6 +248,8 @@ if ( !class_exists( 'WC_Trackers' ) ) {
 				$data['country'] = WC()->countries->get_base_country();
 
 				$data['order'] = $this->get_order_revenue();
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Vendored zorem-tracking library hook; the shared library owns this un-prefixed name.
+				$data['settings'] = apply_filters( 'get_settings_data', $this->option_prefix);
 				// $data['net_revenue_twelve'] = $order_revenue_data['net_revenue_twelve'];
 				// $data['orders_count_twelve'] = $order_revenue_data['orders_count_twelve'];
 				// $data['avg_order_value_twelve'] = $order_revenue_data['avg_order_value_twelve'];
@@ -261,7 +258,7 @@ if ( !class_exists( 'WC_Trackers' ) ) {
 				// $data['net_revenue_three'] = $order_revenue_data['net_revenue_three'];
 				
 			}
-		
+			$data = apply_filters( 'zorem_tracking_data', $data);
 			return $data;
 		}
 	
@@ -277,8 +274,8 @@ if ( !class_exists( 'WC_Trackers' ) ) {
 			$theme_is_block_theme = wc_bool_to_string( wc_current_theme_is_fse_theme() );
 		
 			return array(
-				'name'        => $theme_data->Name, // @phpcs:ignore
-				'version'     => $theme_data->Version, // @phpcs:ignore
+				'name'        => $theme_data->get( 'Name' ),
+				'version'     => $theme_data->get( 'Version' ),
 				'child_theme' => $theme_child_theme,
 				'wc_support'  => $theme_wc_support,
 				'block_theme' => $theme_is_block_theme,
@@ -293,7 +290,7 @@ if ( !class_exists( 'WC_Trackers' ) ) {
 		public function get_wordpress_info() {
 			$wp_data = array();
 		
-			$memory = wc_let_to_num( WP_MEMORY_LIMIT );
+			$memory = wc_let_to_num( defined( 'WP_MEMORY_LIMIT' ) ? constant( 'WP_MEMORY_LIMIT' ) : '0' );
 		
 			if ( function_exists( 'memory_get_usage' ) ) {
 				$system_memory = wc_let_to_num( @ini_get( 'memory_limit' ) );
@@ -327,7 +324,7 @@ if ( !class_exists( 'WC_Trackers' ) ) {
 			$server_data = array();
 		
 			if ( ! empty( $_SERVER['SERVER_SOFTWARE'] ) ) {
-				$server_data['software'] = wc_clean( wp_unslash( $_SERVER['SERVER_SOFTWARE'] ) ); // @phpcs:ignore
+				$server_data['software'] = sanitize_text_field( wp_unslash( $_SERVER['SERVER_SOFTWARE'] ) );
 			}
 		
 			if ( function_exists( 'phpversion' ) ) {
@@ -412,7 +409,9 @@ if ( !class_exists( 'WC_Trackers' ) ) {
 			foreach ( $shipping_methods as $id => $shipping_method ) {
 				if ( isset( $shipping_method->enabled ) && 'yes' === $shipping_method->enabled ) {
 					
+					// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 					$shipping_stats = $wpdb->get_row( $wpdb->prepare( "SELECT FLOOR( SUM(total_sales) ) as revenue, COUNT(*) as orders, SUM(shipping_total) as shipping_charge FROM {$wpdb->prefix}wc_order_stats as stats 	LEFT JOIN {$wpdb->prefix}woocommerce_order_items as order_items ON(stats.order_id = order_items.order_id) WHERE order_items.order_item_name = %s", $shipping_method->method_title ) );
+					// phpcs:enable
 					
 					//echo '<pre>';print_r($results);echo '</pre>';exit;
 					$active_methods[ $id ] = array(
@@ -457,6 +456,30 @@ if ( !class_exists( 'WC_Trackers' ) ) {
 			$data['orders_count_twelve'] = $twelve_month_data->totals->orders_count;
 
 			return $data;
+		}
+
+		/**
+		 * Send a one-time opt-in confirmation email to the site admin.
+		 */
+		private function send_optin_confirmation_email() {
+			$response = wp_safe_remote_post(
+				'https://tracking.zorem.com/wp-json/zorem-usage/v1/send-optin-email',
+				array(
+					'method'   => 'POST',
+					'timeout'  => 15,
+					'blocking' => true,
+					'headers'  => array(
+						'Content-Type' => 'application/json',
+						'User-Agent'   => 'zoremTracker/' . md5( esc_url_raw( home_url( '/' ) ) ) . ';',
+					),
+					'body' => wp_json_encode( array(
+						'to'              => get_option( 'admin_email' ),
+						'plugin_name'     => $this->plugin_name,
+						'site_url'        => home_url(),
+						'logo_url'        => plugin_dir_url( __FILE__ ) . 'assets/images/logo-v1.png',
+					) ),
+				)
+			);
 		}
 	}
 }

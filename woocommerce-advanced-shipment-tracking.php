@@ -4,14 +4,14 @@
  * Plugin Name: Advanced Shipment Tracking for WooCommerce
  * Plugin URI: https://www.zorem.com/products/woocommerce-advanced-shipment-tracking/
  * Description: Add shipment tracking information to your WooCommerce orders and provide customers with an easy way to track their orders. Shipment tracking Info will appear in customers accounts (in the order panel) and in WooCommerce order complete email.
- * Version: 4.0.6
+ * Version: 4.0.7
  * Author: zorem
  * Author URI: https://www.zorem.com
  * License: GPL-2.0+
  * License URI:
  * Text Domain: woo-advanced-shipment-tracking
  * Domain Path: /lang
- * WC tested up to: 11.2.1
+ * WC tested up to: 11.3.0
  * Requires Plugins: woocommerce
  */
 
@@ -50,7 +50,7 @@ class Zorem_Woocommerce_Advanced_Shipment_Tracking {
 	 *
 	 * @var string
 	 */
-	public $version = '4.0.6';
+	public $version = '4.0.7';
 	public $plugin_file;
 	public $plugin_path;
 	public $table;

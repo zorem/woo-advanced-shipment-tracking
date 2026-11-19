@@ -10,54 +10,44 @@ jQuery( ".ud-checkbox li" ).on("click", function (e) {
 	}
 });
 
-jQuery(document).on("click", ".submit_usage_data", function(e){	
-	
-	var form = jQuery('#usage_data_form');
-	jQuery(".ud-box-container").block({
-		message: null,
-		overlayCSS: {
-			background: "#fff",
-			opacity: .6
-		}	
-    });
+/**
+ * Busy state for the opt-in box while a request is in flight.
+ * Plain jQuery only (no BlockUI): fade the box, block pointer events and
+ * disable both action buttons so the request can't be fired twice.
+ */
+function zorem_tracking_set_busy( busy ) {
+	var box = jQuery(".ud-box-container");
+	box.css({
+		opacity: busy ? 0.6 : '',
+		pointerEvents: busy ? 'none' : ''
+	}).attr("aria-busy", busy ? "true" : "false");
+	box.find(".submit_usage_data, .skip_usage_data").prop("disabled", busy);
+}
+
+function zorem_tracking_send( form ) {
+	zorem_tracking_set_busy( true );
 
 	jQuery.ajax({
-		url: ajaxurl,		
-		data: form.serialize(),		
-		type: 'POST',		
-		success: function(response) {	
-			jQuery(".ud-box-container").unblock();	
+		url: ajaxurl,
+		data: form.serialize(),
+		type: 'POST',
+		success: function(response) {
+			// Keep the box disabled until the page reloads.
 			location.reload(true);
 		},
 		error: function(response) {
-			console.log(response);			
+			console.log(response);
+			zorem_tracking_set_busy( false );
 		}
 	});
+}
+
+jQuery(document).on("click", ".submit_usage_data", function(e){
+	zorem_tracking_send( jQuery('#usage_data_form') );
 	return false;
 });
 
-jQuery(document).on("click", ".skip_usage_data", function(e){	
-	
-	var form = jQuery('#skip_usage_data_form');
-	jQuery(".ud-box-container").block({
-		message: null,
-		overlayCSS: {
-			background: "#fff",
-			opacity: .6
-		}	
-    });
-	
-	jQuery.ajax({
-		url: ajaxurl,		
-		data: form.serialize(),		
-		type: 'POST',		
-		success: function(response) {	
-			jQuery(".ud-box-container").unblock();
-			location.reload(true);
-		},
-		error: function(response) {
-			console.log(response);			
-		}
-	});
+jQuery(document).on("click", ".skip_usage_data", function(e){
+	zorem_tracking_send( jQuery('#skip_usage_data_form') );
 	return false;
 });

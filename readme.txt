@@ -3,10 +3,10 @@ Contributors: zorem, gaurav1092, eranzorem, satishzorem
 Tags: shipment tracking, order tracking, tracking number, fulfillment, shipping notifications
 Requires at least: 5.3
 Tested up to: 7.1.4
-Stable tag: 4.0.6
+Stable tag: 4.0.7
 Requires PHP: 7.2
 WC requires at least: 5.0
-WC tested up to: 11.2.1
+WC tested up to: 11.3.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -269,13 +269,14 @@ Yes. AST is compatible with popular custom order number plugins. You can use cus
 
 == Upgrade Notice ==
 
-= 4.0.6 =
-Fixes a fatal error on the Shipment Tracking settings page after an incomplete update, and a CSV import that could report failed rows as successful. Recommended for all stores that import tracking from CSV.
-
-= 4.0.5 =
-Fixes a stray "Y-m-d" in the Date shipped field and a wrong date format on translated sites. Recommended for all stores, required for anyone running a non-English admin.
+= 4.0.7 =
+* Dev – Tested with WooCommerce 11.3.0 and WordPress 7.1.4
 
 == Changelog ==
+
+= 4.0.7 =
+* Dev – Tested with WooCommerce 11.3.0 and WordPress 7.1.4
+* Fix – On some stores, the shipped date could be saved up to 2 days early and shown that way in the shipment email.
 
 = 4.0.6 =
 * Fix – Settings page could fail to load with a fatal error after an incomplete plugin update.

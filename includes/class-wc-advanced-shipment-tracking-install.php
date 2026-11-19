@@ -262,7 +262,7 @@ class WC_Advanced_Shipment_Tracking_Install {
 					'formatted_tracking_link'		=> 'https://tools.usps.com/go/TrackConfirmAction_input?qtc_tLabels1=112123113',
 					'ast_tracking_link'				=> 'https://tools.usps.com/go/TrackConfirmAction_input?qtc_tLabels1=112123113',
 					'tracking_number'          		=> '112123113',				
-					'date_shipped'             		=> strtotime( gmdate( 'Y-m-d' ) ),
+					'date_shipped'             		=> strtotime( gmdate( 'Y-m-d' ) . ' UTC' ),
 				);
 				
 				update_post_meta( 1, '_wc_shipment_tracking_items', $tracking_items );

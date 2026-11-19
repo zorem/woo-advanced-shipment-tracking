@@ -1052,7 +1052,7 @@ class WC_Advanced_Shipment_Tracking_Actions {
 				'formatted_tracking_link'		=> 'https://tools.usps.com/go/TrackConfirmAction_input?qtc_tLabels1=112123113',
 				'ast_tracking_link'				=> 'https://tools.usps.com/go/TrackConfirmAction_input?qtc_tLabels1=112123113',
 				'tracking_number'          		=> '112123113',				
-				'date_shipped'             		=> strtotime( gmdate( 'Y-m-d' ) ),
+				'date_shipped'             		=> strtotime( gmdate( 'Y-m-d' ) . ' UTC' ),
 			);
 						
 			if ( file_exists( $local_template ) && wp_is_writable( $local_template ) ) {	
@@ -1332,18 +1332,15 @@ class WC_Advanced_Shipment_Tracking_Actions {
 		$tracking_item['tracking_product_code']		= isset( $args['tracking_product_code'] ) ? wc_clean( $args['tracking_product_code'] ) : '';
 		$tracking_item['source'] 					= isset( $args['source'] ) ? wc_clean( $args['source'] ) : '';
 
-		if ( strtotime( $args['date_shipped'] ) ) {
-			if ( isset( $args['date_shipped'] ) ) {
-				
-				if ( isset($args['source']) && 'REST_API' == $args['source'] ) {
-					$wc_ast_api_date_format = get_ast_settings( 'ast_general_settings', 'wc_ast_api_date_format', 'd-m-Y' );					
-					$date = date_i18n( $wc_ast_api_date_format, strtotime( $args['date_shipped'] ) );				
-				} else {									
-					$date = date_i18n( 'd-m-Y', strtotime( $args['date_shipped'] ) );
-				} 						
-			
-				$tracking_item['date_shipped'] = wc_clean( strtotime( $date ) );
+		if ( isset( $args['date_shipped'] ) && self::strtotime_utc( $args['date_shipped'] ) ) {
+			if ( isset($args['source']) && 'REST_API' == $args['source'] ) {
+				$wc_ast_api_date_format = get_ast_settings( 'ast_general_settings', 'wc_ast_api_date_format', 'd-m-Y' );
+				$date = date_i18n( $wc_ast_api_date_format, self::strtotime_utc( $args['date_shipped'] ) );
+			} else {
+				$date = date_i18n( 'd-m-Y', self::strtotime_utc( $args['date_shipped'] ) );
 			}
+
+			$tracking_item['date_shipped'] = wc_clean( self::strtotime_utc( $date ) );
 		} else {
 			$tracking_item['date_shipped']   = time();
 		}
@@ -1386,7 +1383,28 @@ class WC_Advanced_Shipment_Tracking_Actions {
 		return $tracking_item;
 	}
 
-	public function add_user_in_tracking_item( $tracking_item, $args, $order_id ) {	
+	/**
+	 * strtotime() that always reads the date as UTC.
+	 *
+	 * Shipped dates are stored as UTC midnight and shown with date_i18n(),
+	 * which formats in UTC. Plain strtotime() uses PHP's default timezone.
+	 * WordPress sets that to UTC, but some plugins and themes change it. In
+	 * a timezone ahead of UTC (e.g. Europe/Paris), each strtotime() then
+	 * moved the date back one day, and the shipped date ended up 2 days
+	 * early in the email.
+	 *
+	 * @param string $date Date string in any format strtotime() accepts.
+	 * @return int|false Timestamp, or false if the string is not a date.
+	 */
+	public static function strtotime_utc( $date ) {
+		if ( ! is_scalar( $date ) || '' === trim( (string) $date ) ) {
+			return false;
+		}
+		$datetime = date_create( (string) $date, new DateTimeZone( 'UTC' ) );
+		return $datetime ? $datetime->getTimestamp() : false;
+	}
+
+	public function add_user_in_tracking_item( $tracking_item, $args, $order_id ) {
 		if ( is_user_logged_in() ) {
 			// User is logged in.
 			$user_id = get_current_user_id();
@@ -1437,9 +1455,9 @@ class WC_Advanced_Shipment_Tracking_Actions {
 				$tracking_item['date_shipped'] = wc_clean( $args['date_shipped'] );
 			} else {
 				$date = str_replace( '/', '-', $args['date_shipped'] );
-				$date = date_create($date);
-				$date = date_format( $date, 'd-m-Y' );
-				$tracking_item['date_shipped'] = wc_clean( strtotime( $date ) );
+				$date = date_create( $date, new DateTimeZone( 'UTC' ) );
+				$date = $date ? date_format( $date, 'd-m-Y' ) : '';
+				$tracking_item['date_shipped'] = wc_clean( self::strtotime_utc( $date ) );
 			}
 		}
 		

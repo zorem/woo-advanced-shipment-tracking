@@ -1,6 +1,16 @@
 <?php
+/**
+ * Usage-data opt-in box.
+ *
+ * @package Zorem_Tracking
+ *
+ * Expected variables, supplied by the including scope:
+ *
+ * @var WC_Trackers $this The tracking object that included this template.
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly.
+	exit;
 }
 ?>
 <div class="zorem-layout popupwrapper" style="text-align: left !important;">

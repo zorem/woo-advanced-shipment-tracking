@@ -45,6 +45,13 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 	 */
 	const EDD_PRO_OFFER_ENDS = '2026-11-15 23:59:59';
 
+	/**
+	 * Zorem AI Agent Connector — wp.org slug and plugin basename. The card
+	 * hides once the plugin is active.
+	 */
+	const AI_CONNECTOR_SLUG   = 'zorem-ai-agent-connector';
+	const AI_CONNECTOR_PLUGIN = 'zorem-ai-agent-connector/zorem-ai-agent-connector.php';
+
 	public function __construct() {
 		$this->init();
 	}
@@ -80,6 +87,9 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 		// Estimated Delivery Date PRO launch announcement (one-off, permanently dismissible).
 		add_action( 'admin_notices', array( $this, 'ast_edd_pro_notice' ) );
 
+		// Zorem AI Agent Connector announcement (free, permanently dismissible).
+		add_action( 'admin_notices', array( $this, 'ast_ai_connector_notice' ) );
+
 		// Shortcode used by the settings screen to inject a status message inline.
 		add_shortcode( 'ast_settings_admin_notice', array( $this, 'ast_settings_admin_notice' ) );
 
@@ -102,6 +112,7 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 			'ast-3-9-2-db-update-notice-ignore' => array( 'ast_db_update_dismiss_notice',    'ast_3_9_2_db_update_notice_ignore' ),
 			'ast-agent-os-notice'               => array( 'ast_agent_os_dismiss_notice',     'ast_agent_os_notice_ignore' ),
 			'ast-edd-pro-notice'                => array( 'ast_edd_pro_dismiss_notice',      'ast_edd_pro_notice_ignore' ),
+			'ast-ai-connector-notice'           => array( 'ast_ai_connector_dismiss_notice', 'ast_ai_connector_notice_ignore' ),
 		);
 		foreach ( $map as $query_arg => list( $action, $option ) ) {
 			if ( isset( $_GET[ $query_arg ], $_GET['nonce'] )
@@ -152,7 +163,50 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 		// generic card steps aside wherever the milestone card is showing.
 		// The Agent OS launch card takes the promo slot while it is up; the
 		// PRO card comes back once that one is dismissed.
-		return ! get_option( 'ast_notice_ignore_4_0_4' ) && ! $this->is_ast_settings_screen() && ! $this->milestone_notice_visible() && ! $this->agent_os_notice_visible() && ! $this->edd_pro_notice_visible();
+		return ! get_option( 'ast_notice_ignore_4_0_4' ) && ! $this->is_ast_settings_screen() && ! $this->milestone_notice_visible() && ! $this->agent_os_notice_visible() && ! $this->edd_pro_notice_visible() && ! $this->ai_connector_notice_visible();
+	}
+
+	/**
+	 * Zorem AI Agent Connector card. Installing or activating a plugin is an
+	 * admin job, so the card needs activate_plugins. Same promo rules as the
+	 * other cards: never on the AST settings screen, and it steps aside for
+	 * the milestone card. Hidden once the connector is active.
+	 */
+	private function ai_connector_notice_visible() {
+		if ( get_option( 'ast_ai_connector_notice_ignore' ) || $this->is_ast_settings_screen() || ! current_user_can( 'activate_plugins' ) ) {
+			return false;
+		}
+		if ( ! function_exists( 'is_plugin_active' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+		if ( is_plugin_active( self::AI_CONNECTOR_PLUGIN ) ) {
+			return false;
+		}
+		return ! $this->milestone_notice_visible();
+	}
+
+	/**
+	 * Primary action for the connector card. If the plugin is already
+	 * installed, this is core's nonced activate link, built for this store.
+	 * If not, it is core's install link, because an activate link for a
+	 * missing plugin only shows a "Plugin file does not exist" error.
+	 *
+	 * The button label stays "Activate" either way; only the URL changes.
+	 *
+	 * @return string Raw URL; escape it at output.
+	 */
+	private function ai_connector_action_url() {
+		if ( file_exists( WP_PLUGIN_DIR . '/' . self::AI_CONNECTOR_PLUGIN ) ) {
+			return wp_nonce_url(
+				self_admin_url( 'plugins.php?action=activate&plugin=' . rawurlencode( self::AI_CONNECTOR_PLUGIN ) ),
+				'activate-plugin_' . self::AI_CONNECTOR_PLUGIN
+			);
+		}
+
+		return wp_nonce_url(
+			self_admin_url( 'update.php?action=install-plugin&plugin=' . self::AI_CONNECTOR_SLUG ),
+			'install-plugin_' . self::AI_CONNECTOR_SLUG
+		);
 	}
 
 	/**
@@ -216,7 +270,7 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 		// Both .zui-pnotice cards need this file, and they are dismissed
 		// independently — gating on the review flag alone left the PRO card
 		// unstyled for anyone who had already dismissed the review notice.
-		if ( ! $this->review_notice_visible() && ! $this->pro_notice_visible() && ! $this->milestone_notice_visible() && ! $this->agent_os_notice_visible() && ! $this->edd_pro_notice_visible() ) {
+		if ( ! $this->review_notice_visible() && ! $this->pro_notice_visible() && ! $this->milestone_notice_visible() && ! $this->agent_os_notice_visible() && ! $this->edd_pro_notice_visible() && ! $this->ai_connector_notice_visible() ) {
 			return;
 		}
 
@@ -618,6 +672,51 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 				</div>
 		<?php
 		$this->close_pnotice( 'ast-edd-pro-notice' );
+	}
+
+	/* -----------------------------------------------------------------
+	 * Notice: Zorem AI Agent Connector (free plugin)
+	 * ----------------------------------------------------------------- */
+
+	/**
+	 * Announcement for the free Zorem AI Agent Connector, built on the same
+	 * .zui-pnotice card. It uses the indigo accent and a sparkles emblem so
+	 * it reads as a separate product. The primary button activates the
+	 * plugin, or installs it if it is not there yet (see ai_connector_action_url()).
+	 * It opens in the same tab because core redirects back to the Plugins
+	 * screen afterwards.
+	 */
+	public function ast_ai_connector_notice() {
+		if ( ! $this->ai_connector_notice_visible() ) {
+			return;
+		}
+
+		$action_url  = $this->ai_connector_action_url();
+		$learn_url   = 'https://wordpress.org/plugins/' . self::AI_CONNECTOR_SLUG . '/';
+		$dismiss_url = $this->dismiss_url( 'ast-ai-connector-notice', 'ast_ai_connector_dismiss_notice' );
+		?>
+		<style>
+			#ast-ai-connector-notice { --zui-pnotice-accent: #4F5BD5; }
+			#ast-ai-connector-notice .zui-pnotice__btn:not(.zui-pnotice__btn--ghost) { background: #4F5BD5; }
+			#ast-ai-connector-notice .zui-pnotice__btn:not(.zui-pnotice__btn--ghost):hover { background: #3F49B8; }
+		</style>
+		<?php
+		$this->open_pnotice( 'ast-ai-connector-notice', $dismiss_url, array(
+			'icon'         => 'sparkles',
+			'emblem_bg'    => '#4F5BD5',
+			'emblem_color' => '#FFFFFF',
+		) );
+		?>
+				<strong class="zui-pnotice__title"><?php esc_html_e( 'New and free: Zorem AI Agent Connector', 'woo-advanced-shipment-tracking' ); ?></strong>
+				<p class="zui-pnotice__text"><?php esc_html_e( 'Let AI apps such as Claude, ChatGPT and Codex work on your WordPress site through their own agent account. You choose which tools each agent can use. New content is saved as a draft, and destructive actions stay off until you turn them on.', 'woo-advanced-shipment-tracking' ); ?></p>
+
+				<div class="zui-pnotice__actions">
+					<a class="zui-pnotice__btn" href="<?php echo esc_url( $action_url ); ?>"><?php esc_html_e( 'Activate', 'woo-advanced-shipment-tracking' ); ?></a>
+					<a class="zui-pnotice__btn zui-pnotice__btn--ghost" href="<?php echo esc_url( $learn_url ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Learn more', 'woo-advanced-shipment-tracking' ); ?></a>
+					<button type="button" class="zui-pnotice__link"><?php esc_html_e( 'Dismiss', 'woo-advanced-shipment-tracking' ); ?></button>
+				</div>
+		<?php
+		$this->close_pnotice( 'ast-ai-connector-notice' );
 	}
 
 	/* -----------------------------------------------------------------
