@@ -3071,6 +3071,43 @@
 	color: #fff;
 }
 
+/* BFCM variant: black sale panel, copy and CTA on one row. */
+.zui-scope .ast-promo--bfcm .ast-promo__panel {
+	background: linear-gradient(160deg, #1e293b 0%, #020617 100%);
+}
+
+.zui-scope .ast-promo--bfcm .ast-promo__panel-label {
+	font-size: 10px;
+	letter-spacing: 0.14em;
+}
+
+.zui-scope .ast-promo--bfcm .ast-promo__body {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 20px;
+}
+
+.zui-scope .ast-promo--bfcm .ast-promo__copy {
+	flex: 1 1 320px;
+	min-width: 0;
+}
+
+.zui-scope .ast-promo__sep {
+	margin: 0 4px;
+	color: #cbd5e1;
+}
+
+.zui-scope .ast-promo__old {
+	text-decoration: line-through;
+	color: #94a3b8;
+}
+
+.zui-scope .ast-promo__new {
+	font-weight: 700;
+	color: var(--zui-text-strong);
+}
+
 @media (max-width: 782px) {
 	.zui-scope .ast-promo {
 		flex-direction: column;

@@ -49,6 +49,19 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 	 * Zorem AI Agent Connector — wp.org slug and plugin basename. The card
 	 * hides once the plugin is active.
 	 */
+	/**
+	 * BFCM 2026 sale window, in the site's timezone. The notice shows from the
+	 * first moment to the last and retires itself afterwards. Nothing else
+	 * hides it except the per-user dismiss.
+	 */
+	const BFCM_STARTS = '2026-11-19 00:00:00';
+	const BFCM_ENDS   = '2026-12-01 23:59:59';
+
+	/**
+	 * User meta flag for the BFCM notice. Dismissal is per user, not site-wide.
+	 */
+	const BFCM_DISMISS_META = 'ast_bfcm_2026_notice_dismissed';
+
 	const AI_CONNECTOR_SLUG   = 'zorem-ai-agent-connector';
 	const AI_CONNECTOR_PLUGIN = 'zorem-ai-agent-connector/zorem-ai-agent-connector.php';
 
@@ -90,6 +103,9 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 		// Zorem AI Agent Connector announcement (free, permanently dismissible).
 		add_action( 'admin_notices', array( $this, 'ast_ai_connector_notice' ) );
 
+		// BFCM 2026 sale (Nov 19 - Dec 1, dismissible per user).
+		add_action( 'admin_notices', array( $this, 'ast_bfcm_notice' ) );
+
 		// Shortcode used by the settings screen to inject a status message inline.
 		add_shortcode( 'ast_settings_admin_notice', array( $this, 'ast_settings_admin_notice' ) );
 
@@ -119,6 +135,12 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 				&& wp_verify_nonce( sanitize_key( wp_unslash( $_GET['nonce'] ) ), $action ) ) {
 				update_option( $option, 'true' );
 			}
+		}
+
+		// The BFCM card is dismissed per user, so it goes to user meta.
+		if ( isset( $_GET['ast-bfcm-2026-notice'], $_GET['nonce'] )
+			&& wp_verify_nonce( sanitize_key( wp_unslash( $_GET['nonce'] ) ), 'ast_bfcm_2026_dismiss_notice' ) ) {
+			update_user_meta( get_current_user_id(), self::BFCM_DISMISS_META, 1 );
 		}
 
 		// The milestone card snoozes instead of setting a permanent flag.
@@ -163,7 +185,30 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 		// generic card steps aside wherever the milestone card is showing.
 		// The Agent OS launch card takes the promo slot while it is up; the
 		// PRO card comes back once that one is dismissed.
-		return ! get_option( 'ast_notice_ignore_4_0_4' ) && ! $this->is_ast_settings_screen() && ! $this->milestone_notice_visible() && ! $this->agent_os_notice_visible() && ! $this->edd_pro_notice_visible() && ! $this->ai_connector_notice_visible();
+		return ! get_option( 'ast_notice_ignore_4_0_4' ) && ! $this->is_ast_settings_screen() && ! $this->milestone_notice_visible() && ! $this->agent_os_notice_visible() && ! $this->edd_pro_notice_visible() && ! $this->ai_connector_notice_visible() && ! $this->bfcm_notice_visible();
+	}
+
+	/**
+	 * BFCM 2026 card. Only inside the sale window, only for administrators
+	 * (they make the purchase), never on the AST settings screen (that screen
+	 * has its own BFCM banner, see settings/partials/pro-promo.php), and not
+	 * once AST PRO is active. While it is up it takes the promo slot: the
+	 * milestone, AST PRO and AI Connector cards step aside until it ends or
+	 * the user dismisses it.
+	 *
+	 * Must not call any other *_visible() helper - they call this one.
+	 */
+	private function bfcm_notice_visible() {
+		$starts = new DateTime( self::BFCM_STARTS, wp_timezone() );
+		$ends   = new DateTime( self::BFCM_ENDS, wp_timezone() );
+		$now    = time();
+		if ( $now < $starts->getTimestamp() || $now > $ends->getTimestamp() ) {
+			return false;
+		}
+		if ( class_exists( 'ast_pro' ) || $this->is_ast_settings_screen() || ! current_user_can( 'manage_options' ) ) {
+			return false;
+		}
+		return ! get_user_meta( get_current_user_id(), self::BFCM_DISMISS_META, true );
 	}
 
 	/**
@@ -182,7 +227,7 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 		if ( is_plugin_active( self::AI_CONNECTOR_PLUGIN ) ) {
 			return false;
 		}
-		return ! $this->milestone_notice_visible();
+		return ! $this->milestone_notice_visible() && ! $this->bfcm_notice_visible();
 	}
 
 	/**
@@ -255,6 +300,7 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 
 	private function milestone_notice_visible() {
 		return $this->is_orders_screen()
+			&& ! $this->bfcm_notice_visible()
 			&& current_user_can( 'manage_woocommerce' )
 			&& (int) get_option( 'ast_shipped_orders_count', 0 ) >= self::MILESTONE_ORDERS
 			&& (int) get_option( 'ast_milestone_notice_snoozed_until', 0 ) < time();
@@ -270,7 +316,7 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 		// Both .zui-pnotice cards need this file, and they are dismissed
 		// independently — gating on the review flag alone left the PRO card
 		// unstyled for anyone who had already dismissed the review notice.
-		if ( ! $this->review_notice_visible() && ! $this->pro_notice_visible() && ! $this->milestone_notice_visible() && ! $this->agent_os_notice_visible() && ! $this->edd_pro_notice_visible() && ! $this->ai_connector_notice_visible() ) {
+		if ( ! $this->review_notice_visible() && ! $this->pro_notice_visible() && ! $this->milestone_notice_visible() && ! $this->agent_os_notice_visible() && ! $this->edd_pro_notice_visible() && ! $this->ai_connector_notice_visible() && ! $this->bfcm_notice_visible() ) {
 			return;
 		}
 
@@ -317,6 +363,8 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 	 * @param string     $dismiss_url Raw nonced dismiss URL.
 	 * @param array|null $brand       Emblem override (icon, emblem_bg, emblem_color) for
 	 *                                cards about another product. Defaults to AST's.
+	 *                                An 'emoji' key prints that character instead of
+	 *                                the icon (ZUI has no icon for some campaigns).
 	 */
 	private function open_pnotice( $id, $dismiss_url, $brand = null ) {
 		$this->zui_brand(); // Loads icons.php even when the emblem is overridden.
@@ -330,7 +378,13 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 		<div class="zui-pnotice" id="<?php echo esc_attr( $id ); ?>" role="status" data-dismiss-url="<?php echo esc_attr( $dismiss_url ); ?>">
 
 			<span class="zui-pnotice__avatar" aria-hidden="true" style="<?php echo esc_attr( $emblem_style ); ?>">
-				<?php zui_icon( $brand['icon'] ); ?>
+				<?php
+				if ( ! empty( $brand['emoji'] ) ) {
+					echo esc_html( $brand['emoji'] );
+				} else {
+					zui_icon( $brand['icon'] );
+				}
+				?>
 			</span>
 
 			<div class="zui-pnotice__body">
@@ -717,6 +771,69 @@ class WC_Advanced_Shipment_Tracking_Admin_Notice {
 				</div>
 		<?php
 		$this->close_pnotice( 'ast-ai-connector-notice' );
+	}
+
+	/* -----------------------------------------------------------------
+	 * Notice: BFCM 2026 sale (BFCM40)
+	 * ----------------------------------------------------------------- */
+
+	/**
+	 * Black Friday / Cyber Monday 2026 card on the shared .zui-pnotice shell,
+	 * with a black accent and a shopping-bag emblem so it reads as the sale
+	 * rather than the everyday AST PRO card. The only controls are the
+	 * upgrade button and the x, which dismisses it for this user only.
+	 *
+	 * The link carries its own campaign (bfcm-2026) and placement, so sale
+	 * traffic from the notice and from the settings banner can be told apart
+	 * in GA4.
+	 */
+	public function ast_bfcm_notice() {
+		if ( ! $this->bfcm_notice_visible() ) {
+			return;
+		}
+
+		$upgrade_url = ast_utm_url( 'https://www.zorem.com/product/woocommerce-advanced-shipment-tracking/', 'admin-notice', 'bfcm-2026' );
+		$dismiss_url = $this->dismiss_url( 'ast-bfcm-2026-notice', 'ast_bfcm_2026_dismiss_notice' );
+		$ends        = new DateTime( self::BFCM_ENDS, wp_timezone() );
+		?>
+		<style>
+			#ast-bfcm-notice { --zui-pnotice-accent: #0F172A; }
+			#ast-bfcm-notice .zui-pnotice__avatar { font-size: 22px; }
+			#ast-bfcm-notice .ast-bfcm-coupon { padding: 1px 7px; background: #F1F5F9; border: 1px dashed #CBD5E1; border-radius: 5px; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; color: #0F172A; }
+			#ast-bfcm-notice .ast-bfcm-old { text-decoration: line-through; color: #94A3B8; }
+			#ast-bfcm-notice .ast-bfcm-new { font-weight: 700; color: #0F172A; }
+			#ast-bfcm-notice .ast-bfcm-sep { margin: 0 4px; color: #CBD5E1; }
+		</style>
+		<?php
+		$this->open_pnotice( 'ast-bfcm-notice', $dismiss_url, array(
+			'emoji'        => '🛍️',
+			'emblem_bg'    => '#0F172A',
+			'emblem_color' => '#FFFFFF',
+		) );
+		?>
+				<strong class="zui-pnotice__title"><?php esc_html_e( 'Black Friday: 40% off Advanced Shipment Tracking PRO — only sale of the year', 'woo-advanced-shipment-tracking' ); ?></strong>
+				<p class="zui-pnotice__text">
+					<?php
+					echo wp_kses_post( sprintf(
+						/* translators: %s: coupon code. */
+						esc_html__( 'Use code %s at checkout', 'woo-advanced-shipment-tracking' ),
+						'<code class="ast-bfcm-coupon">BFCM40</code>'
+					) );
+					?>
+					<span class="ast-bfcm-sep" aria-hidden="true">·</span><span class="ast-bfcm-old">$129</span> → <span class="ast-bfcm-new">$77</span>
+					<span class="ast-bfcm-sep" aria-hidden="true">·</span><?php esc_html_e( 'New purchases only', 'woo-advanced-shipment-tracking' ); ?>
+					<span class="ast-bfcm-sep" aria-hidden="true">·</span>
+					<?php
+					/* translators: %s: date the sale ends. */
+					printf( esc_html__( 'Ends %s', 'woo-advanced-shipment-tracking' ), esc_html( wp_date( 'M j, Y', $ends->getTimestamp() ) ) );
+					?>
+				</p>
+
+				<div class="zui-pnotice__actions">
+					<a class="zui-pnotice__btn" href="<?php echo esc_url( $upgrade_url ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Upgrade → $77', 'woo-advanced-shipment-tracking' ); ?></a>
+				</div>
+		<?php
+		$this->close_pnotice( 'ast-bfcm-notice' );
 	}
 
 	/* -----------------------------------------------------------------
