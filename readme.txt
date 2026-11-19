@@ -2,8 +2,8 @@
 Contributors: zorem, gaurav1092, eranzorem, satishzorem
 Tags: shipment tracking, order tracking, tracking number, fulfillment, shipping notifications
 Requires at least: 5.3
-Tested up to: 7.1.4
-Stable tag: 4.0.7
+Tested up to: 7.1.5
+Stable tag: 4.0.8
 Requires PHP: 7.2
 WC requires at least: 5.0
 WC tested up to: 11.3.0
@@ -269,10 +269,14 @@ Yes. AST is compatible with popular custom order number plugins. You can use cus
 
 == Upgrade Notice ==
 
-= 4.0.7 =
-* Dev – Tested with WooCommerce 11.3.0 and WordPress 7.1.4
+= 4.0.8 =
+* Dev – Tested with WordPress 7.1.5
 
 == Changelog ==
+
+= 4.0.8 =
+* Dev – Tested with WordPress 7.1.5
+* Enhancement – Added a Black Friday announcement.
 
 = 4.0.7 =
 * Dev – Tested with WooCommerce 11.3.0 and WordPress 7.1.4
